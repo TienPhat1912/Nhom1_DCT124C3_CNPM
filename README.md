@@ -1,7 +1,7 @@
 # Software Engineering
 ---
 _**Sai Gon University, Ho Chi Minh City, VietNam**_\
-**[2026–2027] Software Engineering **\
+_**[2026–2027] Software Engineering**_\
 Group name: **Group 01**\
 Professor: **Nguyễn Quốc Huy**
 |Student|Student ID|
