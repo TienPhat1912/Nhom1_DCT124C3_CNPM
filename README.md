@@ -1,4 +1,5 @@
-# Software Engineering
+# **Topic: Automatic multilingual voiceover**
+## Professional Frontend Developer (React Native + React.js) specializing in UI development (Web & Mobile), including CI/CD.
 ---
 _**Sai Gon University, Ho Chi Minh City, VietNam**_\
 _**[2026–2027] Software Engineering**_\
