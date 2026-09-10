@@ -1,0 +1,96 @@
+{
+  "common": {
+    "appName": "音声ガイド",
+    "tagline": "多言語音声解説で観光名所を巡る",
+    "search": "スポットを検索...",
+    "cancel": "キャンセル",
+    "retry": "再試行",
+    "back": "戻る",
+    "save": "保存",
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました",
+    "noData": "データがありません",
+    "seeAll": "すべて見る",
+    "viewMap": "地図で見る",
+    "currentLanguage": "現在の言語",
+    "changeLanguage": "言語の変更",
+    "distance": "距離",
+    "openingHours": "営業時間",
+    "admissionFee": "入場料"
+  },
+  "auth": {
+    "login": "ログイン",
+    "register": "会員登録",
+    "email": "メールアドレス",
+    "emailPlaceholder": "example@email.com",
+    "password": "パスワード",
+    "passwordPlaceholder": "パスワードを入力...",
+    "name": "お名前",
+    "namePlaceholder": "山田 太郎",
+    "confirmPassword": "パスワード確認",
+    "confirmPasswordPlaceholder": "もう一度入力...",
+    "noAccount": "アカウントをお持ちでないですか？",
+    "haveAccount": "アカウントをお持ちですか？",
+    "demoLogin": "デモ簡易ログイン (1クリック)",
+    "logout": "ログアウト",
+    "loginSuccess": "ログインに成功しました！",
+    "registerSuccess": "アカウント登録が完了しました！",
+    "errors": {
+      "invalidEmail": "無効なメールアドレスです",
+      "passwordTooShort": "パスワードは6文字以上必要です",
+      "passwordMismatch": "パスワードが一致しません",
+      "nameRequired": "お名前を入力してください",
+      "loginFailed": "メールまたはパスワードが正しくありません"
+    }
+  },
+  "home": {
+    "title": "探索",
+    "welcome": "ようこそ",
+    "featured": "注目のスポット",
+    "allLocations": "すべてのスポット",
+    "categories": {
+      "all": "すべて",
+      "monument": "歴史的建造物",
+      "market": "市場",
+      "museum": "博物館",
+      "park": "公園",
+      "culture": "文化施設"
+    },
+    "emptySearch": "一致するスポットが見つかりませんでした。",
+    "emptyFavorites": "お気に入りに登録されたスポットはありません。"
+  },
+  "detail": {
+    "title": "スポット詳細",
+    "overview": "概要",
+    "audioGuide": "音声解説",
+    "transcript": "解説テキスト",
+    "addToFavorites": "お気に入りに追加",
+    "removeFromFavorites": "お気に入りから削除",
+    "relatedLocations": "周辺スポット"
+  },
+  "audio": {
+    "playing": "再生中",
+    "paused": "一時停止",
+    "buffering": "音声を読み込み中...",
+    "error": "音声を再生できませんでした。再試行してください。",
+    "narrator": "ナレーター",
+    "duration": "再生時間",
+    "seekForward": "10秒進む",
+    "seekBackward": "10秒戻る"
+  },
+  "language": {
+    "selectTitle": "言語を選択",
+    "selectDescription": "UIのテキストと音声解説が選択した言語に切り替わります。",
+    "activeLanguage": "適用中"
+  },
+  "map": {
+    "title": "スポットマップ",
+    "userLocation": "現在地",
+    "autoTriggerNotice": "スポットに近づいた際の自動音声再生はここで作動します。",
+    "distanceTo": "現在地からの距離"
+  },
+  "favorites": {
+    "title": "お気に入りスポット",
+    "count": "件の保存済みスポット"
+  }
+}

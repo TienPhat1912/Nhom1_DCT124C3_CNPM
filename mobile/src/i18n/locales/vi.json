@@ -1,0 +1,96 @@
+{
+  "common": {
+    "appName": "Thuyết Minh Tự Động",
+    "tagline": "Khám phá địa điểm qua giọng thuyết minh đa ngôn ngữ",
+    "search": "Tìm kiếm địa điểm...",
+    "cancel": "Hủy",
+    "retry": "Thử lại",
+    "back": "Quay lại",
+    "save": "Lưu",
+    "loading": "Đang tải dữ liệu...",
+    "error": "Đã xảy ra sự cố",
+    "noData": "Không có dữ liệu",
+    "seeAll": "Xem tất cả",
+    "viewMap": "Xem trên bản đồ",
+    "currentLanguage": "Ngôn ngữ hiện tại",
+    "changeLanguage": "Đổi ngôn ngữ",
+    "distance": "Khoảng cách",
+    "openingHours": "Giờ mở cửa",
+    "admissionFee": "Vé tham quan"
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "email": "Email",
+    "emailPlaceholder": "example@email.com",
+    "password": "Mật khẩu",
+    "passwordPlaceholder": "Nhập mật khẩu...",
+    "name": "Họ và tên",
+    "namePlaceholder": "Nguyễn Văn A",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "confirmPasswordPlaceholder": "Nhập lại mật khẩu...",
+    "noAccount": "Chưa có tài khoản?",
+    "haveAccount": "Đã có tài khoản?",
+    "demoLogin": "Đăng nhập bản Demo (1-Click)",
+    "logout": "Đăng xuất",
+    "loginSuccess": "Đăng nhập thành công!",
+    "registerSuccess": "Đăng ký tài khoản thành công!",
+    "errors": {
+      "invalidEmail": "Email không hợp lệ",
+      "passwordTooShort": "Mật khẩu phải từ 6 ký tự trở lên",
+      "passwordMismatch": "Mật khẩu xác nhận không khớp",
+      "nameRequired": "Vui lòng nhập họ và tên",
+      "loginFailed": "Email hoặc mật khẩu không chính xác"
+    }
+  },
+  "home": {
+    "title": "Khám Phá",
+    "welcome": "Xin chào",
+    "featured": "Địa điểm nổi bật",
+    "allLocations": "Tất cả địa điểm",
+    "categories": {
+      "all": "Tất cả",
+      "monument": "Di tích",
+      "market": "Chợ",
+      "museum": "Bảo tàng",
+      "park": "Công viên",
+      "culture": "Văn hóa"
+    },
+    "emptySearch": "Không tìm thấy địa điểm nào phù hợp với từ khóa.",
+    "emptyFavorites": "Bạn chưa lưu địa điểm yêu thích nào."
+  },
+  "detail": {
+    "title": "Chi tiết địa điểm",
+    "overview": "Tổng quan",
+    "audioGuide": "Bài thuyết minh",
+    "transcript": "Bản ghi lời đọc",
+    "addToFavorites": "Lưu vào yêu thích",
+    "removeFromFavorites": "Bỏ khỏi yêu thích",
+    "relatedLocations": "Địa điểm lân cận"
+  },
+  "audio": {
+    "playing": "Đang phát",
+    "paused": "Tạm dừng",
+    "buffering": "Đang tải âm thanh...",
+    "error": "Không thể phát âm thanh. Vui lòng thử lại.",
+    "narrator": "Người thuyết minh",
+    "duration": "Thời lượng",
+    "seekForward": "Tua tới 10s",
+    "seekBackward": "Tua lại 10s"
+  },
+  "language": {
+    "selectTitle": "Chọn Ngôn Ngữ",
+    "selectDescription": "Nội dung thuyết minh và giao diện sẽ tự động chuyển sang ngôn ngữ bạn chọn.",
+    "activeLanguage": "Đang áp dụng"
+  },
+  "map": {
+    "title": "Bản Đồ Địa Điểm",
+    "userLocation": "Vị trí của bạn",
+    "autoTriggerNotice": "Tính năng tự động kích hoạt âm thanh khi đến gần sẽ hoạt động tại đây.",
+    "distanceTo": "Cách bạn"
+  },
+  "favorites": {
+    "title": "Địa Điểm Yêu Thích",
+    "count": "địa điểm đã lưu"
+  }
+}
