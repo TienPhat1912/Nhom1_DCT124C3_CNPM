@@ -1,0 +1,10 @@
+.git
+.artifacts
+**/node_modules
+**/bin
+**/obj
+**/dist
+**/android
+**/*.db*
+**/.env
+instruction

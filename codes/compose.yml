@@ -1,0 +1,40 @@
+services:
+  api:
+    image: hospital-demo-api:${RELEASE_TAG:-local}
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    environment:
+      Jwt__Secret: ${JWT_SECRET:?Set JWT_SECRET in .env}
+      SeedDemo: ${SEED_DEMO:-true}
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Data Source=/data/hospital.db
+    ports:
+      - "127.0.0.1:5047:8080"
+    volumes:
+      - hospital-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+  web:
+    image: hospital-demo-web:${RELEASE_TAG:-local}
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    restart: unless-stopped
+volumes:
+  hospital-data:
+    name: hospital-demo-data
