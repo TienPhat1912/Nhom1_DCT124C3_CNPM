@@ -1,0 +1,1955 @@
+<mxfile host="app.diagrams.net" compressed="false" pages="13">
+  <diagram id="D01" name="D01 Component architecture">
+    <mxGraphModel grid="0" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1760" pageHeight="1660" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D01  Component architecture&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1620" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="clients" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=18;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;fontStyle=1;" value="CLIENT APPLICATIONS" vertex="1">
+          <mxGeometry height="200" width="1620" x="40" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="mobile" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Patient App&lt;br&gt;React Native" vertex="1">
+          <mxGeometry height="80" width="320" x="80" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="patientweb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Patient Web&lt;br&gt;React.js" vertex="1">
+          <mxGeometry height="80" width="320" x="480" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="staffweb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Staff Doctor Cashier Web&lt;br&gt;React.js" vertex="1">
+          <mxGeometry height="80" width="320" x="880" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="adminweb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Administrator Web&lt;br&gt;React.js" vertex="1">
+          <mxGeometry height="80" width="320" x="1280" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="&lt;b&gt;Backend API&lt;/b&gt;&lt;br&gt;Authorization and request handling" vertex="1">
+          <mxGeometry height="80" width="400" x="640" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="mobile" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.0;entryY=0.25;" target="api" value="HTTPS">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="180" />
+              <mxPoint x="440" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="patientweb" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.3;entryY=0.0;" target="api" value="HTTPS">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="320" />
+              <mxPoint x="760" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="staffweb" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.5;entryY=0.0;" target="api" value="HTTPS">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="980" y="280" />
+              <mxPoint x="840" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="adminweb" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.25;entryX=1.0;entryY=0.25;" target="api" value="HTTPS">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1240" y="180" />
+              <mxPoint x="1240" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="modules" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=18;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;fontStyle=1;" value="MODULAR BACKEND" vertex="1">
+          <mxGeometry height="740" width="1620" x="40" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="identity" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Identity and access&lt;br&gt;Accounts, guests, grants" vertex="1">
+          <mxGeometry height="100" width="440" x="80" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;exitX=0.0;exitY=0.5;" value="">
+          <mxGeometry relative="1" x="0.0364" as="geometry">
+            <Array as="points">
+              <mxPoint x="439.3" y="400" />
+              <mxPoint x="439.3" y="600.7" />
+            </Array>
+            <mxPoint x="439.3" y="600.7" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="reception" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Reception and QR&lt;br&gt;Requests and tickets" vertex="1">
+          <mxGeometry height="100" width="440" x="620" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=0.3;exitY=1.0;entryX=0.3181818181818182;entryY=0.0;" target="reception" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="visit" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Visit and events&lt;br&gt;Guarded final closure" vertex="1">
+          <mxGeometry height="100" width="440" x="1160" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.183;entryY=-0.022;entryDx=0;entryDy=0;" target="visit" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="journey" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Journey and workflow&lt;br&gt;Orders and step transitions" vertex="1">
+          <mxGeometry height="100" width="440" x="80" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.75;entryX=1.0;entryY=0.2;" target="journey" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="420" />
+              <mxPoint x="580" y="760" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="clinical" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Doctor content&lt;br&gt;Drafts, publication, versions" vertex="1">
+          <mxGeometry height="100" width="440" x="620" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;exitX=0.5;exitY=1.0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="clinical" value="">
+          <mxGeometry relative="1" x="0.4153" as="geometry">
+            <Array as="points">
+              <mxPoint x="1076.7" y="440" />
+              <mxPoint x="1076.7" y="790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="localization" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Localization and narration&lt;br&gt;Approved text and TTS" vertex="1">
+          <mxGeometry height="100" width="440" x="1160" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.75;entryX=0.0;entryY=0.2;" target="localization" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1100" y="420" />
+              <mxPoint x="1100" y="760" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="navigation" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Navigation&lt;br&gt;Routes and destination text" vertex="1">
+          <mxGeometry height="100" width="440" x="80" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitX=0;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="navigation" value="">
+          <mxGeometry relative="1" x="0.3148" as="geometry">
+            <Array as="points">
+              <mxPoint x="50" y="400" />
+              <mxPoint x="50" y="930" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="queue" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Queue and notifications&lt;br&gt;Confirmed status and updates" vertex="1">
+          <mxGeometry height="100" width="440" x="620" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;exitX=0.3;exitY=1.0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="queue" value="">
+          <mxGeometry relative="1" x="0.1355" as="geometry">
+            <Array as="points">
+              <mxPoint x="603" y="440" />
+              <mxPoint x="603" y="930" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="assistance" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Assistance&lt;br&gt;Scoped staff support" vertex="1">
+          <mxGeometry height="100" width="440" x="1160" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitX=1;exitY=0.5;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="assistance" value="">
+          <mxGeometry relative="1" x="-0.5976" as="geometry">
+            <Array as="points">
+              <mxPoint x="1643.9" y="400" />
+              <mxPoint x="1643.9" y="930" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="config" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Administration&lt;br&gt;Validated configuration" vertex="1">
+          <mxGeometry height="100" width="440" x="80" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;entryPerimeter=0;exitX=0;exitY=0.5;entryX=0.3181818181818182;entryY=0.0;exitDx=0;exitDy=0;" target="config" value="">
+          <mxGeometry relative="1" x="-0.1712" as="geometry">
+            <Array as="points">
+              <mxPoint x="50.2" y="400" />
+              <mxPoint x="50.2" y="1000" />
+              <mxPoint x="220" y="1000" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="db" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;boundedLbl=1;backgroundOutline=1;size=15;strokeWidth=1.5;fontColor=#111827;spacing=12;fontFamily=Arial;" value="Relational application database" vertex="1">
+          <mxGeometry height="100" width="400" x="460" y="1320" as="geometry" />
+        </mxCell>
+        <mxCell id="external" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="External adapters&lt;br&gt;Identity and appointments&lt;br&gt;Service/queue and settlement&lt;br&gt;Approved clinical source and TTS" vertex="1">
+          <mxGeometry height="140" width="520" x="1040" y="1300" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="journey" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.6;entryX=0.0;entryY=0.4;" target="visit" value="closure guard">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="790.9" />
+              <mxPoint x="560" y="790.9" />
+              <mxPoint x="560" y="560" />
+              <mxPoint x="1120" y="560" />
+              <mxPoint x="1120" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="visit" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.8;entryX=1.0;entryY=0.6;" target="journey" value="closure outcome">
+          <mxGeometry relative="1" x="0.0425" as="geometry">
+            <Array as="points">
+              <mxPoint x="1160" y="653.4" />
+              <mxPoint x="1120" y="653.4" />
+              <mxPoint x="1120" y="1020" />
+              <mxPoint x="560" y="1020" />
+              <mxPoint x="560" y="800" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="clinical" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0.75;exitY=1;entryX=0.25;entryY=1;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="localization" value="published version">
+          <mxGeometry relative="1" x="-0.6585" y="-2" as="geometry">
+            <mxPoint y="1" as="offset" />
+            <Array as="points">
+              <mxPoint x="950" y="856.5" />
+              <mxPoint x="1270" y="856.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;entryPerimeter=0;exitX=0;exitY=0.75;entryX=0.3;entryY=0.0;exitDx=0;exitDy=0;" target="db" value="through persistence module">
+          <mxGeometry relative="1" x="0.6937" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;entryPerimeter=0;exitX=1;exitY=0.75;entryX=0.3076923076923077;entryY=0.0;exitDx=0;exitDy=0;" target="external" value="authorized contracts">
+          <mxGeometry relative="1" x="0.5519" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1100" y="420" />
+              <mxPoint x="1100" y="1260" />
+              <mxPoint x="1200" y="1260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="boundary" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="Both patient channels share the same records. Client changes, repeated QR scans and account linking do not create a new Visit." vertex="1">
+          <mxGeometry height="80" width="1480" x="80" y="1480" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D02" name="D02 Identity reception and Visit ERD">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1820" pageHeight="1880" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D02  Identity reception and Visit ERD&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1680" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="patient" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;Patient&lt;/b&gt;&lt;hr&gt;patient_id PK&lt;br&gt;preferred_language&lt;br&gt;permitted profile data" vertex="1">
+          <mxGeometry height="160" width="320" x="80" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="account" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;PatientAccount&lt;/b&gt;&lt;hr&gt;account_id PK&lt;br&gt;patient_id FK UNIQUE&lt;br&gt;verified identity" vertex="1">
+          <mxGeometry height="160" width="320" x="480" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="external" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;ExternalAccount&lt;/b&gt;&lt;hr&gt;external_account_id PK&lt;br&gt;patient_id FK&lt;br&gt;provider + external_ref UNIQUE" vertex="1">
+          <mxGeometry height="160" width="320" x="920" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="guest" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;GuestSession&lt;/b&gt;&lt;hr&gt;guest_session_id PK&lt;br&gt;patient_id FK&lt;br&gt;expires_at, status" vertex="1">
+          <mxGeometry height="160" width="320" x="1320" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="appointment" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;Appointment&lt;/b&gt;&lt;hr&gt;appointment_id PK&lt;br&gt;patient_id FK&lt;br&gt;provider, external_ref, status" vertex="1">
+          <mxGeometry height="160" width="320" x="80" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="request" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;RegistrationRequest&lt;/b&gt;&lt;hr&gt;request_id PK&lt;br&gt;patient_id FK&lt;br&gt;status, submitted information" vertex="1">
+          <mxGeometry height="160" width="320" x="480" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="reception" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;ReceptionRecord&lt;/b&gt;&lt;hr&gt;reception_id PK&lt;br&gt;patient_id FK&lt;br&gt;appointment_id OR request_id&lt;br&gt;source and attendee verified&lt;br&gt;confirmed_by, confirmed_at" vertex="1">
+          <mxGeometry height="170" width="320" x="920" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="staff" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;StaffUser&lt;/b&gt;&lt;hr&gt;staff_id PK&lt;br&gt;role and permission scope&lt;br&gt;active status" vertex="1">
+          <mxGeometry height="160" width="320" x="1320" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;Visit&lt;/b&gt;&lt;hr&gt;visit_id PK&lt;br&gt;patient_id FK&lt;br&gt;reception_id FK UNIQUE&lt;br&gt;appointment_id FK nullable&lt;br&gt;status: Active / Closed&lt;br&gt;opened_at, closed_at" vertex="1">
+          <mxGeometry height="190" width="320" x="480" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="ticket" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;ExaminationTicket&lt;/b&gt;&lt;hr&gt;ticket_id PK&lt;br&gt;visit_id FK UNIQUE&lt;br&gt;reception_id FK&lt;br&gt;current code reference" vertex="1">
+          <mxGeometry height="160" width="320" x="920" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="qr" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;QRCode&lt;/b&gt;&lt;hr&gt;code_id PK&lt;br&gt;purpose, opaque reference/hash&lt;br&gt;target reference, expiry, status&lt;br&gt;reception OR ticket purpose" vertex="1">
+          <mxGeometry height="160" width="320" x="1320" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="journey" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;PatientJourney&lt;/b&gt;&lt;hr&gt;journey_id PK&lt;br&gt;visit_id FK UNIQUE&lt;br&gt;status, activated_at&lt;br&gt;completed_at, completion_source" vertex="1">
+          <mxGeometry height="160" width="320" x="80" y="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="grant" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;AccessGrant&lt;/b&gt;&lt;hr&gt;grant_id PK&lt;br&gt;visit_id FK&lt;br&gt;account OR guest subject&lt;br&gt;scope, expiry, status" vertex="1">
+          <mxGeometry height="160" width="320" x="480" y="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="event" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;VisitEvent&lt;/b&gt;&lt;hr&gt;event_id PK&lt;br&gt;visit_id FK&lt;br&gt;source + source_event_id UNIQUE&lt;br&gt;type, actor, recorded_at" vertex="1">
+          <mxGeometry height="160" width="320" x="920" y="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.0;entryY=0.25;" target="account" value="1 : 0..1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.25;" target="external" value="1 : 0..*">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="240" />
+              <mxPoint x="440" y="120" />
+              <mxPoint x="880" y="120" />
+              <mxPoint x="880" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.75;entryX=0.0;entryY=0.25;" target="guest" value="1 : 0..*">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="460" y="280" />
+              <mxPoint x="460" y="360" />
+              <mxPoint x="1280" y="360" />
+              <mxPoint x="1280" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.3125;entryY=0.0;" target="appointment" value="1 : 0..*">
+          <mxGeometry relative="1" x="0.1667" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.001;exitY=0.181;entryX=0.0;entryY=0.25;exitDx=0;exitDy=0;" target="request" value="1 : 0..*">
+          <mxGeometry relative="1" x="0.1367" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="410" y="189" />
+              <mxPoint x="410" y="480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="appointment" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.0;entryY=0.25;" target="reception" value="booking source">
+          <mxGeometry relative="1" x="0.0056" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="550" />
+              <mxPoint x="440" y="550" />
+              <mxPoint x="440" y="620" />
+              <mxPoint x="880" y="620" />
+              <mxPoint x="880" y="550" />
+              <mxPoint x="900" y="550" />
+              <mxPoint x="900" y="482.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="request" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.0;entryY=0.5;" target="reception" value="walk-in source">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="480" />
+              <mxPoint x="840" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="staff" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.25;entryX=1.0;entryY=0.25;" target="reception" value="confirms">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="reception" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.3125;entryY=0.0;" target="visit" value="1 : 1 after confirmation">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1020" y="640" />
+              <mxPoint x="580" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.311;exitY=1.009;entryX=0.5;entryY=0.0;exitDx=0;exitDy=0;" target="visit" value="1 : 0..*">
+          <mxGeometry relative="1" x="-0.0509" as="geometry">
+            <Array as="points">
+              <mxPoint x="179.5" y="360" />
+              <mxPoint x="60" y="360" />
+              <mxPoint x="60" y="800" />
+              <mxPoint x="580" y="800" />
+              <mxPoint x="580" y="840" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="visit" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.3333333333333333;entryX=0.0;entryY=0.25;" target="ticket" value="1 : 1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="900" />
+              <mxPoint x="840" y="880" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="ticket" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.0;entryY=0.25;" target="qr" value="1 : 1..* &lt;br&gt;code versions">
+          <mxGeometry relative="1" y="-20" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="visit" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.3125;entryY=0.0;" target="journey" value="1 : 1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="1060" />
+              <mxPoint x="180" y="1060" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="visit" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.311;exitY=1.002;entryX=0.3125;entryY=0.0;exitDx=0;exitDy=0;" target="grant" value="1 : 0..*">
+          <mxGeometry relative="1" x="0.182" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="visit" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.6875;exitY=1.0;entryX=0.3125;entryY=0.0;" target="event" value="1 : 0..*">
+          <mxGeometry relative="1" x="0.3117" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="1030" />
+              <mxPoint x="580" y="1060" />
+              <mxPoint x="1020" y="1060" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="account" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.5;entryY=0.0;" target="grant" value="account subject">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="380" />
+              <mxPoint x="840" y="380" />
+              <mxPoint x="840" y="1180" />
+              <mxPoint x="640" y="1180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="guest" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.676;entryY=0.977;entryDx=0;entryDy=0;" target="grant" value="guest subject">
+          <mxGeometry relative="1" x="-0.42" as="geometry">
+            <Array as="points">
+              <mxPoint x="1420" y="360" />
+              <mxPoint x="1740" y="360" />
+              <mxPoint x="1740" y="1450" />
+              <mxPoint x="696.3" y="1450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="notes" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="Integrity: one confirmed reception source creates one Visit and one ticket. Account conversion preserves the existing patient, Visit and Journey identifiers. A public hospital-entry QR is a configured entry route and conveys no patient access." vertex="1">
+          <mxGeometry height="120" width="1560" x="80" y="1660" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D03" name="D03 Workflow and clinical content ERD">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1860" pageHeight="2160" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D03  Workflow and clinical content ERD&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1720" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;Visit&lt;/b&gt;&lt;hr&gt;visit_id PK&lt;br&gt;patient_id FK&lt;br&gt;Active / Closed" vertex="1">
+          <mxGeometry height="160" width="320" x="80" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="journey" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;PatientJourney&lt;/b&gt;&lt;hr&gt;journey_id PK&lt;br&gt;visit_id FK UNIQUE&lt;br&gt;independent guidance status" vertex="1">
+          <mxGeometry height="160" width="320" x="480" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="order" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;DoctorOrder&lt;/b&gt;&lt;hr&gt;order_id PK&lt;br&gt;visit_id FK&lt;br&gt;service_id FK, ordered_by&lt;br&gt;status, version" vertex="1">
+          <mxGeometry height="160" width="320" x="920" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="service" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;HospitalService&lt;/b&gt;&lt;hr&gt;service_id PK&lt;br&gt;department_id FK&lt;br&gt;location_id FK&lt;br&gt;supported mapping" vertex="1">
+          <mxGeometry height="160" width="320" x="1320" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="summary" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;DoctorSummary&lt;/b&gt;&lt;hr&gt;summary_id PK&lt;br&gt;visit_id FK&lt;br&gt;current_published_version_id" vertex="1">
+          <mxGeometry height="160" width="320" x="80" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="step" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;JourneyStep&lt;/b&gt;&lt;hr&gt;step_id PK, journey_id FK&lt;br&gt;order_id FK nullable&lt;br&gt;service_id / location_id nullable&lt;br&gt;sequence, status&lt;br&gt;completion_authority" vertex="1">
+          <mxGeometry height="170" width="320" x="480" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="mapping" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;WorkflowMapping&lt;/b&gt;&lt;hr&gt;mapping_id PK&lt;br&gt;service/event key, version&lt;br&gt;prerequisites and destination&lt;br&gt;completion permissions" vertex="1">
+          <mxGeometry height="160" width="320" x="920" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="location" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;Location&lt;/b&gt;&lt;hr&gt;location_id PK&lt;br&gt;department_id FK&lt;br&gt;building, floor, room" vertex="1">
+          <mxGeometry height="160" width="320" x="1320" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="version" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;SummaryVersion&lt;/b&gt;&lt;hr&gt;version_id PK, summary_id FK&lt;br&gt;diagnosis, explanation&lt;br&gt;care instructions, author&lt;br&gt;Draft / Published / Superseded&lt;br&gt;published_at, version_no" vertex="1">
+          <mxGeometry height="170" width="320" x="80" y="980" as="geometry" />
+        </mxCell>
+        <mxCell id="dependency" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;StepDependency&lt;/b&gt;&lt;hr&gt;step_id FK&lt;br&gt;prerequisite_step_id FK&lt;br&gt;unique pair; no cycles" vertex="1">
+          <mxGeometry height="160" width="320" x="480" y="980" as="geometry" />
+        </mxCell>
+        <mxCell id="followup" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;FollowUpRecommendation&lt;/b&gt;&lt;hr&gt;recommendation_id PK&lt;br&gt;visit_id FK, author&lt;br&gt;department, date/interval&lt;br&gt;status, booking reference nullable" vertex="1">
+          <mxGeometry height="160" width="320" x="920" y="980" as="geometry" />
+        </mxCell>
+        <mxCell id="queue" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;QueueTicket&lt;/b&gt;&lt;hr&gt;queue_id PK&lt;br&gt;visit_id FK, step_id nullable&lt;br&gt;number, status, updated_at" vertex="1">
+          <mxGeometry height="160" width="320" x="1320" y="980" as="geometry" />
+        </mxCell>
+        <mxCell id="translation" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;SummaryTranslation&lt;/b&gt;&lt;hr&gt;translation_id PK&lt;br&gt;source_version_id FK&lt;br&gt;language, content&lt;br&gt;approval metadata" vertex="1">
+          <mxGeometry height="160" width="320" x="80" y="1400" as="geometry" />
+        </mxCell>
+        <mxCell id="audio" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;NarrationAsset&lt;/b&gt;&lt;hr&gt;asset_id PK&lt;br&gt;content identity + version&lt;br&gt;language, provider, status" vertex="1">
+          <mxGeometry height="160" width="320" x="480" y="1400" as="geometry" />
+        </mxCell>
+        <mxCell id="assistance" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;AssistanceRequest&lt;/b&gt;&lt;hr&gt;assistance_id PK, patient_id FK&lt;br&gt;request_id / visit_id nullable&lt;br&gt;step_id nullable&lt;br&gt;category, status" vertex="1">
+          <mxGeometry height="160" width="320" x="920" y="1400" as="geometry" />
+        </mxCell>
+        <mxCell id="template" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;align=left;verticalAlign=top;spacing=12;strokeWidth=1.5;fontColor=#111827;spacingTop=14;" value="&lt;b&gt;NarrationTemplate&lt;/b&gt;&lt;hr&gt;template_id PK&lt;br&gt;event_key, version, language&lt;br&gt;approved content&lt;br&gt;publication status" vertex="1">
+          <mxGeometry height="160" width="320" x="1320" y="1400" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="visit" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.0;entryY=0.25;" target="journey" value="1 : 1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="visit" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.25;" target="order" value="1 : 0..*">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="240" />
+              <mxPoint x="440" y="120" />
+              <mxPoint x="880" y="120" />
+              <mxPoint x="880" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="order" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.5;entryX=1.0;entryY=0.25;" target="step" value="1 : 1..* generated steps">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="240" />
+              <mxPoint x="840" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="service" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.25;entryX=1.0;entryY=0.25;" target="order" value="1 : 0..*">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="journey" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.3125;entryY=0.0;" target="step" value="1 : 1..*">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="service" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.3125;entryY=0.0;" target="mapping" value="supported mapping versions">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1420" y="360" />
+              <mxPoint x="1020" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="mapping" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.25;entryX=1.0;entryY=0.5;" target="step" value="applied version">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="880" y="560" />
+              <mxPoint x="880" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="location" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.25;entryX=1.0;entryY=0.75;" target="step" value="destination">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1280" y="560" />
+              <mxPoint x="1280" y="720" />
+              <mxPoint x="880" y="720" />
+              <mxPoint x="880" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="step" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.3125;entryY=0.0;" target="dependency" value="dependent step">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="dependency" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.5;exitY=0.0;entryX=0.5;entryY=1.0;" target="step" value="prerequisite step">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="visit" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.3125;entryY=0.0;" target="summary" value="1 : 0..1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="summary" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.3125;entryY=0.0;" target="version" value="1 : 1..*">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="version" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.3125;exitY=1.0;entryX=0.3125;entryY=0.0;" target="translation" value="1 : 0..*">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="version" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.5;exitY=1.0;entryX=0.3125;entryY=0.0;" target="audio" value="version-bound narration">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="1360" />
+              <mxPoint x="580" y="1360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="translation" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.0;entryY=0.25;" target="audio" value="approved language content">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="visit" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.5;exitY=1.0;entryX=0.3125;entryY=0.0;" target="followup" value="1 : 0..*">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="360" />
+              <mxPoint x="440" y="360" />
+              <mxPoint x="440" y="940" />
+              <mxPoint x="1020" y="940" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="step" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.0;entryY=0.25;" target="queue" value="0..* queue records">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="560" />
+              <mxPoint x="840" y="920" />
+              <mxPoint x="1280" y="920" />
+              <mxPoint x="1280" y="1020" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="step" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.6875;exitY=1.0;entryX=0.3125;entryY=0.0;" target="assistance" value="optional context">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="720" />
+              <mxPoint x="860" y="720" />
+              <mxPoint x="860" y="1360" />
+              <mxPoint x="1020" y="1360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="template" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;startArrow=none;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.25;entryX=1.0;entryY=0.25;" target="audio" value="version-bound narration">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1280" y="1440" />
+              <mxPoint x="1280" y="1340" />
+              <mxPoint x="840" y="1340" />
+              <mxPoint x="840" y="1440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="notes" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="Critical links: DoctorOrder identifies exactly which Journey steps it generated. SummaryTranslation and NarrationAsset refer to a specific approved source version. Follow-up is independent of diagnosis/instruction visibility. Operational completion authority differs from patient pharmacy-guidance completion." vertex="1">
+          <mxGeometry height="160" width="1620" x="80" y="1900" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D04" name="D04 Deployment architecture">
+    <mxGraphModel dx="3535" dy="1329" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1760" pageHeight="1520" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D04  Deployment architecture&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1620" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="patientdevice" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Patient device&lt;br&gt;React Native app&lt;br&gt;or patient web browser" vertex="1">
+          <mxGeometry height="120" width="400" x="80" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="staffdevice" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Hospital workstation&lt;br&gt;Staff doctor cashier&lt;br&gt;and admin browser" vertex="1">
+          <mxGeometry height="120" width="400" x="640" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="cicd" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Source repository&lt;br&gt;Automated build and checks&lt;br&gt;Deployment artifacts" vertex="1">
+          <mxGeometry height="120" width="400" x="1220" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="hosting" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Web hosting&lt;br&gt;React.js static assets" vertex="1">
+          <mxGeometry height="100" width="420" x="420" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Application server&lt;br&gt;Backend API and modular services" vertex="1">
+          <mxGeometry height="120" width="600" x="440" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="mobilebuild" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Supported mobile build&lt;br&gt;Installation/distribution artifact" vertex="1">
+          <mxGeometry height="100" width="420" x="1120" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="patientdevice" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.3333333333333333;entryX=0.0;entryY=0.4;" target="hosting" value="load web assets">
+          <mxGeometry relative="1" x="0.24" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="520" y="200" />
+              <mxPoint x="520" y="400" />
+              <mxPoint x="380" y="400" />
+              <mxPoint x="380" y="480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="staffdevice" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.3;exitY=1.0;entryX=0.2857142857142857;entryY=0.0;" target="hosting" value="load web assets">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="320" />
+              <mxPoint x="540" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="patientdevice" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.3;exitY=1.0;entryX=0.3;entryY=0.0;" target="api" value="HTTPS API">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="720" />
+              <mxPoint x="620" y="720" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="staffdevice" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;" target="api" value="HTTPS API">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="320" />
+              <mxPoint x="880" y="320" />
+              <mxPoint x="880" y="720" />
+              <mxPoint x="740" y="720" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="cicd" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.3333333333333333;entryX=1.0;entryY=0.4;" target="hosting" value="deploy">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1080" y="200" />
+              <mxPoint x="1080" y="480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="cicd" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=0.3;exitY=1.0;entryX=0.8;entryY=0.011;entryDx=0;entryDy=0;" target="api" value="deploy">
+          <mxGeometry relative="1" x="0.0651" as="geometry">
+            <Array as="points">
+              <mxPoint x="1340" y="320" />
+              <mxPoint x="920" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="cicd" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=0.5;exitY=1.0;entryX=0.2857142857142857;entryY=0.0;" target="mobilebuild" value="build">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1420" y="400" />
+              <mxPoint x="1240" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="db" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;size=15;strokeWidth=1.5;fontColor=#111827;spacing=12;fontFamily=Arial;" value="Relational database&lt;br&gt;Durable records and audit" vertex="1">
+          <mxGeometry height="120" width="360" x="80" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="external" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Authorized hospital adapters&lt;br&gt;Identity and appointment&lt;br&gt;Queue/service and settlement&lt;br&gt;Doctor source content" vertex="1">
+          <mxGeometry height="160" width="480" x="560" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="providers" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Content and delivery providers&lt;br&gt;Approved language resources&lt;br&gt;TTS and optional push" vertex="1">
+          <mxGeometry height="140" width="440" x="1160" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.3333333333333333;entryX=1.0;entryY=0.3333333333333333;" target="db" value="protected database connection">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="800" />
+              <mxPoint x="400" y="1040" />
+              <mxPoint x="480" y="1040" />
+              <mxPoint x="480" y="1120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.3;exitY=1.0;entryX=0.2916666666666667;entryY=0.0;" target="external" value="verified contracts / events">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="1040" />
+              <mxPoint x="700" y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="api" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.3333333333333333;entryX=0.0;entryY=0.2857142857142857;" target="providers" value="HTTPS">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1080" y="800" />
+              <mxPoint x="1080" y="1120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="Browsers execute the web application and call the backend API directly. Hosting serves assets. Session, scope and ownership checks remain on the backend. Provider credentials are deployment secrets." vertex="1">
+          <mxGeometry height="100" width="1520" x="80" y="1320" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D05" name="D05 End to end business workflow">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1760" pageHeight="2180" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D05  End to end business workflow&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1620" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Open installed patient app" vertex="1">
+          <mxGeometry height="80" width="400" x="120" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="hospitalqr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Scan public hospital QR" vertex="1">
+          <mxGeometry height="80" width="400" x="1080" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="route" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Open associated app if supported&lt;br&gt;otherwise patient web" vertex="1">
+          <mxGeometry height="80" width="400" x="1080" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="entry" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Select language&lt;br&gt;Sign in / Register / Continue as guest&lt;br&gt;Reuse an existing valid account session" vertex="1">
+          <mxGeometry height="120" width="520" x="600" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="booked" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Usable linked appointment?" vertex="1">
+          <mxGeometry height="120" width="360" x="660" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="apt" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Select and confirm appointment&lt;br&gt;Prepare booked reception QR" vertex="1">
+          <mxGeometry height="100" width="480" x="120" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="walkin" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Enter personal/contact information&lt;br&gt;condition description and requests&lt;br&gt;Persist walk-in request and reception QR" vertex="1">
+          <mxGeometry height="120" width="520" x="1060" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="counter" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Staff scans reception QR&lt;br&gt;Verifies booking/attendee or reviews request&lt;br&gt;Confirms routing and reception" vertex="1">
+          <mxGeometry height="120" width="560" x="560" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="ticket" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Create Active Visit&lt;br&gt;Prepare Pending Activation Journey&lt;br&gt;Issue examination ticket with QR" vertex="1">
+          <mxGeometry height="120" width="560" x="560" y="1060" as="geometry" />
+        </mxCell>
+        <mxCell id="scan" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Patient scans ticket QR&lt;br&gt;Verify access and activate/resume existing Journey" vertex="1">
+          <mxGeometry height="100" width="560" x="560" y="1220" as="geometry" />
+        </mxCell>
+        <mxCell id="clinical" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Consultation and ordered services&lt;br&gt;Authorized progress and required return consultation&lt;br&gt;Doctor may publish summary and care instructions" vertex="1">
+          <mxGeometry height="140" width="560" x="560" y="1360" as="geometry" />
+        </mxCell>
+        <mxCell id="close" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Clinical work resolved + final settlement confirmed&lt;br&gt;System closes Visit" vertex="1">
+          <mxGeometry height="100" width="560" x="560" y="1540" as="geometry" />
+        </mxCell>
+        <mxCell id="pharmacy" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Pharmacy guidance required?" vertex="1">
+          <mxGeometry height="100" width="360" x="660" y="1680" as="geometry" />
+        </mxCell>
+        <mxCell id="pharmguide" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Continue Journey to pharmacy&lt;br&gt;Patient confirms final guidance" vertex="1">
+          <mxGeometry height="100" width="480" x="1100" y="1800" as="geometry" />
+        </mxCell>
+        <mxCell id="finish" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Journey Completed&lt;br&gt;Show doctor content and optional guest account invitation" vertex="1">
+          <mxGeometry height="100" width="580" x="80" y="1820" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="app" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.0;entryY=0.3333333333333333;" target="entry" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="160" />
+              <mxPoint x="560" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="hospitalqr" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.3;exitY=1.0;entryX=0.3;entryY=0.0;" target="route" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="route" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.25;entryX=1.0;entryY=0.3333333333333333;" target="entry" value="">
+          <mxGeometry relative="1" x="-0.2222" as="geometry">
+            <Array as="points">
+              <mxPoint x="1040" y="280" />
+              <mxPoint x="1040" y="360" />
+              <mxPoint x="1160" y="360" />
+              <mxPoint x="1160" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="entry" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.3076923076923077;exitY=1.0;entryX=0.28;entryY=0.228;entryDx=0;entryDy=0;" target="booked" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="booked" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryX=0.833;entryY=-0.004;entryDx=0;entryDy=0;entryPerimeter=0;" target="apt" value="Yes">
+          <mxGeometry relative="1" x="-0.1932" as="geometry">
+            <Array as="points">
+              <mxPoint x="519.8" y="600" />
+            </Array>
+            <mxPoint x="520" y="710" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="booked" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.838;exitY=0.338;entryX=0.268;entryY=-0.004;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="walkin" value="No / standard guest path">
+          <mxGeometry relative="1" x="0.1404" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="apt" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.831;exitY=1.004;entryX=0.0;entryY=0.3333333333333333;exitDx=0;exitDy=0;" target="counter" value="">
+          <mxGeometry relative="1" x="0.3385" as="geometry">
+            <Array as="points">
+              <mxPoint x="518.9" y="920" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="walkin" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.269;exitY=1.014;entryX=1.0;entryY=0.3333333333333333;exitDx=0;exitDy=0;" target="counter" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1200" y="920" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="counter" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.2857142857142857;exitY=1.0;entryX=0.2857142857142857;entryY=0.0;" target="ticket" value="confirmed">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="ticket" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.2857142857142857;exitY=1.0;entryX=0.2857142857142857;entryY=0.0;" target="scan" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="scan" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.2857142857142857;exitY=1.0;entryX=0.2857142857142857;entryY=0.0;" target="clinical" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="clinical" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.2857142857142857;exitY=1.0;entryX=0.2857142857142857;entryY=0.0;" target="close" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="close" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.2857142857142857;exitY=1.0;entryX=0.2777777777777778;entryY=0.0;" target="pharmacy" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="720" y="1640" />
+              <mxPoint x="760" y="1640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="pharmacy" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.4;entryX=0.124;entryY=0.019;entryDx=0;entryDy=0;" target="pharmguide" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="pharmacy" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;exitX=0.0;exitY=0.4;entryX=0.483;entryY=-0.023;entryDx=0;entryDy=0;entryPerimeter=0;" target="finish" value="No: automatic completion">
+          <mxGeometry relative="1" x="0.0058" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="360" y="1720" />
+              <mxPoint x="360" y="1760" />
+            </Array>
+            <mxPoint x="300" y="1760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="pharmguide" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;exitX=0;exitY=0.75;entryX=1.0;entryY=0.6;exitDx=0;exitDy=0;" target="finish" value="eligible patient confirmation">
+          <mxGeometry relative="1" x="-0.0787" as="geometry">
+            <Array as="points">
+              <mxPoint x="1100" y="1880" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="Public entry and reception QR preparation do not create a Visit. Repeated ticket scans and guest registration preserve the same Visit/Journey. Doctor content can be reviewed once published, independently of settlement or Journey completion." vertex="1">
+          <mxGeometry height="100" width="1520" x="80" y="1980" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D06" name="D06 Patient use cases">
+    <mxGraphModel dx="3535" dy="1329" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1820" pageHeight="1960" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D06  Patient use cases&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1680" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="boundary" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=18;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;fontStyle=1;" value="Hospital Visit Narration and Guidance System" vertex="1">
+          <mxGeometry height="1640" width="1380" x="320" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="patient" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=17;strokeColor=#334155;fillColor=#FFFFFF;whiteSpace=wrap;" value="Patient&lt;br&gt;account or verified guest" vertex="1">
+          <mxGeometry height="100" width="60" x="80" y="820" as="geometry" />
+        </mxCell>
+        <mxCell id="uc1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-01 Authenticate or Register Patient" vertex="1">
+          <mxGeometry height="120" width="500" x="400" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc2" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-02 Retrieve and Confirm Existing Appointment" vertex="1">
+          <mxGeometry height="120" width="500" x="400" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc2" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc3" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-03 Prepare Walk-in Registration" vertex="1">
+          <mxGeometry height="120" width="500" x="400" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc3" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="660" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc13" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-13 Enter through Hospital QR" vertex="1">
+          <mxGeometry height="120" width="500" x="400" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc13" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="840" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc15" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-15 Activate or Resume Patient Journey" vertex="1">
+          <mxGeometry height="120" width="500" x="400" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc15" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="1020" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc4" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-04 Follow Patient Journey" vertex="1">
+          <mxGeometry height="120" width="500" x="1080" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc4" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="180" />
+              <mxPoint x="1000" y="180" />
+              <mxPoint x="1000" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc5" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-05 Listen to Approved Narration" vertex="1">
+          <mxGeometry height="120" width="500" x="1080" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc5" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="180" />
+              <mxPoint x="1000" y="180" />
+              <mxPoint x="1000" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc6" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-06 Navigate to Destination" vertex="1">
+          <mxGeometry height="120" width="500" x="1080" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc6" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="180" />
+              <mxPoint x="1000" y="180" />
+              <mxPoint x="1000" y="840" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc9" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-09 Request Assistance" vertex="1">
+          <mxGeometry height="120" width="500" x="1080" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc9" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="180" />
+              <mxPoint x="1000" y="180" />
+              <mxPoint x="1000" y="1060" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc10" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-10 View Visit History" vertex="1">
+          <mxGeometry height="120" width="500" x="400" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc10" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="1220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc16" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-16 Link Guest Records to an Account" vertex="1">
+          <mxGeometry height="120" width="500" x="400" y="1360" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc16" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="1420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc19" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-19 Complete Patient Journey" vertex="1">
+          <mxGeometry height="120" width="500" x="1080" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc19" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="180" />
+              <mxPoint x="1000" y="180" />
+              <mxPoint x="1000" y="1340" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uc21" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-21 Review Diagnosis Summary and Care Instructions" vertex="1">
+          <mxGeometry height="120" width="500" x="1080" y="1520" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="patient" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;" target="uc21" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="870" />
+              <mxPoint x="260" y="180" />
+              <mxPoint x="1000" y="180" />
+              <mxPoint x="1000" y="1580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="uc5" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=0.32;exitY=0.0;entryX=0.32;entryY=1.0;" target="uc4" value="«extend» Listen">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="uc6" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=0.32;exitY=0.0;entryX=0.48;entryY=1.0;" target="uc4" value="«extend» Navigate">
+          <mxGeometry relative="1" x="0.4048" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1240" y="740" />
+              <mxPoint x="1040" y="740" />
+              <mxPoint x="1040" y="460" />
+              <mxPoint x="1320" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="uc9" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=0.32;exitY=0.0;entryX=0.72;entryY=1.0;" target="uc4" value="«extend» Help">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1240" y="960" />
+              <mxPoint x="1620" y="960" />
+              <mxPoint x="1620" y="460" />
+              <mxPoint x="1440" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="uc5" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=0.32;exitY=1.0;entryX=0.32;entryY=0.0;" target="uc21" value="«extend» Replay">
+          <mxGeometry relative="1" x="0.7656" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1240" y="720" />
+              <mxPoint x="1020" y="720" />
+              <mxPoint x="1020" y="1480" />
+              <mxPoint x="1240" y="1480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="uc16" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;entryPerimeter=0;exitX=1;exitY=0.5;entryX=0.48;entryY=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="uc19" value="«extend» Optional account">
+          <mxGeometry relative="1" x="0.4091" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="Workflow precedence is described in Chapter 4; it is not encoded as include/extend. Guest access is limited by a verified grant. UC-16 also has an earlier voluntary entry point." vertex="1">
+          <mxGeometry height="80" width="1600" x="60" y="1780" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D07" name="D07 Staff use cases">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1820" pageHeight="1700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D07  Staff use cases&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1680" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="boundary" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=18;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;fontStyle=1;" value="Hospital Visit Narration and Guidance System" vertex="1">
+          <mxGeometry height="1380" width="1340" x="360" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="reception" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=17;strokeColor=#334155;fillColor=#FFFFFF;whiteSpace=wrap;" value="Receptionist" vertex="1">
+          <mxGeometry height="80" width="50" x="90" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="doctor" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=17;strokeColor=#334155;fillColor=#FFFFFF;whiteSpace=wrap;" value="Doctor" vertex="1">
+          <mxGeometry height="80" width="50" x="90" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="service" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=17;strokeColor=#334155;fillColor=#FFFFFF;whiteSpace=wrap;" value="Service staff" vertex="1">
+          <mxGeometry height="80" width="50" x="90" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="cashier" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=17;strokeColor=#334155;fillColor=#FFFFFF;whiteSpace=wrap;" value="Cashier or verified&lt;br&gt;settlement source" vertex="1">
+          <mxGeometry height="80" width="50" x="90" y="1180" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=17;strokeColor=#334155;fillColor=#FFFFFF;whiteSpace=wrap;" value="Administrator" vertex="1">
+          <mxGeometry height="80" width="50" x="90" y="1360" as="geometry" />
+        </mxCell>
+        <mxCell id="uc14" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-14 Confirm Reception and Issue Examination Ticket" vertex="1">
+          <mxGeometry height="120" width="500" x="480" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="uc8" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-08 Send Structured Multilingual Instruction" vertex="1">
+          <mxGeometry height="120" width="500" x="1080" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="uc7" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-07 Manage Doctor Orders" vertex="1">
+          <mxGeometry height="120" width="500" x="480" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="uc20" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-20 Publish Diagnosis Summary and Care Instructions" vertex="1">
+          <mxGeometry height="120" width="500" x="1080" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="uc11" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-11 Manage Follow-up Recommendation" vertex="1">
+          <mxGeometry height="120" width="500" x="1080" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="uc17" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-17 Record Consultation and Service Progress" vertex="1">
+          <mxGeometry height="120" width="500" x="480" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="uc18" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-18 Record Final Settlement and Close Visit" vertex="1">
+          <mxGeometry height="120" width="500" x="480" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="uc12" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="UC-12 Configure Hospital Workflow and Content" vertex="1">
+          <mxGeometry height="120" width="500" x="1080" y="1320" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="reception" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;exitX=1.0;exitY=0.25;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="uc14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="reception" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.3333333333333333;" target="uc8" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="320" />
+              <mxPoint x="180" y="400" />
+              <mxPoint x="1040" y="400" />
+              <mxPoint x="1040" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="doctor" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;entryX=0.52;entryY=0.994;entryDx=0;entryDy=0;exitX=1;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="uc7" value="">
+          <mxGeometry relative="1" x="-0.5623" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="720" />
+              <mxPoint x="180" y="820" />
+              <mxPoint x="740" y="820" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="doctor" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.3333333333333333;" target="uc20" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="680" />
+              <mxPoint x="180" y="820" />
+              <mxPoint x="1040" y="820" />
+              <mxPoint x="1040" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="doctor" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;exitX=1.0;exitY=0.75;" value="">
+          <mxGeometry relative="1" x="-0.0093" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="700" />
+              <mxPoint x="180" y="820" />
+            </Array>
+            <mxPoint x="1090" y="820" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="doctor" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="uc17" value="">
+          <mxGeometry relative="1" x="-0.2527" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="660" />
+              <mxPoint x="180" y="820" />
+              <mxPoint x="740" y="820" />
+              <mxPoint x="740" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="service" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.0;entryY=0.5;" target="uc17" value="">
+          <mxGeometry relative="1" x="-0.1714" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="1020" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="cashier" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.25;entryX=0.0;entryY=0.3333333333333333;" target="uc18" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="admin" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;exitX=1.0;exitY=0.25;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="uc12" value="">
+          <mxGeometry relative="1" x="-0.0204" as="geometry" />
+        </mxCell>
+        <mxCell id="note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="Each actor is checked against role and record/department scope. Pharmacy staff has no additional Journey-completion action. Hospital decisions and source systems remain authoritative for clinical and settlement outcomes." vertex="1">
+          <mxGeometry height="80" width="1620" x="60" y="1520" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D08" name="D08 Reception activity">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1660" pageHeight="2080" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D08  Reception activity&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1520" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Reception QR presented" vertex="1">
+          <mxGeometry height="100" width="400" x="540" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="validate" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Validate code purpose, status and staff access" vertex="1">
+          <mxGeometry height="100" width="520" x="480" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="valid" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Valid reception context?" vertex="1">
+          <mxGeometry height="100" width="380" x="600" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="recover" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Show error / verified recovery&lt;br&gt;No Visit created" vertex="1">
+          <mxGeometry height="100" width="400" x="80" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="kind" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Booked or walk-in?" vertex="1">
+          <mxGeometry height="100" width="380" x="600" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="booking" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Verify booking and attendee" vertex="1">
+          <mxGeometry height="100" width="400" x="1000" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="review" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Review existing Registration Request" vertex="1">
+          <mxGeometry height="100" width="400" x="160" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="complete" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Information complete?" vertex="1">
+          <mxGeometry height="100" width="380" x="180" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="supplement" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Send approved question&lt;br&gt;Patient updates SAME request" vertex="1">
+          <mxGeometry height="100" width="400" x="80" y="1020" as="geometry" />
+        </mxCell>
+        <mxCell id="ready" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Reception verified and approved?" vertex="1">
+          <mxGeometry height="100" width="380" x="600" y="1140" as="geometry" />
+        </mxCell>
+        <mxCell id="pending" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Keep unresolved / staff assistance&lt;br&gt;No Visit created" vertex="1">
+          <mxGeometry height="100" width="400" x="1040" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="duplicate" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Already confirmed?" vertex="1">
+          <mxGeometry height="100" width="380" x="600" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="reuse" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Return existing Visit and ticket" vertex="1">
+          <mxGeometry height="100" width="400" x="1040" y="1440" as="geometry" />
+        </mxCell>
+        <mxCell id="create" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Atomic confirmation&lt;br&gt;Create Visit + Journey + examination ticket" vertex="1">
+          <mxGeometry height="100" width="520" x="480" y="1460" as="geometry" />
+        </mxCell>
+        <mxCell id="print" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Issue or reprint SAME ticket&lt;br&gt;Patient scans ticket QR next" vertex="1">
+          <mxGeometry height="100" width="520" x="480" y="1660" as="geometry" />
+        </mxCell>
+        <mxCell id="end" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Reception finished" vertex="1">
+          <mxGeometry height="100" width="400" x="600" y="1820" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="valid" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;exitX=0;exitY=0.5;entryX=1.0;entryY=0.4;exitDx=0;exitDy=0;" target="recover" value="No">
+          <mxGeometry relative="1" x="-0.12" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="430" />
+              <mxPoint x="520" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="valid" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.365;exitY=0.89;entryX=0.369;entryY=0.12;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="kind" value="Yes">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="739.5" y="480" as="sourcePoint" />
+            <mxPoint x="739.5" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="kind" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.848;exitY=0.659;entryX=0.0;entryY=0.4;exitDx=0;exitDy=0;" target="booking" value="Booked">
+          <mxGeometry relative="1" x="0.0261" as="geometry">
+            <Array as="points">
+              <mxPoint x="922.2" y="760" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="kind" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;exitX=0;exitY=0.5;entryX=0.885;entryY=0.007;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="review" value="Walk-in">
+          <mxGeometry relative="1" x="0.0747" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="review" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;exitX=0.762;exitY=1;entryX=1;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="complete" value="">
+          <mxGeometry relative="1" x="0.6922" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="complete" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.964;entryY=0.001;entryDx=0;entryDy=0;entryPerimeter=0;" target="supplement" value="No">
+          <mxGeometry relative="1" x="-0.4125" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="465" y="980" />
+            </Array>
+            <mxPoint x="390" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="supplement" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;exitX=0.5;exitY=0.0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="review" value="Update existing request; review again">
+          <mxGeometry relative="1" x="0.3878" y="-30" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="100" y="1020" />
+              <mxPoint x="100" y="770" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="complete" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0.105;entryY=0.417;entryDx=0;entryDy=0;entryPerimeter=0;exitDx=0;exitDy=0;" target="ready" value="Yes">
+          <mxGeometry relative="1" x="0.0694" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="booking" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.75;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="ready" value="">
+          <mxGeometry relative="1" x="0.3153" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="ready" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;exitX=1;exitY=0.5;entryX=0.204;entryY=-0.018;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="pending" value="Not yet">
+          <mxGeometry relative="1" x="-0.3593" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="ready" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="duplicate" value="Yes">
+          <mxGeometry relative="1" x="-0.5" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="duplicate" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;exitX=1;exitY=0.5;entryX=0.0;entryY=0.4;exitDx=0;exitDy=0;" target="reuse" value="Yes">
+          <mxGeometry relative="1" x="-0.0476" as="geometry">
+            <Array as="points">
+              <mxPoint x="1020" y="1330" />
+              <mxPoint x="1020" y="1480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="duplicate" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.313;exitY=0.807;entryX=0.458;entryY=0.002;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="create" value="No">
+          <mxGeometry relative="1" x="-0.2949" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="create" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.3076923076923077;exitY=1.0;entryX=0.3076923076923077;entryY=0.0;" target="print" value="commit succeeded">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="reuse" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;exitX=0.5;exitY=1;entryX=1.0;entryY=0.2;exitDx=0;exitDy=0;" target="print" value="">
+          <mxGeometry relative="1" x="0.3684" as="geometry">
+            <Array as="points">
+              <mxPoint x="1240" y="1680" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="print" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.3076923076923077;exitY=1.0;entryX=0.3;entryY=0.0;" target="end" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="1780" />
+              <mxPoint x="720" y="1780" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="A failed transaction does not report successful issuance. Printing retry reuses the stored ticket. Supplementing information never passes through a new-request creation step." vertex="1">
+          <mxGeometry height="80" width="1480" x="40" y="1940" as="geometry" />
+        </mxCell>
+        <mxCell id="uT8eHnHJ17h4ANNjGhfk-2" edge="1" parent="1" source="start" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#636363;" target="validate">
+          <mxGeometry relative="1" x="-0.0844" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uT8eHnHJ17h4ANNjGhfk-3" edge="1" parent="1" source="validate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.371;entryY=0.128;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=#636363;" target="valid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D09" name="D09 Journey activity">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1760" pageHeight="2400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D09  Journey activity&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1620" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="scan" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Authorized ticket scan or Journey reopen" vertex="1">
+          <mxGeometry height="100" width="500" x="560" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="load" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Load SAME Visit and Journey&lt;br&gt;including hospital events recorded before activation" vertex="1">
+          <mxGeometry height="100" width="500" x="560" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="finished" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Journey already Completed?" vertex="1">
+          <mxGeometry height="100" width="380" x="620" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="history" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Show completed record&lt;br&gt;and published doctor content" vertex="1">
+          <mxGeometry height="100" width="500" x="80" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="closed" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Visit Closed?" vertex="1">
+          <mxGeometry height="100" width="380" x="620" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="guide" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Show current operational instruction&lt;br&gt;queue and destination" vertex="1">
+          <mxGeometry height="100" width="500" x="1080" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="event" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Authorized clinical / order / service event&lt;br&gt;updates operational progress" vertex="1">
+          <mxGeometry height="100" width="500" x="1080" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="closure" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Clinical work resolved and&lt;br&gt;current final settlement confirmed?" vertex="1">
+          <mxGeometry height="100" width="380" x="1080" y="1060" as="geometry" />
+        </mxCell>
+        <mxCell id="close" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="System closes Visit" vertex="1">
+          <mxGeometry height="100" width="500" x="1080" y="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="pharmacy" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Pharmacy guidance remains?" vertex="1">
+          <mxGeometry height="100" width="380" x="620" y="1420" as="geometry" />
+        </mxCell>
+        <mxCell id="pharm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Keep Journey available&lt;br&gt;Show pharmacy destination" vertex="1">
+          <mxGeometry height="100" width="500" x="1080" y="1580" as="geometry" />
+        </mxCell>
+        <mxCell id="patientdone" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Patient chooses Complete Journey&lt;br&gt;at eligible final guidance step" vertex="1">
+          <mxGeometry height="100" width="500" x="1080" y="1740" as="geometry" />
+        </mxCell>
+        <mxCell id="complete" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Mark Journey Completed&lt;br&gt;record completion source" vertex="1">
+          <mxGeometry height="100" width="500" x="560" y="1860" as="geometry" />
+        </mxCell>
+        <mxCell id="guest" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;fontColor=#111827;" value="Guest context?" vertex="1">
+          <mxGeometry height="100" width="380" x="680" y="1980" as="geometry" />
+        </mxCell>
+        <mxCell id="offer" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Optional Register or Skip&lt;br&gt;verified account link keeps SAME records" vertex="1">
+          <mxGeometry height="100" width="500" x="80" y="2080" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="scan" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="load" value="">
+          <mxGeometry relative="1" x="0.8182" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="load" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="finished" value="">
+          <mxGeometry relative="1" x="0.0769" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="finished" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;exitX=0;exitY=0.5;entryX=0.485;entryY=-0.015;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="history" value="Yes">
+          <mxGeometry relative="1" x="-0.7015" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="finished" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="closed" value="No">
+          <mxGeometry relative="1" x="0.2727" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="closed" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="No">
+          <mxGeometry relative="1" x="-0.5947" as="geometry">
+            <mxPoint x="1270" y="740" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.32;exitY=1.0;entryX=0.32;entryY=0.0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="1269.5" y="840" as="sourcePoint" />
+            <mxPoint x="1269.5" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="event" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;exitX=0.381;exitY=1.001;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="closure" value="">
+          <mxGeometry relative="1" x="-0.4118" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="closure" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="guide" value="No: continue required work">
+          <mxGeometry relative="1" x="-0.6562" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1680" y="1110" />
+              <mxPoint x="1680" y="790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="closure" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.38;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="close" value="Yes">
+          <mxGeometry relative="1" x="-0.5" as="geometry">
+            <mxPoint x="1270" y="1220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="close" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;exitX=0.0;exitY=0.4;entryX=0.552;entryY=0.05;entryDx=0;entryDy=0;entryPerimeter=0;" target="pharmacy" value="">
+          <mxGeometry relative="1" x="-0.2915" as="geometry">
+            <mxPoint x="830" y="1410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="closed" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="pharmacy" value="Yes: allow remaining guidance">
+          <mxGeometry relative="1" x="0.038" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="pharmacy" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;exitX=1;exitY=0.5;entryX=0.322;entryY=-0.018;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="pharm" value="Yes">
+          <mxGeometry relative="1" x="-0.4775" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="pharm" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.32;exitY=1.0;entryX=0.32;entryY=0.0;" target="patientdone" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="patientdone" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.32;exitY=0.999;entryX=1.0;entryY=0.2;exitDx=0;exitDy=0;" target="complete" value="">
+          <mxGeometry relative="1" x="0.0988" as="geometry">
+            <Array as="points">
+              <mxPoint x="1240" y="1880" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;entryX=0.32;entryY=0.0;" target="complete" value="No: automatic">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="720" y="1497.6" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="complete" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;exitX=0.62;exitY=1.001;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="guest" value="">
+          <mxGeometry relative="1" x="-0.3333" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="guest" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;exitX=0;exitY=0.5;entryX=0.637;entryY=0.001;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="offer" value="Yes">
+          <mxGeometry relative="1" x="0.0521" as="geometry" />
+        </mxCell>
+        <mxCell id="done" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontColor=#111827;fontFamily=Arial;fontSize=17;spacing=12;strokeWidth=1.5;" value="Display completed Visit and permitted content" vertex="1">
+          <mxGeometry height="100" width="560" x="1020" y="2200" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;entryPerimeter=0;entryX=0.389;entryY=-0.016;entryDx=0;entryDy=0;" target="done" value="No">
+          <mxGeometry relative="1" x="-0.362" as="geometry">
+            <mxPoint x="1060" y="2030" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="offer" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.638;exitY=1.02;entryX=0.0;entryY=0.4;exitDx=0;exitDy=0;" target="done" value="Skip or account linking completed">
+          <mxGeometry relative="1" x="0.1753" as="geometry">
+            <Array as="points">
+              <mxPoint x="399" y="2240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="Closing the app, session expiry or account registration does not complete an unfinished Journey. Pharmacy confirmation is by the patient for guidance only; no pharmacy employee action is required." vertex="1">
+          <mxGeometry height="210" width="510" x="40" y="1050" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D10" name="D10 Ticket activation sequence">
+    <mxGraphModel dx="4252" dy="1599" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1840" pageHeight="1880" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D10  Ticket activation sequence&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1670" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="client" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Patient app / web" vertex="1">
+          <mxGeometry height="75" width="290" x="80" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="client_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1380" width="2" x="224" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="access" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Access service" vertex="1">
+          <mxGeometry height="75" width="290" x="420" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="access_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1380" width="2" x="564" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Visit service" vertex="1">
+          <mxGeometry height="75" width="290" x="760" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="visit_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1380" width="2" x="904" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="journey" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Journey service" vertex="1">
+          <mxGeometry height="75" width="290" x="1100" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="journey_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1380" width="2" x="1244" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="db" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Database" vertex="1">
+          <mxGeometry height="75" width="290" x="1440" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="db_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1380" width="2" x="1584" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="client_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.042;exitY=-0.292;entryX=0.044;entryY=-0.431;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="access_life" value="1. Redeem ticket code with current&lt;br&gt;identity/context">
+          <mxGeometry relative="1" x="-0.03" y="29" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="access_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.101;exitY=0.958;entryX=0.102;entryY=-0.847;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="db_life" value="2. Validate purpose, expiry and ownership/grant">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="db_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.187;exitY=0.194;exitPerimeter=0;dashed=1;exitDx=0;exitDy=0;entryX=0.189;entryY=0.958;entryDx=0;entryDy=0;entryPerimeter=0;" target="access_life" value="3. Verified target Visit or denied result">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+            <mxPoint x="560" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="access_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.275;exitY=0.611;entryX=0.275;entryY=0.125;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="visit_life" value="4. Load existing ticket Visit">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="visit_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.36;exitY=-0.222;entryX=0.36;entryY=-0.153;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="db_life" value="5. Read Visit and reception identity">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="db_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;dashed=1;entryX=0.45;entryY=1.167;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.448;exitY=-0.153;exitDx=0;exitDy=0;exitPerimeter=0;" target="visit_life" value="6. Existing Active or Closed Visit">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+            <mxPoint x="1590" y="719.56" as="sourcePoint" />
+            <mxPoint x="910" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="visit_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.537;exitY=0.711;exitPerimeter=0;exitDx=0;exitDy=0;entryX=0.535;entryY=-0.098;entryDx=0;entryDy=0;entryPerimeter=0;" target="journey_life" value="7. Activate or resume same Journey">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+            <mxPoint x="1240" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="journey_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.622;exitY=0.191;exitPerimeter=0;exitDx=0;exitDy=0;" value="8. Load events; conditionally activate; keep&lt;br&gt;progress">
+          <mxGeometry relative="1" x="0.0127" y="28" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1590" y="1078.36" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="db_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.711;exitY=0.538;entryX=0.709;entryY=-0.098;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="journey_life" value="9. Current confirmed Journey state">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="journey_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.797;exitY=-0.014;entryX=0.797;entryY=-0.917;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="visit_life" value="10. Guidance or completed record">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="visit_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.884;exitY=0.125;entryX=0.883;entryY=0.611;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="access_life" value="11. Authorized current response">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="access_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.971;exitY=0.611;entryX=0.972;entryY=-0.292;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="client_life" value="12. Show current Journey / history">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="notes" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="Failure branch: invalid code or unmatched claimant returns an error/verified recovery before record disclosure. Repeated authorized redemption is idempotent. Closed Visit access remains valid for pharmacy guidance. This sequence contains no Visit creation operation." vertex="1">
+          <mxGeometry height="140" width="1610" x="70" y="1650" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D11" name="D11 Doctor order sequence">
+    <mxGraphModel dx="3535" dy="1329" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1840" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D11  Doctor order sequence&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1670" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="doctor" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Doctor web" vertex="1">
+          <mxGeometry height="75" width="290" x="80" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="doctor_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1080" width="2" x="224" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Backend API" vertex="1">
+          <mxGeometry height="75" width="290" x="420" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="api_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1080" width="2" x="564" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="workflow" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Journey workflow service" vertex="1">
+          <mxGeometry height="75" width="290" x="760" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="workflow_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1080" width="2" x="904" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="db" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Database" vertex="1">
+          <mxGeometry height="75" width="290" x="1100" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="db_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1080" width="2" x="1244" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="patient" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Patient app / web" vertex="1">
+          <mxGeometry height="75" width="290" x="1440" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="patient_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1080" width="2" x="1584" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="doctor_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.056;exitY=0;entryX=0.056;entryY=1;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="api_life" value="1. Submit supported order/change">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="api_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.166;exitY=-1.5;entryX=0.168;entryY=-1.5;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="db_life" value="2. Check doctor responsibility and Active Visit">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="db_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.276;exitY=0.5;entryX=0.277;entryY=-1;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="api_life" value="3. Authorized current Visit and version">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="api_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.393;exitY=0;entryX=0.39;entryY=0.5;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="workflow_life" value="4. Validate service mapping and&lt;br&gt;prerequisites">
+          <mxGeometry relative="1" x="0.0278" y="23" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="workflow_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=.5;exitY=0.4444444444444444;entryX=.5;entryY=0.4444444444444444;exitPerimeter=0;entryPerimeter=0;" target="db_life" value="5. Atomically persist order and linked steps">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="db_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.612;exitY=0.5;entryX=0.613;entryY=0.5;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="workflow_life" value="6. Committed order/step versions">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="workflow_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.723;exitY=1;entryX=0.722;entryY=0;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="api_life" value="7. Recomputed next action and readiness">
+          <mxGeometry relative="1" x="0.0279" y="-20" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="api_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.832;exitY=0.5;entryX=0.833;entryY=2;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="doctor_life" value="8. Confirm accepted order change">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="api_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.946;exitY=1.5;entryX=0.944;entryY=-1;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="patient_life" value="9. Notify/refresh confirmed Journey">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="notes" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="Failure branch: missing mapping rejects the executable order before commit. Concurrency/retries use version checks and event identity. Completed service facts are retained. Changing required work revalidates clinical readiness and current settlement eligibility." vertex="1">
+          <mxGeometry height="140" width="1610" x="70" y="1350" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D12" name="D12 Publication and replay sequence">
+    <mxGraphModel dx="4445" dy="1671" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1840" pageHeight="1880" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D12  Publication and replay sequence&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1670" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="doctor" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Doctor web" vertex="1">
+          <mxGeometry height="75" width="290" x="80" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="doctor_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1380" width="2" x="224" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Backend API and content service" vertex="1">
+          <mxGeometry height="75" width="290" x="420" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="api_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1380" width="2" x="564" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="db" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Database" vertex="1">
+          <mxGeometry height="75" width="290" x="760" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="db_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1380" width="2" x="904" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="patient" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Patient app / web" vertex="1">
+          <mxGeometry height="75" width="290" x="1100" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="patient_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1380" width="2" x="1244" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="tts" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontSize=17;fontFamily=Arial;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="TTS provider" vertex="1">
+          <mxGeometry height="75" width="290" x="1440" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="tts_life" parent="1" style="shape=line;direction=south;dashed=1;strokeColor=#94A3B8;strokeWidth=1;fillColor=none;fontFamily=Arial;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1380" width="2" x="1584" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="doctor_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.045;exitY=0;entryX=0.043;entryY=0;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="api_life" value="1. Publish reviewed summary/instructions">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="api_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.129;exitY=-0.5;entryX=0.129;entryY=-0.5;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="db_life" value="2. Verify doctor; save Published version&lt;br&gt;and source links">
+          <mxGeometry relative="1" x="0.0176" y="28" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="db_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.196;exitY=0.125;entryX=0.196;entryY=-0.778;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="api_life" value="3. Committed version identifier">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="api_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.26;exitY=-0.778;entryX=0.264;entryY=1.375;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="patient_life" value="4. Notify content availability">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="patient_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.334;exitY=-0.333;entryX=0.333;entryY=1.333;exitPerimeter=0;entryPerimeter=0;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="api_life" value="5. Request current Visit content">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="api_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.419;exitY=0.083;entryX=0.42;entryY=-0.333;exitPerimeter=0;entryPerimeter=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="db_life" value="6. Authorize account/guest; resolve&lt;br&gt;published version">
+          <mxGeometry relative="1" x="0.0213" y="29" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="db_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.507;exitY=0.493;entryX=0.507;entryY=0.493;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="api_life" value="7. Source text and approved language&lt;br&gt;version">
+          <mxGeometry relative="1" x="0.0295" y="-30" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="api_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.596;exitY=0.083;entryX=0.595;entryY=0.5;exitPerimeter=0;entryPerimeter=0;dashed=1;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="patient_life" value="8. Readable text, author, version and language">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="patient_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.681;exitY=0.5;entryX=0.682;entryY=1.333;exitPerimeter=0;entryPerimeter=0;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="api_life" value="9. Listen to selected section">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="api_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.768;exitY=0.5;exitPerimeter=0;exitDx=0;exitDy=0;entryX=0.768;entryY=-0.333;entryDx=0;entryDy=0;entryPerimeter=0;" target="tts_life" value="10. Current permitted text (or use matching cache)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+            <mxPoint x="1590" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="tts_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.855;exitY=0.5;entryX=0.853;entryY=-1.167;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="api_life" value="11. Audio or provider error">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="api_life" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.944;exitY=0.083;entryX=0.942;entryY=-0.333;exitPerimeter=0;entryPerimeter=0;dashed=1;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="patient_life" value="12. Play current audio; retain text on failure">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="notes" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="Drafts are never returned to the patient. Review/replay does not require an Active Visit or Journey, only authorized access and Published content. A correction replaces the current published version and invalidates obsolete current-audio references; follow-up remains separate." vertex="1">
+          <mxGeometry height="140" width="1610" x="70" y="1650" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D13" name="D13 Visit and Journey states">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1760" pageHeight="1740" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=28;fontColor=#17365D;fontStyle=1;spacingLeft=0;whiteSpace=wrap;" value="&lt;b&gt;D13  Visit and Journey states&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1620" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="visitbox" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=18;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;fontStyle=1;" value="VISIT LIFECYCLE" vertex="1">
+          <mxGeometry height="1120" width="680" x="60" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="journeybox" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=18;align=left;verticalAlign=top;spacingTop=16;spacingLeft=16;fontStyle=1;" value="JOURNEY LIFECYCLE" vertex="1">
+          <mxGeometry height="1120" width="760" x="860" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="none" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="No Visit" vertex="1">
+          <mxGeometry height="100" width="340" x="240" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="active" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Active" vertex="1">
+          <mxGeometry height="100" width="340" x="240" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="closed" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Closed" vertex="1">
+          <mxGeometry height="100" width="340" x="240" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="none" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.29411764705882354;exitY=1.0;entryX=0.29411764705882354;entryY=0.0;" target="active" value="Reception confirmed and ticket issued">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="active" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.0;exitY=0.4;entryX=0.29411764705882354;entryY=1.0;innerLoopWaypoints=1;" target="active" value="Authorized clinical/service progress&lt;br&gt;or intermediate payment">
+          <mxGeometry relative="1" x="0.3846" as="geometry">
+            <Array as="points">
+              <mxPoint x="100" y="600" />
+              <mxPoint x="100" y="700" />
+              <mxPoint x="340" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="active" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="closed" value="Required clinical work resolved&lt;br&gt;AND current final settlement confirmed">
+          <mxGeometry relative="1" x="0.1875" as="geometry" />
+        </mxCell>
+        <mxCell id="pending" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Pending Activation" vertex="1">
+          <mxGeometry height="100" width="360" x="1060" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="jactive" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Active" vertex="1">
+          <mxGeometry height="100" width="360" x="1060" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="completed" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EAF2F8;strokeColor=#3B668C;fontFamily=Arial;fontSize=17;strokeWidth=1.5;fontColor=#111827;spacing=12;" value="Completed" vertex="1">
+          <mxGeometry height="100" width="360" x="1060" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="pending" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.2777777777777778;exitY=1.0;entryX=0.2777777777777778;entryY=0.0;" target="jactive" value="Authorized ticket scan with remaining&lt;br&gt;guidance">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="jactive" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=0.2777777777777778;exitY=1.0;entryX=0.2777777777777778;entryY=0.0;" target="completed" value="Visit Closed AND&lt;br&gt;(no pharmacy guidance OR patient&lt;br&gt;confirms&lt;br&gt;eligible final pharmacy guidance)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="pending" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.5;entryX=1.0;entryY=0.5;" target="completed" value="Visit closes with no pharmacy guidance">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1560" y="310" />
+              <mxPoint x="1560" y="1010" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="closed" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.4;entryX=0.0;entryY=0.4;" target="completed" value="No pharmacy guidance: automatic&lt;br&gt;completion">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="closed" style="edgeStyle=segmentEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=1;strokeColor=#64748B;strokeWidth=1.4;fontFamily=Arial;fontSize=14;labelBackgroundColor=#FFFFFF;dashed=1;exitPerimeter=0;entryPerimeter=0;exitX=1.0;exitY=0.4;entryX=0.0;entryY=0.30357142857142855;" target="journeybox" value="Pharmacy remains: preserve current&lt;br&gt;Journey state; activate only on&lt;br&gt;authorized ticket scan">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="620" y="1000" />
+              <mxPoint x="620" y="480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="state_notes" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="If pharmacy guidance remains before the first scan, Journey stays Pending Activation until an authorized scan. If already Active, it stays Active. Final settlement includes an authorized no-payment-required outcome; required clinical work must still be resolved. Visit closure never asserts medication dispensing." vertex="1">
+          <mxGeometry height="120" width="1480" x="80" y="1320" as="geometry" />
+        </mxCell>
+        <mxCell id="identity_notes" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#C9AD55;fontFamily=Arial;fontSize=16;align=left;spacing=14;" value="No state change solely from browser/app closure, session expiry, repeated QR scan or guest-to-account linking. Records remain stored. A later attendance creates a new Visit and Journey after a new reception confirmation." vertex="1">
+          <mxGeometry height="120" width="1480" x="80" y="1520" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
