@@ -1,4 +1,3 @@
-```yaml
 ---
 name: "Công việc"
 about: "Theo dõi một đầu việc trong kế hoạch nhóm"
@@ -23,4 +22,3 @@ Mã nguồn, tài liệu, sơ đồ hoặc bằng chứng kiểm thử cần có
 
 ## Phụ thuộc / liên quan
 Issue, PR hoặc tài liệu liên quan (nếu có).
-```
