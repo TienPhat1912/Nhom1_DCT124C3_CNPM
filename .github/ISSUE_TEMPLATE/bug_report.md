@@ -1,4 +1,3 @@
-```yaml
 ---
 name: "Báo lỗi"
 about: "Mô tả lỗi có thể tái hiện để nhóm kiểm tra"
@@ -28,4 +27,3 @@ Mô tả điều đã xảy ra.
 
 ## Bằng chứng
 Đính kèm ảnh chụp màn hình hoặc log đã loại bỏ token, mật khẩu và dữ liệu cá nhân.
-```
