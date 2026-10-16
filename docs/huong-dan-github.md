@@ -1,4 +1,3 @@
-```markdown
 # Hướng dẫn sử dụng GitHub cho Nhóm 01
 
 Tài liệu này hướng dẫn quy trình làm việc trên repository [Nhom1_DCT124C3_CNPM](https://github.com/TienPhat1912/Nhom1_DCT124C3_CNPM): tạo Issue, tạo branch, commit/push code, mở Pull Request, review, merge và xử lý conflict.
@@ -236,5 +235,3 @@ Giả sử nhóm giao công việc “Thêm lịch sử khám bệnh nhân” v�
 - [Hướng dẫn sử dụng hệ thống Web/Mobile](huong-dan-su-dung.md)
 - [Kế hoạch và TODO của nhóm](team-planning/README.md)
 - [Trang chủ repository](../README.md)
-
-```
