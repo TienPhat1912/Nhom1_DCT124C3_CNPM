@@ -1,4 +1,3 @@
-```yaml
 ---
 name: "Đề xuất chức năng"
 about: "Đề xuất tính năng hoặc cải tiến cho đồ án"
@@ -27,4 +26,3 @@ Mô tả cách giải quyết và luồng hoạt động mong muốn.
 
 ## Ghi chú
 Thêm sơ đồ hoặc ví dụ nếu cần.
-```
