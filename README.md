@@ -1,4 +1,3 @@
-```
 # Multilingual Automatic Narration System
 
 <p align="center">
@@ -84,9 +83,12 @@ flowchart LR
 │   ├── scripts/                # Script hỗ trợ chạy demo
 │   ├── instruction/            # Đặc tả và tài liệu yêu cầu
 │   └── README.md               # Hướng dẫn setup/chạy chi tiết
-├── docs/                       # Tài liệu dự án
-├── Ke_hoach_nhom.docx          # Kế hoạch làm việc nhóm
-├── todo.md                     # Checklist và tiến độ 12 tuần
+├── docs/
+│   ├── team-planning/
+│   │   ├── Ke_hoach_nhom.docx  # Kế hoạch làm việc nhóm
+│   │   ├── todo.md             # Checklist và tiến độ 12 tuần
+│   │   └── README.md           # Mục lục kế hoạch nhóm
+│   └── README.md               # Mục lục tài liệu dự án
 ├── CONTRIBUTING.md             # Quy ước đóng góp
 └── README.md                   # Trang giới thiệu dự án
 ```
@@ -129,8 +131,8 @@ Dừng demo trước khi build lại API:
 
 - [Hướng dẫn chạy ứng dụng, kịch bản demo và ghi chú kỹ thuật](codes/README.md)
 - [Đặc tả/yêu cầu trong thư mục instruction](codes/instruction/)
-- [Kế hoạch làm việc nhóm](Ke_hoach_nhom.docx)
-- [Checklist và kế hoạch 12 tuần](todo.md)
+- [Kế hoạch làm việc nhóm](docs/team-planning/Ke_hoach_nhom.docx)
+- [Checklist và kế hoạch 12 tuần](docs/team-planning/todo.md)
 - [Mục lục tài liệu](docs/README.md)
 
 ### Activity diagrams
