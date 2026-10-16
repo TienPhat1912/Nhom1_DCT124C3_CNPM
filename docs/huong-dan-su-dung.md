@@ -157,6 +157,7 @@ Nếu cần báo lỗi, ghi lại các bước tái hiện, vai trò đang dùng
 
 ## 8. Tài liệu liên quan
 
+- [Hướng dẫn sử dụng GitHub cho nhóm](huong-dan-github.md)
 - [Hướng dẫn setup và kịch bản demo kỹ thuật](../codes/README.md)
 - [Trang chủ dự án](../README.md)
 - [Mục lục tài liệu](README.md)
