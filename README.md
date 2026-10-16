@@ -88,6 +88,7 @@ flowchart LR
 │   │   ├── Ke_hoach_nhom.docx  # Kế hoạch làm việc nhóm
 │   │   ├── todo.md             # Checklist và tiến độ 12 tuần
 │   │   └── README.md           # Mục lục kế hoạch nhóm
+│   ├── huong-dan-su-dung.md    # Hướng dẫn sử dụng Web/Mobile
 │   └── README.md               # Mục lục tài liệu dự án
 ├── CONTRIBUTING.md             # Quy ước đóng góp
 └── README.md                   # Trang giới thiệu dự án
@@ -129,6 +130,7 @@ Dừng demo trước khi build lại API:
 
 ### Tài liệu dự án
 
+- [Hướng dẫn sử dụng hệ thống](docs/huong-dan-su-dung.md)
 - [Hướng dẫn chạy ứng dụng, kịch bản demo và ghi chú kỹ thuật](codes/README.md)
 - [Đặc tả/yêu cầu trong thư mục instruction](codes/instruction/)
 - [Kế hoạch làm việc nhóm](docs/team-planning/Ke_hoach_nhom.docx)
