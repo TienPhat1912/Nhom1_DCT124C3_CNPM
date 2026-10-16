@@ -2,6 +2,8 @@
 
 ## Cross-Platform Frontend Development with React.js and React Native with CI/CD Integration
 
+Triển khai mới nằm tại [final codes/README.md](final%20codes/README.md): hướng dẫn chạy web, backend SQL Server, React Native và kết quả kiểm thử.
+
 ---
 
 _**Sai Gon University, Ho Chi Minh City, VietNam**_\

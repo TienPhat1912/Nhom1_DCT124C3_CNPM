@@ -1,0 +1,75 @@
+name: Final codes CI
+on:
+  pull_request:
+    paths: ['final codes/**', '.github/workflows/final-codes-*.yml']
+  push:
+    branches: [master, main]
+    paths: ['final codes/**', '.github/workflows/final-codes-*.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: final-ci-${{ github.ref }}
+  cancel-in-progress: true
+defaults:
+  run:
+    working-directory: final codes
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22.19.0
+          cache: npm
+          cache-dependency-path: |
+            final codes/apps/web/package-lock.json
+            final codes/apps/mobile/package-lock.json
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.400
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: dotnet restore services/api --locked-mode
+      - run: dotnet build services/api --no-restore
+      - run: python scripts/test_regressions.py
+      - run: python scripts/benchmark.py
+      - run: npm ci --prefix apps/web && npm run build --prefix apps/web
+      - run: npx playwright install --with-deps chromium && npm run test:e2e
+        working-directory: final codes/apps/web
+      - run: npm ci --prefix apps/mobile && npm run typecheck --prefix apps/mobile && npm run bundle --prefix apps/mobile
+      - name: Verify SQL Server and Compose
+        run: |
+          export JWT_SECRET="$(openssl rand -hex 48)"
+          export MSSQL_SA_PASSWORD="Aa1!$(openssl rand -hex 24)"
+          echo "::add-mask::$MSSQL_SA_PASSWORD"
+          docker compose up --build -d --wait --wait-timeout 180
+          python scripts/smoke.py http://127.0.0.1:8183
+          export SQL_TEST_CONNECTION="Server=localhost,1433;Database={database};User Id=sa;Password=$MSSQL_SA_PASSWORD;TrustServerCertificate=true"
+          python scripts/test_regressions.py
+          mkdir -p .artifacts/release
+          docker save -o .artifacts/release/images.tar hospital-final-api:local hospital-final-web:local
+          cp compose.yml .artifacts/release/
+          cd .artifacts/release
+          sha256sum images.tar compose.yml > SHA256SUMS
+          cd ../..
+          docker compose down
+      - run: dotnet publish services/api --no-restore -c Release -o .artifacts/api-publish
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-verification-${{ github.sha }}
+          path: |
+            final codes/.artifacts/api-publish
+            final codes/.artifacts/release
+            final codes/.artifacts/playwright-report
+            final codes/.artifacts/playwright-results
+            final codes/.artifacts/performance*.json
+            final codes/.artifacts/patient-*.png
+            final codes/apps/web/dist
+            final codes/apps/mobile/dist
+          include-hidden-files: true
+          retention-days: 7
