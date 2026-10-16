@@ -7,7 +7,7 @@ Trang này là mục lục tài liệu của đồ án **Multilingual Automatic 
 - [README dự án](../README.md) — mục tiêu, kiến trúc tổng quan, công nghệ, cấu trúc repository và liên kết sơ đồ.
 - [Hướng dẫn setup và demo](../codes/README.md) — yêu cầu môi trường, lệnh chạy Web/API/Mobile và kịch bản demo.
 - [Đặc tả/yêu cầu hệ thống](../codes/instruction/) — tài liệu yêu cầu đang lưu trong mã nguồn.
-- [Activity diagrams](../UC_activity_diagram/) — các sơ đồ hoạt động nghiệp vụ.
+- [Activity diagrams](../UseCase/AD) — các sơ đồ hoạt động nghiệp vụ.
 - [Kế hoạch làm việc nhóm](team-planning/Ke_hoach_nhom.docx).
 - [Checklist tiến độ](team-planning/todo.md).
 - [Mục lục kế hoạch nhóm](team-planning/README.md).
