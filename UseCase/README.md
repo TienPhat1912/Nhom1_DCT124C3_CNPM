@@ -7,7 +7,7 @@ Thư mục `UseCase` được tổ chức theo loại tài liệu nghiệp vụ:
 
 ## Activity diagrams
 
-Các sơ đồ hoạt động của phiên bản `dev` được giữ nguyên nội dung và chuyển vào thư mục [AD](AD/).
+Thư mục [AD](AD/) được giữ lại cho các sơ đồ trong tương lai. Theo yêu cầu hiện tại, toàn bộ 17 ảnh AD đã được xóa khỏi nhánh `dev`; file `.keep` được giữ để bảo toàn cấu trúc thư mục.
 
 ## Use Case specifications
 
