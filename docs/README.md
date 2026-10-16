@@ -1,4 +1,3 @@
-```markdown
 # Tài liệu dự án
 
 Trang này là mục lục tài liệu của đồ án **Multilingual Automatic Narration System**.
@@ -9,8 +8,9 @@ Trang này là mục lục tài liệu của đồ án **Multilingual Automatic 
 - [Hướng dẫn setup và demo](../codes/README.md) — yêu cầu môi trường, lệnh chạy Web/API/Mobile và kịch bản demo.
 - [Đặc tả/yêu cầu hệ thống](../codes/instruction/) — tài liệu yêu cầu đang lưu trong mã nguồn.
 - [Activity diagrams](../UC_activity_diagram/) — các sơ đồ hoạt động nghiệp vụ.
-- [Kế hoạch làm việc nhóm](../Ke_hoach_nhom.docx).
-- [Checklist tiến độ](../todo.md).
+- [Kế hoạch làm việc nhóm](team-planning/Ke_hoach_nhom.docx).
+- [Checklist tiến độ](team-planning/todo.md).
+- [Mục lục kế hoạch nhóm](team-planning/README.md).
 - [Quy ước đóng góp](../CONTRIBUTING.md).
 
 ## Gợi ý bổ sung trong quá trình phát triển
@@ -23,4 +23,3 @@ Khi có nội dung được nhóm thống nhất, có thể bổ sung các mục
 - `decisions/`: các quyết định kiến trúc quan trọng (ADR).
 
 Chỉ đánh dấu tài liệu hoặc kiểm thử là hoàn thành khi nhóm đã tạo và kiểm tra nội dung tương ứng.
-```
