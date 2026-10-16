@@ -1,4 +1,3 @@
-```markdown
 # Quy ước đóng góp
 
 Tài liệu này thống nhất cách làm việc trên repository của Nhóm 01 để lịch sử thay đổi dễ đọc, review và truy vết.
@@ -57,4 +56,3 @@ Mỗi commit nên đại diện cho một thay đổi có ý nghĩa. Tránh mess
 ## 6. Quy tắc an toàn
 
 Chỉ sử dụng dữ liệu demo. Không đưa thông tin bệnh nhân, thông tin xác thực thật, khóa ký hoặc bí mật môi trường lên GitHub. Nếu phát hiện bí mật đã được commit, cần thu hồi/thay khóa tương ứng; chỉ xóa khỏi commit mới là chưa đủ.
-```
