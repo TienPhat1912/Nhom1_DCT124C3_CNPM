@@ -89,6 +89,7 @@ flowchart LR
 │   │   ├── todo.md             # Checklist và tiến độ 12 tuần
 │   │   └── README.md           # Mục lục kế hoạch nhóm
 │   ├── huong-dan-su-dung.md    # Hướng dẫn sử dụng Web/Mobile
+│   ├── huong-dan-github.md     # Tạo Issue, branch, PR và merge
 │   └── README.md               # Mục lục tài liệu dự án
 ├── CONTRIBUTING.md             # Quy ước đóng góp
 └── README.md                   # Trang giới thiệu dự án
@@ -131,6 +132,7 @@ Dừng demo trước khi build lại API:
 ### Tài liệu dự án
 
 - [Hướng dẫn sử dụng hệ thống](docs/huong-dan-su-dung.md)
+- [Hướng dẫn sử dụng GitHub cho nhóm](docs/huong-dan-github.md) — Issue, branch, commit, Pull Request, merge và xử lý conflict.
 - [Hướng dẫn chạy ứng dụng, kịch bản demo và ghi chú kỹ thuật](codes/README.md)
 - [Đặc tả/yêu cầu trong thư mục instruction](codes/instruction/)
 - [Kế hoạch làm việc nhóm](docs/team-planning/Ke_hoach_nhom.docx)
