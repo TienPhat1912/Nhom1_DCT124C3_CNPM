@@ -9,7 +9,8 @@ Trang này là mục lục tài liệu của đồ án **Multilingual Automatic 
 - [Hướng dẫn sử dụng GitHub cho nhóm](huong-dan-github.md) — cách tạo Issue, branch, commit, Pull Request, merge và xử lý xung đột.
 - [Hướng dẫn setup và demo](../codes/README.md) — yêu cầu môi trường, lệnh chạy Web/API/Mobile và kịch bản demo.
 - [Đặc tả/yêu cầu hệ thống](../codes/instruction/) — tài liệu yêu cầu đang lưu trong mã nguồn.
-- [Activity diagrams](../UC_activity_diagram/) — các sơ đồ hoạt động nghiệp vụ.
+- [Activity diagrams](../UseCase/AD/) — các sơ đồ hoạt động nghiệp vụ.
+- [Use Case documents](../UseCase/UC/) — đặc tả use case dạng tài liệu.
 - [Kế hoạch làm việc nhóm](team-planning/Ke_hoach_nhom.docx).
 - [Checklist tiến độ](team-planning/todo.md).
 - [Mục lục kế hoạch nhóm](team-planning/README.md).

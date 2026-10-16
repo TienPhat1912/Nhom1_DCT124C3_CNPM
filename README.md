@@ -74,7 +74,10 @@ flowchart LR
 ```text
 .
 ├── .github/                    # Mẫu Issue và Pull Request
-├── UC_activity_diagram/        # Sơ đồ hoạt động nghiệp vụ
+├── UseCase/
+│   ├── AD/                     # Activity diagrams / sơ đồ hoạt động
+│   ├── UC/                     # Use Case specifications
+│   └── README.md               # Mục lục Use Case
 ├── codes/
 │   ├── apps/
 │   │   ├── web/                # Ứng dụng Web
@@ -145,23 +148,23 @@ Các sơ đồ hiện có được nhóm theo luồng nghiệp vụ để dễ t
 
 | # | Sơ đồ | Tệp |
 | --- | --- | --- |
-| 01 | Xác thực hoặc đăng ký bệnh nhân | [AD-01](UC_activity_diagram/AD-01-Authenticate-or-Register-Patient.png) |
-| 02 | Tra cứu và xác nhận lịch hẹn | [AD-02](UC_activity_diagram/AD-02-Retrieve-and-Confirm-Existing-Appointment.png) |
-| 03 | Chuẩn bị đăng ký khám trực tiếp | [AD-03](UC_activity_diagram/AD-03-Prepare-Walk-in-Registration.png) |
-| 04 | Theo dõi hành trình bệnh nhân | [AD-04](UC_activity_diagram/AD-04-Follow-Patient-Journey.png) |
-| 05 | Nghe hướng dẫn đã được duyệt | [AD-05](UC_activity_diagram/AD-05-Listen-to-Approved-Narration.png) |
-| 06 | Điều hướng đến điểm cần đến | [AD-06](UC_activity_diagram/AD-06-Navigate-to-Destination.png) |
-| 07 | Quản lý chỉ định của bác sĩ | [AD-07](UC_activity_diagram/AD-07-Manage-Doctor-Orders.png) |
-| 08 | Gửi hướng dẫn có cấu trúc, đa ngôn ngữ | [AD-08](UC_activity_diagram/AD-08-Send-Structured-Multilingual-Instruction.png) |
-| 09 | Yêu cầu hỗ trợ | [AD-09](UC_activity_diagram/AD-09-Request-Assistance.png) |
-| 10 | Xem lịch sử khám | [AD-10](UC_activity_diagram/AD-10-View-Visit-History.png) |
-| 11 | Quản lý khuyến nghị tái khám | [AD-11](UC_activity_diagram/AD-11-Manage-Follow-up-Recommendation.png) |
-| 12 | Cấu hình quy trình và nội dung bệnh viện | [AD-12](UC_activity_diagram/AD-12-Configure-Hospital-Workflow-and-Content.png) |
-| 13 | Vào hành trình bằng mã QR bệnh viện | [AD-13](UC_activity_diagram/AD-13-Enter-through-Hospital-QR.png) |
-| 14 | Xác nhận tiếp nhận và cấp phiếu khám | [AD-14](UC_activity_diagram/AD-14-Confirm-Reception-and-Issue-Examination-Ticket.png) |
-| 15 | Kích hoạt hoặc tiếp tục hành trình | [AD-15](UC_activity_diagram/AD-15-Activate-or-Resume-Patient-Journey.png) |
-| 16 | Liên kết hồ sơ khách với tài khoản | [AD-16](UC_activity_diagram/AD-16-Link-Guest-Records-to-an-Account.png) |
-| 17 | Ghi nhận tiến độ tư vấn và dịch vụ | [AD-17](UC_activity_diagram/AD-17-Record-Consultation-and-Service-Progress.png) |
+| 01 | Xác thực hoặc đăng ký bệnh nhân | [AD-01](UseCase/AD/AD-01-Authenticate-or-Register-Patient.png) |
+| 02 | Tra cứu và xác nhận lịch hẹn | [AD-02](UseCase/AD/AD-02-Retrieve-and-Confirm-Existing-Appointment.png) |
+| 03 | Chuẩn bị đăng ký khám trực tiếp | [AD-03](UseCase/AD/AD-03-Prepare-Walk-in-Registration.png) |
+| 04 | Theo dõi hành trình bệnh nhân | [AD-04](UseCase/AD/AD-04-Follow-Patient-Journey.png) |
+| 05 | Nghe hướng dẫn đã được duyệt | [AD-05](UseCase/AD/AD-05-Listen-to-Approved-Narration.png) |
+| 06 | Điều hướng đến điểm cần đến | [AD-06](UseCase/AD/AD-06-Navigate-to-Destination.png) |
+| 07 | Quản lý chỉ định của bác sĩ | [AD-07](UseCase/AD/AD-07-Manage-Doctor-Orders.png) |
+| 08 | Gửi hướng dẫn có cấu trúc, đa ngôn ngữ | [AD-08](UseCase/AD/AD-08-Send-Structured-Multilingual-Instruction.png) |
+| 09 | Yêu cầu hỗ trợ | [AD-09](UseCase/AD/AD-09-Request-Assistance.png) |
+| 10 | Xem lịch sử khám | [AD-10](UseCase/AD/AD-10-View-Visit-History.png) |
+| 11 | Quản lý khuyến nghị tái khám | [AD-11](UseCase/AD/AD-11-Manage-Follow-up-Recommendation.png) |
+| 12 | Cấu hình quy trình và nội dung bệnh viện | [AD-12](UseCase/AD/AD-12-Configure-Hospital-Workflow-and-Content.png) |
+| 13 | Vào hành trình bằng mã QR bệnh viện | [AD-13](UseCase/AD/AD-13-Enter-through-Hospital-QR.png) |
+| 14 | Xác nhận tiếp nhận và cấp phiếu khám | [AD-14](UseCase/AD/AD-14-Confirm-Reception-and-Issue-Examination-Ticket.png) |
+| 15 | Kích hoạt hoặc tiếp tục hành trình | [AD-15](UseCase/AD/AD-15-Activate-or-Resume-Patient-Journey.png) |
+| 16 | Liên kết hồ sơ khách với tài khoản | [AD-16](UseCase/AD/AD-16-Link-Guest-Records-to-an-Account.png) |
+| 17 | Ghi nhận tiến độ tư vấn và dịch vụ | [AD-17](UseCase/AD/AD-17-Record-Consultation-and-Service-Progress.png) |
 
 ## 9. Quy trình làm việc nhóm
 
