@@ -170,7 +170,7 @@ npm run test:e2e
 
 Khi đổi cổng, smoke test tự đọc `.env`. Với browser tests, đặt `WEB_URL` và `API_URL` trỏ tới địa chỉ mới trong môi trường terminal. Các báo cáo/ảnh/bundle mới nằm trong `artifacts/` và không được Git theo dõi. Xem [hướng dẫn kiểm thử](tests/README.md).
 
-Workflow [check.yml](.github/workflows/check.yml) chạy khi push/pull request: kiểm tra bootstrap, typecheck/lint/build, tích hợp SQL/API/browser, bundle mobile và build Docker; job Android tạo APK artifact. CI tự sinh mật khẩu, không cần đưa `.env` của máy cá nhân lên GitHub. Kết quả CI chỉ được xác nhận sau khi workflow thực sự chạy trên repository.
+Workflow [check.yml](../.github/workflows/check.yml) ở thư mục gốc repository chạy khi push/pull request: kiểm tra bootstrap, typecheck/lint/build, tích hợp SQL/API/browser, bundle mobile và build Docker; job Android tạo APK artifact. Các lệnh CI chạy trong `codes/`; đường dẫn cache và artifact tính từ gốc repository. CI tự sinh mật khẩu, không cần đưa `.env` của máy cá nhân lên GitHub. Kết quả CI chỉ được xác nhận sau khi workflow thực sự chạy trên repository.
 
 ## 7. Cấu trúc repository
 
@@ -188,7 +188,7 @@ scripts/docs/               Sinh tài liệu truy vết
 tests/                      api/, browser/, android/, lan/, setup/
 docs/                       Hướng dẫn, kiến trúc, yêu cầu, sơ đồ
 archive/                    File cũ không cần chạy demo; chỉ commit chỉ mục
-.github/workflows/          Kiểm tra tự động khi push/pull request
+../.github/workflows/       Kiểm tra tự động khi push/pull request (gốc repository)
 compose*.yaml               Docker demo, tùy chọn LAN/HTTPS
 .env.example                Mẫu cấu hình an toàn để chia sẻ
 ```

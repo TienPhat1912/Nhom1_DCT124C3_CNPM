@@ -2,6 +2,9 @@ name: Build and acceptance
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
+defaults:
+  run:
+    working-directory: codes
 jobs:
   application:
     runs-on: ubuntu-latest
@@ -9,7 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: {node-version: '22.19.0', cache: npm}
+        with:
+          node-version: '22.19.0'
+          cache: npm
+          cache-dependency-path: codes/package-lock.json
       - uses: actions/setup-dotnet@v4
         with: {dotnet-version: '10.0.400'}
       - name: Fresh clone bootstrap (PowerShell and Bash)
@@ -29,9 +35,9 @@ jobs:
         with:
           name: acceptance-and-builds
           path: |
-            artifacts/
-            apps/web/dist/
-            backend/Hospital.Api/bin/Release/net10.0/
+            codes/artifacts/
+            codes/apps/web/dist/
+            codes/backend/Hospital.Api/bin/Release/net10.0/
           retention-days: 7
       - if: always()
         run: docker compose down
@@ -41,7 +47,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: {node-version: '22.19.0', cache: npm}
+        with:
+          node-version: '22.19.0'
+          cache: npm
+          cache-dependency-path: codes/package-lock.json
       - uses: actions/setup-java@v4
         with: {distribution: temurin, java-version: '17'}
       - uses: android-actions/setup-android@v3
@@ -49,10 +58,10 @@ jobs:
         run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0' 'ndk;27.1.12297006' 'cmake;3.22.1'
       - run: npm ci
       - name: Generate native Android project
-        working-directory: apps/mobile
+        working-directory: codes/apps/mobile
         run: npx expo prebuild --platform android --no-install
       - name: Build installable demo APK with bundled JavaScript
-        working-directory: apps/mobile/android
+        working-directory: codes/apps/mobile/android
         run: ./gradlew assembleRelease --no-daemon --max-workers=2 -PreactNativeArchitectures=arm64-v8a,x86_64
       - name: Verify release manifest, local network restrictions and APK signature
         run: node tests/android/verify-android.mjs apps/mobile/android/app/build/outputs/apk/release/app-release.apk
@@ -60,6 +69,6 @@ jobs:
         with:
           name: android-demo-apk
           path: |
-            apps/mobile/android/app/build/outputs/apk/release/*.apk
-            artifacts/android/android-build.json
+            codes/apps/mobile/android/app/build/outputs/apk/release/*.apk
+            codes/artifacts/android/android-build.json
           retention-days: 7
