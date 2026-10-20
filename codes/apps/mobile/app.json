@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "An Tâm Hospital Guide",
+    "slug": "an-tam-hospital-guide",
+    "version": "1.0.0",
+    "scheme": "hguide",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {"package": "vn.edu.cnpm.hospitalguide", "versionCode": 1, "permissions": ["CAMERA"], "blockedPermissions": ["android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.SYSTEM_ALERT_WINDOW"], "allowBackup": false},
+    "ios": {"bundleIdentifier": "vn.edu.cnpm.hospitalguide", "supportsTablet": true},
+    "plugins": [["expo-camera", {"cameraPermission": "Cho phép An Tâm quét mã QR trên phiếu khám.", "recordAudioAndroid": false}], "expo-secure-store", "./plugins/withLocalNetwork.cjs"]
+  }
+}

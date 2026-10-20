@@ -1,0 +1,7 @@
+services:
+  api:
+    environment:
+      Web__AdditionalOrigins__0: http://${LAN_IP:?Set LAN_IP in .env}:${WEB_PORT:-5180}
+  web:
+    # Compose merges this binding with the localhost binding in compose.yaml.
+    ports: ['${LAN_IP:?Set LAN_IP in .env}:${WEB_PORT:-5180}:80']

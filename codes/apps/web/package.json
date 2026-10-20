@@ -1,0 +1,26 @@
+{
+  "name": "@hospital/web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hospital/shared": "1.0.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "lucide-react": "1.57.0",
+    "qrcode.react": "4.2.0",
+    "@zxing/browser": "0.1.5",
+    "@zxing/library": "0.21.3"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "@vitejs/plugin-react": "6.1.2",
+    "vite": "8.3.4"
+  }
+}
