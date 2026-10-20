@@ -1,0 +1,42 @@
+name: cnpm-guidance
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server@sha256:4402d880dd4c34bfa7d8705e56a86cd6c88da80a1f6bbbe741f999e76264a090
+    environment:
+      ACCEPT_EULA: 'Y'
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: ${SQL_PASSWORD:?Run scripts/setup/bootstrap.ps1 or bash scripts/setup/bootstrap.sh}
+    ports: ['127.0.0.1:${SQL_PORT:-14339}:1433']
+    volumes: [sql-data:/var/opt/mssql]
+    healthcheck:
+      test: ['CMD-SHELL', '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -Q "SELECT 1" -b -o /dev/null']
+      interval: 5s
+      timeout: 5s
+      retries: 40
+  api:
+    build: {context: ., dockerfile: backend/Dockerfile}
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__Hospital: Server=sql;Database=${DATABASE_NAME:-HospitalGuidance};User Id=sa;Password=${SQL_PASSWORD};TrustServerCertificate=true
+      Demo__Enabled: 'true'
+      Demo__Password: ${DEMO_PASSWORD:?Run scripts/setup/bootstrap.ps1 or bash scripts/setup/bootstrap.sh}
+      Web__Origin: http://localhost:${WEB_PORT:-5180}
+    ports: ['127.0.0.1:${API_PORT:-5280}:8080']
+    depends_on:
+      sql: {condition: service_healthy}
+    volumes: [api-keys:/root/.aspnet/DataProtection-Keys]
+  web:
+    build: {context: ., dockerfile: apps/web/Dockerfile}
+    ports: ['127.0.0.1:${WEB_PORT:-5180}:80']
+    depends_on: [api]
+    # Wait for the proxy, API and seeded database, not just the nginx process.
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -q -O /dev/null http://127.0.0.1/api/config']
+      interval: 5s
+      timeout: 5s
+      start_period: 30s
+      retries: 30
+volumes:
+  sql-data:
+  api-keys:

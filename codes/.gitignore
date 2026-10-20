@@ -1,0 +1,48 @@
+# Local configuration and credentials (templates are safe to commit).
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.jks
+*.keystore
+
+# Local SDKs, runtime state and generated output.
+.local/
+.gradle-cache/
+**/.gradle/
+**/.cxx/
+**/__pycache__/
+*.py[cod]
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/.expo/
+apps/mobile/android/
+apps/mobile/ios/
+**/test-results/
+**/playwright-report/
+*.user
+*.log
+artifacts/
+*.apk
+*.aab
+
+# Historical generated reports (new runs write to artifacts/).
+/docs/evidence/
+/docs/reports/
+
+# Retired files are kept locally; only the archive index is published.
+/archive/*
+!/archive/README.md
+!/archive/MANIFEST.md
+
+# Editor and OS files.
+.vs/
+.idea/
+*.suo
+.DS_Store
+Thumbs.db

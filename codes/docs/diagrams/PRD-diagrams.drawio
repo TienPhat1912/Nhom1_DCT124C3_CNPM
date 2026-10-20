@@ -1,0 +1,1272 @@
+<mxfile host="app.diagrams.net" compressed="false" pages="13">
+  <diagram id="D01" name="D01 Component architecture">
+    <mxGraphModel dx="1873" dy="1022" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1650" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" value="&lt;b&gt;D01  Component architecture&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="1620" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="clients" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=15;align=left;verticalAlign=top;spacingTop=12;spacingLeft=14;fontStyle=1;" value="CLIENT APPLICATIONS" vertex="1">
+          <mxGeometry height="200" width="1620" x="40" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="mobile" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Patient App&lt;br&gt;React Native" vertex="1">
+          <mxGeometry height="90" width="330" x="80" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="patientweb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Patient Web&lt;br&gt;React.js" vertex="1">
+          <mxGeometry height="90" width="330" x="480" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="staffweb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Staff Doctor Cashier Web&lt;br&gt;React.js" vertex="1">
+          <mxGeometry height="90" width="330" x="880" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="adminweb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Administrator Web&lt;br&gt;React.js" vertex="1">
+          <mxGeometry height="90" width="330" x="1280" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="&lt;b&gt;Backend API&lt;/b&gt;&lt;br&gt;Authorization and request handling" vertex="1">
+          <mxGeometry height="90" width="400" x="650" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="mobile" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" target="api" value="HTTPS">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="patientweb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" target="api" value="HTTPS">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="staffweb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" target="api" value="HTTPS">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="adminweb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" target="api" value="HTTPS">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="modules" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=15;align=left;verticalAlign=top;spacingTop=12;spacingLeft=14;fontStyle=1;" value="MODULAR BACKEND" vertex="1">
+          <mxGeometry height="740" width="1620" x="40" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="identity" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Identity and access&lt;br&gt;Accounts, guests, grants" vertex="1">
+          <mxGeometry height="95" width="440" x="90" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" target="identity" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reception" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Reception and QR&lt;br&gt;Requests and tickets" vertex="1">
+          <mxGeometry height="95" width="440" x="625" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" target="reception" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Visit and events&lt;br&gt;Guarded final closure" vertex="1">
+          <mxGeometry height="95" width="440" x="1160" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" target="visit" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="journey" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Journey and workflow&lt;br&gt;Orders and step transitions" vertex="1">
+          <mxGeometry height="95" width="440" x="90" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" target="journey" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="clinical" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Doctor content&lt;br&gt;Drafts, publication, versions" vertex="1">
+          <mxGeometry height="95" width="440" x="625" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" target="clinical" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="localization" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Localization and narration&lt;br&gt;Approved text and TTS" vertex="1">
+          <mxGeometry height="95" width="440" x="1160" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" target="localization" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="navigation" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Navigation&lt;br&gt;Routes and destination text" vertex="1">
+          <mxGeometry height="95" width="440" x="90" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" target="navigation" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="queue" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Queue and notifications&lt;br&gt;Confirmed status and updates" vertex="1">
+          <mxGeometry height="95" width="440" x="625" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" target="queue" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="assistance" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Assistance&lt;br&gt;Scoped staff support" vertex="1">
+          <mxGeometry height="95" width="440" x="1160" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" target="assistance" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="config" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="Administration&lt;br&gt;Validated configuration" vertex="1">
+          <mxGeometry height="95" width="440" x="90" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" target="config" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="db" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=16;boundedLbl=1;backgroundOutline=1;size=15;" value="Relational application database" vertex="1">
+          <mxGeometry height="100" width="410" x="460" y="1310" as="geometry" />
+        </mxCell>
+        <mxCell id="external" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" value="External adapters&lt;br&gt;Identity and appointments&lt;br&gt;Service/queue and settlement&lt;br&gt;Approved clinical source and TTS" vertex="1">
+          <mxGeometry height="140" width="520" x="1050" y="1300" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="journey" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" target="visit" value="closure guard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="visit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" target="journey" value="closure outcome">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="clinical" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" target="localization" value="published version">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;" target="db" value="through persistence module">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;" target="external" value="authorized contracts">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="boundary" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" value="Both patient channels share the same records. Client changes, repeated QR scans and account linking do not create a new Visit." vertex="1">
+          <mxGeometry height="90" width="1490" x="80" y="1480" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D02" name="D02 Identity reception and Visit ERD">
+    <mxGraphModel dx="1750" dy="1840" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1750" pageHeight="1840" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D02  Identity reception and Visit ERD&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1670" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="patient" value="&lt;b&gt;Patient&lt;/b&gt;&lt;hr&gt;patient_id PK&lt;br&gt;preferred_language&lt;br&gt;permitted profile data" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="150" width="315" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="account" value="&lt;b&gt;PatientAccount&lt;/b&gt;&lt;hr&gt;account_id PK&lt;br&gt;patient_id FK UNIQUE&lt;br&gt;verified identity" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="490" y="150" width="315" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="external" value="&lt;b&gt;ExternalAccount&lt;/b&gt;&lt;hr&gt;external_account_id PK&lt;br&gt;patient_id FK&lt;br&gt;provider + external_ref UNIQUE" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="910" y="150" width="315" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="guest" value="&lt;b&gt;GuestSession&lt;/b&gt;&lt;hr&gt;guest_session_id PK&lt;br&gt;patient_id FK&lt;br&gt;expires_at, status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="150" width="315" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="appointment" value="&lt;b&gt;Appointment&lt;/b&gt;&lt;hr&gt;appointment_id PK&lt;br&gt;patient_id FK&lt;br&gt;provider, external_ref, status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="450" width="315" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="request" value="&lt;b&gt;RegistrationRequest&lt;/b&gt;&lt;hr&gt;request_id PK&lt;br&gt;patient_id FK&lt;br&gt;status, submitted information" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="490" y="450" width="315" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="reception" value="&lt;b&gt;ReceptionRecord&lt;/b&gt;&lt;hr&gt;reception_id PK&lt;br&gt;patient_id FK&lt;br&gt;appointment_id OR request_id&lt;br&gt;source and attendee verified&lt;br&gt;confirmed_by, confirmed_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="910" y="450" width="315" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="staff" value="&lt;b&gt;StaffUser&lt;/b&gt;&lt;hr&gt;staff_id PK&lt;br&gt;role and permission scope&lt;br&gt;active status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="450" width="315" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" value="&lt;b&gt;Visit&lt;/b&gt;&lt;hr&gt;visit_id PK&lt;br&gt;patient_id FK&lt;br&gt;reception_id FK UNIQUE&lt;br&gt;appointment_id FK nullable&lt;br&gt;status: Active / Closed&lt;br&gt;opened_at, closed_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="490" y="850" width="315" height="166" as="geometry" />
+        </mxCell>
+        <mxCell id="ticket" value="&lt;b&gt;ExaminationTicket&lt;/b&gt;&lt;hr&gt;ticket_id PK&lt;br&gt;visit_id FK UNIQUE&lt;br&gt;reception_id FK&lt;br&gt;current code reference" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="910" y="850" width="315" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="qr" value="&lt;b&gt;QRCode&lt;/b&gt;&lt;hr&gt;code_id PK&lt;br&gt;purpose, opaque reference/hash&lt;br&gt;target reference, expiry, status&lt;br&gt;reception OR ticket purpose" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="850" width="315" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="journey" value="&lt;b&gt;PatientJourney&lt;/b&gt;&lt;hr&gt;journey_id PK&lt;br&gt;visit_id FK UNIQUE&lt;br&gt;status, activated_at&lt;br&gt;completed_at, completion_source" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1250" width="315" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="grant" value="&lt;b&gt;AccessGrant&lt;/b&gt;&lt;hr&gt;grant_id PK&lt;br&gt;visit_id FK&lt;br&gt;account OR guest subject&lt;br&gt;scope, expiry, status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="490" y="1250" width="315" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="event" value="&lt;b&gt;VisitEvent&lt;/b&gt;&lt;hr&gt;event_id PK&lt;br&gt;visit_id FK&lt;br&gt;source + source_event_id UNIQUE&lt;br&gt;type, actor, recorded_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="910" y="1250" width="315" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="1 : 0..1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="patient" target="account">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="1 : 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="patient" target="external">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="1 : 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="patient" target="guest">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="1 : 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="patient" target="appointment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="1 : 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="patient" target="request">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="booking source" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="appointment" target="reception">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="walk-in source" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="request" target="reception">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="confirms" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="staff" target="reception">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="1 : 1 after confirmation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="reception" target="visit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="1 : 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="patient" target="visit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="1 : 1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="visit" target="ticket">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="1 : 1..* code versions" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="ticket" target="qr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="1 : 1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="visit" target="journey">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="1 : 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="visit" target="grant">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="1 : 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="visit" target="event">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="account subject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="account" target="grant">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="guest subject" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="guest" target="grant">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="notes" value="Integrity: one confirmed reception source creates one Visit and one ticket. Account conversion preserves the existing patient, Visit and Journey identifiers. A public hospital-entry QR is a configured entry route and conveys no patient access." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1660" width="1550" height="110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D03" name="D03 Workflow and clinical content ERD">
+    <mxGraphModel dx="1800" dy="2180" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="2180" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D03  Workflow and clinical content ERD&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1720" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" value="&lt;b&gt;Visit&lt;/b&gt;&lt;hr&gt;visit_id PK&lt;br&gt;patient_id FK&lt;br&gt;Active / Closed" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="150" width="330" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="journey" value="&lt;b&gt;PatientJourney&lt;/b&gt;&lt;hr&gt;journey_id PK&lt;br&gt;visit_id FK UNIQUE&lt;br&gt;independent guidance status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="490" y="150" width="330" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="order" value="&lt;b&gt;DoctorOrder&lt;/b&gt;&lt;hr&gt;order_id PK&lt;br&gt;visit_id FK&lt;br&gt;service_id FK, ordered_by&lt;br&gt;status, version" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="910" y="150" width="330" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="service" value="&lt;b&gt;HospitalService&lt;/b&gt;&lt;hr&gt;service_id PK&lt;br&gt;department_id FK&lt;br&gt;location_id FK&lt;br&gt;supported mapping" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="150" width="330" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="summary" value="&lt;b&gt;DoctorSummary&lt;/b&gt;&lt;hr&gt;summary_id PK&lt;br&gt;visit_id FK&lt;br&gt;current_published_version_id" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="530" width="330" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="step" value="&lt;b&gt;JourneyStep&lt;/b&gt;&lt;hr&gt;step_id PK, journey_id FK&lt;br&gt;order_id FK nullable&lt;br&gt;service_id / location_id nullable&lt;br&gt;sequence, status&lt;br&gt;completion_authority" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="490" y="530" width="330" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="mapping" value="&lt;b&gt;WorkflowMapping&lt;/b&gt;&lt;hr&gt;mapping_id PK&lt;br&gt;service/event key, version&lt;br&gt;prerequisites and destination&lt;br&gt;completion permissions" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="910" y="530" width="330" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="location" value="&lt;b&gt;Location&lt;/b&gt;&lt;hr&gt;location_id PK&lt;br&gt;department_id FK&lt;br&gt;building, floor, room" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="530" width="330" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="version" value="&lt;b&gt;SummaryVersion&lt;/b&gt;&lt;hr&gt;version_id PK, summary_id FK&lt;br&gt;diagnosis, explanation&lt;br&gt;care instructions, author&lt;br&gt;Draft / Published / Superseded&lt;br&gt;published_at, version_no" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="980" width="330" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="dependency" value="&lt;b&gt;StepDependency&lt;/b&gt;&lt;hr&gt;step_id FK&lt;br&gt;prerequisite_step_id FK&lt;br&gt;unique pair; no cycles" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="490" y="980" width="330" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="followup" value="&lt;b&gt;FollowUpRecommendation&lt;/b&gt;&lt;hr&gt;recommendation_id PK&lt;br&gt;visit_id FK, author&lt;br&gt;department, date/interval&lt;br&gt;status, booking reference nullable" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="910" y="980" width="330" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="queue" value="&lt;b&gt;QueueTicket&lt;/b&gt;&lt;hr&gt;queue_id PK&lt;br&gt;visit_id FK, step_id nullable&lt;br&gt;number, status, updated_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="980" width="330" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="translation" value="&lt;b&gt;SummaryTranslation&lt;/b&gt;&lt;hr&gt;translation_id PK&lt;br&gt;source_version_id FK&lt;br&gt;language, content&lt;br&gt;approval metadata" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1410" width="330" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="audio" value="&lt;b&gt;NarrationAsset&lt;/b&gt;&lt;hr&gt;asset_id PK&lt;br&gt;content identity + version&lt;br&gt;language, provider, status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="490" y="1410" width="330" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="assistance" value="&lt;b&gt;AssistanceRequest&lt;/b&gt;&lt;hr&gt;assistance_id PK, patient_id FK&lt;br&gt;request_id / visit_id nullable&lt;br&gt;step_id nullable&lt;br&gt;category, status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="910" y="1410" width="330" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="template" value="&lt;b&gt;NarrationTemplate&lt;/b&gt;&lt;hr&gt;template_id PK&lt;br&gt;event_key, version, language&lt;br&gt;approved content&lt;br&gt;publication status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="1410" width="330" height="124" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="1 : 1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="visit" target="journey">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="1 : 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="visit" target="order">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="1 : 1..* generated steps" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="order" target="step">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="1 : 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="service" target="order">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="1 : 1..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="journey" target="step">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="supported mapping versions" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="service" target="mapping">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="applied version" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="mapping" target="step">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="destination" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="location" target="step">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="dependent step" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="step" target="dependency">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="prerequisite step" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="dependency" target="step">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="1 : 0..1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="visit" target="summary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="1 : 1..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="summary" target="version">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="1 : 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="version" target="translation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="version-bound narration" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="version" target="audio">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="approved language content" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="translation" target="audio">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="1 : 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="visit" target="followup">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="0..* queue records" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="step" target="queue">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="optional context" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="step" target="assistance">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" value="version-bound narration" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;startArrow=none;" edge="1" parent="1" source="template" target="audio">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="notes" value="Critical links: DoctorOrder identifies exactly which Journey steps it generated. SummaryTranslation and NarrationAsset refer to a specific approved source version. Follow-up is independent of diagnosis/instruction visibility. Operational completion authority differs from patient pharmacy-guidance completion." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1900" width="1620" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D04" name="D04 Deployment architecture">
+    <mxGraphModel dx="1700" dy="1500" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D04  Deployment architecture&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1620" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="patientdevice" value="Patient device&lt;br&gt;React Native app&lt;br&gt;or patient web browser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="160" width="390" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="staffdevice" value="Hospital workstation&lt;br&gt;Staff doctor cashier&lt;br&gt;and admin browser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="650" y="160" width="390" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="cicd" value="Source repository&lt;br&gt;Automated build and checks&lt;br&gt;Deployment artifacts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="160" width="390" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="hosting" value="Web hosting&lt;br&gt;React.js static assets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="420" y="440" width="420" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="api" value="Application server&lt;br&gt;Backend API and modular services" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="450" y="770" width="600" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="mobilebuild" value="Supported mobile build&lt;br&gt;Installation/distribution artifact" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="450" width="420" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="load web assets" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="patientdevice" target="hosting">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="load web assets" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="staffdevice" target="hosting">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="HTTPS API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="patientdevice" target="api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="HTTPS API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="staffdevice" target="api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="deploy" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;" edge="1" parent="1" source="cicd" target="hosting">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="deploy" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;" edge="1" parent="1" source="cicd" target="api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="build" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;" edge="1" parent="1" source="cicd" target="mobilebuild">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="db" value="Relational database&lt;br&gt;Durable records and audit" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=15;size=15;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1080" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="external" value="Authorized hospital adapters&lt;br&gt;Identity and appointment&lt;br&gt;Queue/service and settlement&lt;br&gt;Doctor source content" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="570" y="1080" width="470" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="providers" value="Content and delivery providers&lt;br&gt;Approved language resources&lt;br&gt;TTS and optional push" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="1080" width="440" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="protected database connection" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="api" target="db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="verified contracts / events" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="api" target="external">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="api" target="providers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="note" value="Browsers execute the web application and call the backend API directly. Hosting serves assets. Session, scope and ownership checks remain on the backend. Provider credentials are deployment secrets." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1320" width="1520" height="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D05" name="D05 End to end business workflow">
+    <mxGraphModel dx="1700" dy="2600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="2600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D05  End to end business workflow&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1620" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="app" value="Open installed patient app" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="130" y="140" width="400" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="hospitalqr" value="Scan public hospital QR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="140" width="400" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="route" value="Open associated app if supported&lt;br&gt;otherwise patient web" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="290" width="400" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="entry" value="Select language&lt;br&gt;Sign in / Register / Continue as guest&lt;br&gt;Reuse an existing valid account session" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="590" y="470" width="510" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="booked" value="Usable linked appointment?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="660" y="670" width="370" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="apt" value="Select and confirm appointment&lt;br&gt;Prepare booked reception QR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="130" y="880" width="490" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="walkin" value="Enter personal/contact information&lt;br&gt;condition description and requests&lt;br&gt;Persist walk-in request and reception QR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="870" width="510" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="counter" value="Staff scans reception QR&lt;br&gt;Verifies booking/attendee or reviews request&lt;br&gt;Confirms routing and reception" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1080" width="570" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="ticket" value="Create Active Visit&lt;br&gt;Prepare Pending Activation Journey&lt;br&gt;Issue examination ticket with QR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1290" width="570" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="scan" value="Patient scans ticket QR&lt;br&gt;Verify access and activate/resume existing Journey" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1490" width="570" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="clinical" value="Consultation and ordered services&lt;br&gt;Authorized progress and required return consultation&lt;br&gt;Doctor may publish summary and care instructions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1680" width="570" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="close" value="Clinical work resolved + final settlement confirmed&lt;br&gt;System closes Visit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="1910" width="570" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="pharmacy" value="Pharmacy guidance required?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="660" y="2070" width="370" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="pharmguide" value="Continue Journey to pharmacy&lt;br&gt;Patient confirms final guidance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="2220" width="480" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="finish" value="Journey Completed&lt;br&gt;Show doctor content and optional guest account invitation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="2240" width="580" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="app" target="entry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="hospitalqr" target="route">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="route" target="entry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="entry" target="booked">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="booked" target="apt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="No / standard guest path" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="booked" target="walkin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="apt" target="counter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="walkin" target="counter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="confirmed" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="counter" target="ticket">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="ticket" target="scan">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="scan" target="clinical">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="clinical" target="close">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="close" target="pharmacy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="pharmacy" target="pharmguide">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="No: automatic completion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="pharmacy" target="finish">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="eligible patient confirmation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="pharmguide" target="finish">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="note" value="Public entry and reception QR preparation do not create a Visit. Repeated ticket scans and guest registration preserve the same Visit/Journey. Doctor content can be reviewed once published, independently of settlement or Journey completion." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="2440" width="1530" height="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D06" name="D06 Patient use cases">
+    <mxGraphModel dx="1750" dy="1880" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1750" pageHeight="1880" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D06  Patient use cases&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1670" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="boundary" value="Hospital Visit Narration and Guidance System" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=15;align=left;verticalAlign=top;spacingTop=12;spacingLeft=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="120" width="1380" height="1650" as="geometry" />
+        </mxCell>
+        <mxCell id="patient" value="Patient&lt;br&gt;account or verified guest" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="70" y="820" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="uc1" value="UC-01 Authenticate or Register Patient" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="410" y="210" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc2" value="UC-02 Retrieve and Confirm Existing Appointment" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="410" y="400" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc3" value="UC-03 Prepare Walk-in Registration" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="410" y="590" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc13" value="UC-13 Enter through Hospital QR" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="410" y="780" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc15" value="UC-15 Activate or Resume Patient Journey" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="410" y="970" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc4" value="UC-04 Follow Patient Journey" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="300" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc5" value="UC-05 Listen to Approved Narration" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="550" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc6" value="UC-06 Navigate to Destination" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="780" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc9" value="UC-09 Request Assistance" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1010" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc10" value="UC-10 View Visit History" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="410" y="1160" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc16" value="UC-16 Link Guest Records to an Account" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="410" y="1350" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc19" value="UC-19 Complete Patient Journey" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1290" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uc21" value="UC-21 Review Diagnosis Summary and Care Instructions" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1520" width="500" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="patient" target="uc21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="«extend» Listen" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc5" target="uc4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="«extend» Navigate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc6" target="uc4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="«extend» Help" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc9" target="uc4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="«extend» Replay" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc5" target="uc21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="«extend» Optional account" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="uc16" target="uc19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="note" value="Workflow precedence is described in Chapter 4; it is not encoded as include/extend. Guest access is limited by a verified grant. UC-16 also has an earlier voluntary entry point." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1780" width="1600" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D07" name="D07 Staff use cases">
+    <mxGraphModel dx="1750" dy="1640" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1750" pageHeight="1640" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D07  Staff use cases&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1670" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="boundary" value="Hospital Visit Narration and Guidance System" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=15;align=left;verticalAlign=top;spacingTop=12;spacingLeft=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="120" width="1340" height="1380" as="geometry" />
+        </mxCell>
+        <mxCell id="reception" value="Receptionist" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="280" width="170" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="doctor" value="Doctor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="630" width="170" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="service" value="Service staff" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="950" width="170" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="cashier" value="Cashier or verified&lt;br&gt;settlement source" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1160" width="170" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" value="Administrator" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1370" width="170" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="uc14" value="UC-14 Confirm Reception and Issue Examination Ticket" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="480" y="240" width="500" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="uc8" value="UC-08 Send Structured Multilingual Instruction" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="240" width="500" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="uc7" value="UC-07 Manage Doctor Orders" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="480" y="550" width="500" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="uc20" value="UC-20 Publish Diagnosis Summary and Care Instructions" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="550" width="500" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="uc11" value="UC-11 Manage Follow-up Recommendation" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="780" width="500" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="uc17" value="UC-17 Record Consultation and Service Progress" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="480" y="950" width="500" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="uc18" value="UC-18 Record Final Settlement and Close Visit" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="480" y="1160" width="500" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="uc12" value="UC-12 Configure Hospital Workflow and Content" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontFamily=Arial;fontSize=13;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="1330" width="500" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="reception" target="uc14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="reception" target="uc8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="doctor" target="uc7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="doctor" target="uc20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="doctor" target="uc11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="doctor" target="uc17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="service" target="uc17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="cashier" target="uc18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=none;edgeStyle=none;" edge="1" parent="1" source="admin" target="uc12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="note" value="Each actor is checked against role and record/department scope. Pharmacy staff has no additional Journey-completion action. Hospital decisions and source systems remain authoritative for clinical and settlement outcomes." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1520" width="1620" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D08" name="D08 Reception activity">
+    <mxGraphModel dx="1600" dy="2450" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="2450" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D08  Reception activity&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1520" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="start" value="Reception QR presented" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="590" y="130" width="400" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="validate" value="Validate code purpose, status and staff access" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="490" y="290" width="530" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="valid" value="Valid reception context?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="610" y="450" width="380" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="recover" value="Show error / verified recovery&lt;br&gt;No Visit created" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="630" width="400" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="kind" value="Booked or walk-in?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="610" y="680" width="380" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="booking" value="Verify booking and attendee" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="880" width="400" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="review" value="Review existing Registration Request" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="160" y="880" width="400" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="complete" value="Information complete?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="180" y="1050" width="380" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="supplement" value="Send approved question&lt;br&gt;Patient updates SAME request" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1250" width="400" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ready" value="Reception verified and approved?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="610" y="1390" width="380" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="pending" value="Keep unresolved / staff assistance&lt;br&gt;No Visit created" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="1580" width="400" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="duplicate" value="Already confirmed?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="610" y="1580" width="380" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="reuse" value="Return existing Visit and ticket" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="1780" width="400" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="create" value="Atomic confirmation&lt;br&gt;Create Visit + Journey + examination ticket" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="480" y="1810" width="530" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="print" value="Issue or reprint SAME ticket&lt;br&gt;Patient scans ticket QR next" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="480" y="2050" width="530" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="end" value="Reception finished" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="590" y="2240" width="400" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="start" target="validate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="validate" target="valid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="valid" target="recover">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="valid" target="kind">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Booked" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="kind" target="booking">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="Walk-in" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="kind" target="review">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="review" target="complete">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="complete" target="supplement">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="Update existing request; review again" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="supplement" target="review">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="complete" target="ready">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="booking" target="ready">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="Not yet" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="ready" target="pending">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="ready" target="duplicate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="duplicate" target="reuse">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="duplicate" target="create">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="commit succeeded" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="create" target="print">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="reuse" target="print">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="print" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="note" value="A failed transaction does not report successful issuance. Printing retry reuses the stored ticket. Supplementing information never passes through a new-request creation step." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="2360" width="1470" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D09" name="D09 Journey activity">
+    <mxGraphModel dx="1700" dy="2900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="2900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D09  Journey activity&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1620" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="scan" value="Authorized ticket scan or Journey reopen" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="550" y="140" width="500" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="load" value="Load SAME Visit and Journey&lt;br&gt;including hospital events recorded before activation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="550" y="310" width="500" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="finished" value="Journey already Completed?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="650" y="490" width="380" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="history" value="Show completed record&lt;br&gt;and published doctor content" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="670" width="500" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="closed" value="Visit Closed?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="650" y="710" width="380" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="guide" value="Show current operational instruction&lt;br&gt;queue and destination" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="900" width="500" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="event" value="Authorized clinical / order / service event&lt;br&gt;updates operational progress" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="1090" width="500" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="closure" value="Clinical work resolved and&lt;br&gt;current final settlement confirmed?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1300" width="380" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="close" value="System closes Visit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1530" width="500" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="pharmacy" value="Pharmacy guidance remains?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="650" y="1740" width="380" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="pharm" value="Keep Journey available&lt;br&gt;Show pharmacy destination" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="1940" width="500" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="patientdone" value="Patient chooses Complete Journey&lt;br&gt;at eligible final guidance step" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="2140" width="500" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="complete" value="Mark Journey Completed&lt;br&gt;record completion source" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="550" y="2300" width="500" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="guest" value="Guest context?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFF5D6;strokeColor=#6B5A2F;fontFamily=Arial;fontSize=13;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="670" y="2460" width="380" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="offer" value="Optional Register or Skip&lt;br&gt;verified account link keeps SAME records" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="2570" width="500" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="scan" target="load">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="load" target="finished">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="finished" target="history">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="finished" target="closed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="closed" target="guide">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="guide" target="event">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="event" target="closure">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="No: continue required work" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="closure" target="guide">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="closure" target="close">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="close" target="pharmacy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="Yes: allow remaining guidance" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="closed" target="pharmacy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="pharmacy" target="pharm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="pharm" target="patientdone">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="patientdone" target="complete">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" value="No: automatic" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="pharmacy" target="complete">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="complete" target="guest">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="guest" target="offer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="done" value="Display completed Visit and permitted content" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F6FA;strokeColor=#334155;fontColor=#111827;fontFamily=Arial;fontSize=14;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="2730" width="560" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="guest" target="done">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" value="Skip or account linking completed" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="offer" target="done">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="note" value="Closing the app, session expiry or account registration does not complete an unfinished Journey. Pharmacy confirmation is by the patient for guidance only; no pharmacy employee action is required." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="1500" width="880" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D10" name="D10 Ticket activation sequence">
+    <mxGraphModel dx="1750" dy="1900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1750" pageHeight="1900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D10  Ticket activation sequence&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1670" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="client" value="Patient app / web" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="80" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="client_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="224" y="205" width="2" height="1455" as="geometry" />
+        </mxCell>
+        <mxCell id="access" value="Access service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="420" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="access_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="564" y="205" width="2" height="1455" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" value="Visit service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="760" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="visit_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="904" y="205" width="2" height="1455" as="geometry" />
+        </mxCell>
+        <mxCell id="journey" value="Journey service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="journey_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1244" y="205" width="2" height="1455" as="geometry" />
+        </mxCell>
+        <mxCell id="db" value="Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="db_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1584" y="205" width="2" height="1455" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="1. Redeem ticket code with current identity/context" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.09965635738831616;entryX=0.5;entryY=0.09965635738831616;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="client_life" target="access_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="2. Validate purpose, expiry and ownership/grant" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.17525773195876287;entryX=0.5;entryY=0.17525773195876287;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="access_life" target="db_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="3. Verified target Visit or denied result" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.2508591065292096;entryX=0.5;entryY=0.2508591065292096;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="db_life" target="access_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="4. Load existing ticket Visit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.32646048109965636;entryX=0.5;entryY=0.32646048109965636;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="access_life" target="visit_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="5. Read Visit and reception identity" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.4020618556701031;entryX=0.5;entryY=0.4020618556701031;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="visit_life" target="db_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="6. Existing Active or Closed Visit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.47766323024054985;entryX=0.5;entryY=0.47766323024054985;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="db_life" target="visit_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="7. Activate or resume same Journey" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.5532646048109966;entryX=0.5;entryY=0.5532646048109966;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="visit_life" target="journey_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="8. Load events; conditionally activate; keep progress" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.6288659793814433;entryX=0.5;entryY=0.6288659793814433;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="journey_life" target="db_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="9. Current confirmed Journey state" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.7044673539518901;entryX=0.5;entryY=0.7044673539518901;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="db_life" target="journey_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="10. Guidance or completed record" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.7800687285223368;entryX=0.5;entryY=0.7800687285223368;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="journey_life" target="visit_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="11. Authorized current response" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.8556701030927835;entryX=0.5;entryY=0.8556701030927835;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="visit_life" target="access_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="12. Show current Journey / history" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.9312714776632303;entryX=0.5;entryY=0.9312714776632303;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="access_life" target="client_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="notes" value="Failure branch: invalid code or unmatched claimant returns an error/verified recovery before record disclosure. Repeated authorized redemption is idempotent. Closed Visit access remains valid for pharmacy guidance. This sequence contains no Visit creation operation." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1710" width="1610" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D11" name="D11 Doctor order sequence">
+    <mxGraphModel dx="1750" dy="1570" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1750" pageHeight="1570" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D11  Doctor order sequence&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1670" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="doctor" value="Doctor web" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="80" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="doctor_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="224" y="205" width="2" height="1125" as="geometry" />
+        </mxCell>
+        <mxCell id="api" value="Backend API" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="420" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="api_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="564" y="205" width="2" height="1125" as="geometry" />
+        </mxCell>
+        <mxCell id="workflow" value="Journey workflow service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="760" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="workflow_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="904" y="205" width="2" height="1125" as="geometry" />
+        </mxCell>
+        <mxCell id="db" value="Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="db_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1244" y="205" width="2" height="1125" as="geometry" />
+        </mxCell>
+        <mxCell id="patient" value="Patient app / web" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="patient_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1584" y="205" width="2" height="1125" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="1. Submit supported order/change" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.1288888888888889;entryX=0.5;entryY=0.1288888888888889;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="doctor_life" target="api_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="2. Check doctor responsibility and Active Visit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.22666666666666666;entryX=0.5;entryY=0.22666666666666666;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="api_life" target="db_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="3. Authorized current Visit and version" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.3244444444444444;entryX=0.5;entryY=0.3244444444444444;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="db_life" target="api_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="4. Validate service mapping and prerequisites" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.4222222222222222;entryX=0.5;entryY=0.4222222222222222;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="api_life" target="workflow_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="5. Atomically persist order and linked steps" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.52;entryX=0.5;entryY=0.52;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="workflow_life" target="db_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="6. Committed order/step versions" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.6177777777777778;entryX=0.5;entryY=0.6177777777777778;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="db_life" target="workflow_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="7. Recomputed next action and readiness" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.7155555555555555;entryX=0.5;entryY=0.7155555555555555;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="workflow_life" target="api_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="8. Confirm accepted order change" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.8133333333333334;entryX=0.5;entryY=0.8133333333333334;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="api_life" target="doctor_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="9. Notify/refresh confirmed Journey" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.9111111111111111;entryX=0.5;entryY=0.9111111111111111;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="api_life" target="patient_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="notes" value="Failure branch: missing mapping rejects the executable order before commit. Concurrency/retries use version checks and event identity. Completed service facts are retained. Changing required work revalidates clinical readiness and current settlement eligibility." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1380" width="1610" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D12" name="D12 Publication and replay sequence">
+    <mxGraphModel dx="1750" dy="1900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1750" pageHeight="1900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D12  Publication and replay sequence&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1670" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="doctor" value="Doctor web" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="80" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="doctor_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="224" y="205" width="2" height="1455" as="geometry" />
+        </mxCell>
+        <mxCell id="api" value="Backend API and content service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="420" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="api_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="564" y="205" width="2" height="1455" as="geometry" />
+        </mxCell>
+        <mxCell id="db" value="Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="760" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="db_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="904" y="205" width="2" height="1455" as="geometry" />
+        </mxCell>
+        <mxCell id="patient" value="Patient app / web" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="patient_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1244" y="205" width="2" height="1455" as="geometry" />
+        </mxCell>
+        <mxCell id="tts" value="TTS provider" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontSize=14;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="130" width="290" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="tts_life" value="" style="shape=line;direction=south;dashed=1;strokeColor=#64748B;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="1584" y="205" width="2" height="1455" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="1. Publish reviewed summary/instructions" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.09965635738831616;entryX=0.5;entryY=0.09965635738831616;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="doctor_life" target="api_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="2. Verify doctor; save Published version and source links" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.17525773195876287;entryX=0.5;entryY=0.17525773195876287;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="api_life" target="db_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="3. Committed version identifier" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.2508591065292096;entryX=0.5;entryY=0.2508591065292096;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="db_life" target="api_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="4. Notify content availability" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.32646048109965636;entryX=0.5;entryY=0.32646048109965636;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="api_life" target="patient_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="5. Request current Visit content" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.4020618556701031;entryX=0.5;entryY=0.4020618556701031;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="patient_life" target="api_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="6. Authorize account/guest; resolve published version" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.47766323024054985;entryX=0.5;entryY=0.47766323024054985;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="api_life" target="db_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="7. Source text and approved language version" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.5532646048109966;entryX=0.5;entryY=0.5532646048109966;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="db_life" target="api_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="8. Readable text, author, version and language" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.6288659793814433;entryX=0.5;entryY=0.6288659793814433;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="api_life" target="patient_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="9. Listen to selected section" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.7044673539518901;entryX=0.5;entryY=0.7044673539518901;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="patient_life" target="api_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" value="10. Current permitted text (or use matching cache)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.7800687285223368;entryX=0.5;entryY=0.7800687285223368;exitPerimeter=0;entryPerimeter=0;endArrow=block;endFill=1;" edge="1" parent="1" source="api_life" target="tts_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="11. Audio or provider error" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.8556701030927835;entryX=0.5;entryY=0.8556701030927835;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="tts_life" target="api_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="12. Play current audio; retain text on failure" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;edgeStyle=none;exitX=0.5;exitY=0.9312714776632303;entryX=0.5;entryY=0.9312714776632303;exitPerimeter=0;entryPerimeter=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="api_life" target="patient_life">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="notes" value="Drafts are never returned to the patient. Review/replay does not require an Active Visit or Journey, only authorized access and Published content. A correction replaces the current published version and invalidates obsolete current-audio references; follow-up remains separate." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1710" width="1610" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="D13" name="D13 Visit and Journey states">
+    <mxGraphModel dx="1700" dy="1750" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1750" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;D13  Visit and Journey states&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=25;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1620" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="visitbox" value="VISIT LIFECYCLE" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=15;align=left;verticalAlign=top;spacingTop=12;spacingLeft=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="140" width="690" height="1110" as="geometry" />
+        </mxCell>
+        <mxCell id="journeybox" value="JOURNEY LIFECYCLE" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#94A3B8;dashed=1;fontFamily=Arial;fontSize=15;align=left;verticalAlign=top;spacingTop=12;spacingLeft=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="860" y="140" width="760" height="1110" as="geometry" />
+        </mxCell>
+        <mxCell id="none" value="No Visit" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="235" y="260" width="340" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="active" value="Active" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="235" y="570" width="340" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="closed" value="Closed" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="235" y="950" width="340" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="Reception confirmed and ticket issued" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="none" target="active">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="Authorized clinical/service progress&lt;br&gt;or intermediate payment" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="active" target="active">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="90" y="570" />
+              <mxPoint x="90" y="740" />
+              <mxPoint x="405" y="740" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" value="Required clinical work resolved&lt;br&gt;AND current final settlement confirmed" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="active" target="closed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pending" value="Pending Activation" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="260" width="360" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="jactive" value="Active" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="570" width="360" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="completed" value="Completed" style="ellipse;whiteSpace=wrap;html=1;fillColor=#E7EEF6;strokeColor=#334155;fontFamily=Arial;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="950" width="360" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="Authorized ticket scan with remaining guidance" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="pending" target="jactive">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Visit Closed AND&lt;br&gt;(no pharmacy guidance OR patient confirms&lt;br&gt;eligible final pharmacy guidance)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="jactive" target="completed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="Visit closes with no pharmacy guidance" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="pending" target="completed">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1530" y="310" />
+              <mxPoint x="1530" y="995" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" value="No pharmacy guidance: automatic completion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" edge="1" parent="1" source="closed" target="completed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="Pharmacy remains: retain guidance&lt;br&gt;and do not deny access" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#475569;strokeWidth=1.5;fontFamily=Arial;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;" edge="1" parent="1" source="closed" target="jactive">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state_notes" value="If pharmacy guidance remains before the first scan, Journey stays Pending Activation until an authorized scan. If already Active, it stays Active. Final settlement includes an authorized no-payment-required outcome; required clinical work must still be resolved. Visit closure never asserts medication dispensing." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="90" y="1320" width="1480" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="identity_notes" value="No state change solely from browser/app closure, session expiry, repeated QR scan or guest-to-account linking. Records remain stored. A later attendance creates a new Visit and Journey after a new reception confirmation." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFDF1;strokeColor=#C9B970;fontFamily=Arial;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="90" y="1510" width="1480" height="130" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
