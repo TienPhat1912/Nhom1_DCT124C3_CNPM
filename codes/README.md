@@ -1,106 +1,227 @@
-# Hospital Visit Guidance — demo PRD 4.1
+# An Tâm — Hệ thống hướng dẫn khám bệnh
 
-React/TypeScript cho bệnh nhân và năm vai trò nhân viên; React Native/Expo cho bệnh nhân; ASP.NET Core 9 + EF Core + SQLite. PRD gốc: [instruction/PRD_v3.docx](instruction/PRD_v3.docx), version **4.1 bên trong tài liệu**.
+Dự án môn Công nghệ phần mềm: hướng dẫn bệnh nhân từ tiếp nhận, khám, thực hiện dịch vụ đến quyết toán và nhận thuốc. Web có giao diện bệnh nhân và nhân viên theo vai trò; ứng dụng Android dành cho bệnh nhân. Hệ thống hỗ trợ tiếng Việt/Anh, QR, theo dõi hành trình và yêu cầu hỗ trợ.
 
-## Chạy demo Windows
+**Chạy demo: clone → tạo cấu hình → Docker Compose → mở web.** Không cần cài Node.js, .NET hoặc SQL Server trực tiếp khi chạy toàn bộ bằng Docker. Database được tạo và nạp dữ liệu mẫu tự động; các tích hợp với hệ thống bệnh viện bên ngoài đang dùng mô phỏng.
 
-Cần .NET SDK 9, Node 22.19 và Python 3.13. Chạy trong thư mục repository:
+## 1. Yêu cầu máy
 
-```powershell
-dotnet restore services/api --locked-mode
-npm.cmd ci --prefix apps/web
-./scripts/start-demo.ps1
+| Cách chạy | Công cụ cần cài |
+|---|---|
+| Demo web/API/database bằng Docker | Git; Docker Desktop ở chế độ **Linux containers** trên Windows, hoặc Docker Engine + Compose v2 trở lên trên Linux |
+| Phát triển từ mã nguồn | Các công cụ trên + **Node.js 22.19.0**, **npm 10.9.3**, **.NET SDK 10.0.400** |
+| Build Android (tùy chọn) | Node/npm + JDK 17, Android SDK 36; xem [hướng dẫn Android](docs/guides/ANDROID.md) |
+
+Luồng demo chính dành cho máy x64; cấu hình Windows/Linux dùng SQL Server container. Máy ARM/Apple Silicon chưa được kiểm chứng trong dự án. Nên dành khoảng 8 GB RAM và 15 GB đĩa trống cho demo; build Android cần thêm dung lượng SDK/cache. Lần đầu cần Internet để tải image và thư viện.
+
+Kiểm tra Docker đã sẵn sàng:
+
+```text
+git --version
+docker --version
+docker compose version
+docker info
 ```
 
-Mở **http://127.0.0.1:5173**. API: http://127.0.0.1:5047/health. Script build trước khi chạy, tạo JWT secret riêng trong `.artifacts/demo`, mở hai tiến trình nền và kiểm tra readiness. Không in secret ra terminal. Dừng demo trước khi build lại API trên Windows:
+Trên Windows, mở Docker Desktop và chờ engine chạy xong trước khi tiếp tục. Chạy các lệnh bên dưới từ thư mục gốc repository.
 
-```powershell
-./scripts/stop-demo.ps1
+## 2. Clone và chạy demo
+
+```bash
+git clone https://github.com/TienPhat1912/se-final-project.git
+cd se-final-project
 ```
 
-Database `services/api/hospital_visit.db` được giữ lại qua restart. Lần đầu chuyển database cũ từ EnsureCreated sang migrations, API kiểm tra schema và tạo `hospital_visit.db.before-migrations-*.db` trước khi thay đổi. Không xóa database để sửa lỗi migration. Logs phát triển nằm trong `.artifacts/demo`; chỉ chia sẻ sau khi kiểm tra thông tin nhạy cảm.
-
-## Tài khoản và kịch bản trình bày
-
-Mật khẩu chung của dữ liệu demo: **`Demo@123`**. Chọn đúng vai trò trên thanh đầu trang rồi đăng nhập. Dùng cửa sổ riêng hoặc browser profile riêng để trình bày đồng thời các vai trò.
-
-| Vai trò | Email |
-| --- | --- |
-| Bệnh nhân | `patient1@demo.com`, `patient2@demo.com` |
-| Tiếp nhận | `receptionist@hospital.demo` |
-| Bác sĩ | `doctor@hospital.demo` |
-| Xét nghiệm / hình ảnh | `labstaff@hospital.demo` |
-| Thu ngân | `cashier@hospital.demo` |
-| Quản trị | `admin@hospital.demo` |
-
-1. Bệnh nhân chọn **Tiếp tục với tư cách khách**, điền và gửi yêu cầu vãng lai. Lúc này chỉ có reception QR, chưa có Visit.
-2. Tiếp nhận nhập/quét mã `REC_…`, xem thông tin, chọn khoa Tim mạch và cấp phiếu. Có thể gửi câu hỏi đã duyệt; bệnh nhân trả lời trên cùng yêu cầu. Có thể tra mã lịch hẹn mang đến và xác minh người đến khám tại quầy.
-3. Bệnh nhân nhập/quét mã `TKT_…` trên phiếu. Journey được kích hoạt; quét lại giữ nguyên tiến độ.
-4. Bác sĩ chọn đúng lượt khám, thêm xét nghiệm, hoàn tất khám ban đầu; viết chẩn đoán và dặn dò, lưu nháp rồi công bố. Bệnh nhân đọc được ngay, trước thanh toán. Bản dịch EN chỉ dùng khi bác sĩ đánh dấu đã duyệt. Sửa nội dung đã công bố bằng lưu một bản nháp mới rồi công bố phiên bản mới.
-5. Nhân viên dịch vụ hoàn tất kết quả; bác sĩ hoàn tất khám lại; thu ngân ghi kết quả thanh toán cuối. Thanh toán giữa chừng không đóng Visit.
-6. Visit đã đóng vẫn còn Journey hướng dẫn nhà thuốc. Bệnh nhân chỉ xác nhận **hoàn tất hướng dẫn nhà thuốc**, không xác nhận phát thuốc chính thức. Sau đó xem lại lịch sử hoặc liên kết Guest với tài khoản mới/tài khoản chưa có hồ sơ xung đột.
-
-Nguồn lịch hẹn mô phỏng: tài khoản ngoài `demo-patient-001`, mật khẩu `AppointmentDemo@123`, lịch hẹn `APT-2026-001234`. Xác minh liên kết trong hồ sơ bệnh nhân trước khi tra tự động. Một external identity chỉ liên kết một bệnh nhân. Khách có thể mang mã lịch hẹn tới quầy để nhân viên xác minh.
-
-Khôi phục: bệnh nhân tạo phiên khách mới và cung cấp **mã phiên hỗ trợ**; tiếp nhận tìm lượt khám, xác minh trực tiếp người đến khám rồi cấp lại mã phiếu/gán phiên mới. Việc này giữ nguyên patient/Visit/Journey; mã và phiên cũ bị thay thế. Hồ sơ thuộc tài khoản yêu cầu đăng nhập đúng tài khoản.
-
-## App React Native
+**Windows — PowerShell:**
 
 ```powershell
-npm.cmd ci --prefix apps/mobile
-npm.cmd run typecheck --prefix apps/mobile
-npm.cmd run bundle --prefix apps/mobile
-cd apps/mobile
-$env:EXPO_PUBLIC_API_BASE_URL = 'http://10.0.2.2:5047'
-npm.cmd start
+powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/setup/bootstrap.ps1 -ConfigOnly
+docker compose up -d --build --wait --wait-timeout 180
 ```
 
-`10.0.2.2` dành cho Android emulator. Thiết bị thật cần API có địa chỉ mạng truy cập được; local script chỉ bind loopback. Chỉ cấu hình bind/LAN và firewall cho môi trường demo đã được phép. Máy có Android SDK/JDK có thể chạy `npm.cmd run android`. Expo Go cần bản tương thích SDK 57.
+**Linux — Bash** (script cũng chạy được trong Git Bash/macOS; hỗ trợ container còn phụ thuộc kiến trúc máy):
 
-App có UI native, camera và nhập mã dự phòng, SecureStore, deep link `hospitalguide://ticket/TKT_…`, Back, safe area, resume/polling, nội dung công bố và hai bộ playback riêng. Link web giữ nguyên `?ticket=…`; nút mở app chỉ hoạt động khi đã cài app. Public hospital QR dùng URL gốc của web, không chứa hồ sơ bệnh nhân. Domain association/universal links cần domain được cấp và chưa cấu hình.
+```bash
+bash scripts/setup/bootstrap.sh --config-only
+docker compose up -d --build --wait --wait-timeout 180
+```
 
-**Đã tạo Android JS/Hermes bundle; chưa tạo APK trên máy này.** Workflow Android tạo APK nội bộ sau CI đúng commit; chưa có bằng chứng runner chạy. iOS chưa build hoặc kiểm tra thiết bị. Android mục tiêu demo đầu tiên; chưa phát hành store. Camera/TTS native cần nghiệm thu trên emulator/thiết bị.
+Bootstrap tạo `.env` từ [.env.example](.env.example), sinh mật khẩu riêng và ghi thông tin đăng nhập vào `.local/demo-access.txt`. Chạy lại sẽ giữ nguyên `.env` hiện có. Không cần copy `.env` của thành viên khác. Nếu tự copy template, phải thay cả hai giá trị `REPLACE_WITH_...` trước khi chạy.
 
-## Kiểm thử
+Khi container đã chạy, mở:
+
+| Địa chỉ mặc định | Mục đích |
+|---|---|
+| http://localhost:5180 | Giao diện hệ thống |
+| http://localhost:5180/entry | Điểm vào công khai, QR bệnh viện |
+| http://127.0.0.1:5280/health | Kiểm tra API kết nối được SQL; trả `status: ok` |
+| http://localhost:5180/openapi/v1.json | Đặc tả API đang chạy |
+
+API có thể cần thêm vài giây để chạy migration và seed trong lần đầu. Kiểm tra bằng `docker compose ps` và `docker compose logs --tail=100 api`. SQL và API chỉ mở trực tiếp trên localhost; web chuyển tiếp `/api/` đến backend.
+
+### Tài khoản demo
+
+Mở file `.local/demo-access.txt` để lấy mật khẩu. Các tài khoản dưới đây dùng chung **mật khẩu demo được sinh trên máy của bạn**:
+
+| Email | Vai trò |
+|---|---|
+| `patient@demo.local` | Bệnh nhân |
+| `reception@demo.local` | Tiếp nhận, cấp phiếu và hỗ trợ |
+| `doctor@demo.local` | Bác sĩ khoa khám |
+| `service@demo.local` | Xét nghiệm, chẩn đoán hình ảnh |
+| `cashier@demo.local` | Quyết toán mô phỏng |
+| `admin@demo.local` | Dashboard, cấu hình, nhân viên và quyền |
+| `otherdoctor@demo.local` | Bác sĩ khoa khác để kiểm tra giới hạn truy cập |
+
+Có thể chọn **Tiếp tục với tư cách khách** mà không đăng nhập. Đăng ký công khai chỉ tạo tài khoản bệnh nhân. Xem [kịch bản demo theo vai trò](docs/guides/DEMO.md) để trình diễn đầy đủ quy trình.
+
+### Dừng, chạy lại và cập nhật
+
+```bash
+docker compose stop
+docker compose up -d --wait --wait-timeout 180
+
+# Sau khi nhận mã nguồn mới (xử lý/commit thay đổi riêng trước khi pull):
+git pull
+docker compose up -d --build --wait --wait-timeout 180
+```
+
+`docker compose down` gỡ container/network nhưng vẫn giữ volume. **Không thêm `-v` nếu cần giữ dữ liệu**: volume chứa database và khóa bảo vệ QR. Không cần khởi tạo lại `.env` khi cập nhật source.
+
+## 3. Cấu hình hệ thống
+
+File cấu hình gốc là `.env`, không được commit. Bootstrap hỗ trợ giá trị dạng `KEY=value`, không có dấu nháy hay khoảng trắng quanh `=`.
+
+| Biến | Mặc định / cách đặt | Tác dụng |
+|---|---|---|
+| `SQL_PASSWORD` | Bootstrap tự sinh | Mật khẩu SQL Server; khác mật khẩu tài khoản demo |
+| `DEMO_PASSWORD` | Bootstrap tự sinh | Mật khẩu dùng khi seed các tài khoản demo |
+| `SQL_PORT` | `14339` | Cổng SQL trên máy chủ, ánh xạ tới 1433 trong container |
+| `API_PORT` | `5280` | Cổng API trên máy chủ |
+| `WEB_PORT` | `5180` | Cổng mở giao diện web |
+| `DATABASE_NAME` | `HospitalGuidance` | Tên database, gồm chữ/số/`_`, bắt đầu bằng chữ |
+| `LAN_IP` | Không đặt | IPv4 máy chủ khi dùng cấu hình LAN |
+
+Nếu cổng bị trùng, đổi cổng tương ứng trong `.env`, rồi chạy lại `docker compose up -d --build --wait --wait-timeout 180`. Script phát triển và Vite cũng đọc `API_PORT`/`WEB_PORT` từ file này. Ví dụ đổi `WEB_PORT=5188` thì mở `http://localhost:5188`.
+
+Nếu tự đặt mật khẩu, dùng 8–128 ký tự gồm chữ, số hoặc `! @ % _ + = . -`; mật khẩu SQL cần đủ độ phức tạp (nên có chữ hoa, chữ thường, số, ký tự đặc biệt). Dùng mật khẩu bootstrap sinh giúp tránh lỗi cú pháp giữa Compose, shell và connection string.
+
+**Đổi mật khẩu trong `.env` không đổi mật khẩu đã lưu trong database/volume.** Giữ lại file cấu hình của bộ dữ liệu đang dùng. Muốn có bộ demo mới mà giữ hồ sơ cũ, đổi `DATABASE_NAME` sang tên khác, giữ `SQL_PASSWORD` rồi chạy:
+
+```bash
+docker compose up -d --force-recreate api
+```
+
+Database mới được migrate/seed tự động; có thể quay lại tên database cũ. Khi chuyển giữa chạy source và Docker, nên dùng database riêng vì hai môi trường có key ring QR khác nhau; xem [quyết định thiết kế](docs/architecture/DECISIONS.md).
+
+## 4. Chạy từ mã nguồn để phát triển
+
+Phiên bản Node nằm trong [.nvmrc](.nvmrc), SDK .NET nằm trong [global.json](global.json). Dùng `npm ci` và NuGet locked restore để cài đúng lockfile.
+
+Trên Windows PowerShell:
 
 ```powershell
-dotnet build services/api --no-restore
-python scripts/test_backend_e2e.py
-python scripts/benchmark.py
-npm.cmd run build --prefix apps/web
-cd apps/web
-npx.cmd playwright install chromium
-npm.cmd run test:e2e
+npm ci
+dotnet restore --locked-mode
+dotnet tool restore
+powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/setup/bootstrap.ps1
+
+# Tránh trùng cổng nếu trước đó đã chạy toàn bộ Compose:
+docker compose stop api web
+powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/dev/start-dev.ps1
 ```
 
-API tests và browser tests tự tạo SQLite riêng dưới `.artifacts`; không sử dụng database demo. Browser test tự mở API 5049 và Vite 5174. Report: `.artifacts/playwright-report/index.html`; screenshot: `.artifacts/patient-completed.png`; benchmark: `.artifacts/performance.json`. Kết quả và phạm vi nghiệm thu: [docs/implementation-status.md](docs/implementation-status.md), từng yêu cầu: [docs/requirements-traceability.md](docs/requirements-traceability.md).
-
-## Docker và CI/CD
-
-Đã chuẩn bị Compose, Dockerfiles và các workflow; **Docker không có trên máy hiện tại nên chưa smoke Docker local**.
+SQL tiếp tục chạy bằng Docker; script build/chạy API và Vite, đợi API phản hồi rồi in địa chỉ. Log nằm trong `.local/api.*.log` và `.local/web.*.log`. Dừng các tiến trình do script tạo:
 
 ```powershell
-Copy-Item .env.example .env
-# Điền JWT_SECRET bằng giá trị ngẫu nhiên riêng, ít nhất 32 ký tự.
-docker compose up --build -d --wait
-python scripts/smoke.py http://127.0.0.1:8080
-docker compose down
+powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/dev/stop-dev.ps1
 ```
 
-Giữ volume `hospital-demo-data`; không dùng `down -v` khi cần bảo toàn dữ liệu. `.env`, database, secret và artifacts không được commit. `SEED_DEMO=true` chỉ dùng cho dữ liệu tổng hợp ở môi trường demo.
+Để chạy trong hai terminal và xem log trực tiếp, sau các bước cài dependency/SQL ở trên: terminal 1 chạy `./scripts/dev/run-api.ps1`; terminal 2 chạy `npm run dev`. Dùng `Ctrl+C` để dừng. Script PowerShell dev dành cho Windows; Linux có thể dùng demo Docker hoặc chạy API với các biến môi trường tương ứng trong `compose.yaml`.
 
-* `ci.yml`: PR/push `master`; locked install, API integration, benchmark, web TypeScript/build/Chromium, native TypeScript/bundle, API publish, Compose build/start/smoke. Release archive gồm Docker images đã kiểm tra, compose/scripts/checksums gắn SHA; giữ 14 ngày, report giữ 7 ngày.
-* `deploy-demo.yml`: chạy thủ công trên `master`, nhập CI run ID thành công từ push cùng repository. Chỉ lấy artifact đã qua gate; không build lại trên host. Environment `demo` cần `DEMO_HOST`, `DEMO_USER`, `DEMO_SSH_KEY`, `DEMO_KNOWN_HOSTS`. Host Linux cần Docker Compose, Python, quyền ghi `/srv/hospital-demo` và file `.env` được cấp trước. Cấu hình người phê duyệt environment và branch protection trên GitHub khi có remote.
-* `android.yml`: chạy thủ công trên `master`, nhập CI run ID thành công **đúng commit** và API URL không chứa credential. JDK 17 + Android SDK + Expo prebuild + Gradle release APK cho arm64/x86_64. APK dùng signing demo do prebuild tạo, phân phối artifact nội bộ giữ 14 ngày; cần signing được cấp nếu muốn nhận cập nhật APK ổn định.
+API tự áp dụng migration khi khởi động. Chỉ migrate/seed: `./scripts/dev/run-api.ps1 -MigrateOnly`. Thêm migration sau khi sửa model: `dotnet ef migrations add TenMigration --project backend/Hospital.Api`. Commit file migration và lockfile nếu có thay đổi dependency.
 
-`scripts/release.sh` kiểm tra checksum/config, nạp images, dừng ghi để sao lưu volume, startup/health/smoke rồi mới đánh dấu release hiện tại. Rollback: lấy **artifact trước đã qua CI**, chạy lại với SHA cũ nếu schema tương thích. Nếu migration không tương thích, dừng API, phục hồi bản sao lưu volume phù hợp cùng image cũ theo quy trình của chủ môi trường; không phục hồi đè dữ liệu mới một cách tự động. Không có remote/commit/host được cấp trong lần bàn giao này nên chưa chạy CI/CD thực tế.
+## 5. Chạy demo qua LAN, HTTPS và Android
 
-## Quyết định demo và giới hạn
+- **LAN trên Windows:** bấm `Start-LAN.cmd`; script tự nhận IP, chuẩn bị cấu hình và chạy Docker. Lần đầu có thể cần quyền Administrator để mở firewall. Các thiết bị cùng mạng mở link trong `.local/lan-access.txt`. Dừng bằng `Stop-LAN.cmd`. Xem [hướng dẫn LAN](docs/guides/LAN.md).
+- **HTTPS localhost:** sau bootstrap, cài OpenSSL vào PATH rồi chạy `./scripts/setup/enable-https.ps1`; mở `https://localhost:8443` với chứng thư tự ký. Trở về HTTP bằng `docker compose up -d --force-recreate api web`.
+- **Android:** tùy chọn, không bắt buộc cho demo web. Xem [cấu hình, build và cài Android](docs/guides/ANDROID.md). APK và SDK không được commit; mỗi thành viên tự build hoặc tải APK từ artifact của GitHub Actions đã chạy thành công.
 
-Một API instance/SQLite, transaction và unique constraints, ghi tuần tự trong một process; không dùng nhiều replica. UI poll 5 giây, refresh sau mutation/reconnect/app resume; request timeout 15 giây. Clinical text chỉ giữ trong bộ nhớ UI và xóa khi đổi ngữ cảnh/đăng xuất/hết phiên. Native credential dùng SecureStore; web dùng token trong storage của trình duyệt cho demo. Guest grant 24 giờ, continuation 30 phút, ticket hết hạn sau 7 ngày hoặc lần cấp lại gần nhất.
+## 6. Kiểm tra trước khi gửi code
 
-Appointment/external identity, queue và các sự kiện dịch vụ/thanh toán dùng adapter/nhân viên demo; không kết nối HIS, thanh toán thật hay push ngoài app. Speech dùng giọng thiết bị, đọc đúng văn bản được API cho phép; thiếu giọng vẫn đọc text được. Không sinh nội dung y tế bằng AI. Chỉ đường dùng địa điểm khoa/tầng/phòng; không có bản đồ indoor/GPS. `Booking__HandoffUrl` có thể cấu hình URL HTTPS của nơi đặt lịch được cấp; chưa cấu hình thì hướng bệnh nhân tới quầy, không tự báo đã đặt lịch.
+```powershell
+npm run typecheck
+npm run lint
+npm run build
+dotnet build -c Release --no-restore
+powershell -NoProfile -ExecutionPolicy Bypass -File ./tests/setup/bootstrap.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File ./tests/lan/startup.ps1
 
-Local demo dùng HTTP loopback. Host ngoài máy cần HTTPS termination và API URL HTTPS trước khi nghiệm thu NFR-SEC-02. Nginx tắt log URL để tránh ghi ticket/QR. Chỉ lưu bản tóm tắt/dặn dò do bác sĩ nhập; không nhập bệnh án pháp lý hay kết quả thô. Dữ liệu tổng hợp local giữ đến khi chủ dự án cho phép dọn; artifact CI tự hết hạn như trên. Dữ liệu thật cần chính sách lưu/xóa và quyền truy cập được bệnh viện duyệt trước khi sử dụng.
+# Cần demo Docker đang chạy; kiểm tra health, web, proxy và 7 vai trò:
+npm run test:demo
 
-`npm audit` của Expo còn dependency tooling transitive mức moderate/high chưa có bản vá tương thích tự động; không chạy `audit fix --force` vì nó đề xuất đổi SDK phá tương thích. Xem chi tiết trong status trước khi dùng ngoài demo.
+# Cần SQL đang chạy; API acceptance dùng database riêng và cổng 5281:
+powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/test/test-api.ps1
+
+# Cần web/API đang chạy; tạo dữ liệu demo mới trong database hiện tại:
+npx playwright install chromium
+npm run test:e2e
+```
+
+Khi đổi cổng, smoke test tự đọc `.env`. Với browser tests, đặt `WEB_URL` và `API_URL` trỏ tới địa chỉ mới trong môi trường terminal. Các báo cáo/ảnh/bundle mới nằm trong `artifacts/` và không được Git theo dõi. Xem [hướng dẫn kiểm thử](tests/README.md).
+
+Workflow [check.yml](.github/workflows/check.yml) chạy khi push/pull request: kiểm tra bootstrap, typecheck/lint/build, tích hợp SQL/API/browser, bundle mobile và build Docker; job Android tạo APK artifact. CI tự sinh mật khẩu, không cần đưa `.env` của máy cá nhân lên GitHub. Kết quả CI chỉ được xác nhận sau khi workflow thực sự chạy trên repository.
+
+## 7. Cấu trúc repository
+
+```text
+apps/web/                   React + TypeScript + Vite, giao diện bệnh nhân/nhân viên
+apps/mobile/                React Native + Expo, ứng dụng bệnh nhân
+backend/Hospital.Api/       ASP.NET Core 10, nghiệp vụ, EF Core migrations
+packages/shared/            API client, kiểu dữ liệu, bản dịch dùng chung
+scripts/setup/              Sinh cấu hình và HTTPS
+scripts/dev/                Chạy/dừng source
+scripts/lan/                Khởi động LAN và firewall
+scripts/build/              Build Android
+scripts/test/               Chạy acceptance/CI
+scripts/docs/               Sinh tài liệu truy vết
+tests/                      api/, browser/, android/, lan/, setup/
+docs/                       Hướng dẫn, kiến trúc, yêu cầu, sơ đồ
+archive/                    File cũ không cần chạy demo; chỉ commit chỉ mục
+.github/workflows/          Kiểm tra tự động khi push/pull request
+compose*.yaml               Docker demo, tùy chọn LAN/HTTPS
+.env.example                Mẫu cấu hình an toàn để chia sẻ
+```
+
+Mã nguồn, migrations, lockfile, test, script và tài liệu sử dụng được giữ trong repository. File không cần cho bản clone mới đã gom vào [archive/](archive/README.md), kèm [danh mục di chuyển](archive/MANIFEST.md). `.env`, `.local/`, `node_modules/`, `bin/`, `obj/`, `dist/` và `artifacts/` là dữ liệu riêng/phát sinh, được `.gitignore` bỏ qua.
+
+## 8. Đưa lên GitHub và làm việc nhóm
+
+Repository dùng remote `https://github.com/TienPhat1912/se-final-project.git`. Sau khi kiểm tra các thay đổi:
+
+```bash
+git status
+git diff --check
+git add .
+git diff --cached --stat
+git commit -m "Prepare reproducible demo and reorganize project"
+git push -u origin HEAD
+```
+
+Kiểm tra danh sách staging trước khi commit: không có `.env`, mật khẩu, APK, SDK hay thư mục lưu trữ cục bộ. Không dùng `git add -f` cho các file này. Nếu GitHub từ chối quyền push, đăng nhập bằng tài khoản được cấp quyền repository hoặc tạo fork/nhánh và gửi pull request. Thành viên khác chỉ cần làm theo mục 1–3, không cần nhận file cấu hình riêng từ người tạo dự án.
+
+## 9. Lỗi thường gặp
+
+| Hiện tượng | Cách xử lý |
+|---|---|
+| Không kết nối được Docker / named pipe | Mở Docker Desktop, chờ engine; chọn Linux containers; kiểm tra `docker info` |
+| PowerShell chặn chạy script | Dùng lệnh `powershell -NoProfile -ExecutionPolicy Bypass -File ...` như hướng dẫn; chỉ áp dụng cho tiến trình đó |
+| Thiếu `SQL_PASSWORD` / `DEMO_PASSWORD` | Chạy bootstrap; nếu đã copy template, thay giá trị `REPLACE_WITH_...` |
+| Cổng đang được sử dụng | Dừng phiên source/Compose cũ hoặc đổi cổng trong `.env` |
+| SQL unhealthy / API thoát khi khởi động | Xem `docker compose logs --tail=100 sql api`; kiểm tra Docker đủ RAM, mật khẩu SQL đủ mạnh và khớp volume đang dùng |
+| Web mở được nhưng API báo 502 | Đợi migration/seed, kiểm tra `/health` và log API; API cần kết nối được SQL |
+| Đăng nhập demo sai mật khẩu | Dùng `.local/demo-access.txt`; nếu tự đổi `.env` sau khi seed thì mật khẩu trong database vẫn là mật khẩu cũ |
+| Không tìm thấy SDK .NET phù hợp | Cài SDK 10.0.400 theo `global.json`, hoặc dùng toàn bộ Docker |
+| Thiếu APK/ảnh/báo cáo trong bản clone | Đây là file phát sinh được ignore; build/chạy test để tạo lại hoặc tải artifact CI |
+
+Tài liệu chi tiết: [chỉ mục tài liệu](docs/README.md), [script](scripts/README.md), [API](docs/architecture/API.md), [truy vết yêu cầu](docs/requirements/TRACEABILITY.md). Đây là bản demo học tập với dữ liệu tổng hợp, chưa phải hệ thống triển khai trong bệnh viện thật.

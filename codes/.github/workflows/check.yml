@@ -1,0 +1,65 @@
+name: Build and acceptance
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  application:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22.19.0', cache: npm}
+      - uses: actions/setup-dotnet@v4
+        with: {dotnet-version: '10.0.400'}
+      - name: Fresh clone bootstrap (PowerShell and Bash)
+        shell: pwsh
+        run: ./tests/setup/bootstrap.ps1
+      - run: npm ci
+      - run: npm run typecheck && npm run lint && npm run build
+      - run: dotnet restore --locked-mode && dotnet build -c Release --no-restore
+      - run: npx playwright install --with-deps chromium
+      - name: SQL, API, browser and provider acceptance
+        shell: bash
+        run: bash scripts/test/ci-integration.sh
+      - run: npm run export --workspace @hospital/mobile -- --output-dir ../../artifacts/mobile-android
+      - run: docker compose build api web
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acceptance-and-builds
+          path: |
+            artifacts/
+            apps/web/dist/
+            backend/Hospital.Api/bin/Release/net10.0/
+          retention-days: 7
+      - if: always()
+        run: docker compose down
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22.19.0', cache: npm}
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: '17'}
+      - uses: android-actions/setup-android@v3
+      - name: Install the SDK and native tools used by the locked Expo version
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0' 'ndk;27.1.12297006' 'cmake;3.22.1'
+      - run: npm ci
+      - name: Generate native Android project
+        working-directory: apps/mobile
+        run: npx expo prebuild --platform android --no-install
+      - name: Build installable demo APK with bundled JavaScript
+        working-directory: apps/mobile/android
+        run: ./gradlew assembleRelease --no-daemon --max-workers=2 -PreactNativeArchitectures=arm64-v8a,x86_64
+      - name: Verify release manifest, local network restrictions and APK signature
+        run: node tests/android/verify-android.mjs apps/mobile/android/app/build/outputs/apk/release/app-release.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-demo-apk
+          path: |
+            apps/mobile/android/app/build/outputs/apk/release/*.apk
+            artifacts/android/android-build.json
+          retention-days: 7

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" version="26.0.0">
+  <diagram name="Implementation" id="Implementation">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" page="1" pageWidth="1400" pageHeight="900">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="web" value="React web / Nginx&#10;Patient + five staff roles" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e5f3eb;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="60" y="60" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="mobile" value="React Native / Expo&#10;Patient, SecureStore, camera, speech" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e5f3eb;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="400" y="60" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="api" value="ASP.NET Core 10 modular monolith&#10;Access + validation + command bus" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dceafa;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="230" y="230" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="reception" value="Identity / Reception / QR&#10;Verified patient + exactly one ticket" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#fff1cc;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="60" y="410" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="workflow" value="Journeys / Workflow / Orders&#10;Visit and Journey independent" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#fff1cc;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="400" y="410" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="content" value="Content / Support / Admin&#10;Published versions, scope, configuration" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#fff1cc;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="740" y="410" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="sql" value="SQL Server 2022&#10;FK, unique indexes, versions, audit&#10;transaction + SQL application lock" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e5e0f5;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="230" y="620" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="adapters" value="Typed adapters&#10;Deterministic Simulation&#10;DeviceSpeech manifest" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#fce1db;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="850" y="230" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" source="web" target="api" value="Cookie / JSON / poll 5s" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" source="mobile" target="api" value="Bearer / JSON / poll 5s" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" source="api" target="reception" value="" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" source="api" target="workflow" value="" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" source="api" target="content" value="" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" source="reception" target="sql" value="EF Core" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" source="workflow" target="sql" value="EF Core" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" source="content" target="sql" value="EF Core" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" source="api" target="adapters" value="Finite timeout; failure preserves state" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Lifecycle" id="Lifecycle">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" page="1" pageWidth="1400" pageHeight="900">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="prepare" value="Account / booking / request&#10;No Visit yet" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e5f3eb;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="80" y="70" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="confirmed" value="Authorized reception confirmation&#10;Visit Active + Journey PendingActivation" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#fff1cc;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="460" y="70" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="active" value="Authorized ticket redemption&#10;Journey Active; keep progress" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e5f3eb;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="850" y="70" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="clinical" value="Consultation + required services&#10;Required return + current settlement" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dceafa;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="460" y="290" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="closed" value="Visit Closed&#10;Preserve Journey activation state" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dceafa;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="460" y="500" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="pharmacy" value="Final pharmacy guidance Ready&#10;Patient confirmation is guidance only" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#fff1cc;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="850" y="500" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="completed" value="Journey Completed&#10;Published content remains authorized" vertex="1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e5f3eb;strokeColor=#126f61;fontSize=14;">
+          <mxGeometry x="460" y="710" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" source="prepare" target="confirmed" value="One atomic creation" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" source="confirmed" target="active" value="No duplicate Visit" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" source="confirmed" target="clinical" value="Staff events" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" source="active" target="clinical" value="" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" source="clinical" target="closed" value="All guards + WorkRevision match" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" source="closed" target="pharmacy" value="Pharmacy required" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" source="closed" target="completed" value="No pharmacy remaining" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" source="pharmacy" target="completed" value="Visit Closed + Journey Active" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=12;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

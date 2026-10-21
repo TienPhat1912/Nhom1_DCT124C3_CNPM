@@ -1,270 +1,511 @@
-import { getUiText } from "../../../packages/i18n/src/ui";
-import React, { useState, useEffect } from 'react';
-import { StaffLogin } from './components/StaffLogin';
-import { History } from './components/History';
-import { RoleSwitcher, ActiveRole } from './components/RoleSwitcher';
-import { PatientAuth } from './components/PatientAuth';
-import { ReceptionPrep } from './components/ReceptionPrep';
-import { TicketRedemption } from './components/TicketRedemption';
-import { CurrentJourney } from './components/CurrentJourney';
-import { GuidanceTools } from './components/GuidanceTools';
-import { ContentContinuity } from './components/ContentContinuity';
-import { ReceptionWorkspace } from './components/ReceptionWorkspace';
-import { DoctorWorkspace } from './components/DoctorWorkspace';
-import { ServiceWorkspace } from './components/ServiceWorkspace';
-import { CashierWorkspace } from './components/CashierWorkspace';
-import { AdminWorkspace } from './components/AdminWorkspace';
-import { api, getAuthToken, setAuthToken, setGuestToken } from './api';
-import { getDictionary, Language } from '../../../packages/i18n/src/index';
-
-export const App: React.FC = () => {
-  const [lang, setLang] = useState<Language>((localStorage.getItem('language') as Language) || 'vi');
-  const [activeRole, setActiveRole] = useState<ActiveRole>('patient');
-  const [currentUser, setCurrentUser] = useState<any | null>(null);
-
-  // Patient view state
-  const [patientTab, setPatientTab] = useState<'prep' | 'ticket' | 'journey' | 'tools' | 'history'>(new URLSearchParams(window.location.search).has('ticket') ? 'ticket' : 'prep');
-  const [currentJourney, setCurrentJourney] = useState<any | null>(null);
-  const [activeVisitId, setActiveVisitId] = useState<string | null>(null);
-
-  const t = getDictionary(lang);
-  const [sessionError, setSessionError] = useState('');
-  const roleNames: Record<ActiveRole, string> = { patient: 'Patient', receptionist: 'Receptionist', doctor: 'Doctor', service: 'ServiceStaff', cashier: 'Cashier', admin: 'Administrator' };
-  const authorized = currentUser && (activeRole === 'patient' ? currentUser.isGuest || currentUser.role === 'Patient' : currentUser.role === roleNames[activeRole]);
-  const saveSession = (role: ActiveRole) => sessionStorage.setItem('session:' + role, JSON.stringify({ token: getAuthToken(), guestToken: localStorage.getItem('guestToken') }));
-  const handleAuth = (user: any) => {
-    setCurrentUser(user); setSessionError('');
-    if (!user) { setCurrentJourney(null); setActiveVisitId(null); sessionStorage.removeItem('session:' + activeRole); return; }
-    const role = (Object.keys(roleNames) as ActiveRole[]).find(r => roleNames[r] === user.role) || 'patient';
-    setActiveRole(role); saveSession(role);
-  };
-  const changeRole = (role: ActiveRole) => {
-    saveSession(activeRole); setActiveRole(role); setCurrentUser(null); setCurrentJourney(null); setActiveVisitId(null); setSessionError('');
-    const saved = JSON.parse(sessionStorage.getItem('session:' + role) || '{}');
-    setAuthToken(saved.token || null); setGuestToken(saved.guestToken || null);
-    if (saved.token) api.getMe().then(setCurrentUser).catch(e => setSessionError(e.message));
-  };
+import { useEffect, useMemo, useState } from "react";
+import {
+  Bell,
+  ChevronRight,
+  ClipboardList,
+  HeartPulse,
+  History,
+  House,
+  Languages,
+  LogOut,
+  Menu,
+  MessageCircle,
+  Route,
+  Settings2,
+  ShieldCheck,
+  UserRound,
+  FileText,
+  X,
+} from "lucide-react";
+import {
+  translator,
+  type Configuration,
+  type Locale,
+  type Session,
+  type VisitSummary,
+} from "@hospital/shared";
+import {
+  api,
+  RuntimeContext,
+  useMutation,
+  useResource,
+  useRuntime,
+} from "./runtime";
+import Auth from "./Auth";
+import {
+  Button,
+  Empty,
+  Feedback,
+  Modal,
+  Notice,
+  ResourceState,
+  SectionTitle,
+} from "./components";
+import { PatientReception } from "./PatientReception";
+import { PatientJourney } from "./PatientJourney";
+import {
+  HelpPanel,
+  LinkAccount,
+  NotificationsPanel,
+  Overview,
+  ProfilePanel,
+  ResultsPanel,
+  VisitRow,
+} from "./PatientRecords";
+import StaffReception from "./StaffReception";
+import StaffClinical from "./StaffClinical";
+import StaffSupport from "./StaffSupport";
+import Admin from "./Admin";
+import { HospitalEntry } from "./HospitalEntry";
+type Page =
+  | "home"
+  | "reception"
+  | "journey"
+  | "results"
+  | "history"
+  | "assistance"
+  | "profile"
+  | "notifications"
+  | "workspace";
+export default function App() {
+  const [locale, setLocale] = useState<Locale>(() =>
+    localStorage.getItem("hospital.language") === "en" ? "en" : "vi",
+  );
+  const [session, setSession] = useState<Session | null>(null);
+  const [ready, setReady] = useState(false);
+  const [expired, setExpired] = useState(false);
+  const config = useResource<Configuration>("/api/config");
+  const t = useMemo(() => translator(locale), [locale]);
   useEffect(() => {
-    localStorage.setItem('language', lang); document.documentElement.lang = lang;
-    window.speechSynthesis?.cancel();
-  }, [lang]);
+    document.documentElement.lang = locale;
+    localStorage.setItem("hospital.language", locale);
+  }, [locale]);
   useEffect(() => {
-    const expired = () => { setCurrentUser(null); setCurrentJourney(null); setSessionError(getUiText(lang,"session_expired_sign_in_again_or_ask_reception_for_verified_recov")); };
-    window.addEventListener('session-expired', expired);
-    return () => window.removeEventListener('session-expired', expired);
-  }, [lang]);
-  useEffect(() => {
-    if (!authorized || activeRole !== 'patient') return;
-    let live = true;
-    const key = currentUser.id || currentUser.guestSessionId;
-    const stored = localStorage.getItem('activeVisit:' + key);
-    if (stored) { setActiveVisitId(stored); api.getJourney(stored).then(j=>{if(live)setCurrentJourney(j);}).catch(e => {if(live)setSessionError(e.message);}); }
-    return () => {live=false;};
-  }, [currentUser]);
-  useEffect(() => {
-    if (activeVisitId && currentUser) localStorage.setItem('activeVisit:' + (currentUser.id || currentUser.guestSessionId), activeVisitId);
-    if (!activeVisitId || !authorized || activeRole !== 'patient') return;
-    let live = true;
-    const refresh = () => api.getJourney(activeVisitId).then(j => { if (live) { setCurrentJourney(j); setSessionError(''); } }).catch(e => { if (live) setSessionError(e.message); });
-    const interval = setInterval(refresh, 5000);
-    window.addEventListener('online', refresh);
-    return () => { live = false; clearInterval(interval); window.removeEventListener('online', refresh); };
-  }, [activeVisitId, currentUser]);
-
-  useEffect(() => {
-    // Check existing auth
-    if (getAuthToken()) {
-      api.getMe()
-        .then(handleAuth)
-        .catch(() => {
-          setSessionError(getUiText(lang,"session_restoration_failed_please_sign_in_again"));
-        });
-    }
+    void api<Session>("/api/auth/session")
+      .then(setSession)
+      .catch(() => {})
+      .finally(() => setReady(true));
+    const expire = () => {
+      setSession(null);
+      setExpired(true);
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    };
+    window.addEventListener("hospital:expired", expire);
+    return () => window.removeEventListener("hospital:expired", expire);
   }, []);
-
-  const refreshJourney = () => {
-    if (activeVisitId) {
-      api.getJourney(activeVisitId)
-        .then(setCurrentJourney)
-        .catch(console.error);
-    }
-  };
-
-  const handleTicketRedeemed = (journeyData: any) => {
-    setCurrentJourney(journeyData);
-    setActiveVisitId(journeyData.visitId);
-    setPatientTab('journey');
-  };
-
-  const toggleLanguage = () => {
-    setLang(lang === 'vi' ? 'en' : 'vi');
-  };
-
+  useEffect(() => {
+    if (!session) return;
+    const remaining =
+      new Date(
+        session.expiresAt + (session.expiresAt.endsWith("Z") ? "" : "Z"),
+      ).getTime() - Date.now();
+    const timer = setTimeout(
+      () => window.dispatchEvent(new Event("hospital:expired")),
+      Math.max(0, remaining),
+    );
+    return () => clearTimeout(timer);
+  }, [session]);
+  if (location.pathname === "/entry") return <HospitalEntry locale={locale} />;
+  if (!ready)
+    return (
+      <div className="boot-screen">
+        <HeartPulse />
+        {t("loading")}
+      </div>
+    );
+  if (!session)
+    return (
+      <Auth
+        locale={locale}
+        setLocale={setLocale}
+        onSession={(s) => {
+          setSession(s);
+          setExpired(false);
+        }}
+        expired={expired}
+      />
+    );
+  if (!config.data)
+    return (
+      <div className="boot-screen">
+        {config.error ? (
+          <>
+            <p>{t("connection")}</p>
+            <Button onClick={config.refresh}>{t("retry")}</Button>
+          </>
+        ) : (
+          t("loading")
+        )}
+      </div>
+    );
   return (
-    <div className="app-container">
-      {/* Top Header Navigation */}
-      <header className="top-nav">
-        <div className="brand">
-          <div className="brand-icon">🏥</div>
-          <div>
-            <div>{t.app.hospitalName}</div>
-            <div style={{ fontSize: '0.75rem', fontWeight: 400, color: '#94a3b8' }}>
-              {t.app.subtitle}
-            </div>
+    <RuntimeContext.Provider
+      value={{ session, setSession, config: config.data, locale, setLocale, t }}
+    >
+      <Workspace key={session.sessionId} />
+    </RuntimeContext.Provider>
+  );
+}
+function Workspace() {
+  const { session, setSession, config, locale, setLocale, t } = useRuntime();
+  const patient = session.role === "Patient";
+  const [page, setPage] = useState<Page>(
+    patient
+      ? new URLSearchParams(location.hash.slice(1)).has("visit")
+        ? "journey"
+        : "home"
+      : "workspace",
+  );
+  const [selected, setSelected] = useState<string | null>(() =>
+    new URLSearchParams(location.hash.slice(1)).get("visit"),
+  );
+  const [link, setLink] = useState(false);
+  const [menu, setMenu] = useState(false);
+  const [font, setFont] = useState(1);
+  const [pendingQr, setPendingQr] = useState(() =>
+    new URLSearchParams(location.hash.slice(1)).get("ticket"),
+  );
+  const [offset, setOffset] = useState(0);
+  const historyPage = useResource<VisitSummary[]>(page === "history" ? `/api/visits?offset=${offset}` : null);
+  const visits = useResource<VisitSummary[]>(
+    session.role !== "Admin" ? `/api/visits?offset=${patient ? 0 : offset}` : null,
+    true,
+  );
+  const mutation = useMutation();
+  const visitId =
+    selected ??
+    visits.data?.find((v) => v.journeyStatus !== "Completed")?.id ??
+    visits.data?.[0]?.id ??
+    null;
+  const selectVisit = (id: string, target: Page = "journey") => {
+    setSelected(id);
+    setPage(target);
+    setMenu(false);
+    visits.refresh();
+  };
+  useEffect(() => {
+    const read = () =>
+      setPendingQr(new URLSearchParams(location.hash.slice(1)).get("ticket"));
+    window.addEventListener("hashchange", read);
+    return () => window.removeEventListener("hashchange", read);
+  }, []);
+  useEffect(() => {
+    document.documentElement.style.fontSize = `${font * 100}%`;
+    return () => {
+      document.documentElement.style.fontSize = "";
+    };
+  }, [font]);
+  const nav = patient
+    ? ([
+        ["home", House],
+        ["reception", ClipboardList],
+        ["journey", Route],
+        ["results", FileText],
+        ["history", History],
+        ["assistance", MessageCircle],
+        ["profile", UserRound],
+      ] as const)
+    : ([
+        ["workspace", session.role === "Admin" ? Settings2 : ClipboardList],
+        ...(["Reception", "Service"].includes(session.role)
+          ? [["assistance", MessageCircle] as const]
+          : []),
+      ] as const);
+  return (
+    <div className="app-shell">
+      <aside className={`sidebar ${menu ? "open" : ""}`}>
+        <a
+          className="brand"
+          href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            setPage(patient ? "home" : "workspace");
+          }}
+        >
+          <span className="brand-icon">
+            <HeartPulse />
+          </span>
+          <span>
+            {t("brand")}
+            <small>{t("tagline")}</small>
+          </span>
+        </a>
+        <span className="sidebar-label">
+          {t(patient ? "Patient" : "staffWorkspace")}
+        </span>
+        <nav>
+          {nav.map(([key, Icon]) => (
+            <button
+              className={page === key ? "active" : ""}
+              key={key}
+              onClick={() => {
+                setPage(key as Page);
+                setMenu(false);
+              }}
+            >
+              <Icon size={20} />
+              <span>{t(key === "workspace" ? session.role : key)}</span>
+              {page === key && <ChevronRight size={15} />}
+            </button>
+          ))}
+        </nav>
+        <div className="sidebar-bottom">
+          <div className="secure-note">
+            <ShieldCheck size={18} />
+            <span>
+              {t(session.role)}
+              {session.isGuest
+                ? ` · ${locale === "vi" ? "Khách" : "Guest"}`
+                : ""}
+            </span>
           </div>
-        </div>
-
-        {/* Demo Role Switcher */}
-        <RoleSwitcher activeRole={activeRole} onRoleChange={changeRole} lang={lang} />
-
-        {/* Actions (Language & User Profile) */}
-        <div className="nav-actions">
-          <button id="lang-toggle-btn" className="lang-btn" onClick={toggleLanguage} type="button">
-            🌐 {getUiText(lang,"ti_ng_vi_t_vi")}
+          <button
+            className="logout"
+            disabled={mutation.busy}
+            onClick={async () => {
+              if (await mutation.run("/api/auth/logout")) {
+                if ("speechSynthesis" in window)
+                  window.speechSynthesis.cancel();
+                setSession(null);
+              }
+            }}
+          >
+            <LogOut size={18} />
+            {t("signOut")}
           </button>
         </div>
-      </header>
-
-      {/* Main Content Area */}
-      <main className="main-content">
-        {sessionError && <p role="alert" className="alert alert-warning">{sessionError}</p>}
-        {activeRole !== 'patient' && !authorized && <StaffLogin lang={lang} onSuccess={handleAuth} />}
-        {activeRole !== 'patient' && authorized && <div className="card"><span>{currentUser.fullName}</span><button className="btn btn-outline" onClick={() => { setAuthToken(null); handleAuth(null); }}>{t.auth.logout}</button></div>}
-        {/* === ROLE: PATIENT === */}
-        {activeRole === 'patient' && (
-          <div>
-            <a className="btn btn-outline" href={new URLSearchParams(window.location.search).has('ticket') ? 'hospitalguide://ticket/'+encodeURIComponent(new URLSearchParams(window.location.search).get('ticket')!) : 'hospitalguide://entry'}>{getUiText(lang,"open_installed_patient_app")}</a>
-            <PatientAuth
-              lang={lang}
-              currentUser={currentUser}
-              onAuthSuccess={handleAuth}
-            />
-
-            {authorized && <>
-            {/* Patient Workspace Navigation */}
-            <div className="tab-nav" id="patient-nav-tabs">
-              <button
-                id="patient-tab-prep-btn"
-                className={`tab-btn ${patientTab === 'prep' ? 'active' : ''}`}
-                onClick={() => setPatientTab('prep')}
-              >
-                1. 📝 {t.reception.title}
-              </button>
-              <button
-                id="patient-tab-ticket-btn"
-                className={`tab-btn ${patientTab === 'ticket' ? 'active' : ''}`}
-                onClick={() => setPatientTab('ticket')}
-              >
-                2. 🎟️ {t.ticket.title}
-              </button>
-              <button
-                id="patient-tab-journey-btn"
-                className={`tab-btn ${patientTab === 'journey' ? 'active' : ''}`}
-                onClick={() => setPatientTab('journey')}
-              >
-                3. 🧭 {t.journey.title}
-              </button>
-              <button
-                id="patient-tab-tools-btn"
-                className={`tab-btn ${patientTab === 'tools' ? 'active' : ''}`}
-                onClick={() => setPatientTab('tools')}
-              >
-                4. 🛠️ {t.tools.toolsTitle}
-              </button>
-              <button
-                id="patient-tab-history-btn"
-                className={`tab-btn ${patientTab === 'history' ? 'active' : ''}`}
-                onClick={() => setPatientTab('history')}
-              >
-                5. 📖 {t.clinical.title}
-              </button>
-            </div>
-
-            {/* Patient Screen Sections */}
-            {patientTab === 'prep' && (
-              <ReceptionPrep
-                lang={lang}
-                currentUser={currentUser}
-                onReceptionRequestCreated={req => {
-                  localStorage.setItem('lastRegistrationId', req.requestId);
-                }}
-              />
-            )}
-
-            {patientTab === 'ticket' && (
-              <TicketRedemption
-                lang={lang}
-                onTicketRedeemed={handleTicketRedeemed}
-              />
-            )}
-
-            {patientTab === 'journey' && (
-              currentJourney ? (
-                <CurrentJourney
-                  journeyData={currentJourney}
-                  lang={lang}
-                  onRefresh={refreshJourney}
-                />
-              ) : (
-                <div className="card">
-                  <div className="alert alert-info">
-                    ℹ️ Vui lòng quét hoặc kích hoạt mã phiếu khám ở tab <strong>"2. Kích Hoạt Phiếu Khám"</strong> để xem lộ trình bệnh viện.
-                  </div>
-                  <TicketRedemption lang={lang} onTicketRedeemed={handleTicketRedeemed} />
-                </div>
-              )
-            )}
-
-            {patientTab === 'tools' && (
-              <GuidanceTools
-                visitId={activeVisitId || currentJourney?.visitId || ''}
-                lang={lang}
-              />
-            )}
-
-            {patientTab === 'history' && <History lang={lang} onOpen={id => { setActiveVisitId(id); api.getJourney(id).then(setCurrentJourney).catch(e => setSessionError(e.message)); }} />}
-            {patientTab === 'history' && (
-              <ContentContinuity
-                visitId={activeVisitId || currentJourney?.visitId || ''}
-                lang={lang}
-                currentUser={currentUser}
-                onUserConverted={u => setCurrentUser(u)}
-              />
-            )}
-            </>}
+      </aside>
+      {menu && (
+        <button
+          className="sidebar-overlay"
+          aria-label={t("close")}
+          onClick={() => setMenu(false)}
+        />
+      )}
+      <div className="main-shell">
+        <header className="topbar">
+          <button
+            className="icon-button mobile-menu"
+            aria-label={menu ? t("close") : "Menu"}
+            onClick={() => setMenu((s) => !s)}
+          >
+            {menu ? <X /> : <Menu />}
+          </button>
+          <div className="breadcrumb">
+            {t("hospital")}
+            <ChevronRight size={14} />
+            <strong>{t(page === "workspace" ? session.role : page)}</strong>
           </div>
-        )}
-
-        {/* === ROLE: RECEPTIONIST (FE-R01) === */}
-        {activeRole === 'receptionist' && authorized && (
-          <ReceptionWorkspace lang={lang} />
-        )}
-
-        {/* === ROLE: DOCTOR (FE-D01) === */}
-        {activeRole === 'doctor' && authorized && (
-          <DoctorWorkspace lang={lang} />
-        )}
-
-        {/* === ROLE: SERVICE STAFF (FE-S01) === */}
-        {activeRole === 'service' && authorized && (
-          <ServiceWorkspace lang={lang} />
-        )}
-
-        {/* === ROLE: CASHIER (FE-C01) === */}
-        {activeRole === 'cashier' && authorized && (
-          <CashierWorkspace lang={lang} />
-        )}
-
-        {/* === ROLE: ADMINISTRATOR (FE-A01) === */}
-        {activeRole === 'admin' && authorized && (
-          <AdminWorkspace lang={lang} />
-        )}
-      </main>
-
-      {/* Footer */}
-      <footer>
-        <strong>Multilingual Hospital Visit Narration & Guidance System</strong> • Developed per PRD Version 4.1 Specifications
-      </footer>
+          <div className="top-actions">
+            <label className="language-picker">
+              <Languages size={17} />
+              <select
+                aria-label={t("language")}
+                value={locale}
+                onChange={(e) => setLocale(e.target.value as Locale)}
+              >
+                <option value="vi">Tiếng Việt</option>
+                <option value="en">English</option>
+              </select>
+            </label>
+            <button
+              className="icon-button text-scale"
+              aria-label={t("fontSize")}
+              onClick={() => setFont((f) => (f >= 1.3 ? 1 : f + 0.15))}
+            >
+              A<span>+</span>
+            </button>
+            {patient && (
+              <button
+                className="icon-button"
+                aria-label={t("notifications")}
+                onClick={() => setPage("notifications")}
+              >
+                <Bell size={20} />
+              </button>
+            )}
+            <span className="avatar">
+              {(session.name || session.role).slice(0, 1)}
+            </span>
+          </div>
+        </header>
+        <main id="main">
+          <Feedback error={mutation.error} locale={locale} />
+          {config.demo && (
+            <div className="demo-label">
+              <span />
+              {t("demo")}
+            </div>
+          )}
+          {pendingQr && patient && (
+            <Notice>
+              {t("ticketQr")}
+              <div className="actions">
+                <Button
+                  busy={mutation.busy}
+                  onClick={async () => {
+                    const result = await mutation.run<{ visitId: string }>(
+                      "/api/tickets/redeem",
+                      { code: pendingQr },
+                    );
+                    if (result) {
+                      selectVisit(result.visitId);
+                      setPendingQr(null);
+                      history.replaceState(null, "", location.pathname);
+                    }
+                  }}
+                >
+                  {t("activate")}
+                </Button>
+                <Button
+                  variant="quiet"
+                  onClick={() => {
+                    setPendingQr(null);
+                    history.replaceState(null, "", location.pathname);
+                  }}
+                >
+                  {t("cancel")}
+                </Button>
+              </div>
+            </Notice>
+          )}
+          {patient ? (
+            <>
+              {["journey", "results", "history"].includes(page) &&
+                visits.data &&
+                visits.data.length > 1 && (
+                  <label className="visit-picker">
+                    {t("selectVisit")}
+                    <select
+                      value={visitId ?? ""}
+                      onChange={(e) => setSelected(e.target.value)}
+                    >
+                      {visits.data.map((v) => (
+                        <option key={v.id} value={v.id}>
+                          {v.ticketNumber} · {t(v.status)} /{" "}
+                          {t(v.journeyStatus)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                )}
+              {page === "home" && (
+                <>
+                  <ResourceState resource={visits} />
+                  <Overview
+                    visits={visits.data}
+                    onSelect={selectVisit}
+                    onPrepare={() => setPage("reception")}
+                  />
+                </>
+              )}
+              {page === "reception" && (
+                <PatientReception onVisit={selectVisit} />
+              )}
+              {page === "journey" && (
+                <PatientJourney
+                  id={visitId}
+                  onSelected={selectVisit}
+                  onResults={() => setPage("results")}
+                  onLink={() => setLink(true)}
+                />
+              )}
+              {page === "results" && <ResultsPanel id={visitId} />}
+              {page === "history" && (
+                <>
+                  <SectionTitle title={t("history")} />
+                  <ResourceState resource={historyPage} />
+                  {historyPage.data?.length === 0 ? (
+                    <Empty text={t("noVisits")} />
+                  ) : (
+                    <div className="panel">
+                      {historyPage.data?.map((v) => (
+                        <VisitRow
+                          key={v.id}
+                          visit={v}
+                          onClick={() => selectVisit(v.id, "results")}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  <div className="actions">
+                    <Button variant="quiet" disabled={offset === 0 || historyPage.loading} onClick={() => setOffset(Math.max(0, offset - 100))}>{t("previousPage")}</Button>
+                    <Button variant="quiet" disabled={historyPage.data?.length !== 100 || historyPage.loading} onClick={() => setOffset(offset + 100)}>{t("nextPage")}</Button>
+                  </div>
+                </>
+              )}
+              {page === "assistance" && (
+                <div className="panel">
+                  <SectionTitle title={t("assistance")} />
+                  <HelpPanel visitId={visitId} />
+                </div>
+              )}
+              {page === "profile" && (
+                <ProfilePanel onLink={() => setLink(true)} />
+              )}
+              {page === "notifications" && (
+                <NotificationsPanel
+                  onVisit={(id) => selectVisit(id, "results")}
+                />
+              )}
+            </>
+          ) : page === "assistance" ? (
+            <StaffSupport />
+          ) : session.role === "Admin" ? (
+            <Admin />
+          ) : session.role === "Reception" ? (
+            <StaffReception />
+          ) : (
+            <>
+              {visits.data && (
+                <label className="visit-picker">
+                  {t("assignedVisits")}
+                  <select
+                    value={visitId ?? ""}
+                    onChange={(e) => setSelected(e.target.value)}
+                  >
+                    <option value="">{t("selectVisit")}</option>
+                    {visits.data.map((v) => (
+                      <option key={v.id} value={v.id}>
+                        {v.ticketNumber} · {v.patientName} · {t(v.status)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+              <ResourceState resource={visits} />
+              <div className="actions">
+                <Button variant="quiet" disabled={offset === 0 || visits.loading} onClick={() => { setSelected(null); setOffset(Math.max(0, offset - 100)); }}>{t("previousPage")}</Button>
+                <Button variant="quiet" disabled={visits.data?.length !== 100 || visits.loading} onClick={() => { setSelected(null); setOffset(offset + 100); }}>{t("nextPage")}</Button>
+              </div>
+              <StaffClinical id={visitId} />
+            </>
+          )}
+          <footer>
+            {t("brand")} · {t("tagline")}
+          </footer>
+        </main>
+      </div>
+      {link && (
+        <Modal title={t("linkAccount")} onClose={() => setLink(false)}>
+          <LinkAccount
+            visitId={visitId}
+            onCancel={() => setLink(false)}
+            onDone={(s, id) => {
+              setLink(false);
+              if (id) {
+                setSelected(id);
+                history.replaceState(
+                  null,
+                  "",
+                  `${location.pathname}#visit=${id}`,
+                );
+              }
+              setSession(s);
+            }}
+          />
+        </Modal>
+      )}
     </div>
   );
-};
+}

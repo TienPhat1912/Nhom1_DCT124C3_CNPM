@@ -1,26 +1,18 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
+import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
-import path from 'path';
 
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@contracts': path.resolve(import.meta.dirname, '../../packages/contracts/src'),
-      '@i18n': path.resolve(import.meta.dirname, '../../packages/i18n/src'),
-    }
-  },
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5047',
-        changeOrigin: true,
-      },
-      '/health': {
-        target: 'http://localhost:5047',
-        changeOrigin: true,
-      }
-    }
-  }
+export default defineConfig(({ mode }) => {
+  // Read root configuration on the server only; never expose passwords via define/envPrefix.
+  const root = fileURLToPath(new URL('../../', import.meta.url));
+  const settings = loadEnv(mode, root, '');
+  const target = `http://127.0.0.1:${settings.API_PORT || '5280'}`;
+  return {
+    plugins: [react()],
+    server: {
+      port: Number(settings.WEB_PORT || '5180'),
+      strictPort: true,
+      proxy: { '/api': target, '/health': target, '/openapi': target },
+    },
+  };
 });

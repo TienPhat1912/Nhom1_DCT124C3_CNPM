@@ -1,33 +1,48 @@
-# Dependencies and generated output
-**/node_modules/
-**/bin/
-**/obj/
-**/dist/
-**/dist-ssr/
-**/.expo/
+# Local configuration and credentials (templates are safe to commit).
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.jks
+*.keystore
+
+# Local SDKs, runtime state and generated output.
+.local/
+.gradle-cache/
+**/.gradle/
+**/.cxx/
 **/__pycache__/
 *.py[cod]
-.artifacts/
-
-# Local databases and environment settings
-**/*.db
-**/*.db-shm
-**/*.db-wal
-**/.env
-**/.env.*
-!**/.env.example
-
-# Logs, test output, and local editor/OS files
-*.log
-**/coverage/
-**/.vs/
-**/.idea/
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/.expo/
+apps/mobile/android/
+apps/mobile/ios/
+**/test-results/
+**/playwright-report/
 *.user
+*.log
+artifacts/
+*.apk
+*.aab
+
+# Historical generated reports (new runs write to artifacts/).
+/docs/evidence/
+/docs/reports/
+
+# Retired files are kept locally; only the archive index is published.
+/archive/*
+!/archive/README.md
+!/archive/MANIFEST.md
+
+# Editor and OS files.
+.vs/
+.idea/
 *.suo
 .DS_Store
 Thumbs.db
-Desktop.ini
-
-apps/mobile/android/
-apps/web/playwright-report/
-apps/web/test-results/
