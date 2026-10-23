@@ -1,20 +1,24 @@
-# An Tâm — Hệ thống hướng dẫn khám bệnh
+# Chạy và cập nhật An Tâm
 
-Dự án môn Công nghệ phần mềm: hướng dẫn bệnh nhân từ tiếp nhận, khám, thực hiện dịch vụ đến quyết toán và nhận thuốc. Web có giao diện bệnh nhân và nhân viên theo vai trò; ứng dụng Android dành cho bệnh nhân. Hệ thống hỗ trợ tiếng Việt/Anh, QR, theo dõi hành trình và yêu cầu hỗ trợ.
+Đây là thư mục mã nguồn ứng dụng: React web, React Native/Expo Android và ASP.NET Core API kết nối SQL Server. Bản demo dùng các tích hợp mô phỏng.
 
-**Chạy demo: clone → tạo cấu hình → Docker Compose → mở web.** Không cần cài Node.js, .NET hoặc SQL Server trực tiếp khi chạy toàn bộ bằng Docker. Database được tạo và nạp dữ liệu mẫu tự động; các tích hợp với hệ thống bệnh viện bên ngoài đang dùng mô phỏng.
+**Mọi lệnh bên dưới chạy từ `codes/`, trừ khối lệnh Git có ghi rõ chạy từ gốc repository.** Nếu vừa mở repository trong IDE, chạy `cd codes` trước. Hướng dẫn bắt đầu nhanh ở [README gốc](../README.md).
 
 ## 1. Yêu cầu máy
 
-| Cách chạy                         | Công cụ cần cài                                                                                                    |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Demo web/API/database bằng Docker | Git; Docker Desktop ở chế độ **Linux containers** trên Windows, hoặc Docker Engine + Compose v2 trở lên trên Linux |
-| Phát triển từ mã nguồn            | Các công cụ trên + **Node.js 22.19.0**, **npm 10.9.3**, **.NET SDK 10.0.400**                                      |
-| Build Android (tùy chọn)          | Node/npm + JDK 17, Android SDK 36; xem [hướng dẫn Android](docs/guides/ANDROID.md)                                 |
+| Nhu cầu | Công cụ |
+|---|---|
+| Build và chạy web/API/database | Git; Docker Desktop ở chế độ Linux containers, hoặc Docker Engine + Compose v2 trở lên |
+| Chạy source hoặc kiểm thử bằng npm/.NET trên máy | Các công cụ trên + Node.js 22.19.0, npm 10.9.3, .NET SDK 10.0.400 |
+| Build APK Android | JDK 17, Android SDK/native tools theo [ANDROID.md](docs/guides/ANDROID.md) |
 
-Luồng demo chính dành cho máy x64; cấu hình Windows/Linux dùng SQL Server container. Máy ARM/Apple Silicon chưa được kiểm chứng trong dự án. Nên dành khoảng 8 GB RAM và 15 GB đĩa trống cho demo; build Android cần thêm dung lượng SDK/cache. Lần đầu cần Internet để tải image và thư viện.
+Phiên bản được khóa trong [`.nvmrc`](.nvmrc), [`package.json`](package.json), [`package-lock.json`](package-lock.json), [`global.json`](global.json) và [`packages.lock.json`](backend/Hospital.Api/packages.lock.json). Dockerfile cài công cụ build trong container; chạy demo Docker không cần cài Node/.NET/SQL trực tiếp.
 
-Kiểm tra Docker đã sẵn sàng:
+Luồng Docker đã kiểm tra trên máy x64; chưa kiểm chứng máy ARM/Apple Silicon. Nên có khoảng 8 GB RAM và 15 GB trống cho demo; Android cần thêm dung lượng SDK/cache. Lần build đầu cần Internet.
+
+Script `bootstrap.sh` cần Bash và OpenSSL để sinh mật khẩu; kiểm tra bằng `openssl version`. Luồng PowerShell trên Windows không cần OpenSSL cho cấu hình HTTP mặc định.
+
+Mở Docker Desktop, chờ engine chạy rồi kiểm tra:
 
 ```text
 git --version
@@ -23,209 +27,221 @@ docker compose version
 docker info
 ```
 
-Trên Windows, mở Docker Desktop và chờ engine chạy xong trước khi tiếp tục. Chạy các lệnh bên dưới từ thư mục gốc repository.
+## 2. Sau khi pull bản sửa mới
 
-## 2. Clone và chạy demo
+**Tại gốc repository** — thư mục có `.github/` và `codes/`:
 
 ```bash
-git clone https://github.com/TienPhat1912/se-final-project.git
-cd se-final-project
+git status
+git switch main
+git pull --ff-only origin main
+cd codes
 ```
 
-**Windows — PowerShell:**
+Lưu/commit công việc riêng trước khi pull. Nếu `--ff-only` báo không thể cập nhật, xử lý nhánh local đã tách trước khi tiếp tục; không bỏ qua xung đột rồi commit các dấu `<<<<<<<`/`=======`/`>>>>>>>` vào mã nguồn.
+
+**Windows — PowerShell, tại `codes/`:**
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/setup/bootstrap.ps1 -ConfigOnly
 docker compose up -d --build --wait --wait-timeout 180
+docker compose ps
+Invoke-RestMethod http://127.0.0.1:5280/health
 ```
 
-**Linux — Bash** (script cũng chạy được trong Git Bash/macOS; hỗ trợ container còn phụ thuộc kiến trúc máy):
+**Linux — Bash, tại `codes/`:**
 
 ```bash
 bash scripts/setup/bootstrap.sh --config-only
 docker compose up -d --build --wait --wait-timeout 180
+docker compose ps
+curl -fsS http://127.0.0.1:5280/health
 ```
 
-Bootstrap tạo `.env` từ [.env.example](.env.example), sinh mật khẩu riêng và ghi thông tin đăng nhập vào `.local/demo-access.txt`. Chạy lại sẽ giữ nguyên `.env` hiện có. Không cần copy `.env` của thành viên khác. Nếu tự copy template, phải thay cả hai giá trị `REPLACE_WITH_...` trước khi chạy.
+Lệnh bootstrap sinh `.env` khi chưa có và giữ nguyên cấu hình nếu đã có. `--build` cập nhật image web/API từ source vừa pull; API tự áp dụng migration. Database mới được seed tự động, database đã có người dùng được giữ lại. Thay cổng trong lệnh kiểm tra nếu đã đổi `API_PORT`.
 
-Khi container đã chạy, mở:
-
-| Địa chỉ mặc định                      | Mục đích                                        |
-| ------------------------------------- | ----------------------------------------------- |
-| http://localhost:5180                 | Giao diện hệ thống                              |
-| http://localhost:5180/entry           | Điểm vào công khai, QR bệnh viện                |
-| http://127.0.0.1:5280/health          | Kiểm tra API kết nối được SQL; trả `status: ok` |
-| http://localhost:5180/openapi/v1.json | Đặc tả API đang chạy                            |
-
-API có thể cần thêm vài giây để chạy migration và seed trong lần đầu. Kiểm tra bằng `docker compose ps` và `docker compose logs --tail=100 api`. SQL và API chỉ mở trực tiếp trên localhost; web chuyển tiếp `/api/` đến backend.
-
-### Tài khoản demo
-
-Mở file `.local/demo-access.txt` để lấy mật khẩu. Các tài khoản dưới đây dùng chung **mật khẩu demo được sinh trên máy của bạn**:
-
-| Email                    | Vai trò                                        |
-| ------------------------ | ---------------------------------------------- |
-| `patient@demo.local`     | Bệnh nhân                                      |
-| `reception@demo.local`   | Tiếp nhận, cấp phiếu và hỗ trợ                 |
-| `doctor@demo.local`      | Bác sĩ khoa khám                               |
-| `service@demo.local`     | Xét nghiệm, chẩn đoán hình ảnh                 |
-| `cashier@demo.local`     | Quyết toán mô phỏng                            |
-| `admin@demo.local`       | Dashboard, cấu hình, nhân viên và quyền        |
-| `otherdoctor@demo.local` | Bác sĩ khoa khác để kiểm tra giới hạn truy cập |
-
-Có thể chọn **Tiếp tục với tư cách khách** mà không đăng nhập. Đăng ký công khai chỉ tạo tài khoản bệnh nhân. Xem [kịch bản demo theo vai trò](docs/guides/DEMO.md) để trình diễn đầy đủ quy trình.
-
-### Dừng, chạy lại và cập nhật
-
-```bash
-docker compose stop
-docker compose up -d --wait --wait-timeout 180
-
-# Sau khi nhận mã nguồn mới (xử lý/commit thay đổi riêng trước khi pull):
-git pull
-docker compose up -d --build --wait --wait-timeout 180
-```
-
-`docker compose down` gỡ container/network nhưng vẫn giữ volume. **Không thêm `-v` nếu cần giữ dữ liệu**: volume chứa database và khóa bảo vệ QR. Không cần khởi tạo lại `.env` khi cập nhật source.
-
-## 3. Cấu hình hệ thống
-
-File cấu hình gốc là `.env`, không được commit. Bootstrap hỗ trợ giá trị dạng `KEY=value`, không có dấu nháy hay khoảng trắng quanh `=`.
-
-| Biến            | Mặc định / cách đặt | Tác dụng                                               |
-| --------------- | ------------------- | ------------------------------------------------------ |
-| `SQL_PASSWORD`  | Bootstrap tự sinh   | Mật khẩu SQL Server; khác mật khẩu tài khoản demo      |
-| `DEMO_PASSWORD` | Bootstrap tự sinh   | Mật khẩu dùng khi seed các tài khoản demo              |
-| `SQL_PORT`      | `14339`             | Cổng SQL trên máy chủ, ánh xạ tới 1433 trong container |
-| `API_PORT`      | `5280`              | Cổng API trên máy chủ                                  |
-| `WEB_PORT`      | `5180`              | Cổng mở giao diện web                                  |
-| `DATABASE_NAME` | `HospitalGuidance`  | Tên database, gồm chữ/số/`_`, bắt đầu bằng chữ         |
-| `LAN_IP`        | Không đặt           | IPv4 máy chủ khi dùng cấu hình LAN                     |
-
-Nếu cổng bị trùng, đổi cổng tương ứng trong `.env`, rồi chạy lại `docker compose up -d --build --wait --wait-timeout 180`. Script phát triển và Vite cũng đọc `API_PORT`/`WEB_PORT` từ file này. Ví dụ đổi `WEB_PORT=5188` thì mở `http://localhost:5188`.
-
-Nếu tự đặt mật khẩu, dùng 8–128 ký tự gồm chữ, số hoặc `! @ % _ + = . -`; mật khẩu SQL cần đủ độ phức tạp (nên có chữ hoa, chữ thường, số, ký tự đặc biệt). Dùng mật khẩu bootstrap sinh giúp tránh lỗi cú pháp giữa Compose, shell và connection string.
-
-**Đổi mật khẩu trong `.env` không đổi mật khẩu đã lưu trong database/volume.** Giữ lại file cấu hình của bộ dữ liệu đang dùng. Muốn có bộ demo mới mà giữ hồ sơ cũ, đổi `DATABASE_NAME` sang tên khác, giữ `SQL_PASSWORD` rồi chạy:
-
-```bash
-docker compose up -d --force-recreate api
-```
-
-Database mới được migrate/seed tự động; có thể quay lại tên database cũ. Khi chuyển giữa chạy source và Docker, nên dùng database riêng vì hai môi trường có key ring QR khác nhau; xem [quyết định thiết kế](docs/architecture/DECISIONS.md).
-
-## 4. Chạy từ mã nguồn để phát triển
-
-Phiên bản Node nằm trong [.nvmrc](.nvmrc), SDK .NET nằm trong [global.json](global.json). Dùng `npm ci` và NuGet locked restore để cài đúng lockfile.
-
-Trên Windows PowerShell:
-
-```powershell
-npm ci
-dotnet restore --locked-mode
-dotnet tool restore
-powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/setup/bootstrap.ps1
-
-# Tránh trùng cổng nếu trước đó đã chạy toàn bộ Compose:
-docker compose stop api web
-powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/dev/start-dev.ps1
-```
-
-SQL tiếp tục chạy bằng Docker; script build/chạy API và Vite, đợi API phản hồi rồi in địa chỉ. Log nằm trong `.local/api.*.log` và `.local/web.*.log`. Dừng các tiến trình do script tạo:
+Nếu đang chạy source bằng script dev, dừng trước để tránh chiếm cổng:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/dev/stop-dev.ps1
 ```
 
-Để chạy trong hai terminal và xem log trực tiếp, sau các bước cài dependency/SQL ở trên: terminal 1 chạy `./scripts/dev/run-api.ps1`; terminal 2 chạy `npm run dev`. Dùng `Ctrl+C` để dừng. Script PowerShell dev dành cho Windows; Linux có thể dùng demo Docker hoặc chạy API với các biến môi trường tương ứng trong `compose.yaml`.
+Nếu đang chạy chế độ LAN, dùng [Start-LAN.cmd](Start-LAN.cmd) sau khi pull thay cho lệnh Compose phía trên; script tự build và giữ cấu hình truy cập LAN. Sau cập nhật, tải lại trang bằng `Ctrl+Shift+R`.
 
-API tự áp dụng migration khi khởi động. Chỉ migrate/seed: `./scripts/dev/run-api.ps1 -MigrateOnly`. Thêm migration sau khi sửa model: `dotnet ef migrations add TenMigration --project backend/Hospital.Api`. Commit file migration và lockfile nếu có thay đổi dependency.
+**Giữ nguyên `.env`, volume `sql-data` và `api-keys` khi cập nhật.** Đổi thư mục clone trên cùng máy thì chuyển `.env` từ bản cũ của chính mình sang `codes/.env` trước khi bootstrap, để mật khẩu khớp volume đang dùng. Mỗi máy dùng cấu hình riêng; không lấy mật khẩu của thành viên khác.
 
-## 5. Chạy demo qua LAN, HTTPS và Android
+## 3. Clone lần đầu
 
-- **LAN trên Windows:** bấm `Start-LAN.cmd`; script tự nhận IP, chuẩn bị cấu hình và chạy Docker. Lần đầu có thể cần quyền Administrator để mở firewall. Các thiết bị cùng mạng mở link trong `.local/lan-access.txt`. Dừng bằng `Stop-LAN.cmd`. Xem [hướng dẫn LAN](docs/guides/LAN.md).
-- **HTTPS localhost:** sau bootstrap, cài OpenSSL vào PATH rồi chạy `./scripts/setup/enable-https.ps1`; mở `https://localhost:8443` với chứng thư tự ký. Trở về HTTP bằng `docker compose up -d --force-recreate api web`.
-- **Android:** tùy chọn, không bắt buộc cho demo web. Xem [cấu hình, build và cài Android](docs/guides/ANDROID.md). APK và SDK không được commit; mỗi thành viên tự build hoặc tải APK từ artifact của GitHub Actions đã chạy thành công.
+Từ thư mục muốn chứa repository:
 
-## 6. Kiểm tra trước khi gửi code
+```bash
+git clone https://github.com/TienPhat1912/Nhom1_DCT124C3_CNPM.git
+cd Nhom1_DCT124C3_CNPM/codes
+```
+
+Tiếp tục bằng khối lệnh PowerShell hoặc Bash ở mục 2. Không cần nhận `.env`, `.local/`, database dump, `node_modules/` hoặc bản build từ người khác.
+
+Bootstrap sử dụng [`.env.example`](.env.example), tạo mật khẩu SQL và mật khẩu demo khác nhau, rồi ghi tài khoản vào `.local/demo-access.txt`. File này được tạo lại khi chạy bootstrap với `.env` hiện có. Cấu hình và mật khẩu sinh ra chỉ nằm trên máy của bạn.
+
+## 4. Đăng nhập và kiểm tra
+
+| Địa chỉ mặc định | Chức năng |
+|---|---|
+| http://localhost:5180 | Giao diện bệnh nhân và nhân viên |
+| http://localhost:5180/entry | Điểm vào công khai, QR |
+| http://127.0.0.1:5280/health | Kết nối API → SQL, cần trả `status: ok` |
+| http://localhost:5180/openapi/v1.json | Đặc tả API qua web proxy |
+
+Mật khẩu nằm trong **`.local/demo-access.txt` của máy đang chạy demo**. Các tài khoản mẫu dùng chung mật khẩu demo đó:
+
+| Email | Vai trò |
+|---|---|
+| `patient@demo.local` | Bệnh nhân |
+| `reception@demo.local` | Tiếp nhận |
+| `doctor@demo.local` | Bác sĩ |
+| `service@demo.local` | Xét nghiệm/chẩn đoán hình ảnh |
+| `cashier@demo.local` | Thu ngân |
+| `admin@demo.local` | Quản trị |
+| `otherdoctor@demo.local` | Bác sĩ khoa khác để kiểm tra phân quyền |
+
+Có thể chọn **Tiếp tục với tư cách khách**. Máy có Node/npm có thể kiểm tra SQL health, web/proxy, OpenAPI và đăng nhập cả 7 vai trò:
+
+```powershell
+npm ci
+npm run test:demo
+```
+
+Kết quả ghi vào `artifacts/demo-smoke.json`. Nếu không dùng Node, kiểm tra `/health`, mở web và đăng nhập thủ công. Khi có lỗi:
+
+```bash
+docker compose ps
+docker compose logs --tail=100 api web sql
+```
+
+## 5. Cấu hình hệ thống
+
+File local là **`codes/.env`**. Định dạng `KEY=value`, không có dấu nháy hoặc khoảng trắng quanh `=`. Mẫu chia sẻ qua Git là `.env.example`.
+
+| Biến | Mặc định / cách tạo | Ý nghĩa |
+|---|---|---|
+| `SQL_PASSWORD` | Bootstrap sinh | Mật khẩu SQL Server |
+| `DEMO_PASSWORD` | Bootstrap sinh | Mật khẩu tài khoản mẫu khi seed database mới |
+| `SQL_PORT` | `14339` | Cổng SQL trên localhost |
+| `API_PORT` | `5280` | Cổng API trên localhost |
+| `WEB_PORT` | `5180` | Cổng web |
+| `DATABASE_NAME` | `HospitalGuidance` | Database ứng dụng |
+| `LAN_IP` | Script LAN tự nhận | IPv4 máy chạy Docker khi bật truy cập LAN |
+
+Nếu đổi cổng, chạy lại Compose và dùng URL tương ứng. `npm run test:demo` đọc cổng từ `.env`; browser tests dùng `WEB_URL` và `API_URL` khi cần ghi đè.
+
+**Đổi mật khẩu trong `.env` không đổi mật khẩu đã có trong SQL/database.** Giữ lại file của bộ demo đang dùng. Các Compose file dùng chung tên project `cnpm-guidance`; chỉ chạy một bản của project này trên mỗi máy.
+
+### Wi-Fi/LAN trên Windows
+
+Chạy từ `codes/`:
+
+```powershell
+.\Start-LAN.cmd
+```
+
+Script chọn card mạng vật lý, cập nhật IP riêng của máy, build/chạy Compose, kiểm tra web/API và cấu hình firewall nếu cần. Link được ghi ở `.local/lan-access.txt`; thiết bị khác phải cùng mạng. Không dùng IP hoặc file `lan-access.txt` từ máy của thành viên khác. Khi đổi Wi-Fi, chạy lại script. Chi tiết: [LAN.md](docs/guides/LAN.md).
+
+### Dừng và chạy lại
+
+```bash
+docker compose stop
+docker compose up -d --wait --wait-timeout 180
+```
+
+Với LAN, dừng bằng `Stop-LAN.cmd` và bật lại bằng `Start-LAN.cmd`. `docker compose down` giữ volume, nhưng **không thêm `-v` nếu cần giữ database và khóa QR**.
+
+HTTPS localhost và APK Android là tùy chọn: xem [script](scripts/README.md) và [ANDROID.md](docs/guides/ANDROID.md). Bản APK phải được build hoặc tải từ artifact CI đã chạy thành công.
+
+## 6. Chạy source để phát triển
+
+Cài đúng Node/npm/.NET ở mục 1. Sau mỗi lần pull thay đổi dependency, chạy lại `npm ci` và `dotnet restore --locked-mode`.
+
+Nếu chuyển từ bản Docker đang dùng sang chạy source, chuẩn bị `.env` trước bằng bootstrap `-ConfigOnly`, rồi đặt `DATABASE_NAME` thành tên database phát triển riêng trước khi chạy các lệnh dưới. Hai môi trường dùng key ring QR khác nhau.
+
+Windows PowerShell, tại `codes/`:
+
+```powershell
+npm ci
+dotnet restore --locked-mode
+dotnet tool restore --tool-manifest ./dotnet-tools.json
+powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/setup/bootstrap.ps1
+docker compose stop api web
+powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/dev/start-dev.ps1
+```
+
+SQL tiếp tục dùng Docker; API và Vite chạy trên máy. Script in URL khi đã sẵn sàng và ghi log trong `.local/`. Dừng bằng `scripts/dev/stop-dev.ps1` như mục 2.
+
+## 7. Kiểm tra trước khi gửi thay đổi
+
+Sau khi cài dependency bằng các lệnh restore ở mục 6:
 
 ```powershell
 npm run typecheck
 npm run lint
 npm run build
 dotnet build -c Release --no-restore
+node --experimental-strip-types --test tests/unit/hospital-map.test.mjs
 powershell -NoProfile -ExecutionPolicy Bypass -File ./tests/setup/bootstrap.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File ./tests/lan/startup.ps1
+```
 
-# Cần demo Docker đang chạy; kiểm tra health, web, proxy và 7 vai trò:
-npm run test:demo
+Kiểm thử bootstrap PowerShell/Bash trên Windows cần Git Bash. Các kiểm thử tích hợp:
 
-# Cần SQL đang chạy; API acceptance dùng database riêng và cổng 5281:
+```powershell
+# Cần SQL đang chạy; script tạo database acceptance riêng trên cổng API 5281.
 powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/test/test-api.ps1
 
-# Cần web/API đang chạy; tạo dữ liệu demo mới trong database hiện tại:
+# Cần web/API đang chạy; các test này tạo dữ liệu thử trong database đang kết nối.
 npx playwright install chromium
 npm run test:e2e
 ```
 
-Khi đổi cổng, smoke test tự đọc `.env`. Với browser tests, đặt `WEB_URL` và `API_URL` trỏ tới địa chỉ mới trong môi trường terminal. Các báo cáo/ảnh/bundle mới nằm trong `artifacts/` và không được Git theo dõi. Xem [hướng dẫn kiểm thử](tests/README.md).
+Nếu đã đổi cổng, đặt `WEB_URL`/`API_URL` trước browser tests. Báo cáo sinh trong `artifacts/`. Chi tiết: [tests/README.md](tests/README.md).
 
-Workflow [check.yml](.github/workflows/check.yml) chạy khi push/pull request: kiểm tra bootstrap, typecheck/lint/build, tích hợp SQL/API/browser, bundle mobile và build Docker; job Android tạo APK artifact. CI tự sinh mật khẩu, không cần đưa `.env` của máy cá nhân lên GitHub. Kết quả CI chỉ được xác nhận sau khi workflow thực sự chạy trên repository.
+Workflow duy nhất được GitHub chạy nằm tại [`.github/workflows/check.yml` ở gốc repository](../.github/workflows/check.yml). Các lệnh CI chạy trong `codes/`; không tạo thêm workflow bên trong `codes/.github/`. CI tự sinh cấu hình, không cần mật khẩu demo của máy thành viên.
 
-## 7. Cấu trúc repository
+## 8. File public và file local
 
-```text
-apps/web/                   React + TypeScript + Vite, giao diện bệnh nhân/nhân viên
-apps/mobile/                React Native + Expo, ứng dụng bệnh nhân
-backend/Hospital.Api/       ASP.NET Core 10, nghiệp vụ, EF Core migrations
-packages/shared/            API client, kiểu dữ liệu, bản dịch dùng chung
-scripts/setup/              Sinh cấu hình và HTTPS
-scripts/dev/                Chạy/dừng source
-scripts/lan/                Khởi động LAN và firewall
-scripts/build/              Build Android
-scripts/test/               Chạy acceptance/CI
-scripts/docs/               Sinh tài liệu truy vết
-tests/                      api/, browser/, android/, lan/, setup/
-docs/                       Hướng dẫn, kiến trúc, yêu cầu, sơ đồ
-archive/                    File cũ không cần chạy demo; chỉ commit chỉ mục
-<<<<<<< HEAD
-../.github/workflows/       Kiểm tra tự động khi push/pull request (gốc repository)
-=======
-.github/workflows/          Kiểm tra tự động khi push/pull request
->>>>>>> AnhBao
-compose*.yaml               Docker demo, tùy chọn LAN/HTTPS
-.env.example                Mẫu cấu hình an toàn để chia sẻ
-```
+| Đưa lên Git để thành viên build lại | Sinh riêng trên từng máy, không commit |
+|---|---|
+| `apps/`, `packages/`, `backend/`, ảnh bản đồ và migrations | `node_modules/`, `bin/`, `obj/`, `dist/`, `.expo/` |
+| `package.json`, `package-lock.json`, `packages.lock.json`, `global.json`, `dotnet-tools.json` | SDK, Gradle cache, native project Android/iOS sinh bởi Expo |
+| `Dockerfile`, `compose*.yaml`, cấu hình nginx, `.dockerignore` | Docker volume, file database/backup, chứng thư và khóa riêng |
+| `.env.example`, `apps/mobile/.env.example` | `.env`, `.env.*` thực tế, `.local/demo-access.txt`, `.local/lan-access.txt` |
+| `scripts/`, `tests/`, README và workflow ở gốc | `artifacts/`, ảnh/báo cáo test, APK/AAB, log |
 
-Mã nguồn, migrations, lockfile, test, script và tài liệu sử dụng được giữ trong repository. File không cần cho bản clone mới đã gom vào [archive/](archive/README.md), kèm [danh mục di chuyển](archive/MANIFEST.md). `.env`, `.local/`, `node_modules/`, `bin/`, `obj/`, `dist/` và `artifacts/` là dữ liệu riêng/phát sinh, được `.gitignore` bỏ qua.
+[`.gitignore` ở gốc](../.gitignore) và [`.gitignore` của ứng dụng](.gitignore) bỏ qua file local nhưng giữ mẫu `.env.example` và `.env.*.example`. Các file build/cấu hình cần thiết được chia sẻ cùng source. Không dùng `git add -f` để đưa mật khẩu hoặc thư mục `.local/` lên Git.
 
-## 8. Đưa lên GitHub và làm việc nhóm
-
-Repository dùng remote `https://github.com/TienPhat1912/se-final-project.git`. Sau khi kiểm tra các thay đổi:
+Người phụ trách cần commit/push cả bản sửa merge và hướng dẫn này trước khi thành viên pull. Ví dụ, **tại gốc repository**, sau khi đã kiểm tra thay đổi:
 
 ```bash
-git status
 git diff --check
-git add .
+git add .gitignore README.md .github codes
 git diff --cached --stat
-git commit -m "Prepare reproducible demo and reorganize project"
-git push -u origin HEAD
+git diff --cached --name-only
+git commit -m "Fix merge conflicts and document team setup"
+git push origin main
 ```
 
-Kiểm tra danh sách staging trước khi commit: không có `.env`, mật khẩu, APK, SDK hay thư mục lưu trữ cục bộ. Không dùng `git add -f` cho các file này. Nếu GitHub từ chối quyền push, đăng nhập bằng tài khoản được cấp quyền repository hoặc tạo fork/nhánh và gửi pull request. Thành viên khác chỉ cần làm theo mục 1–3, không cần nhận file cấu hình riêng từ người tạo dự án.
+Đọc danh sách staging trước khi commit để chắc chắn chỉ gửi thay đổi dự định. `.gitignore` không tự loại file đã được Git theo dõi; nếu từng commit file local, cần gỡ khỏi index trước khi chia sẻ.
 
-## 9. Lỗi thường gặp
+## 9. Lỗi khởi động thường gặp
 
-| Hiện tượng                              | Cách xử lý                                                                                                          |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Không kết nối được Docker / named pipe  | Mở Docker Desktop, chờ engine; chọn Linux containers; kiểm tra `docker info`                                        |
-| PowerShell chặn chạy script             | Dùng lệnh `powershell -NoProfile -ExecutionPolicy Bypass -File ...` như hướng dẫn; chỉ áp dụng cho tiến trình đó    |
-| Thiếu `SQL_PASSWORD` / `DEMO_PASSWORD`  | Chạy bootstrap; nếu đã copy template, thay giá trị `REPLACE_WITH_...`                                               |
-| Cổng đang được sử dụng                  | Dừng phiên source/Compose cũ hoặc đổi cổng trong `.env`                                                             |
-| SQL unhealthy / API thoát khi khởi động | Xem `docker compose logs --tail=100 sql api`; kiểm tra Docker đủ RAM, mật khẩu SQL đủ mạnh và khớp volume đang dùng |
-| Web mở được nhưng API báo 502           | Đợi migration/seed, kiểm tra `/health` và log API; API cần kết nối được SQL                                         |
-| Đăng nhập demo sai mật khẩu             | Dùng `.local/demo-access.txt`; nếu tự đổi `.env` sau khi seed thì mật khẩu trong database vẫn là mật khẩu cũ        |
-| Không tìm thấy SDK .NET phù hợp         | Cài SDK 10.0.400 theo `global.json`, hoặc dùng toàn bộ Docker                                                       |
-| Thiếu APK/ảnh/báo cáo trong bản clone   | Đây là file phát sinh được ignore; build/chạy test để tạo lại hoặc tải artifact CI                                  |
+| Hiện tượng | Cách xử lý |
+|---|---|
+| Không tìm thấy Compose file, `package.json` hoặc script | Vào `codes/` trước khi chạy lệnh ứng dụng |
+| Docker báo không kết nối engine/named pipe | Mở Docker Desktop, chọn Linux containers và kiểm tra `docker info` |
+| Thiếu `.env` / `SQL_PASSWORD` / `DEMO_PASSWORD` | Chạy bootstrap `-ConfigOnly` hoặc `--config-only` |
+| SQL không healthy sau khi đổi thư mục/mật khẩu | Dùng `.env` khớp volume hiện có; xem `docker compose logs --tail=100 sql api` |
+| Cổng bị chiếm | Dừng phiên source cũ hoặc đổi các biến cổng trong `.env` rồi chạy lại Compose |
+| Web báo 502 | Kiểm tra API/SQL, chờ migration hoàn tất và xem log |
+| Giao diện vẫn là bản cũ | Build lại với `--build`, rồi `Ctrl+Shift+R` hoặc mở tab ẩn danh |
+| Sai mật khẩu demo | Dùng `.local/demo-access.txt` trên máy chạy demo và `.env` đã seed database đó |
+| Điện thoại không vào được web | Chạy lại `Start-LAN.cmd`, dùng link mới của máy chủ và cùng Wi-Fi |
 
-Tài liệu chi tiết: [chỉ mục tài liệu](docs/README.md), [script](scripts/README.md), [API](docs/architecture/API.md), [truy vết yêu cầu](docs/requirements/TRACEABILITY.md). Đây là bản demo học tập với dữ liệu tổng hợp, chưa phải hệ thống triển khai trong bệnh viện thật.
+Tài liệu bổ sung: [chỉ mục](docs/README.md), [cấu hình Android](docs/guides/ANDROID.md), [cấu hình bản đồ](docs/guides/HOSPITAL_MAP.md), [API](docs/architecture/API.md).

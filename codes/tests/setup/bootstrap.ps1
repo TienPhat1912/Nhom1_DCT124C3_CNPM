@@ -53,9 +53,6 @@ try {
 } finally {
   if ($scratch.StartsWith($allowed, [StringComparison]::OrdinalIgnoreCase) -and (Test-Path -LiteralPath $scratch)) { Remove-Item -LiteralPath $scratch -Recurse -Force }
 }
-<<<<<<< HEAD
 # The rejected Bash configuration intentionally leaves LASTEXITCODE nonzero.
 # Report success only after every assertion and cleanup has completed.
 exit 0
-=======
->>>>>>> AnhBao

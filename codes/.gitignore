@@ -1,16 +1,24 @@
-# Local configuration and credentials (templates are safe to commit).
+# Keep the application safe to share even when codes/ is copied on its own.
+# Templates, package-lock.json, packages.lock.json, migrations, Dockerfiles,
+# Compose files, scripts, tests and app assets are required for a fresh build.
+# The GitHub Actions workflow lives at ../.github/workflows/check.yml.
+
+# Per-machine configuration and credentials; example files remain public.
 .env
 .env.*
 !.env.example
+!.env.*.example
+.local/
 *.pem
 *.key
 *.pfx
 *.p12
+*.p8
 *.jks
 *.keystore
+*.mobileprovision
 
 # Local SDKs, runtime state and generated output.
-.local/
 .gradle-cache/
 **/.gradle/
 **/.cxx/
@@ -21,15 +29,25 @@
 **/node_modules/
 **/dist/
 **/.expo/
+**/web-build/
+**/coverage/
+*.tsbuildinfo
 apps/mobile/android/
 apps/mobile/ios/
 **/test-results/
 **/playwright-report/
 *.user
 *.log
+*.pid
 artifacts/
 *.apk
 *.aab
+
+# Local SQL Server files and backups; schema is shared through migrations.
+*.mdf
+*.ndf
+*.ldf
+*.bak
 
 # Historical generated reports (new runs write to artifacts/).
 /docs/evidence/

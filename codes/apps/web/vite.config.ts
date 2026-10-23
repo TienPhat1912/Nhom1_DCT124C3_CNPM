@@ -8,9 +8,6 @@ export default defineConfig(({ mode }) => {
   const settings = loadEnv(mode, root, '');
   const target = `http://127.0.0.1:${settings.API_PORT || '5280'}`;
   return {
-<<<<<<< HEAD
-    plugins: [react()],
-=======
     plugins: [
       react(),
       {
@@ -22,7 +19,6 @@ export default defineConfig(({ mode }) => {
         },
       },
     ],
->>>>>>> AnhBao
     server: {
       port: Number(settings.WEB_PORT || '5180'),
       strictPort: true,

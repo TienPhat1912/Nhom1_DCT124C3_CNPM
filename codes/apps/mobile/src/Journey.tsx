@@ -1,8 +1,5 @@
 import { useState } from "react";
-<<<<<<< HEAD
-=======
 import { HospitalMap } from "./HospitalMap";
->>>>>>> AnhBao
 import { View } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import QRCode from "react-native-qrcode-svg";
@@ -10,10 +7,6 @@ import {
   dateText,
   displayName,
   qrToken,
-<<<<<<< HEAD
-  type Directions,
-=======
->>>>>>> AnhBao
   type Step,
   type Ticket,
   type Visit,
@@ -22,10 +15,6 @@ import {
   Badge,
   Btn,
   Card,
-<<<<<<< HEAD
-  Choice,
-=======
->>>>>>> AnhBao
   DestinationBlock,
   Feedback,
   Input,
@@ -331,19 +320,6 @@ export function ScanTicket({
 }
 export function DirectionsScreen({
   visitId,
-<<<<<<< HEAD
-  step,
-  onHelp,
-}: {
-  visitId: string;
-  step: Step;
-  onHelp: () => void;
-}) {
-  const { t, locale, config } = useNative();
-  const [from, setFrom] = useState("");
-  const r = useLoad<Directions>(
-    `/api/visits/${visitId}/navigation?stepId=${step.id}&language=${locale}${from ? `&from=${from}` : ""}`,
-=======
   onHelp,
 }: {
   visitId: string;
@@ -356,38 +332,11 @@ export function DirectionsScreen({
   );
   const current = visit.data?.steps.find(
     (s) => s.id === visit.data?.currentStepId,
->>>>>>> AnhBao
   );
   return (
     <>
       <Txt tone="title">{t("navigate")}</Txt>
       <Card>
-<<<<<<< HEAD
-        <Txt tone="heading">{t("startLocation")}</Txt>
-        {config.locations.map((l) => (
-          <Choice
-            key={l.id}
-            label={displayName(l, locale)}
-            selected={from === l.id}
-            onPress={() => setFrom(l.id)}
-          />
-        ))}
-      </Card>
-      <Card>
-        <LoadingState resource={r} />
-        {r.data && (
-          <>
-            <DestinationBlock destination={r.data.destination} />
-            <Txt>{r.data.instructions ?? t("noRoute")}</Txt>
-            {r.data.fallback && r.data.language && (
-              <Txt tone="muted">
-                {t("fallback")}: {r.data.language}
-              </Txt>
-            )}
-          </>
-        )}
-        <Btn secondary onPress={onHelp}>
-=======
         <LoadingState resource={visit} />
         {current ? (
           <HospitalMap key={current.id} destination={current.destination} />
@@ -395,7 +344,6 @@ export function DirectionsScreen({
           visit.data && <Txt>{t("noCurrent")}</Txt>
         )}
         <Btn secondary onPress={() => onHelp(current?.id)}>
->>>>>>> AnhBao
           {t("help")}
         </Btn>
       </Card>

@@ -8,26 +8,12 @@ import {
   QrCode,
   Volume2,
 } from "lucide-react";
-<<<<<<< HEAD
-import {
-  dateText,
-  type Directions,
-  type Step,
-  type Ticket,
-  type Visit,
-} from "@hospital/shared";
-=======
 import { dateText, type Step, type Ticket, type Visit } from "@hospital/shared";
->>>>>>> AnhBao
 import {
   Button,
   DestinationCard,
   Empty,
   Feedback,
-<<<<<<< HEAD
-  Field,
-=======
->>>>>>> AnhBao
   Modal,
   Notice,
   QrPanel,
@@ -39,10 +25,7 @@ import {
 } from "./components";
 import { useMutation, useResource, useRuntime } from "./runtime";
 import { HelpPanel } from "./PatientRecords";
-<<<<<<< HEAD
-=======
 import { HospitalMap } from "./HospitalMap";
->>>>>>> AnhBao
 export function PatientJourney({
   id,
   onSelected,
@@ -277,15 +260,7 @@ export function PatientJourney({
       )}
       {modal === "directions" && id && step && (
         <Modal title={t("navigate")} onClose={() => setModal(null)}>
-<<<<<<< HEAD
-          <DirectionsPanel
-            id={id}
-            step={step}
-            onHelp={() => setModal("help")}
-          />
-=======
           <DirectionsPanel step={step} onHelp={() => setModal("help")} />
->>>>>>> AnhBao
         </Modal>
       )}
       {modal === "help" && (
@@ -346,55 +321,11 @@ export function TicketPanel({ id }: { id: string }) {
     </>
   );
 }
-<<<<<<< HEAD
-function DirectionsPanel({
-  id,
-  step,
-  onHelp,
-}: {
-  id: string;
-  step: Step;
-  onHelp: () => void;
-}) {
-  const { t, locale, config } = useRuntime();
-  const [from, setFrom] = useState("");
-  const r = useResource<Directions>(
-    `/api/visits/${id}/navigation?stepId=${step.id}&language=${locale}${from ? `&from=${from}` : ""}`,
-  );
-  return (
-    <>
-      <Field label={t("startLocation")}>
-        <select value={from} onChange={(e) => setFrom(e.target.value)}>
-          <option value="">{t("chooseStart")}</option>
-          {config.locations.map((l) => (
-            <option key={l.id} value={l.id}>
-              {locale === "vi" ? l.nameVi : l.nameEn}
-            </option>
-          ))}
-        </select>
-      </Field>
-      <ResourceState resource={r} />
-      {r.data && (
-        <>
-          <DestinationCard destination={r.data.destination} />
-          <div className="route-text">
-            <MapPin />
-            <p>{r.data.instructions ?? t("noRoute")}</p>
-          </div>
-          {r.data.instructions && r.data.fallback && (
-            <small>
-              {t("fallback")}: {r.data.language}
-            </small>
-          )}
-        </>
-      )}
-=======
 function DirectionsPanel({ step, onHelp }: { step: Step; onHelp: () => void }) {
   const { t } = useRuntime();
   return (
     <>
       <HospitalMap key={step.id} destination={step.destination} />
->>>>>>> AnhBao
       <Button variant="secondary" onClick={onHelp}>
         {t("help")}
       </Button>
