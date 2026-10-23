@@ -1,0 +1,329 @@
+.hospital-map {
+  margin: 8px 0 20px;
+}
+dialog:has(.hospital-map) {
+  width: min(1080px, calc(100vw - 24px));
+}
+.hospital-map-heading,
+.hospital-map-heading > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hospital-map-heading {
+  justify-content: space-between;
+  margin: 16px 0;
+}
+.hospital-map-heading h3 {
+  margin: 0;
+}
+.map-sample {
+  background: #fff1cc;
+  color: #77540b;
+  border-radius: 20px;
+  padding: 7px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.map-intro,
+.map-position-hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+.map-destination .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.map-destination .destination {
+  margin-top: 8px;
+}
+.map-location-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+.map-location-fields select {
+  width: 100%;
+  min-width: 0;
+}
+.map-actions {
+  flex-wrap: wrap;
+}
+.map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(230px, 1fr);
+  gap: 18px;
+  margin-top: 18px;
+  align-items: start;
+}
+.map-visual {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.map-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px;
+  background: #f7faf9;
+}
+.map-floor-tabs,
+.map-zoom {
+  display: flex;
+  gap: 4px;
+}
+.map-toolbar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: white;
+  color: var(--dark);
+  font-size: 0.75rem;
+  padding: 7px 10px;
+}
+.map-toolbar button[aria-pressed="true"] {
+  background: var(--green);
+  color: white;
+  border-color: var(--green);
+}
+.map-floor-dot {
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  background: #38bdf8;
+}
+.map-canvas-scroll {
+  overflow: auto;
+  max-height: 640px;
+  background: #f3f5f4;
+}
+.map-canvas {
+  display: block;
+  height: auto;
+  overflow: hidden;
+}
+.map-edge {
+  stroke: #6a8395;
+  stroke-width: 3;
+  stroke-dasharray: 4 5;
+  opacity: 0.5;
+}
+.map-route-outline {
+  stroke: white;
+  stroke-width: 11;
+  stroke-linecap: round;
+}
+.map-route-line {
+  stroke: #1261df;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.map-node,
+.map-building {
+  cursor: pointer;
+  outline: none;
+}
+.map-node.unavailable {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+.map-building rect {
+  fill: #ffffffdf;
+  stroke: #486878;
+  stroke-width: 1;
+}
+.map-building text {
+  fill: #16392e;
+  font-size: 19px;
+  font-weight: 700;
+}
+.map-building.selected rect,
+.map-building:focus rect {
+  fill: #d8f1e4;
+  stroke: #0a6357;
+  stroke-width: 3;
+}
+.map-hit-area {
+  fill: transparent;
+}
+.map-node-dot {
+  fill: #fff;
+  stroke: #486878;
+  stroke-width: 2.5;
+}
+.map-node.on-route .map-node-dot {
+  fill: #dbeafe;
+  stroke: #1261df;
+}
+.map-node-halo {
+  fill: #ffffffbc;
+  stroke: white;
+  stroke-width: 2;
+}
+.map-node.is-target .map-node-dot {
+  fill: #c15b08;
+  stroke: white;
+}
+.map-node.is-start .map-node-dot {
+  fill: #0a6357;
+  stroke: white;
+}
+.map-node:focus .map-hit-area,
+.map-node:hover .map-hit-area {
+  fill: #ffffff80;
+  stroke: #0a6357;
+  stroke-width: 3;
+}
+.map-node-symbol {
+  font-size: 12px;
+  fill: #23404a;
+  pointer-events: none;
+}
+.map-node.is-start .map-node-symbol,
+.map-node.is-target .map-node-symbol {
+  fill: white;
+}
+.map-node-label {
+  font:
+    700 13px "Be Vietnam Pro",
+    sans-serif;
+  fill: #16392e;
+  stroke: white;
+  stroke-width: 4px;
+  paint-order: stroke;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  padding: 13px;
+  font-size: 0.68rem;
+  background: white;
+}
+.map-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.map-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.legend-start {
+  background: #0a6357;
+}
+.legend-target {
+  background: #c15b08;
+}
+.legend-checkpoint {
+  background: white;
+  border: 2px solid #486878;
+}
+.map-legend .legend-route {
+  height: 4px;
+  width: 16px;
+  border-radius: 4px;
+  background: #1261df;
+}
+.map-itinerary {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #f7faf9;
+}
+.map-route-status {
+  font-weight: 600;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  padding: 12px 16px;
+  background: #eaf3ee;
+  border-radius: 10px;
+  color: var(--dark);
+}
+.map-itinerary h4 {
+  font-size: 0.9rem;
+  margin: 0 0 12px;
+}
+.map-route-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+.map-route-list li {
+  display: flex;
+  gap: 10px;
+  position: relative;
+  padding: 0 0 16px;
+}
+.map-route-list li:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 24px;
+  bottom: 0;
+  width: 2px;
+  background: #d7e4e0;
+}
+.map-step-index {
+  display: grid;
+  place-items: center;
+  flex: 0 0 26px;
+  height: 26px;
+  border: 1px solid #b8d4c9;
+  border-radius: 50%;
+  background: white;
+  color: var(--green);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.map-route-list p {
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+.map-route-list button {
+  padding: 6px 0;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  color: var(--green);
+  font-size: 0.75rem;
+  text-decoration: underline;
+}
+.map-route-list small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+@media (max-width: 700px) {
+  dialog:has(.hospital-map) {
+    padding: 16px;
+  }
+  .map-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hospital-map-heading {
+    flex-wrap: wrap;
+  }
+  .map-canvas-scroll {
+    max-height: 520px;
+  }
+  .map-toolbar button {
+    min-height: 44px;
+  }
+}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { HospitalMap } from "./HospitalMap";
 import { View } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import QRCode from "react-native-qrcode-svg";
@@ -6,7 +7,6 @@ import {
   dateText,
   displayName,
   qrToken,
-  type Directions,
   type Step,
   type Ticket,
   type Visit,
@@ -15,7 +15,6 @@ import {
   Badge,
   Btn,
   Card,
-  Choice,
   DestinationBlock,
   Feedback,
   Input,
@@ -321,46 +320,30 @@ export function ScanTicket({
 }
 export function DirectionsScreen({
   visitId,
-  step,
   onHelp,
 }: {
   visitId: string;
-  step: Step;
-  onHelp: () => void;
+  onHelp: (stepId?: string) => void;
 }) {
-  const { t, locale, config } = useNative();
-  const [from, setFrom] = useState("");
-  const r = useLoad<Directions>(
-    `/api/visits/${visitId}/navigation?stepId=${step.id}&language=${locale}${from ? `&from=${from}` : ""}`,
+  const { t, locale } = useNative();
+  const visit = useLoad<Visit>(
+    `/api/visits/${visitId}?language=${locale}`,
+    true,
+  );
+  const current = visit.data?.steps.find(
+    (s) => s.id === visit.data?.currentStepId,
   );
   return (
     <>
       <Txt tone="title">{t("navigate")}</Txt>
       <Card>
-        <Txt tone="heading">{t("startLocation")}</Txt>
-        {config.locations.map((l) => (
-          <Choice
-            key={l.id}
-            label={displayName(l, locale)}
-            selected={from === l.id}
-            onPress={() => setFrom(l.id)}
-          />
-        ))}
-      </Card>
-      <Card>
-        <LoadingState resource={r} />
-        {r.data && (
-          <>
-            <DestinationBlock destination={r.data.destination} />
-            <Txt>{r.data.instructions ?? t("noRoute")}</Txt>
-            {r.data.fallback && r.data.language && (
-              <Txt tone="muted">
-                {t("fallback")}: {r.data.language}
-              </Txt>
-            )}
-          </>
+        <LoadingState resource={visit} />
+        {current ? (
+          <HospitalMap key={current.id} destination={current.destination} />
+        ) : (
+          visit.data && <Txt>{t("noCurrent")}</Txt>
         )}
-        <Btn secondary onPress={onHelp}>
+        <Btn secondary onPress={() => onHelp(current?.id)}>
           {t("help")}
         </Btn>
       </Card>

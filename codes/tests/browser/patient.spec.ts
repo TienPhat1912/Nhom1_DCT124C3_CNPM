@@ -33,7 +33,8 @@ test('guest reception, pharmacy, readable fallback, assistance and same-record a
   await page.getByRole('button', { name: 'Mở hành trình', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Khám ban đầu', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Chỉ đường', exact: true }).click();
-  await expect(page.getByText(/Chưa có tuyến đường chi tiết/)).toBeVisible();
+  await expect(page.getByText('Bản đồ mẫu', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Tìm đường', exact: true })).toBeDisabled();
   await page.getByRole('button', { name: 'Đóng', exact: true }).click();
   await page.getByRole('button', { name: 'Cần hỗ trợ', exact: true }).click();
   await page.getByRole('button', { name: 'Gửi yêu cầu hỗ trợ', exact: true }).click();

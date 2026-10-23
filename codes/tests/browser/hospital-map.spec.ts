@@ -1,0 +1,294 @@
+import { test, expect } from "@playwright/test";
+import { hospitalMap } from "../../packages/shared/src/hospitalMap";
+
+test("indoor/outdoor selection, ticket destination, route narration, transfers and safe fallbacks", async ({
+  page,
+}, info) => {
+  let destination = {
+    id: "location-A101",
+    nameVi: "Phòng khám tổng quát",
+    nameEn: "Consultation room",
+    building: "A",
+    floor: "1",
+    room: "A101",
+  };
+  const createdAt = new Date().toISOString();
+  const locations = hospitalMap.nodes
+    .filter((n) => n.kind === "room")
+    .map((n) => ({
+      id: `location-${n.room}`,
+      version: 1,
+      createdAt,
+      departmentId: "consult",
+      nameVi: n.nameVi,
+      nameEn: n.nameEn,
+      building: n.building,
+      floor: n.floor,
+      room: n.room,
+      active: true,
+    }));
+  await page.addInitScript(() => {
+    const voice = { texts: [] as string[], cancelled: 0, fail: false };
+    Object.assign(window, { mapVoice: voice });
+    Object.defineProperty(window, "speechSynthesis", {
+      configurable: true,
+      value: {
+        cancel() {
+          voice.cancelled++;
+        },
+        getVoices() {
+          return [];
+        },
+        speak(utterance: SpeechSynthesisUtterance) {
+          if (voice.fail) throw new Error("unavailable");
+          voice.texts.push(utterance.text);
+        },
+      },
+    });
+  });
+  await page.route("**/api/**", async (route) => {
+    const path = new URL(route.request().url()).pathname;
+    const summary = {
+      id: "map-visit",
+      version: 1,
+      createdAt,
+      patientName: "Bệnh nhân bản đồ",
+      ticketNumber: "MAP-001",
+      status: "Active",
+      journeyStatus: "Active",
+      closedAt: null,
+      workRevision: 1,
+    };
+    const data =
+      path === "/api/config"
+        ? {
+            name: "An Tâm",
+            demo: true,
+            departments: [],
+            services: [],
+            locations,
+            guestHours: 24,
+            pollSeconds: 5,
+            form: {},
+            emergencyVi: "",
+            emergencyEn: "",
+          }
+        : path === "/api/auth/session"
+          ? {
+              sessionId: "map-session",
+              patientId: "patient",
+              role: "Patient",
+              name: "Bệnh nhân bản đồ",
+              language: "vi",
+              isGuest: true,
+              expiresAt: new Date(Date.now() + 3600000).toISOString(),
+              token: null,
+            }
+          : path === "/api/visits"
+            ? [summary]
+            : path === "/api/visits/map-visit"
+              ? {
+                  ...summary,
+                  journeyId: "journey",
+                  journeyVersion: 1,
+                  currentStepId: "consultation",
+                  updatedAt: createdAt,
+                  orders: [],
+                  steps: [
+                    {
+                      id: "consultation",
+                      version: 1,
+                      createdAt,
+                      kind: "Consultation",
+                      status: "Ready",
+                      authority: "Doctor",
+                      locationId: destination.id,
+                      departmentId: "consult",
+                      destination,
+                      queueNumber: "001",
+                      queueStatus: "Waiting",
+                      queueUpdatedAt: createdAt,
+                      text: "Đến phòng trên phiếu khám.",
+                      contentLanguage: "vi",
+                      fallback: false,
+                      prerequisites: [],
+                    },
+                  ],
+                }
+              : [];
+    await route.fulfill({ json: data });
+  });
+  await page.goto("/#visit=map-visit");
+  await page.getByRole("button", { name: "Chỉ đường", exact: true }).click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog.getByText("Bản đồ mẫu", { exact: true })).toBeVisible();
+  await expect(
+    dialog.getByRole("button", { name: "Tìm đường", exact: true }),
+  ).toBeDisabled();
+  await expect(
+    dialog.getByLabel("Checkpoint gần nhất", { exact: true }),
+  ).toBeDisabled();
+  await expect(dialog.getByTestId("map-route-segment")).toHaveCount(0);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth + 1,
+      ),
+    )
+    .toBe(true);
+
+  // Outside: select a fixed checkpoint directly on the campus map.
+  await dialog.getByTestId("map-node-gate-1").click();
+  await expect(
+    dialog.getByLabel("1. Vị trí của bạn", { exact: true }),
+  ).toHaveValue("outside");
+  await expect(
+    dialog.getByLabel("2. Lầu đang đứng", { exact: true }),
+  ).toHaveCount(0);
+  await expect(dialog.getByTestId("map-route-segment")).toHaveCount(0);
+  await dialog.getByRole("button", { name: "Tìm đường", exact: true }).click();
+  await expect(dialog.getByTestId("map-status")).toHaveText(
+    "Đường đi ngắn nhất",
+  );
+  await expect(dialog.getByTestId("map-route-segment")).toHaveCount(3);
+  await dialog
+    .getByRole("button", { name: "Nghe chỉ đường", exact: true })
+    .click();
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        (
+          window as Window & { mapVoice: { texts: string[] } }
+        ).mapVoice.texts.at(-1),
+      ),
+    )
+    .toContain("A101");
+  await expect(
+    dialog.getByRole("button", { name: "Dừng đọc", exact: true }),
+  ).toBeVisible();
+
+  // Changing building/floor clears the route and stops stale narration.
+  await dialog
+    .getByLabel("1. Vị trí của bạn", { exact: true })
+    .selectOption("B");
+  await expect(
+    dialog.getByRole("button", { name: "Dừng đọc", exact: true }),
+  ).toHaveCount(0);
+  await expect(dialog.getByTestId("map-route-segment")).toHaveCount(0);
+  await expect(
+    dialog.getByLabel("Checkpoint gần nhất", { exact: true }),
+  ).toBeDisabled();
+  await dialog
+    .getByLabel("2. Lầu đang đứng", { exact: true })
+    .selectOption("2");
+  await expect(
+    dialog
+      .getByLabel("Checkpoint gần nhất", { exact: true })
+      .locator("option[value='room-A101']"),
+  ).toHaveCount(0);
+  await dialog
+    .getByLabel("Checkpoint gần nhất", { exact: true })
+    .selectOption("room-B201");
+  await dialog.getByRole("button", { name: "Tìm đường", exact: true }).click();
+  await expect(
+    dialog.getByText("Đi thang máy tòa B từ tầng 2 đến tầng 1.", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await dialog.getByLabel("Phóng to", { exact: true }).click();
+  await expect(dialog.getByLabel("Vừa khung", { exact: true })).toHaveText(
+    "150%",
+  );
+  await dialog.getByLabel("Vừa khung", { exact: true }).click();
+
+  // Same room is an arrival, without artificial path segments.
+  await dialog
+    .getByLabel("1. Vị trí của bạn", { exact: true })
+    .selectOption("A");
+  await dialog
+    .getByLabel("2. Lầu đang đứng", { exact: true })
+    .selectOption("1");
+  await dialog
+    .getByLabel("Checkpoint gần nhất", { exact: true })
+    .selectOption("room-A101");
+  await dialog.getByRole("button", { name: "Tìm đường", exact: true }).click();
+  await expect(dialog.getByTestId("map-status")).toHaveText(
+    "Bạn đã ở đúng phòng trên phiếu.",
+  );
+  await expect(dialog.getByTestId("map-route-segment")).toHaveCount(0);
+
+  destination = {
+    ...destination,
+    id: "location-B201",
+    building: "B",
+    floor: "2",
+    room: "B201",
+    nameVi: "Phòng lấy mẫu",
+    nameEn: "Sample collection",
+  };
+  await page.evaluate(() => window.dispatchEvent(new Event("focus")));
+  await expect(
+    dialog.getByLabel("1. Vị trí của bạn", { exact: true }),
+  ).toHaveValue("");
+  await dialog.getByTestId("map-node-gate-1").focus();
+  await page.keyboard.press("Enter");
+  await dialog.getByRole("button", { name: "Tìm đường", exact: true }).click();
+  await expect(
+    dialog.getByText("Đi thang máy tòa B từ tầng 1 đến tầng 2.", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await dialog.getByRole("button", { name: "Tầng 2", exact: true }).click();
+  await expect(dialog.getByTestId("map-node-room-B201")).toHaveClass(
+    /is-target/,
+  );
+  await expect(dialog.getByTestId("map-route-segment")).toHaveCount(2);
+  await dialog
+    .locator(".map-visual")
+    .screenshot({ path: `artifacts/${info.project.name}-hospital-map.png` });
+
+  await expect
+    .poll(() => dialog.evaluate((el) => el.scrollWidth <= el.clientWidth + 1))
+    .toBe(true);
+  await dialog.evaluate((el) => {
+    el.scrollTop = 0;
+  });
+  await page.screenshot({
+    path: `artifacts/${info.project.name}-hospital-map-screen.png`,
+  });
+  // Speech failure leaves the written route intact.
+  await page.evaluate(() => {
+    (window as Window & { mapVoice: { fail: boolean } }).mapVoice.fail = true;
+  });
+  await dialog
+    .getByRole("button", { name: "Nghe chỉ đường", exact: true })
+    .click();
+  await expect(dialog.getByRole("alert")).toContainText(
+    "Không phát được âm thanh",
+  );
+  await expect(dialog.getByTestId("map-status")).toHaveText(
+    "Đường đi ngắn nhất",
+  );
+
+  await dialog.getByLabel("Đóng", { exact: true }).click();
+  await page.getByLabel("Ngôn ngữ", { exact: true }).selectOption("en");
+  await page.getByRole("button", { name: "Directions", exact: true }).click();
+  await expect(dialog.getByText("Sample map", { exact: true })).toBeVisible();
+  await dialog
+    .getByLabel("1. Your location", { exact: true })
+    .selectOption("outside");
+  await dialog
+    .getByLabel("Nearest checkpoint", { exact: true })
+    .selectOption("gate-2");
+  await dialog.getByRole("button", { name: "Find route", exact: true }).click();
+  await expect(dialog.getByTestId("map-status")).toHaveText("Shortest route");
+  destination = { ...destination, room: "B999" };
+  await page.evaluate(() => window.dispatchEvent(new Event("focus")));
+  await expect(dialog.getByTestId("map-status")).toContainText(
+    "do not match a mapped location",
+  );
+  await expect(dialog.getByTestId("map-route-segment")).toHaveCount(0);
+  await expect(
+    dialog.getByRole("button", { name: "Find route", exact: true }),
+  ).toBeDisabled();
+});

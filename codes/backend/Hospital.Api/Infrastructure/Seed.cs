@@ -22,12 +22,12 @@ public static class Seed
         db.AddRange(departments);
         var locations = new[] {
             new Location { DepartmentId = departments[0].Id, NameVi = "Phòng khám tổng quát", NameEn = "Consultation room", Floor = "1", Room = "A101" },
-            new Location { DepartmentId = departments[1].Id, NameVi = "Phòng lấy mẫu", NameEn = "Sample collection", Floor = "2", Room = "B201" },
-            new Location { DepartmentId = departments[2].Id, NameVi = "Phòng chẩn đoán hình ảnh", NameEn = "Imaging room", Floor = "2", Room = "B202" },
-            new Location { DepartmentId = departments[3].Id, NameVi = "Quầy thu ngân", NameEn = "Settlement desk", Floor = "1", Room = "C01" },
+            new Location { DepartmentId = departments[1].Id, NameVi = "Phòng lấy mẫu", NameEn = "Sample collection", Floor = "2", Building = "B", Room = "B201" },
+            new Location { DepartmentId = departments[2].Id, NameVi = "Phòng chẩn đoán hình ảnh", NameEn = "Imaging room", Floor = "2", Building = "B", Room = "B202" },
+            new Location { DepartmentId = departments[3].Id, NameVi = "Quầy thu ngân", NameEn = "Settlement desk", Floor = "1", Building = "C", Room = "C01" },
             new Location { DepartmentId = departments[4].Id, NameVi = "Quầy nhà thuốc", NameEn = "Pharmacy counter", Floor = "1", Room = "P01" },
             new Location { DepartmentId = departments[0].Id, NameVi = "Quầy tiếp nhận", NameEn = "Reception desk", Floor = "1", Room = "R01" },
-            new Location { DepartmentId = departments[5].Id, NameVi = "Phòng khoa khác", NameEn = "Other clinic", Floor = "3", Room = "D301" }
+            new Location { DepartmentId = departments[5].Id, NameVi = "Phòng khoa khác", NameEn = "Other clinic", Floor = "3", Building = "D", Room = "D301" }
         };
         db.AddRange(locations);
         var patient = new Patient { Name = "Người dùng Demo", Contact = "demo-contact", Language = "vi" }; db.Add(patient);

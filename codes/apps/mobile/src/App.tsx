@@ -397,9 +397,8 @@ function PatientApp({
         {page === "directions" && id && step && (
           <DirectionsScreen
             visitId={id}
-            step={step}
-            onHelp={() => {
-              setHelpStep(step.id);
+            onHelp={(stepId) => {
+              setHelpStep(stepId);
               setPage("help");
             }}
           />
