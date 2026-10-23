@@ -26,3 +26,10 @@ Báo cáo chạy mới ở `artifacts/`, báo cáo Android ở `artifacts/androi
 `npm run test:demo` kiểm tra demo Docker đã bật: SQL health, 7 tài khoản/vai trò, API được bảo vệ, web/proxy và OpenAPI. Script đọc cổng từ `.env`; có thể ghi đè bằng `API_URL`/`WEB_URL`.
 
 Browser tests dùng `WEB_URL`/`API_URL` khi đổi cổng; mặc định lần lượt là `http://localhost:5180` và `http://127.0.0.1:5280`. Ví dụ PowerShell: `$env:WEB_URL='http://localhost:5188'; $env:API_URL='http://127.0.0.1:5288'` trước `npm run test:e2e`. API acceptance cần cổng 5281 trống, tự tạo database `HospitalAcceptance_<timestamp>` và giữ database này sau kiểm thử.
+
+## Bản đồ độc lập
+
+Chạy `npm run test:map`: tự mở Vite riêng ở cổng 5189, dùng API giả lập,
+không cần backend/SQL. `npm run test:map:unit` kiểm tra thuật toán và danh mục.
+Windows tự dùng Chrome/Edge có sẵn; máy chưa có trình duyệt phù hợp chạy
+`npx playwright install chromium`. Xem [hướng dẫn bản đồ](../docs/guides/HOSPITAL_MAP.md).

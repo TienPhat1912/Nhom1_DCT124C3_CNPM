@@ -1,1 +1,9 @@
-{"extends":"expo/tsconfig.base","compilerOptions":{"strict":true,"noEmit":true},"include":["**/*.ts","**/*.tsx","../../packages/shared/src"]}
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true
+  },
+  "include": ["**/*.ts", "**/*.tsx", "../../packages/shared/src"]
+}

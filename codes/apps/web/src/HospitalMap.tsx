@@ -10,6 +10,13 @@ import {
   Square,
 } from "lucide-react";
 import {
+  mapDepartments,
+  departmentLabel,
+  departmentLocation,
+  departmentNodeId,
+  searchDepartments,
+  floorLabel,
+  type MapDepartment,
   buildingFloors,
   destinationNode,
   hospitalMap,
@@ -29,28 +36,136 @@ import { useRouteSpeech } from "./useRouteSpeech";
 import "./hospital-map.css";
 
 export function HospitalMap({ destination }: { destination: Destination }) {
+  const { locale } = useRuntime();
+  const [query, setQuery] = useState("");
+  const [departmentId, setDepartmentId] = useState("");
+  const [departmentFloor, setDepartmentFloor] = useState("");
+  const department = mapDepartments.find((d) => d.id === departmentId);
+  const results = searchDepartments(query, locale);
   return (
-    <MapPanel
-      key={`${destination.id}:${destination.building}:${destination.floor}:${destination.room}`}
-      destination={destination}
-    />
+    <>
+      <details className="map-directory">
+        <summary>
+          {locale === "vi" ? "Tra cứu khoa/phòng" : "Department directory"} (
+          {mapDepartments.length})
+        </summary>
+        <p>
+          {locale === "vi"
+            ? "Có thể chọn một khoa làm điểm đến để tra cứu; thông tin trên phiếu không thay đổi."
+            : "Choose a department to explore directions. This does not change your ticket."}
+        </p>
+        <Field
+          label={locale === "vi" ? "Tìm khoa/phòng" : "Search departments"}
+        >
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={
+              locale === "vi"
+                ? "Tên khoa hoặc khu A–G"
+                : "Department name or building A–G"
+            }
+          />
+        </Field>
+        <Field
+          label={
+            locale === "vi" ? "Khoa/phòng cần đến" : "Destination department"
+          }
+        >
+          <select
+            value={departmentId}
+            onChange={(e) => {
+              const d = mapDepartments.find((d) => d.id === e.target.value);
+              setDepartmentId(e.target.value);
+              setDepartmentFloor(d?.floors.length === 1 ? d.floors[0] : "");
+            }}
+          >
+            <option value="">
+              {locale === "vi"
+                ? "Dùng phòng trên phiếu"
+                : "Use ticket destination"}
+            </option>
+            {department && !results.includes(department) && (
+              <option value={department.id}>
+                {departmentLabel(department, locale)} ·{" "}
+                {departmentLocation(department, locale)}
+              </option>
+            )}
+            {results.map((d) => (
+              <option key={d.id} value={d.id}>
+                {departmentLabel(d, locale)} · {departmentLocation(d, locale)}
+              </option>
+            ))}
+          </select>
+        </Field>
+        {department && department.floors.length > 1 && (
+          <Field label={locale === "vi" ? "Tầng cần đến" : "Destination floor"}>
+            <select
+              value={departmentFloor}
+              onChange={(e) => setDepartmentFloor(e.target.value)}
+            >
+              <option value="">
+                {locale === "vi"
+                  ? "Chọn tầng cần đến"
+                  : "Choose destination floor"}
+              </option>
+              {department.floors.map((f) => (
+                <option key={f} value={f}>
+                  {floorLabel(f, locale)}
+                </option>
+              ))}
+            </select>
+          </Field>
+        )}
+        {!results.length && (
+          <p>
+            {locale === "vi"
+              ? "Không tìm thấy khoa phù hợp."
+              : "No matching department."}
+          </p>
+        )}
+      </details>
+      <MapPanel
+        key={`${destination.id}:${destination.building}:${destination.floor}:${destination.room}:${departmentId}:${departmentFloor}`}
+        destination={destination}
+        department={department}
+        departmentFloor={departmentFloor}
+      />
+    </>
   );
 }
-function MapPanel({ destination }: { destination: Destination }) {
+
+function MapPanel({
+  destination,
+  department,
+  departmentFloor = "",
+}: {
+  destination: Destination;
+  department?: MapDepartment;
+  departmentFloor?: string;
+}) {
   const { locale } = useRuntime();
   const c = mapCopy[locale];
   const [area, setArea] = useState("");
   const [level, setLevel] = useState("");
   const [from, setFrom] = useState("");
   const [routeStart, setRouteStart] = useState("");
-  const [floor, setFloor] = useState("1");
+  const [floor, setFloor] = useState("0");
   const [zoom, setZoom] = useState(1);
-  const target = destinationNode(destination);
+  const target = department
+    ? hospitalMap.nodes.find(
+        (n) =>
+          !n.closed &&
+          n.id === departmentNodeId(department.id, departmentFloor),
+      )
+    : destinationNode(destination);
   const route =
     target && routeStart
       ? shortestPath(hospitalMap, routeStart, target.id)
       : null;
-  const instructions = route ? routeInstructions(route, locale) : [];
+  const instructions = route
+    ? routeInstructions(route, locale, !department)
+    : [];
   const speech = useRouteSpeech(
     route ? c.narrationIntro + instructions.join(" ") : "",
     locale,
@@ -68,7 +183,7 @@ function MapPanel({ destination }: { destination: Destination }) {
     setArea(value);
     setLevel("");
     setFrom("");
-    setFloor("1");
+    setFloor("0");
   };
   const chooseLevel = (value: string) => {
     clearRoute();
@@ -87,13 +202,19 @@ function MapPanel({ destination }: { destination: Destination }) {
     }
   };
   const status = !target
-    ? c.unmapped
+    ? department
+      ? department.floors.length
+        ? c.chooseTargetFloor
+        : c.unconfirmed
+      : c.unmapped
     : !routeStart
       ? c.select
       : !route
         ? c.unreachable
         : route.nodes.length === 1
-          ? c.arrived
+          ? department
+            ? c.departmentArrived
+            : c.arrived
           : c.route;
   const visibleNodes = hospitalMap.nodes.filter(
     (n) => !n.closed && n.floor === floor,
@@ -112,9 +233,22 @@ function MapPanel({ destination }: { destination: Destination }) {
       <div className="map-destination">
         <span className="eyebrow">
           <Flag size={14} />
-          {c.destination}
+          {department ? c.departmentDestination : c.destination}
         </span>
-        <DestinationCard destination={destination} />
+        {department ? (
+          <div className="destination">
+            <Flag size={24} />
+            <div>
+              <strong>{departmentLabel(department, locale)}</strong>
+              <p>{departmentLocation(department, locale)}</p>
+              {departmentFloor && (
+                <small>{floorLabel(departmentFloor, locale)}</small>
+              )}
+            </div>
+          </div>
+        ) : (
+          <DestinationCard destination={destination} />
+        )}
       </div>
       <div className="map-location-fields">
         <Field label={c.area}>
@@ -138,7 +272,7 @@ function MapPanel({ destination }: { destination: Destination }) {
               <option value="">{c.chooseFloor}</option>
               {buildingFloors(area).map((f) => (
                 <option key={f} value={f}>
-                  {c.floor} {f}
+                  {floorLabel(f, locale)}
                 </option>
               ))}
             </select>
@@ -201,20 +335,20 @@ function MapPanel({ destination }: { destination: Destination }) {
       <div className="map-layout">
         <div className="map-visual">
           <div className="map-toolbar">
-            <div className="map-floor-tabs" role="group" aria-label={c.shown}>
-              {mapFloors.map((f) => (
-                <button
-                  key={f}
-                  type="button"
-                  aria-pressed={floor === f}
-                  onClick={() => setFloor(f)}
+            <div className="map-floor-select">
+              <Field label={c.shown}>
+                <select
+                  value={floor}
+                  onChange={(e) => setFloor(e.target.value)}
                 >
-                  {c.floor} {f}
-                  {route?.nodes.some((n) => n.floor === f) && (
-                    <span className="map-floor-dot" aria-hidden="true" />
-                  )}
-                </button>
-              ))}
+                  {mapFloors.map((f) => (
+                    <option key={f} value={f}>
+                      {floorLabel(f, locale)}
+                      {route?.nodes.some((n) => n.floor === f) ? " •" : ""}
+                    </option>
+                  ))}
+                </select>
+              </Field>
             </div>
             <div className="map-zoom">
               <button
@@ -245,14 +379,14 @@ function MapPanel({ destination }: { destination: Destination }) {
           <div
             className="map-canvas-scroll"
             tabIndex={0}
-            aria-label={`${c.title} · ${c.floor} ${floor}`}
+            aria-label={`${c.title} · ${floorLabel(floor, locale)}`}
           >
             <svg
               className="map-canvas"
               viewBox="0 0 604 666"
               style={{ width: `${zoom * 100}%` }}
               role="group"
-              aria-label={`${c.title} · ${c.floor} ${floor}`}
+              aria-label={`${c.title} · ${floorLabel(floor, locale)}`}
             >
               <title>
                 {c.title} · {c.floor} {floor}
@@ -264,29 +398,31 @@ function MapPanel({ destination }: { destination: Destination }) {
                 opacity="0.6"
                 aria-hidden="true"
               />
-              {mapBuildings.map((b) => (
-                <g
-                  key={b.id}
-                  transform={`translate(${b.x} ${b.y})`}
-                  className={`map-building ${area === b.id ? "selected" : ""}`}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${c.building} ${b.id}`}
-                  aria-pressed={area === b.id}
-                  onClick={() => chooseArea(b.id)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      chooseArea(b.id);
-                    }
-                  }}
-                >
-                  <rect x="-24" y="-20" width="48" height="40" rx="8" />
-                  <text textAnchor="middle" dy="6">
-                    {b.id}
-                  </text>
-                </g>
-              ))}
+              {mapBuildings
+                .filter(() => floor === "0")
+                .map((b) => (
+                  <g
+                    key={b.id}
+                    transform={`translate(${b.x} ${b.y})`}
+                    className={`map-building ${area === b.id ? "selected" : ""}`}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`${c.building} ${b.id}`}
+                    aria-pressed={area === b.id}
+                    onClick={() => chooseArea(b.id)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        chooseArea(b.id);
+                      }
+                    }}
+                  >
+                    <rect x="-24" y="-20" width="48" height="40" rx="8" />
+                    <text textAnchor="middle" dy="6">
+                      {b.id}
+                    </text>
+                  </g>
+                ))}
               {hospitalMap.edges
                 .filter((e) => e.kind === "walk" && !e.closed)
                 .map((edge) => {
@@ -351,7 +487,7 @@ function MapPanel({ destination }: { destination: Destination }) {
                     transform={`translate(${n.x} ${n.y})`}
                     role={available ? "button" : undefined}
                     tabIndex={available ? 0 : undefined}
-                    aria-label={`${label(n)} · ${c.floor} ${n.floor}${end ? " · " + c.target : ""}`}
+                    aria-label={`${label(n)} · ${floorLabel(n.floor, locale)}${end ? " · " + c.target : ""}`}
                     aria-pressed={available ? start : undefined}
                     className={`map-node ${start ? "is-start" : ""} ${end ? "is-target" : ""} ${available ? "" : "unavailable"} ${routeIds.has(n.id) ? "on-route" : ""}`}
                     data-testid={`map-node-${n.id}`}
@@ -371,7 +507,14 @@ function MapPanel({ destination }: { destination: Destination }) {
                       <circle r="18" className="map-node-halo" />
                     )}
                     <circle
-                      r={n.kind === "room" || start || end ? 11 : 7}
+                      r={
+                        n.kind === "room" ||
+                        n.kind === "department" ||
+                        start ||
+                        end
+                          ? 11
+                          : 7
+                      }
                       className="map-node-dot"
                     />
                     <text
@@ -383,9 +526,11 @@ function MapPanel({ destination }: { destination: Destination }) {
                         ? "●"
                         : end
                           ? "★"
-                          : n.kind === "elevator"
-                            ? "↕"
-                            : ""}
+                          : n.marker
+                            ? n.marker
+                            : n.kind === "elevator"
+                              ? "↕"
+                              : ""}
                     </text>
                     {(n.room || n.kind === "gate" || start) && (
                       <text
@@ -421,6 +566,19 @@ function MapPanel({ destination }: { destination: Destination }) {
           </div>
         </div>
         <aside className="map-itinerary">
+          <details className="map-floor-directory">
+            <summary>
+              {c.floorDepartments} (
+              {visibleNodes.filter((n) => n.kind === "department").length})
+            </summary>
+            {visibleNodes
+              .filter((n) => n.kind === "department")
+              .map((n) => (
+                <button key={n.id} type="button" onClick={() => choose(n.id)}>
+                  {n.building}.{n.marker} · {label(n)}
+                </button>
+              ))}
+          </details>
           <h4>{c.steps}</h4>
           <p className="map-position-hint">{from ? c.selected : c.select}</p>
           {route && (
@@ -432,7 +590,7 @@ function MapPanel({ destination }: { destination: Destination }) {
                     <p>{instructions[i]}</p>
                     <small>
                       {n.building
-                        ? `${c.building} ${n.building} · ${c.floor} ${n.floor}`
+                        ? `${c.building} ${n.building} · ${floorLabel(n.floor, locale)}`
                         : c.outside}
                     </small>
                     <button

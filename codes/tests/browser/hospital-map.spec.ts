@@ -191,7 +191,7 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
     .selectOption("room-B201");
   await dialog.getByRole("button", { name: "Tìm đường", exact: true }).click();
   await expect(
-    dialog.getByText("Đi thang máy tòa B từ tầng 2 đến tầng 1.", {
+    dialog.getByText("Đi thang máy tòa B từ tầng 2 đến tầng trệt.", {
       exact: true,
     }),
   ).toBeVisible();
@@ -234,11 +234,11 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
   await page.keyboard.press("Enter");
   await dialog.getByRole("button", { name: "Tìm đường", exact: true }).click();
   await expect(
-    dialog.getByText("Đi thang máy tòa B từ tầng 1 đến tầng 2.", {
+    dialog.getByText("Đi thang máy tòa B từ tầng trệt đến tầng 2.", {
       exact: true,
     }),
   ).toBeVisible();
-  await dialog.getByRole("button", { name: "Tầng 2", exact: true }).click();
+  await dialog.getByLabel("Tầng đang xem", { exact: true }).selectOption("2");
   await expect(dialog.getByTestId("map-node-room-B201")).toHaveClass(
     /is-target/,
   );
@@ -291,4 +291,104 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
   await expect(
     dialog.getByRole("button", { name: "Find route", exact: true }),
   ).toBeDisabled();
+
+  // Directory destinations never rewrite the ticket; missing positions have no route.
+  await dialog.locator(".map-directory > summary").click();
+  await expect(
+    dialog
+      .getByLabel("Destination department", { exact: true })
+      .locator("option"),
+  ).toHaveCount(48);
+  await dialog.getByLabel("Search departments", { exact: true }).fill("neuro");
+  await dialog
+    .getByLabel("Destination department", { exact: true })
+    .selectOption("C-neurosurgery");
+  await dialog
+    .getByLabel("1. Your location", { exact: true })
+    .selectOption("outside");
+  await dialog
+    .getByLabel("Nearest checkpoint", { exact: true })
+    .selectOption("gate-1");
+  await dialog.getByRole("button", { name: "Find route", exact: true }).click();
+  await expect(
+    dialog.getByText(
+      "Take the lift in building C from ground floor to floor 4.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await dialog.getByLabel("Displayed floor", { exact: true }).selectOption("4");
+  await expect(
+    dialog.getByTestId("map-node-department-C-neurosurgery-4"),
+  ).toHaveClass(/is-target/);
+  await dialog
+    .locator(".map-visual")
+    .screenshot({ path: `artifacts/${info.project.name}-department-C4.png` });
+
+  await dialog.getByLabel("Search departments", { exact: true }).fill("");
+  await dialog
+    .getByLabel("Destination department", { exact: true })
+    .selectOption("C-pharmacy");
+  await dialog
+    .getByLabel("1. Your location", { exact: true })
+    .selectOption("outside");
+  await dialog
+    .getByLabel("Nearest checkpoint", { exact: true })
+    .selectOption("gate-2");
+  await dialog.getByRole("button", { name: "Find route", exact: true }).click();
+  await expect(
+    dialog.getByText(
+      "Take the lift in building C from ground floor to basement.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+  await dialog
+    .getByLabel("Displayed floor", { exact: true })
+    .selectOption("-1");
+  await expect(
+    dialog.getByTestId("map-node-department-C-pharmacy--1"),
+  ).toHaveClass(/is-target/);
+
+  await dialog
+    .getByLabel("Destination department", { exact: true })
+    .selectOption("B-internal");
+  await expect(dialog.getByTestId("map-status")).toContainText(
+    "Choose the department destination floor",
+  );
+  await dialog
+    .getByLabel("Destination floor", { exact: true })
+    .selectOption("2");
+  await dialog
+    .getByLabel("1. Your location", { exact: true })
+    .selectOption("B");
+  await dialog.getByLabel("2. Your floor", { exact: true }).selectOption("2");
+  await dialog
+    .getByLabel("Nearest checkpoint", { exact: true })
+    .selectOption("department-B-internal-2");
+  await dialog.getByRole("button", { name: "Find route", exact: true }).click();
+  await expect(dialog.getByTestId("map-status")).toHaveText(
+    "You have reached your selected destination.",
+  );
+
+  await dialog
+    .getByLabel("Destination department", { exact: true })
+    .selectOption("E-premium");
+  await expect(dialog.getByTestId("map-status")).toContainText(
+    "Needs confirmation",
+  );
+  await expect(dialog.getByTestId("map-route-segment")).toHaveCount(0);
+  await expect(
+    dialog.getByRole("button", { name: "Find route", exact: true }),
+  ).toBeDisabled();
+  await dialog
+    .getByLabel("Destination department", { exact: true })
+    .selectOption("unlocated-dermatology");
+  await expect(dialog.getByTestId("map-status")).toContainText(
+    "Needs confirmation",
+  );
+  await dialog
+    .getByLabel("Destination department", { exact: true })
+    .selectOption("");
+  await expect(dialog.getByTestId("map-status")).toContainText(
+    "do not match a mapped location",
+  );
 });
