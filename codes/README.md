@@ -6,11 +6,11 @@ Dự án môn Công nghệ phần mềm: hướng dẫn bệnh nhân từ tiếp
 
 ## 1. Yêu cầu máy
 
-| Cách chạy | Công cụ cần cài |
-|---|---|
+| Cách chạy                         | Công cụ cần cài                                                                                                    |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | Demo web/API/database bằng Docker | Git; Docker Desktop ở chế độ **Linux containers** trên Windows, hoặc Docker Engine + Compose v2 trở lên trên Linux |
-| Phát triển từ mã nguồn | Các công cụ trên + **Node.js 22.19.0**, **npm 10.9.3**, **.NET SDK 10.0.400** |
-| Build Android (tùy chọn) | Node/npm + JDK 17, Android SDK 36; xem [hướng dẫn Android](docs/guides/ANDROID.md) |
+| Phát triển từ mã nguồn            | Các công cụ trên + **Node.js 22.19.0**, **npm 10.9.3**, **.NET SDK 10.0.400**                                      |
+| Build Android (tùy chọn)          | Node/npm + JDK 17, Android SDK 36; xem [hướng dẫn Android](docs/guides/ANDROID.md)                                 |
 
 Luồng demo chính dành cho máy x64; cấu hình Windows/Linux dùng SQL Server container. Máy ARM/Apple Silicon chưa được kiểm chứng trong dự án. Nên dành khoảng 8 GB RAM và 15 GB đĩa trống cho demo; build Android cần thêm dung lượng SDK/cache. Lần đầu cần Internet để tải image và thư viện.
 
@@ -50,12 +50,12 @@ Bootstrap tạo `.env` từ [.env.example](.env.example), sinh mật khẩu riê
 
 Khi container đã chạy, mở:
 
-| Địa chỉ mặc định | Mục đích |
-|---|---|
-| http://localhost:5180 | Giao diện hệ thống |
-| http://localhost:5180/entry | Điểm vào công khai, QR bệnh viện |
-| http://127.0.0.1:5280/health | Kiểm tra API kết nối được SQL; trả `status: ok` |
-| http://localhost:5180/openapi/v1.json | Đặc tả API đang chạy |
+| Địa chỉ mặc định                      | Mục đích                                        |
+| ------------------------------------- | ----------------------------------------------- |
+| http://localhost:5180                 | Giao diện hệ thống                              |
+| http://localhost:5180/entry           | Điểm vào công khai, QR bệnh viện                |
+| http://127.0.0.1:5280/health          | Kiểm tra API kết nối được SQL; trả `status: ok` |
+| http://localhost:5180/openapi/v1.json | Đặc tả API đang chạy                            |
 
 API có thể cần thêm vài giây để chạy migration và seed trong lần đầu. Kiểm tra bằng `docker compose ps` và `docker compose logs --tail=100 api`. SQL và API chỉ mở trực tiếp trên localhost; web chuyển tiếp `/api/` đến backend.
 
@@ -63,14 +63,14 @@ API có thể cần thêm vài giây để chạy migration và seed trong lần
 
 Mở file `.local/demo-access.txt` để lấy mật khẩu. Các tài khoản dưới đây dùng chung **mật khẩu demo được sinh trên máy của bạn**:
 
-| Email | Vai trò |
-|---|---|
-| `patient@demo.local` | Bệnh nhân |
-| `reception@demo.local` | Tiếp nhận, cấp phiếu và hỗ trợ |
-| `doctor@demo.local` | Bác sĩ khoa khám |
-| `service@demo.local` | Xét nghiệm, chẩn đoán hình ảnh |
-| `cashier@demo.local` | Quyết toán mô phỏng |
-| `admin@demo.local` | Dashboard, cấu hình, nhân viên và quyền |
+| Email                    | Vai trò                                        |
+| ------------------------ | ---------------------------------------------- |
+| `patient@demo.local`     | Bệnh nhân                                      |
+| `reception@demo.local`   | Tiếp nhận, cấp phiếu và hỗ trợ                 |
+| `doctor@demo.local`      | Bác sĩ khoa khám                               |
+| `service@demo.local`     | Xét nghiệm, chẩn đoán hình ảnh                 |
+| `cashier@demo.local`     | Quyết toán mô phỏng                            |
+| `admin@demo.local`       | Dashboard, cấu hình, nhân viên và quyền        |
 | `otherdoctor@demo.local` | Bác sĩ khoa khác để kiểm tra giới hạn truy cập |
 
 Có thể chọn **Tiếp tục với tư cách khách** mà không đăng nhập. Đăng ký công khai chỉ tạo tài khoản bệnh nhân. Xem [kịch bản demo theo vai trò](docs/guides/DEMO.md) để trình diễn đầy đủ quy trình.
@@ -92,15 +92,15 @@ docker compose up -d --build --wait --wait-timeout 180
 
 File cấu hình gốc là `.env`, không được commit. Bootstrap hỗ trợ giá trị dạng `KEY=value`, không có dấu nháy hay khoảng trắng quanh `=`.
 
-| Biến | Mặc định / cách đặt | Tác dụng |
-|---|---|---|
-| `SQL_PASSWORD` | Bootstrap tự sinh | Mật khẩu SQL Server; khác mật khẩu tài khoản demo |
-| `DEMO_PASSWORD` | Bootstrap tự sinh | Mật khẩu dùng khi seed các tài khoản demo |
-| `SQL_PORT` | `14339` | Cổng SQL trên máy chủ, ánh xạ tới 1433 trong container |
-| `API_PORT` | `5280` | Cổng API trên máy chủ |
-| `WEB_PORT` | `5180` | Cổng mở giao diện web |
-| `DATABASE_NAME` | `HospitalGuidance` | Tên database, gồm chữ/số/`_`, bắt đầu bằng chữ |
-| `LAN_IP` | Không đặt | IPv4 máy chủ khi dùng cấu hình LAN |
+| Biến            | Mặc định / cách đặt | Tác dụng                                               |
+| --------------- | ------------------- | ------------------------------------------------------ |
+| `SQL_PASSWORD`  | Bootstrap tự sinh   | Mật khẩu SQL Server; khác mật khẩu tài khoản demo      |
+| `DEMO_PASSWORD` | Bootstrap tự sinh   | Mật khẩu dùng khi seed các tài khoản demo              |
+| `SQL_PORT`      | `14339`             | Cổng SQL trên máy chủ, ánh xạ tới 1433 trong container |
+| `API_PORT`      | `5280`              | Cổng API trên máy chủ                                  |
+| `WEB_PORT`      | `5180`              | Cổng mở giao diện web                                  |
+| `DATABASE_NAME` | `HospitalGuidance`  | Tên database, gồm chữ/số/`_`, bắt đầu bằng chữ         |
+| `LAN_IP`        | Không đặt           | IPv4 máy chủ khi dùng cấu hình LAN                     |
 
 Nếu cổng bị trùng, đổi cổng tương ứng trong `.env`, rồi chạy lại `docker compose up -d --build --wait --wait-timeout 180`. Script phát triển và Vite cũng đọc `API_PORT`/`WEB_PORT` từ file này. Ví dụ đổi `WEB_PORT=5188` thì mở `http://localhost:5188`.
 
@@ -170,7 +170,7 @@ npm run test:e2e
 
 Khi đổi cổng, smoke test tự đọc `.env`. Với browser tests, đặt `WEB_URL` và `API_URL` trỏ tới địa chỉ mới trong môi trường terminal. Các báo cáo/ảnh/bundle mới nằm trong `artifacts/` và không được Git theo dõi. Xem [hướng dẫn kiểm thử](tests/README.md).
 
-Workflow [check.yml](../.github/workflows/check.yml) ở thư mục gốc repository chạy khi push/pull request: kiểm tra bootstrap, typecheck/lint/build, tích hợp SQL/API/browser, bundle mobile và build Docker; job Android tạo APK artifact. Các lệnh CI chạy trong `codes/`; đường dẫn cache và artifact tính từ gốc repository. CI tự sinh mật khẩu, không cần đưa `.env` của máy cá nhân lên GitHub. Kết quả CI chỉ được xác nhận sau khi workflow thực sự chạy trên repository.
+Workflow [check.yml](.github/workflows/check.yml) chạy khi push/pull request: kiểm tra bootstrap, typecheck/lint/build, tích hợp SQL/API/browser, bundle mobile và build Docker; job Android tạo APK artifact. CI tự sinh mật khẩu, không cần đưa `.env` của máy cá nhân lên GitHub. Kết quả CI chỉ được xác nhận sau khi workflow thực sự chạy trên repository.
 
 ## 7. Cấu trúc repository
 
@@ -188,7 +188,11 @@ scripts/docs/               Sinh tài liệu truy vết
 tests/                      api/, browser/, android/, lan/, setup/
 docs/                       Hướng dẫn, kiến trúc, yêu cầu, sơ đồ
 archive/                    File cũ không cần chạy demo; chỉ commit chỉ mục
+<<<<<<< HEAD
 ../.github/workflows/       Kiểm tra tự động khi push/pull request (gốc repository)
+=======
+.github/workflows/          Kiểm tra tự động khi push/pull request
+>>>>>>> AnhBao
 compose*.yaml               Docker demo, tùy chọn LAN/HTTPS
 .env.example                Mẫu cấu hình an toàn để chia sẻ
 ```
@@ -212,16 +216,16 @@ Kiểm tra danh sách staging trước khi commit: không có `.env`, mật kh�
 
 ## 9. Lỗi thường gặp
 
-| Hiện tượng | Cách xử lý |
-|---|---|
-| Không kết nối được Docker / named pipe | Mở Docker Desktop, chờ engine; chọn Linux containers; kiểm tra `docker info` |
-| PowerShell chặn chạy script | Dùng lệnh `powershell -NoProfile -ExecutionPolicy Bypass -File ...` như hướng dẫn; chỉ áp dụng cho tiến trình đó |
-| Thiếu `SQL_PASSWORD` / `DEMO_PASSWORD` | Chạy bootstrap; nếu đã copy template, thay giá trị `REPLACE_WITH_...` |
-| Cổng đang được sử dụng | Dừng phiên source/Compose cũ hoặc đổi cổng trong `.env` |
+| Hiện tượng                              | Cách xử lý                                                                                                          |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Không kết nối được Docker / named pipe  | Mở Docker Desktop, chờ engine; chọn Linux containers; kiểm tra `docker info`                                        |
+| PowerShell chặn chạy script             | Dùng lệnh `powershell -NoProfile -ExecutionPolicy Bypass -File ...` như hướng dẫn; chỉ áp dụng cho tiến trình đó    |
+| Thiếu `SQL_PASSWORD` / `DEMO_PASSWORD`  | Chạy bootstrap; nếu đã copy template, thay giá trị `REPLACE_WITH_...`                                               |
+| Cổng đang được sử dụng                  | Dừng phiên source/Compose cũ hoặc đổi cổng trong `.env`                                                             |
 | SQL unhealthy / API thoát khi khởi động | Xem `docker compose logs --tail=100 sql api`; kiểm tra Docker đủ RAM, mật khẩu SQL đủ mạnh và khớp volume đang dùng |
-| Web mở được nhưng API báo 502 | Đợi migration/seed, kiểm tra `/health` và log API; API cần kết nối được SQL |
-| Đăng nhập demo sai mật khẩu | Dùng `.local/demo-access.txt`; nếu tự đổi `.env` sau khi seed thì mật khẩu trong database vẫn là mật khẩu cũ |
-| Không tìm thấy SDK .NET phù hợp | Cài SDK 10.0.400 theo `global.json`, hoặc dùng toàn bộ Docker |
-| Thiếu APK/ảnh/báo cáo trong bản clone | Đây là file phát sinh được ignore; build/chạy test để tạo lại hoặc tải artifact CI |
+| Web mở được nhưng API báo 502           | Đợi migration/seed, kiểm tra `/health` và log API; API cần kết nối được SQL                                         |
+| Đăng nhập demo sai mật khẩu             | Dùng `.local/demo-access.txt`; nếu tự đổi `.env` sau khi seed thì mật khẩu trong database vẫn là mật khẩu cũ        |
+| Không tìm thấy SDK .NET phù hợp         | Cài SDK 10.0.400 theo `global.json`, hoặc dùng toàn bộ Docker                                                       |
+| Thiếu APK/ảnh/báo cáo trong bản clone   | Đây là file phát sinh được ignore; build/chạy test để tạo lại hoặc tải artifact CI                                  |
 
 Tài liệu chi tiết: [chỉ mục tài liệu](docs/README.md), [script](scripts/README.md), [API](docs/architecture/API.md), [truy vết yêu cầu](docs/requirements/TRACEABILITY.md). Đây là bản demo học tập với dữ liệu tổng hợp, chưa phải hệ thống triển khai trong bệnh viện thật.

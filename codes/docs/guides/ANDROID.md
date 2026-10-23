@@ -45,7 +45,7 @@ cd android
 
 APK Gradle trực tiếp ở `app/build/outputs/apk/release`; trên Linux/macOS dùng `./gradlew`. EAS `preview` trong eas.json cũng cấu hình APK nhưng cần tài khoản/credentials riêng; phiên này không gửi source lên EAS.
 
-Job Android trong [workflow CI ở gốc repository](../../../.github/workflows/check.yml) sinh native project, build và lưu APK artifact khi được chạy trên GitHub. Chưa có bằng chứng job này đã chạy. Các thư mục native sinh ra được ignore, tái sinh từ Expo config và lockfile.
+Job Android trong `.github/workflows/check.yml` sinh native project, build và lưu APK artifact khi được chạy trên GitHub. Chưa có bằng chứng job này đã chạy. Các thư mục native sinh ra được ignore, tái sinh từ Expo config và lockfile.
 
 Config plugin `withLocalNetwork.cjs` chỉ cho phép HTTP tới localhost, 127.0.0.1 và 10.0.2.2; mọi địa chỉ khác yêu cầu HTTPS. Không bỏ qua kiểm tra chứng thư. Manifest tắt backup và loại quyền storage/overlay/microphone không dùng. [Cơ chế Android Network Security Configuration](https://developer.android.com/privacy-and-security/security-config) được kiểm tra trên tài nguyên thực trong APK, kể cả khi Gradle đổi tên file XML.
 

@@ -397,9 +397,14 @@ function PatientApp({
         {page === "directions" && id && step && (
           <DirectionsScreen
             visitId={id}
+<<<<<<< HEAD
             step={step}
             onHelp={() => {
               setHelpStep(step.id);
+=======
+            onHelp={(stepId) => {
+              setHelpStep(stepId);
+>>>>>>> AnhBao
               setPage("help");
             }}
           />

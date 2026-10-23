@@ -8,6 +8,7 @@ import {
   QrCode,
   Volume2,
 } from "lucide-react";
+<<<<<<< HEAD
 import {
   dateText,
   type Directions,
@@ -15,12 +16,18 @@ import {
   type Ticket,
   type Visit,
 } from "@hospital/shared";
+=======
+import { dateText, type Step, type Ticket, type Visit } from "@hospital/shared";
+>>>>>>> AnhBao
 import {
   Button,
   DestinationCard,
   Empty,
   Feedback,
+<<<<<<< HEAD
   Field,
+=======
+>>>>>>> AnhBao
   Modal,
   Notice,
   QrPanel,
@@ -32,6 +39,10 @@ import {
 } from "./components";
 import { useMutation, useResource, useRuntime } from "./runtime";
 import { HelpPanel } from "./PatientRecords";
+<<<<<<< HEAD
+=======
+import { HospitalMap } from "./HospitalMap";
+>>>>>>> AnhBao
 export function PatientJourney({
   id,
   onSelected,
@@ -266,11 +277,15 @@ export function PatientJourney({
       )}
       {modal === "directions" && id && step && (
         <Modal title={t("navigate")} onClose={() => setModal(null)}>
+<<<<<<< HEAD
           <DirectionsPanel
             id={id}
             step={step}
             onHelp={() => setModal("help")}
           />
+=======
+          <DirectionsPanel step={step} onHelp={() => setModal("help")} />
+>>>>>>> AnhBao
         </Modal>
       )}
       {modal === "help" && (
@@ -331,6 +346,7 @@ export function TicketPanel({ id }: { id: string }) {
     </>
   );
 }
+<<<<<<< HEAD
 function DirectionsPanel({
   id,
   step,
@@ -372,6 +388,13 @@ function DirectionsPanel({
           )}
         </>
       )}
+=======
+function DirectionsPanel({ step, onHelp }: { step: Step; onHelp: () => void }) {
+  const { t } = useRuntime();
+  return (
+    <>
+      <HospitalMap key={step.id} destination={step.destination} />
+>>>>>>> AnhBao
       <Button variant="secondary" onClick={onHelp}>
         {t("help")}
       </Button>

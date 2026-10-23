@@ -1,4 +1,8 @@
 import { useState } from "react";
+<<<<<<< HEAD
+=======
+import { HospitalMap } from "./HospitalMap";
+>>>>>>> AnhBao
 import { View } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import QRCode from "react-native-qrcode-svg";
@@ -6,7 +10,10 @@ import {
   dateText,
   displayName,
   qrToken,
+<<<<<<< HEAD
   type Directions,
+=======
+>>>>>>> AnhBao
   type Step,
   type Ticket,
   type Visit,
@@ -15,7 +22,10 @@ import {
   Badge,
   Btn,
   Card,
+<<<<<<< HEAD
   Choice,
+=======
+>>>>>>> AnhBao
   DestinationBlock,
   Feedback,
   Input,
@@ -321,6 +331,7 @@ export function ScanTicket({
 }
 export function DirectionsScreen({
   visitId,
+<<<<<<< HEAD
   step,
   onHelp,
 }: {
@@ -332,11 +343,26 @@ export function DirectionsScreen({
   const [from, setFrom] = useState("");
   const r = useLoad<Directions>(
     `/api/visits/${visitId}/navigation?stepId=${step.id}&language=${locale}${from ? `&from=${from}` : ""}`,
+=======
+  onHelp,
+}: {
+  visitId: string;
+  onHelp: (stepId?: string) => void;
+}) {
+  const { t, locale } = useNative();
+  const visit = useLoad<Visit>(
+    `/api/visits/${visitId}?language=${locale}`,
+    true,
+  );
+  const current = visit.data?.steps.find(
+    (s) => s.id === visit.data?.currentStepId,
+>>>>>>> AnhBao
   );
   return (
     <>
       <Txt tone="title">{t("navigate")}</Txt>
       <Card>
+<<<<<<< HEAD
         <Txt tone="heading">{t("startLocation")}</Txt>
         {config.locations.map((l) => (
           <Choice
@@ -361,6 +387,15 @@ export function DirectionsScreen({
           </>
         )}
         <Btn secondary onPress={onHelp}>
+=======
+        <LoadingState resource={visit} />
+        {current ? (
+          <HospitalMap key={current.id} destination={current.destination} />
+        ) : (
+          visit.data && <Txt>{t("noCurrent")}</Txt>
+        )}
+        <Btn secondary onPress={() => onHelp(current?.id)}>
+>>>>>>> AnhBao
           {t("help")}
         </Btn>
       </Card>
