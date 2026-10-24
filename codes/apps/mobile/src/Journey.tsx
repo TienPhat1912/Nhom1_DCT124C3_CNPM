@@ -178,7 +178,7 @@ export function Journey({
               <Btn
                 secondary
                 onPress={() => void speech.stop()}
-                disabled={!speech.playing}
+                disabled={!speech.playing && !speech.loading}
               >
                 {t("stop")}
               </Btn>

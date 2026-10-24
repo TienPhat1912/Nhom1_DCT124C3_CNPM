@@ -23,7 +23,8 @@
     "test:demo": "node tests/api/demo-smoke.mjs",
     "mobile": "npm run start --workspace @hospital/mobile",
     "test:directory": "playwright test --config playwright.directory.config.ts",
-    "test:directory:unit": "node --experimental-strip-types --test tests/unit/hospital-directory.test.mjs"
+    "test:directory:unit": "node --experimental-strip-types --test tests/unit/hospital-directory.test.mjs",
+    "test:narration:unit": "node --test tests/unit/native-narration.test.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.64.1",
