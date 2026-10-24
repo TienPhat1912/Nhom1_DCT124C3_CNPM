@@ -1,29 +1,45 @@
-# Dependencies
-node_modules/
-*/node_modules/
+# Shared rules for the whole repository, including codes/.
+# Source, lockfiles, Docker/CI configuration, scripts and assets stay tracked.
 
-# Expo & Builds
+# Dependencies and generated frontend output.
+node_modules/
 .expo/
-*/.expo/
 dist/
 web-build/
+coverage/
+*.tsbuildinfo
 
-# Logs
+# Per-machine configuration. Commit templates, never generated credentials.
+.env
+.env.*
+!.env.example
+!.env.*.example
+.local/
+
+# Private certificates and signing keys.
+*.pem
+*.key
+*.pfx
+*.p12
+*.p8
+*.jks
+*.keystore
+*.mobileprovision
+
+# Logs and process state.
+*.log
+*.pid
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Environment & Keystores
-.env
-.env.local
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-
-# OS
+# Editor and OS files.
+.vs/
+.idea/
+*.suo
+*.user
 .DS_Store
 Thumbs.db
 
-demo/
+# Retired local demo; the maintained application is in codes/.
+/demo/
