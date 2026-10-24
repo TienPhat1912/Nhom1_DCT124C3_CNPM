@@ -75,7 +75,7 @@ export function Results({ id }: { id: string | null }) {
                 </Btn>
                 <Btn
                   secondary
-                  disabled={!speech.playing}
+                  disabled={!speech.playing && !speech.loading}
                   onPress={() => void speech.stop()}
                 >
                   {t("stop")}
@@ -93,7 +93,7 @@ export function Results({ id }: { id: string | null }) {
                 </Btn>
                 <Btn
                   secondary
-                  disabled={!speech.playing}
+                  disabled={!speech.playing && !speech.loading}
                   onPress={() => void speech.stop()}
                 >
                   {t("stop")}

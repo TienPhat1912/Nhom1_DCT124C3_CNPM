@@ -10,6 +10,8 @@
 
 API acceptance cần SQL chạy trước; script dùng database riêng `HospitalAcceptance_<timestamp>`. Browser cần web/API đã chạy; `WEB_URL` chọn localhost hoặc IP LAN. Các kiểm thử có tạo dữ liệu dùng thông tin tổng hợp. LAN tests không mở Docker hoặc thay firewall.
 
+`npm run test:narration:unit` kiểm tra hook đọc hướng dẫn Android với React/Expo Speech giả lập: dừng khi đang tải giọng, đổi màn hình/ngôn ngữ, request và callback đến muộn. Không cần API, SQL hoặc giả lập Android; kiểm thử này cũng chạy trong CI, không thay thế kiểm chứng âm thanh trên thiết bị thật.
+
 ```powershell
 # Chỉ kiểm tra dashboard
 npx playwright test tests/browser/admin.spec.ts

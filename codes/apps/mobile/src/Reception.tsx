@@ -276,7 +276,7 @@ function RequestDetails({
               >
                 {t("listen")}
               </Btn>
-              {speech.playing && (
+              {(speech.playing || speech.loading) && (
                 <Btn secondary onPress={() => void speech.stop()}>
                   {t("stop")}
                 </Btn>

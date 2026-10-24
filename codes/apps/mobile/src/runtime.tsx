@@ -166,28 +166,39 @@ export function useNarration(context: string) {
   const [loading, setLoading] = useState(false);
   const seq = useRef(0);
   const stop = async () => {
-    seq.current++;
-    await Speech.stop();
+    const generation = ++seq.current;
     setPlaying(false);
+    setLoading(false);
+    try {
+      await Speech.stop();
+    } catch (e) {
+      if (seq.current === generation) setError(localizedError(e, locale));
+    }
   };
   useEffect(() => {
     seq.current++;
-    void Speech.stop();
+    void Speech.stop().catch(() => {});
     setPlaying(false);
+    setLoading(false);
+    setError("");
     return () => {
       seq.current++;
-      void Speech.stop();
+      void Speech.stop().catch(() => {});
     };
   }, [context, locale]);
   const play = async (path: string, body: unknown = {}) => {
-    await stop();
-    const generation = seq.current;
+    // Capture this playback before the first await so cancellation cannot be lost.
+    const generation = ++seq.current;
     setLoading(true);
+    setPlaying(false);
     setError("");
     try {
+      await Speech.stop();
+      if (seq.current !== generation) return;
       const n = await api<Narration>(path, "POST", body);
       if (seq.current !== generation) return;
       const voices = await Speech.getAvailableVoicesAsync();
+      if (seq.current !== generation) return;
       const voice = voices.find((v) =>
         v.language.toLowerCase().startsWith(n.language),
       );
@@ -199,17 +210,25 @@ export function useNarration(context: string) {
       Speech.speak(n.text, {
         language: n.language,
         voice: voice.identifier,
-        onDone: () => setPlaying(false),
-        onStopped: () => setPlaying(false),
+        onDone: () => {
+          if (seq.current === generation) setPlaying(false);
+        },
+        onStopped: () => {
+          if (seq.current === generation) setPlaying(false);
+        },
         onError: () => {
+          if (seq.current !== generation) return;
           setError(t("audioError"));
           setPlaying(false);
         },
       });
     } catch (e) {
-      setError(localizedError(e, locale));
+      if (seq.current === generation) {
+        setPlaying(false);
+        setError(localizedError(e, locale));
+      }
     } finally {
-      setLoading(false);
+      if (seq.current === generation) setLoading(false);
     }
   };
   return { play, stop, error, playing, loading };
