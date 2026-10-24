@@ -126,3 +126,63 @@ test('reception validates QR and cashier closes a clinically ready visit through
   await expect.poll(async () => (await api<Visit>(`/api/visits/${visitId}`, guest.token)).status).toBe('Closed');
   expect((await api<Visit>(`/api/visits/${visitId}`, guest.token)).journeyStatus).toBe('Completed');
 });
+
+test('reception replaces the displayed ticket QR after every reissue', async ({ page }) => {
+  const guest = await api<Session>('/api/auth/guest', null, { language: 'en' });
+  const reception = await api<Session>('/api/auth/login', null, { email: 'reception@demo.local', password });
+  const config = await api<Configuration>('/api/config');
+  const resources = await api<ReceptionResources>('/api/reception/resources', reception.token);
+  const dep = config.departments.find(d => d.code === 'CONSULT')!;
+  const name = `Reissue UI ${randomUUID()}`;
+  const request = await api<{ id: string }>('/api/requests', guest.token, { name, contact: 'ui-fixture', description: '', requests: '', departmentId: dep.id });
+  const { visitId } = await api<{ visitId: string }>(`/api/requests/${request.id}/confirm`, reception.token, {
+    version: 1, departmentId: dep.id, locationId: config.locations.find(l => l.room === 'A101')!.id,
+    doctorId: resources.doctors.find(d => d.departments.includes(dep.id))!.id,
+    attendeeVerified: true, verificationNote: 'Repeated reissue UI fixture',
+  });
+  let ticket = await api<Ticket>(`/api/visits/${visitId}/ticket`, guest.token);
+  const original = ticket;
+  await page.goto('/');
+  await page.getByLabel('Ngôn ngữ', { exact: true }).selectOption('en');
+  await page.getByLabel('Email', { exact: true }).fill('reception@demo.local');
+  await page.getByLabel('Password', { exact: true }).fill(password);
+  await page.getByRole('button', { name: 'Sign in', exact: true }).last().click();
+  await page.locator('.record-row').filter({ hasText: name }).click();
+  await expect(page.locator('.qr-panel')).toHaveCount(1);
+  await expect(page.locator('.qr-panel code')).toHaveText(ticket.code);
+  await page.getByText('Recover access', { exact: true }).click();
+  await page.getByLabel('Verification note', { exact: true }).fill('Verified repeat ticket replacement');
+  await page.getByLabel('I verified the attendee in person', { exact: true }).check();
+  const replace = page.getByRole('button', { name: 'Replace ticket access code', exact: true });
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const previousCode = ticket.code;
+    const [response] = await Promise.all([
+      page.waitForResponse(r => r.url().endsWith(`/visits/${visitId}/reissue`) && r.request().method() === 'POST'),
+      replace.click(),
+    ]);
+    expect(response.status()).toBe(200);
+    ticket = await api<Ticket>(`/api/visits/${visitId}/ticket`, guest.token);
+    expect(ticket.code).not.toBe(previousCode);
+    expect(ticket.visitId).toBe(original.visitId);
+    expect(ticket.journeyId).toBe(original.journeyId);
+    expect(ticket.number).toBe(original.number);
+    await expect(page.locator('.qr-panel')).toHaveCount(1);
+    await expect(page.locator('.qr-panel code')).toHaveText(ticket.code);
+    const rejected = await page.request.post(`${apiUrl}/api/tickets/redeem`, {
+      headers: { 'X-Hospital-Client': '1', Authorization: `Bearer ${guest.token}`, 'Idempotency-Key': randomUUID() },
+      data: { code: previousCode },
+    });
+    expect(rejected.status()).toBe(410);
+    expect((await rejected.json()).title).toBe('qrReplaced');
+    await api('/api/tickets/redeem', guest.token, { code: ticket.code });
+  }
+
+  await page.route(`**/api/visits/${visitId}/reissue`, route => route.fulfill({
+    status: 503, contentType: 'application/json', body: JSON.stringify({ title: 'serverError', status: 503, detail: 'Synthetic reissue failure' }),
+  }));
+  await replace.click();
+  await expect(page.getByRole('alert')).toBeVisible();
+  await expect(page.locator('.qr-panel')).toHaveCount(1);
+  await expect(page.locator('.qr-panel code')).toHaveText(ticket.code);
+});

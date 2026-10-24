@@ -53,6 +53,8 @@ public static class ReceptionEndpoints
                 Check.That(r.Status is "Submitted" or "NeedsInformation", "requestLocked", "This request can no longer be edited.", 409);
                 await Apply(input.Information, r, db); r.Status = "Submitted";
                 if (input.MessageId is {} mid) { var message = r.Messages.SingleOrDefault(m => m.Id == mid); Check.That(message is not null, "validation", "Unknown message."); message!.Response = Check.Text(input.Response, "response"); }
+                // Keep the profile used by Visit displays in sync with the corrected request.
+                r.Patient.Name = r.Name; r.Patient.Contact = r.Contact;
                 bus.Audit(s.Id, "RequestSupplemented", detail: r.Id.ToString(), source: "Patient"); return new { r.Id };
             });
         });
