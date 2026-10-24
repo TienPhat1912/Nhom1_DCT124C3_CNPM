@@ -33,3 +33,9 @@ Chạy `npm run test:map`: tự mở Vite riêng ở cổng 5189, dùng API gi�
 không cần backend/SQL. `npm run test:map:unit` kiểm tra thuật toán và danh mục.
 Windows tự dùng Chrome/Edge có sẵn; máy chưa có trình duyệt phù hợp chạy
 `npx playwright install chromium`. Xem [hướng dẫn bản đồ](../docs/guides/HOSPITAL_MAP.md).
+## Danh mục khoa và bác sĩ
+
+Chạy npm run test:directory:unit để kiểm tra dữ liệu Excel và liên kết bản đồ.
+Chạy npm run test:directory để kiểm tra giao diện bốn vai trò với Vite riêng (5189).
+Chạy .\tests\catalog\run.ps1 với database SQL riêng để kiểm tra nhập bổ sung,
+phân công phòng/bác sĩ, giữ dữ liệu cũ và không nhập trùng. Cần build API trước.

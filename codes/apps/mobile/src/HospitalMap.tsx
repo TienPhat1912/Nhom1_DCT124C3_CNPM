@@ -3,7 +3,7 @@ import campusImage from "../assets/thu-duc-campus.jpg";
 import { Pressable, StyleSheet, View } from "react-native";
 import Svg, { Circle, G, Image, Line, Text as SvgText } from "react-native-svg";
 import {
-  mapDepartments,
+  configuredMapDepartments,
   departmentLabel,
   departmentLocation,
   departmentNodeId,
@@ -12,7 +12,7 @@ import {
   type MapDepartment,
   buildingFloors,
   destinationNode,
-  hospitalMap,
+  configuredHospitalMap,
   mapBuildings,
   mapCopy,
   mapFloors,
@@ -27,7 +27,11 @@ import { useNative } from "./runtime";
 import { useRouteSpeech } from "./useRouteSpeech";
 
 export function HospitalMap({ destination }: { destination: Destination }) {
-  const { locale } = useNative();
+  const { locale, config } = useNative();
+  const mapDepartments = configuredMapDepartments(
+    config.departments,
+    !!config.catalogVersion,
+  );
   const [query, setQuery] = useState("");
   const [departmentId, setDepartmentId] = useState("");
   const [departmentFloor, setDepartmentFloor] = useState("");
@@ -65,7 +69,7 @@ export function HospitalMap({ destination }: { destination: Destination }) {
               ? "Dùng phòng trên phiếu"
               : "Use ticket destination"}
           </Btn>
-          {searchDepartments(query, locale).map((d) => (
+          {searchDepartments(query, locale, mapDepartments).map((d) => (
             <Choice
               key={d.id}
               label={
@@ -117,7 +121,11 @@ function MapPanel({
   department?: MapDepartment;
   departmentFloor?: string;
 }) {
-  const { locale } = useNative();
+  const { locale, config } = useNative();
+  const hospitalMap = configuredHospitalMap(
+    config.departments,
+    !!config.catalogVersion,
+  );
   const c = mapCopy[locale];
   const [area, setArea] = useState("");
   const [level, setLevel] = useState("");
@@ -131,7 +139,7 @@ function MapPanel({
           !n.closed &&
           n.id === departmentNodeId(department.id, departmentFloor),
       )
-    : destinationNode(destination);
+    : destinationNode(destination, hospitalMap);
   const route =
     target && routeStart
       ? shortestPath(hospitalMap, routeStart, target.id)
@@ -145,7 +153,7 @@ function MapPanel({
     c.audioError,
   );
   const highlighted = new Set(route?.edges);
-  const choices = startNodes(area, level);
+  const choices = startNodes(area, level, hospitalMap);
   const routeIds = new Set(route?.nodes.map((n) => n.id));
   const clearRoute = () => {
     speech.stop();
@@ -231,7 +239,7 @@ function MapPanel({
         <>
           <Txt tone="heading">{c.level}</Txt>
           <View style={s.row} accessibilityRole="radiogroup">
-            {buildingFloors(area).map((f) => (
+            {buildingFloors(area, hospitalMap).map((f) => (
               <Choice
                 key={f}
                 label={floorLabel(f, locale)}

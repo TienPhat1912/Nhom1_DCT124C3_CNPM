@@ -18,8 +18,18 @@ public static class AdminEndpoints
 {
     public static void MapAdmin(this WebApplication app)
     {
+        app.MapGet("/api/staff/profile", async (Access access, HospitalDb db) => {
+            var u = await access.Staff("Admin", "Doctor", "Reception", "Service", "Cashier");
+            var ids = u.Scopes.Select(s => s.DepartmentId).ToArray();
+            var clinicIds = HospitalCatalog.Clinician(u.Id)?.ClinicIds ?? [];
+            return new { u.Id, u.Name, u.Role,
+                departments = await db.Set<Department>().Where(d => ids.Contains(d.Id)).ToListAsync(),
+                specialties = HospitalCatalog.Specialties(u.Id),
+                clinics = await db.Set<Location>().Where(l => clinicIds.Contains(l.Id) && l.Active).ToListAsync() };
+        }).WithTags("Configuration");
+        app.MapGet("/api/directory", (HospitalDb db) => HospitalCatalog.Directory(db)).WithTags("Configuration");
         app.MapGet("/api/config", async (HospitalDb db, IConfiguration config) => new {
-            name = "An Tâm · Hospital Guide", demo = config.GetValue<bool>("Demo:Enabled"),
+            name = "An Tâm · Hospital Guide", catalogVersion = HospitalCatalog.Roster.Version, demo = config.GetValue<bool>("Demo:Enabled"),
             departments = await db.Set<Department>().Where(d => d.Active).ToListAsync(), locations = await db.Set<Location>().Where(l => l.Active).ToListAsync(),
             services = await db.Set<HospitalService>().Where(s => s.Active).ToListAsync(),
             form = new { nameMin = 2, nameMax = 120, contactMin = 5, contactMax = 80, descriptionMax = 2000 },
@@ -29,22 +39,26 @@ public static class AdminEndpoints
         }).WithTags("Configuration");
         app.MapGet("/api/reception/resources", async (Access access, HospitalDb db) => {
             var u = await access.Staff("Reception"); var deps = u.Scopes.Select(s => s.DepartmentId).ToArray();
-            return new { doctors = await db.Users.Where(x => x.Role == "Doctor" && x.Active && x.Scopes.Any(s => deps.Contains(s.DepartmentId))).Select(x => new { x.Id, x.Name, departments = x.Scopes.Select(s => s.DepartmentId) }).ToListAsync(),
+            var doctors = await db.Users.Include(x => x.Scopes).Where(x => x.Role == "Doctor" && x.Active && x.Scopes.Any(s => deps.Contains(s.DepartmentId))).OrderBy(x => x.CreatedAt).ToListAsync();
+            return new { doctors = doctors.Select(x => new { x.Id, x.Name, departments = x.Scopes.Select(s => s.DepartmentId), specialties = HospitalCatalog.Specialties(x.Id), clinicIds = HospitalCatalog.Clinician(x.Id)?.ClinicIds ?? [], directoryOnly = string.IsNullOrEmpty(x.PasswordHash) }),
+                clinics = HospitalCatalog.Roster.Clinics.Select(c => new { c.Id, specialty = HospitalCatalog.Roster.Specialties.Single(s => s.Id == c.SpecialtyId).Name }),
                 templates = await db.Set<GuidanceTemplate>().Where(t => t.Category == "Reception" && t.Published).OrderByDescending(t => t.Revision).ToListAsync() };
         });
         var g = app.MapGroup("/api/admin").WithTags("Administration");
         g.MapGet("/dashboard", AdminDashboard.Read);
         g.MapGet("/configuration", async (Access access, HospitalDb db) => {
-            await access.Staff("Admin"); return new {
+            await access.Staff("Admin");
+            var staff = await db.Users.Include(u => u.Scopes).Where(u => u.Role != "Patient").ToListAsync();
+            return new {
                 departments = await db.Set<Department>().ToListAsync(), locations = await db.Set<Location>().ToListAsync(), services = await db.Set<HospitalService>().ToListAsync(),
                 mappings = await db.Set<WorkflowMapping>().OrderByDescending(m => m.Revision).ToListAsync(), templates = await db.Set<GuidanceTemplate>().OrderByDescending(t => t.Revision).ToListAsync(), routes = await db.Set<HospitalRoute>().ToListAsync(),
-                staff = await db.Users.Where(u => u.Role != "Patient").Select(u => new { u.Id, u.Version, u.Email, u.Name, u.Role, u.Active, departmentIds = u.Scopes.Select(s => s.DepartmentId) }).ToListAsync()
+                staff = staff.Select(u => new { u.Id, u.Version, u.Email, u.Name, u.Role, u.Active, departmentIds = u.Scopes.Select(s => s.DepartmentId), specialties = HospitalCatalog.Specialties(u.Id), directoryOnly = string.IsNullOrEmpty(u.PasswordHash) })
             };
         });
         g.MapPost("/departments", async (DepartmentInput input, Access access, HospitalDb db, CommandBus bus) => {
             var u = await access.Staff("Admin"); return await bus.Run($"{u.Id}:department", input, async () => {
                 var d = await GetOrNew<Department>(input.Id, input.Version, db);
-                Check.That(input.Id is null || d.Code == input.Code || d.Code is not ("CONSULT" or "CASHIER" or "PHARMACY"), "configurationInUse", "Operational department codes are stable identifiers; edit their display names and destinations instead.", 409);
+                Check.That(input.Id is null || d.Code == input.Code || (d.Code is not ("CONSULT" or "CASHIER" or "PHARMACY") && !HospitalCatalog.Departments.Any(c => c.Code == d.Code)), "configurationInUse", "Operational department codes are stable identifiers; edit their display names and destinations instead.", 409);
                 if (!input.Active) Check.That(!await db.Visits.AnyAsync(v => v.DepartmentId == d.Id && v.Status == "Active") && !await db.Requests.AnyAsync(r => r.DepartmentId == d.Id && r.Status != "Confirmed" && r.Status != "Withdrawn"), "activeReferences", "Department has active reception or Visits.", 409);
                 d.Code = Check.Text(input.Code, "code", 2, 40).ToUpperInvariant(); d.NameVi = Check.Text(input.NameVi, "nameVi", 2, 120); d.NameEn = Check.Text(input.NameEn, "nameEn", 2, 120); d.Active = input.Active;
                 bus.Audit(u.Id, "DepartmentConfigured", detail: d.Id.ToString(), source: "Admin"); return new { d.Id };

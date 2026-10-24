@@ -298,7 +298,7 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
     dialog
       .getByLabel("Destination department", { exact: true })
       .locator("option"),
-  ).toHaveCount(48);
+  ).toHaveCount(51);
   await dialog.getByLabel("Search departments", { exact: true }).fill("neuro");
   await dialog
     .getByLabel("Destination department", { exact: true })

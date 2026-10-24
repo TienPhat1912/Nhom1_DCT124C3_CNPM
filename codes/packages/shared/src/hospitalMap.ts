@@ -1,6 +1,7 @@
-import type { Destination, Locale } from "./types";
+import type { Department, Destination, Locale } from "./types";
 import {
   mapDepartments,
+  configuredMapDepartments,
   floorLabel,
   departmentNodeId,
 } from "./hospitalDepartments.ts";
@@ -269,16 +270,37 @@ export const hospitalMap: MapGraph = {
 export const mapFloors = [...new Set(nodes.map((n) => n.floor))].sort(
   (a, b) => Number(a) - Number(b),
 );
-export const buildingFloors = (building: string) =>
+export function configuredHospitalMap(
+  departments: Department[],
+  authoritative = false,
+): MapGraph {
+  const directory = configuredMapDepartments(departments, authoritative);
+  return {
+    ...hospitalMap,
+    nodes: hospitalMap.nodes.map((n) => {
+      if (!n.departmentId) return n;
+      const d = directory.find((d) => d.id === n.departmentId);
+      return d
+        ? {
+            ...n,
+            nameVi: d.nameVi,
+            nameEn: d.nameEn,
+            closed: n.closed || d.active === false,
+          }
+        : n;
+    }),
+  };
+}
+export const buildingFloors = (building: string, graph = hospitalMap) =>
   [
     ...new Set(
-      nodes
+      graph.nodes
         .filter((n) => n.building === building && !n.closed)
         .map((n) => n.floor),
     ),
   ].sort((a, b) => Number(a) - Number(b));
-export const startNodes = (area: string, floor: string) =>
-  nodes.filter(
+export const startNodes = (area: string, floor: string, graph = hospitalMap) =>
+  graph.nodes.filter(
     (n) =>
       !n.closed &&
       (area === "outside"

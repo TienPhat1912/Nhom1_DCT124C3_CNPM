@@ -30,6 +30,7 @@ export default function StaffClinical({ id }: { id: string | null }) {
             <strong>
               {v.patientName} · {v.ticketNumber}
             </strong>
+            <span>{locale === "vi" ? v.departmentNameVi : v.departmentNameEn} · {v.doctorName}</span>
             <span>
               {t("visitStatus")}: <Status value={v.status} />
             </span>

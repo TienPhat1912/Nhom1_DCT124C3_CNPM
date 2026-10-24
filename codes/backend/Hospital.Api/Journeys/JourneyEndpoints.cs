@@ -22,7 +22,11 @@ public class JourneyReader(HospitalDb db, Access access)
         var keys = v.Journey.Steps.Select(s => s.TemplateKey).Distinct().ToArray();
         var templates = await db.Set<GuidanceTemplate>().Where(t => keys.Contains(t.Key) && t.Published).OrderByDescending(t => t.Revision).ToListAsync();
         var current = v.Journey.Steps.Where(s => !Workflow.Resolved(s)).OrderBy(s => s.Status == "InProgress" ? 0 : s.Status == "Ready" ? 1 : 2).ThenBy(s => s.Sequence).FirstOrDefault();
+        var doctor = await db.Users.FindAsync(v.DoctorId);
+        var department = await db.Set<Department>().FindAsync(v.DepartmentId);
         return new {
+            doctorName = doctor?.Name, departmentNameVi = department?.NameVi, departmentNameEn = department?.NameEn,
+            doctorSpecialties = HospitalCatalog.Specialties(v.DoctorId),
             v.Id, v.Version, v.Status, v.WorkRevision, v.FinalSettlementRevision, v.FinalSettlementOutcome, v.CreatedAt, v.ClosedAt,
             patientName = v.Patient.Name, v.DepartmentId, v.DoctorId,
             ticketNumber = v.Ticket.Number, journeyId = v.Journey.Id, journeyStatus = v.Journey.Status, journeyVersion = v.Journey.Version, v.Journey.CompletionSource,

@@ -1,6 +1,7 @@
 import type { Locale } from "./types";
 export const messages = {
   vi: {
+    directory: "Khoa và bác sĩ",
     adminWorkspace: "Quản trị bệnh viện",
     dashboard: "Tổng quan",
     dashboardTitle: "Tổng quan hoạt động",
@@ -369,6 +370,7 @@ export const messages = {
     appOpen: "Mở ứng dụng trên điện thoại",
   },
   en: {
+    directory: "Departments and doctors",
     adminWorkspace: "Hospital administration",
     dashboard: "Overview",
     dashboardTitle: "Operations overview",

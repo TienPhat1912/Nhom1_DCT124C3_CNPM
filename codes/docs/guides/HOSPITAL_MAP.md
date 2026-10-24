@@ -5,7 +5,7 @@ Mở **Hành trình → Chỉ đường** trên web hoặc Android:
 1. Trong tòa: chọn tòa A–G → lầu → checkpoint/phòng/khoa gần nhất.
 2. Ngoài tòa: chọn **Ngoài tòa nhà** rồi chọn checkpoint trên map hoặc danh sách.
 3. Bấm **Tìm đường**. Mặc định đích lấy từ phòng trên bước hiện tại của phiếu.
-4. Để tra cứu khoa khác, mở **Tra cứu khoa/phòng (47)**, tìm tên khoa và chọn
+4. Để tra cứu khoa khác, mở **Tra cứu khoa/phòng (50)**, tìm tên khoa và chọn
    khoa cần đến. Nếu khoa có nhiều tầng, chọn tầng đích. Việc tra cứu không
    thay đổi thông tin phiếu hoặc chỉ định khám.
 5. Chọn **Tầng đang xem** để xem đoạn đường trên tầng hầm, trệt hoặc tầng 1–7.
@@ -19,7 +19,7 @@ hoàn thành bước khám. Không tự định vị bệnh nhân.
 
 ## Danh mục từ ảnh
 
-`packages/shared/src/hospitalDepartments.ts` chứa 47 mục:
+`packages/shared/data/hospital-departments.json` chứa 50 mục; 47 mục từ ảnh gồm:
 C: 19, D: 8, F: 1, G: 3, A: 6, B: 5, E: 2, khu chưa xác định: 3.
 
 Khu/tầng được chép từ ảnh người dùng cung cấp, gồm:
@@ -31,7 +31,10 @@ Khu/tầng được chép từ ảnh người dùng cung cấp, gồm:
 - G: hội trường ở hầm; Nội thận – Thận nhân tạo ở trệt và 1;
   Nội tim mạch – Lão học ở tầng 2 và 3.
 
-Sáu mục **Cần xác nhận**:
+Thêm 3 mục từ Excel (Nội thần kinh, Sản chưa phân biệt B/C, Phòng khám Chuyên gia), tổng cộng 50. Cả ba chưa có vị trí.
+Xem [danh mục khoa và bác sĩ](HOSPITAL_DIRECTORY.md) cho phạm vi đồng bộ.
+
+Sáu mục từ ảnh **Cần xác nhận**:
 
 - Khoa Y học cổ truyền (F): chưa rõ tầng.
 - Khám chữa bệnh chất lượng cao và Giải phẫu bệnh (E): chưa rõ tầng.

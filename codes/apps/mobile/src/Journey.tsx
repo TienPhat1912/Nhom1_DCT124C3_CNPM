@@ -77,6 +77,7 @@ export function Journey({
         <>
           <Card>
             <Txt tone="heading">{v.ticketNumber}</Txt>
+            {v.doctorName && <Txt>{locale === "vi" ? v.departmentNameVi : v.departmentNameEn} · {t("doctor")}: {v.doctorName}</Txt>}
             <Txt tone="muted">{t("visitStatus")}</Txt>
             <Badge value={v.status} />
             <Txt tone="muted">{t("journeyStatus")}</Txt>

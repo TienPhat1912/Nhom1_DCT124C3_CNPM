@@ -62,6 +62,7 @@ app.MapIdentity(); app.MapReception(); app.MapJourneys(); app.MapContent(); app.
 if (!args.Contains("--no-migrate")) {
     using var scope = app.Services.CreateScope(); var db = scope.ServiceProvider.GetRequiredService<HospitalDb>();
     await db.Database.MigrateAsync(); await Seed.Run(db, app.Configuration);
+    await HospitalCatalog.Sync(db, app.Configuration);
     if (args.Contains("--seed-performance")) await PerformanceSeed.Run(db, app.Configuration);
 }
 if (!args.Contains("--migrate-only") && !args.Contains("--seed-performance")) app.Run();

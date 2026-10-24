@@ -10,7 +10,7 @@ import {
   Square,
 } from "lucide-react";
 import {
-  mapDepartments,
+  configuredMapDepartments,
   departmentLabel,
   departmentLocation,
   departmentNodeId,
@@ -19,7 +19,7 @@ import {
   type MapDepartment,
   buildingFloors,
   destinationNode,
-  hospitalMap,
+  configuredHospitalMap,
   mapBuildings,
   mapCopy,
   mapFloors,
@@ -36,12 +36,16 @@ import { useRouteSpeech } from "./useRouteSpeech";
 import "./hospital-map.css";
 
 export function HospitalMap({ destination }: { destination: Destination }) {
-  const { locale } = useRuntime();
+  const { locale, config } = useRuntime();
+  const mapDepartments = configuredMapDepartments(
+    config.departments,
+    !!config.catalogVersion,
+  );
   const [query, setQuery] = useState("");
   const [departmentId, setDepartmentId] = useState("");
   const [departmentFloor, setDepartmentFloor] = useState("");
   const department = mapDepartments.find((d) => d.id === departmentId);
-  const results = searchDepartments(query, locale);
+  const results = searchDepartments(query, locale, mapDepartments);
   return (
     <>
       <details className="map-directory">
@@ -144,7 +148,11 @@ function MapPanel({
   department?: MapDepartment;
   departmentFloor?: string;
 }) {
-  const { locale } = useRuntime();
+  const { locale, config } = useRuntime();
+  const hospitalMap = configuredHospitalMap(
+    config.departments,
+    !!config.catalogVersion,
+  );
   const c = mapCopy[locale];
   const [area, setArea] = useState("");
   const [level, setLevel] = useState("");
@@ -158,7 +166,7 @@ function MapPanel({
           !n.closed &&
           n.id === departmentNodeId(department.id, departmentFloor),
       )
-    : destinationNode(destination);
+    : destinationNode(destination, hospitalMap);
   const route =
     target && routeStart
       ? shortestPath(hospitalMap, routeStart, target.id)
@@ -171,7 +179,7 @@ function MapPanel({
     locale,
     c.audioError,
   );
-  const choices = startNodes(area, level);
+  const choices = startNodes(area, level, hospitalMap);
   const routeIds = new Set(route?.nodes.map((n) => n.id));
   const label = (n: MapNode) => mapLabel(n, locale);
   const clearRoute = () => {
@@ -270,7 +278,7 @@ function MapPanel({
               onChange={(e) => chooseLevel(e.target.value)}
             >
               <option value="">{c.chooseFloor}</option>
-              {buildingFloors(area).map((f) => (
+              {buildingFloors(area, hospitalMap).map((f) => (
                 <option key={f} value={f}>
                   {floorLabel(f, locale)}
                 </option>

@@ -177,10 +177,10 @@ test("all fixed checkpoint pairs are connected and match independent Bellman-For
 });
 
 test("directory preserves supplied floors, multi-floor departments and unknown locations without invented nodes", () => {
-  assert.equal(mapDepartments.length, 47);
+  assert.equal(mapDepartments.length, 50);
   assert.equal(
     mapDepartments.filter((d) => !d.building || !d.floors.length).length,
-    6,
+    9,
   );
   assert.deepEqual(
     mapDepartments.find((d) => d.id === "C-neurosurgery").floors,
