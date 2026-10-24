@@ -37,7 +37,7 @@ public class JourneyReader(HospitalDb db, Access access)
                 bool canProgress = v.Status == "Active" && (s.Status is "Ready" or "InProgress") && ((role == "Doctor" && s.Authority == "Doctor" && v.DoctorId == session.UserAccountId)
                     || (role == "Service" && s.Authority == "Service" && session.UserAccount!.Scopes.Any(sc => sc.DepartmentId == s.DepartmentId)));
                 return new { s.Id, s.Version, s.Kind, s.Status, s.Authority, s.DoctorOrderId, s.MappingVersion, s.Sequence, s.LocationId, s.DepartmentId,
-                    destination = JsonSerializer.Deserialize<JsonElement>(s.DestinationSnapshot), s.QueueNumber, s.QueueStatus, s.QueueUpdatedAt, s.ResolutionReason, s.CompletedAt,
+                    destination = HospitalCatalog.DisplayDestination(s.DestinationSnapshot), s.QueueNumber, s.QueueStatus, s.QueueUpdatedAt, s.ResolutionReason, s.CompletedAt,
                     prerequisites = s.Dependencies.Select(d => d.PrerequisiteStepId), text = t?.Text, contentLanguage = t?.Language, fallback = t?.Language != language, templateVersion = t?.Revision,
                     canProgress, canCompleteGuidance = role == "Patient" && v.Status == "Closed" && v.Journey.Status == "Active" && s.Kind == "Pharmacy" && s.Status == "Ready" };
             }),

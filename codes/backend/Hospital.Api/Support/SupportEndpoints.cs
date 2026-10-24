@@ -18,7 +18,7 @@ public static class SupportEndpoints
             Check.That(step is not null, "noDestination", "No remaining destination.", 404);
             var candidates = from is {} origin ? await db.Set<HospitalRoute>().Where(r => r.FromLocationId == origin && r.ToLocationId == step!.LocationId && r.Active).ToListAsync() : [];
             var route = candidates.FirstOrDefault(r => r.Language == language) ?? candidates.FirstOrDefault(r => r.Language == "en") ?? candidates.FirstOrDefault(r => r.Language == "vi");
-            return new { destination = JsonSerializer.Deserialize<JsonElement>(step!.DestinationSnapshot), instructions = route?.Instructions, language = route?.Language, fallback = route is null || route.Language != language, availableStarts = await db.Set<Location>().Where(l => l.Active).ToListAsync() };
+            return new { destination = HospitalCatalog.DisplayDestination(step!.DestinationSnapshot), instructions = route?.Instructions, language = route?.Language, fallback = route is null || route.Language != language, availableStarts = await db.Set<Location>().Where(l => l.Active).ToListAsync() };
         });
         g.MapGet("/notifications", async (Access access, HospitalDb db) => {
             var s = await access.Patient(); var q = db.Set<Notification>().Where(n => n.PatientId == s.PatientId);

@@ -98,9 +98,10 @@ def extract(path):
                 room=None if room in ("","?") else room
                 spec=specialty(clinic_name)
                 sid=uid("specialty:"+dept+":"+key(spec))
+                # Keep the original source name in the ID so display-label edits preserve assignments.
                 cid=uid("clinic:"+dept+":"+str(room)+":"+key(clinic_name))
                 specialties.setdefault(sid,{"id":sid,"departmentKey":dept,"name":spec})
-                clinics.setdefault(cid,{"id":cid,"departmentKey":dept,"specialtyId":sid,"name":clinic_name,"room":room,"building":None,"floor":None,"source":{"sheet":sheet_name,"cell":f"C{row}"}})
+                clinics.setdefault(cid,{"id":cid,"departmentKey":dept,"specialtyId":sid,"name":clean(clinic_name.replace("[Theo yêu cầu]", "")),"room":room,"building":None,"floor":None,"source":{"sheet":sheet_name,"cell":f"C{row}"}})
                 for col in "FGHIJKL":
                     value=cells.get(f"{col}{row}","")
                     for name,title,is_doctor,raw in names(value):

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Hospital.Api.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,10 +49,38 @@ public static class HospitalCatalog
             })
         };
     }
+    static string ClinicLabel(string name) => name.Replace("[Theo yêu cầu]", "", StringComparison.OrdinalIgnoreCase).Trim();
+    // Format older destination snapshots without rewriting visit history or room identifiers.
+    public static JsonNode? DisplayDestination(string snapshot) {
+        var destination = JsonNode.Parse(snapshot);
+        if (destination is JsonObject obj)
+            foreach (var key in new[] { "nameVi", "nameEn" })
+                if (obj[key] is JsonValue value && value.TryGetValue<string>(out var name))
+                    obj[key] = ClinicLabel(name);
+        return destination;
+    }
+    static async Task SyncClinicLabels(HospitalDb db) {
+        var ids = Roster.Clinics.Select(c => c.Id).ToArray();
+        var locations = await db.Set<Location>().Where(l => ids.Contains(l.Id)).ToListAsync();
+        var changed = 0;
+        foreach (var location in locations) {
+            var vi = ClinicLabel(location.NameVi);
+            var en = ClinicLabel(location.NameEn);
+            if (vi == location.NameVi && en == location.NameEn) continue;
+            location.NameVi = vi;
+            location.NameEn = en;
+            changed++;
+        }
+        if (changed == 0) return;
+        db.Add(new AuditEvent { Source = "CatalogLabels", SourceEventId = Guid.NewGuid().ToString("N"),
+            ActorId = Guid.Empty, Type = "ClinicLabelsUpdated", Detail = $"{changed} clinic labels updated" });
+        await db.SaveChangesAsync();
+    }
     public static async Task Sync(HospitalDb db, IConfiguration config) {
         // An atomic, versioned, additive import also works on an already populated database.
         // Never reset patient history, staff credentials, manual locations or access scopes.
         if (!config.GetValue("Catalog:Enabled", true)) return;
+        await SyncClinicLabels(db);
         if (await db.Set<AuditEvent>().AnyAsync(a => a.Source == "Catalog" && a.SourceEventId == Roster.Version)) return;
         await using var transaction = await db.Database.BeginTransactionAsync();
         var departments = await db.Set<Department>().ToListAsync();
