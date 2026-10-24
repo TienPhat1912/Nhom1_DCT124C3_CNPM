@@ -95,6 +95,7 @@ function ReceptionReview({
 }) {
   const r = useResource<ReceptionRequest>(`/api/requests/${id}`, true);
   const resources = useResource<ReceptionResources>("/api/reception/resources");
+  const [ticketRevision, setTicketRevision] = useState(0);
   return (
     <>
       <ResourceState resource={r} />
@@ -112,8 +113,14 @@ function ReceptionReview({
       )}
       {r.data?.visitId && (
         <div className="panel">
-          <TicketPanel id={r.data.visitId} />
-          <RecoveryActions id={r.data.visitId} />
+          <TicketPanel
+            key={`${r.data.visitId}:${ticketRevision}`}
+            id={r.data.visitId}
+          />
+          <RecoveryActions
+            id={r.data.visitId}
+            onReissued={() => setTicketRevision((revision) => revision + 1)}
+          />
         </div>
       )}
     </>
@@ -427,12 +434,17 @@ function ReviewForm({
     </div>
   );
 }
-function RecoveryActions({ id }: { id: string }) {
+function RecoveryActions({
+  id,
+  onReissued,
+}: {
+  id: string;
+  onReissued: () => void;
+}) {
   const { t, locale } = useRuntime();
   const [verified, setVerified] = useState(false);
   const [note, setNote] = useState("");
   const [code, setCode] = useState("");
-  const [issued, setIssued] = useState(false);
   const mutation = useMutation();
   return (
     <details className="sub-panel">
@@ -465,7 +477,7 @@ function RecoveryActions({ id }: { id: string }) {
                 verificationNote: note,
               })
             )
-              setIssued(true);
+              onReissued();
           }}
         >
           {t("reissue")}
@@ -486,7 +498,6 @@ function RecoveryActions({ id }: { id: string }) {
         </Button>
       </div>
       <Feedback error={mutation.error} ok={mutation.ok} locale={locale} />
-      {issued && <TicketPanel key="reissued" id={id} />}
       {code && (
         <Notice>
           <strong>{t("recoveryCode")}</strong>
