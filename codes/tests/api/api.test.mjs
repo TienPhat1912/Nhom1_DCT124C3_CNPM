@@ -333,4 +333,50 @@ test('dashboard tracks reception, assistance and closures using Vietnam date bou
   assert.equal(after.daily.at(-1).closed, before.daily.at(-1).closed + 1);
 });
 
+for (const kind of ['guest', 'account']) {
+  test(`supplement keeps ${kind} profile and confirmed Visit identity in sync`, async () => {
+    const s = kind === 'guest' ? await guest() : await account('supplement-profile');
+    const { id } = await prepare(s);
+    const initial = await call(s.token, '/api/auth/profile');
+    let r = await call(s.token, `/api/requests/${id}`);
+    if (kind === 'account') {
+      await call(staff.reception, `/api/requests/${id}/message`, { version: r.version, templateId: resources.templates[0].id });
+      r = await call(s.token, `/api/requests/${id}`);
+      assert.equal(r.status, 'NeedsInformation');
+    } else assert.equal(r.status, 'Submitted');
+    const input = {
+      information: { name: `Corrected ${kind} patient`, contact: `corrected-${kind}-contact`, description: '', requests: '', departmentId: department.id, version: r.version },
+      messageId: r.messages[0]?.id ?? null, response: 'Corrected patient information',
+    };
+    // Rejecting a supplement must leave both the request and profile unchanged.
+    await call(s.token, `/api/requests/${id}`, { ...input, messageId: randomUUID() }, 'PUT', randomUUID(), 422);
+    assert.deepEqual(await call(s.token, '/api/auth/profile'), initial);
+    assert.equal((await call(s.token, `/api/requests/${id}`)).name, r.name);
+
+    const key = randomUUID();
+    await call(s.token, `/api/requests/${id}`, input, 'PUT', key);
+    const profile = await call(s.token, '/api/auth/profile');
+    assert.equal(profile.id, s.patientId);
+    assert.equal(profile.name, input.information.name);
+    assert.equal(profile.contact, input.information.contact);
+    assert.equal(profile.version, initial.version + 1);
+    await call(s.token, `/api/requests/${id}`, input, 'PUT', key);
+    assert.deepEqual(await call(s.token, '/api/auth/profile'), profile);
+    await call(s.token, `/api/requests/${id}`, input, 'PUT', randomUUID(), 409);
+    assert.deepEqual(await call(s.token, '/api/auth/profile'), profile);
+
+    const { visitId } = await confirm(id);
+    for (const token of [s.token, staff.reception, staff.doctor]) {
+      assert.equal((await visit(token, visitId)).patientName, input.information.name);
+      assert.equal((await call(token, '/api/visits')).find(v => v.id === visitId).patientName, input.information.name);
+    }
+    assert.equal((await call(s.token, '/api/auth/session')).name, input.information.name);
+    const confirmed = await call(s.token, `/api/requests/${id}`);
+    assert.equal(confirmed.name, profile.name);
+    assert.equal(confirmed.contact, profile.contact);
+    await call(s.token, `/api/requests/${id}`, { ...input, information: { ...input.information, name: 'Rejected after confirmation', version: confirmed.version } }, 'PUT', randomUUID(), 409);
+    assert.deepEqual(await call(s.token, '/api/auth/profile'), profile);
+  });
+}
+
 test('test run notes', () => { assert.deepEqual(failures, [], failures.join('; ')); });
