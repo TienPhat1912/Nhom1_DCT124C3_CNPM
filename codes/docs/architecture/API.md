@@ -10,7 +10,7 @@ Tài liệu máy đọc: `/openapi/v1.json`, snapshot trong `docs/architecture/o
 - `version` là số concurrency của bản ghi; `workRevision` là thế hệ công việc của Visit. 409 → tải lại dữ liệu trước khi quyết định retry. Client không tự tăng trạng thái.
 - Lỗi có `{title,status,detail,errors?,traceId}`. 401 phiên hết hạn; 403 phạm vi/quyền; 404 không tìm thấy; 409 xung đột; 410 QR hết hạn/thay thế; 422 dữ liệu/nghiệp vụ; 503/504 provider; 429 giới hạn xác thực. `errors` chứa tên trường và ràng buộc.
 - Thời gian lưu UTC; client hiển thị Asia/Ho_Chi_Minh. Poll 5 giây khi đang dùng màn hình; abort/sequence loại phản hồi cũ, refresh khi online/focus, giữ bản đã tải với nhãn cũ khi mất mạng.
-- Danh sách Visit có `offset>=0`, `limit=1..100`, mặc định 100; luôn lọc quyền trước phân trang. Request/hỗ trợ hiển thị 100 mục mới nhất, notification 50 mục mới nhất. Đây là giới hạn vận hành của demo cần mở rộng phân trang khi số lượng vượt ngưỡng.
+- Danh sách Visit và request (`GET /api/requests`) có `offset>=0`, `limit=1..100`, mặc định offset 0 và limit 100; luôn lọc quyền trước phân trang và sắp xếp theo `CreatedAt` giảm dần, rồi `Id` tăng dần. API tiếp tục trả mảng để tương thích với các client hiện có. Web/Android có nút Trang trước/Trang tiếp cho danh sách tiếp nhận; tạo phiếu mới đưa bệnh nhân về trang đầu. Hỗ trợ vẫn hiển thị 100 mục mới nhất, notification 50 mục mới nhất.
 
 ## Dashboard quản trị
 

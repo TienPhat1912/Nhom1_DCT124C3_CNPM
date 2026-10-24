@@ -24,7 +24,8 @@ import { useMutation, useResource, useRuntime } from "./runtime";
 import { TicketPanel } from "./PatientJourney";
 export default function StaffReception() {
   const { t, locale } = useRuntime();
-  const list = useResource<RequestSummary[]>("/api/requests", true);
+  const [offset, setOffset] = useState(0);
+  const list = useResource<RequestSummary[]>(`/api/requests?offset=${offset}`, true);
   const [id, setId] = useState<string | null>(null);
   const [scan, setScan] = useState(false);
   const mutation = useMutation();
@@ -72,6 +73,28 @@ export default function StaffReception() {
               <Status value={r.status} />
             </button>
           ))}
+          <div className="actions">
+            <Button
+              variant="quiet"
+              disabled={offset === 0 || list.loading}
+              onClick={() => {
+                setId(null);
+                setOffset(Math.max(0, offset - 100));
+              }}
+            >
+              {t("previousPage")}
+            </Button>
+            <Button
+              variant="quiet"
+              disabled={list.data?.length !== 100 || list.loading}
+              onClick={() => {
+                setId(null);
+                setOffset(offset + 100);
+              }}
+            >
+              {t("nextPage")}
+            </Button>
+          </div>
         </aside>
         <div>
           {id ? (
