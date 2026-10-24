@@ -2,6 +2,7 @@ import { useState } from "react";
 import { LayoutDashboard, Plus, Settings2 } from "lucide-react";
 import {
   displayName,
+  directoryText,
   type AdminConfig,
   type MappingNode,
 } from "@hospital/shared";
@@ -37,6 +38,7 @@ export default function Admin() {
   );
   const [id, setId] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
+  const [search, setSearch] = useState("");
   const data = resource.data;
   const record =
     id && tab !== "dashboard"
@@ -44,6 +46,7 @@ export default function Admin() {
       : undefined;
   const selectTab = (next: Tab | "dashboard") => {
     setTab(next);
+    setSearch("");
     setId(null);
     setCreating(false);
   };
@@ -89,45 +92,71 @@ export default function Admin() {
               <Plus size={16} />
               {t("create")}
             </Button>
-            {data[tab].map((record) => {
-              const item = record as unknown as Values;
-              const name =
-                typeof item.nameVi === "string"
-                  ? locale === "vi"
-                    ? item.nameVi
-                    : item.nameEn
-                  : (item.name ??
-                    item.key ??
-                    (item.hospitalServiceId
-                      ? displayName(
-                          data.services.find(
-                            (s) => s.id === item.hospitalServiceId,
-                          ) ?? { nameVi: t("service"), nameEn: t("service") },
-                          locale,
-                        )
-                      : t("routes")));
-              return (
-                <button
-                  className={`record-row ${record.id === id ? "selected" : ""}`}
-                  key={record.id}
-                  onClick={() => {
-                    setId(record.id);
-                    setCreating(false);
-                  }}
-                >
-                  <span>
-                    <strong>{String(name)}</strong>
-                    <small>
-                      {String(item.code ?? item.language ?? "")}{" "}
-                      {item.revision
-                        ? `· ${t("revision")} ${item.revision}`
-                        : ""}
-                    </small>
-                  </span>
-                  <span>{t("edit")}</span>
-                </button>
-              );
-            })}
+            <Field
+              label={
+                locale === "vi" ? "Tìm trong danh mục" : "Search configuration"
+              }
+            >
+              <input
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </Field>
+            {data[tab]
+              .filter((record) =>
+                directoryText(
+                  JSON.stringify(record) +
+                    ("departmentIds" in record
+                      ? record.departmentIds
+                          .map(
+                            (id) =>
+                              data.departments.find((d) => d.id === id)
+                                ?.nameVi ?? "",
+                          )
+                          .join(" ")
+                      : ""),
+                ).includes(directoryText(search)),
+              )
+              .map((record) => {
+                const item = record as unknown as Values;
+                const name =
+                  typeof item.nameVi === "string"
+                    ? locale === "vi"
+                      ? item.nameVi
+                      : item.nameEn
+                    : (item.name ??
+                      item.key ??
+                      (item.hospitalServiceId
+                        ? displayName(
+                            data.services.find(
+                              (s) => s.id === item.hospitalServiceId,
+                            ) ?? { nameVi: t("service"), nameEn: t("service") },
+                            locale,
+                          )
+                        : t("routes")));
+                return (
+                  <button
+                    className={`record-row ${record.id === id ? "selected" : ""}`}
+                    key={record.id}
+                    onClick={() => {
+                      setId(record.id);
+                      setCreating(false);
+                    }}
+                  >
+                    <span>
+                      <strong>{String(name)}</strong>
+                      <small>
+                        {String(item.code ?? item.language ?? "")}{" "}
+                        {item.revision
+                          ? `· ${t("revision")} ${item.revision}`
+                          : ""}
+                      </small>
+                    </span>
+                    <span>{t("edit")}</span>
+                  </button>
+                );
+              })}
           </aside>
           <div className="panel">
             {record || creating ? (
@@ -276,6 +305,16 @@ function ConfigEditor({
       </h3>
       {(tab === "mappings" || tab === "templates") && (
         <Notice>{t("newCorrection")}</Notice>
+      )}
+      {tab === "staff" && record?.specialties && (
+        <p>{(record.specialties as string[]).join(" · ")}</p>
+      )}
+      {tab === "staff" && record?.directoryOnly && (
+        <Notice>
+          {locale === "vi"
+            ? "Hồ sơ từ Excel, chưa có đăng nhập. Chỉ cấp tài khoản khi đã xác minh nhân sự: cập nhật email thật và mật khẩu mới."
+            : "Imported directory profile without login. Verify the staff member, then set a real email and new password to provision access."}
+        </Notice>
       )}
       <Form
         busy={mutation.busy}

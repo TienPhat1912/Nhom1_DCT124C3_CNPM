@@ -3,9 +3,16 @@ import campusImage from "../assets/thu-duc-campus.jpg";
 import { Pressable, StyleSheet, View } from "react-native";
 import Svg, { Circle, G, Image, Line, Text as SvgText } from "react-native-svg";
 import {
+  configuredMapDepartments,
+  departmentLabel,
+  departmentLocation,
+  departmentNodeId,
+  searchDepartments,
+  floorLabel,
+  type MapDepartment,
   buildingFloors,
   destinationNode,
-  hospitalMap,
+  configuredHospitalMap,
   mapBuildings,
   mapCopy,
   mapFloors,
@@ -15,40 +22,138 @@ import {
   startNodes,
   type Destination,
 } from "@hospital/shared";
-import { Btn, Choice, DestinationBlock, Txt } from "./ui";
+import { Btn, Choice, DestinationBlock, Txt, Input } from "./ui";
 import { useNative } from "./runtime";
 import { useRouteSpeech } from "./useRouteSpeech";
 
 export function HospitalMap({ destination }: { destination: Destination }) {
+  const { locale, config } = useNative();
+  const mapDepartments = configuredMapDepartments(
+    config.departments,
+    !!config.catalogVersion,
+  );
+  const [query, setQuery] = useState("");
+  const [departmentId, setDepartmentId] = useState("");
+  const [departmentFloor, setDepartmentFloor] = useState("");
+  const [directoryOpen, setDirectoryOpen] = useState(false);
+  const department = mapDepartments.find((d) => d.id === departmentId);
   return (
-    <MapPanel
-      key={`${destination.id}:${destination.building}:${destination.floor}:${destination.room}`}
-      destination={destination}
-    />
+    <View style={{ gap: 12 }}>
+      <Btn secondary onPress={() => setDirectoryOpen(!directoryOpen)}>
+        {(locale === "vi" ? "Tra cứu khoa/phòng" : "Department directory") +
+          " (" +
+          mapDepartments.length +
+          ")"}
+      </Btn>
+      {directoryOpen && (
+        <>
+          <Txt tone="muted">
+            {locale === "vi"
+              ? "Chọn khoa để tra cứu đường đi; thông tin trên phiếu không thay đổi."
+              : "Select a department to explore directions. Your ticket is unchanged."}
+          </Txt>
+          <Input
+            label={locale === "vi" ? "Tìm khoa/phòng" : "Search departments"}
+            value={query}
+            onChangeText={setQuery}
+          />
+          <Btn
+            secondary
+            onPress={() => {
+              setDepartmentId("");
+              setDepartmentFloor("");
+              setDirectoryOpen(false);
+            }}
+          >
+            {locale === "vi"
+              ? "Dùng phòng trên phiếu"
+              : "Use ticket destination"}
+          </Btn>
+          {searchDepartments(query, locale, mapDepartments).map((d) => (
+            <Choice
+              key={d.id}
+              label={
+                departmentLabel(d, locale) +
+                " · " +
+                departmentLocation(d, locale)
+              }
+              selected={departmentId === d.id}
+              onPress={() => {
+                setDepartmentId(d.id);
+                setDepartmentFloor(d.floors.length === 1 ? d.floors[0] : "");
+                setDirectoryOpen(false);
+              }}
+            />
+          ))}
+        </>
+      )}
+      {department && department.floors.length > 1 && (
+        <>
+          <Txt tone="heading">
+            {locale === "vi" ? "Tầng cần đến" : "Destination floor"}
+          </Txt>
+          {department.floors.map((f) => (
+            <Choice
+              key={f}
+              label={floorLabel(f, locale)}
+              selected={departmentFloor === f}
+              onPress={() => setDepartmentFloor(f)}
+            />
+          ))}
+        </>
+      )}
+      <MapPanel
+        key={`${destination.id}:${destination.building}:${destination.floor}:${destination.room}:${departmentId}:${departmentFloor}`}
+        destination={destination}
+        department={department}
+        departmentFloor={departmentFloor}
+      />
+    </View>
   );
 }
-function MapPanel({ destination }: { destination: Destination }) {
-  const { locale } = useNative();
+
+function MapPanel({
+  destination,
+  department,
+  departmentFloor = "",
+}: {
+  destination: Destination;
+  department?: MapDepartment;
+  departmentFloor?: string;
+}) {
+  const { locale, config } = useNative();
+  const hospitalMap = configuredHospitalMap(
+    config.departments,
+    !!config.catalogVersion,
+  );
   const c = mapCopy[locale];
   const [area, setArea] = useState("");
   const [level, setLevel] = useState("");
   const [from, setFrom] = useState("");
   const [routeStart, setRouteStart] = useState("");
-  const [floor, setFloor] = useState("1");
+  const [floor, setFloor] = useState("0");
   const [showChoices, setShowChoices] = useState(false);
-  const target = destinationNode(destination);
+  const target = department
+    ? hospitalMap.nodes.find(
+        (n) =>
+          !n.closed &&
+          n.id === departmentNodeId(department.id, departmentFloor),
+      )
+    : destinationNode(destination, hospitalMap);
   const route =
     target && routeStart
       ? shortestPath(hospitalMap, routeStart, target.id)
       : null;
-  const instructions = route ? routeInstructions(route, locale) : [];
+  const instructions = route
+    ? routeInstructions(route, locale, !department)
+    : [];
   const speech = useRouteSpeech(
     route ? c.narrationIntro + instructions.join(" ") : "",
     locale,
     c.audioError,
   );
   const highlighted = new Set(route?.edges);
-  const choices = startNodes(area, level);
+  const choices = startNodes(area, level, hospitalMap);
   const routeIds = new Set(route?.nodes.map((n) => n.id));
   const clearRoute = () => {
     speech.stop();
@@ -59,7 +164,7 @@ function MapPanel({ destination }: { destination: Destination }) {
     setArea(value);
     setLevel("");
     setFrom("");
-    setFloor("1");
+    setFloor("0");
     setShowChoices(value === "outside");
   };
   const chooseLevel = (value: string) => {
@@ -81,13 +186,19 @@ function MapPanel({ destination }: { destination: Destination }) {
     setShowChoices(false);
   };
   const status = !target
-    ? c.unmapped
+    ? department
+      ? department.floors.length
+        ? c.chooseTargetFloor
+        : c.unconfirmed
+      : c.unmapped
     : !routeStart
       ? c.select
       : !route
         ? c.unreachable
         : route.nodes.length === 1
-          ? c.arrived
+          ? department
+            ? c.departmentArrived
+            : c.arrived
           : c.route;
   return (
     <View style={s.container}>
@@ -96,8 +207,18 @@ function MapPanel({ destination }: { destination: Destination }) {
       </Txt>
       <Txt style={s.warning}>{c.warning}</Txt>
       <Txt tone="muted">{c.hint}</Txt>
-      <Txt tone="eyebrow">{c.destination}</Txt>
-      <DestinationBlock destination={destination} />
+      <Txt tone="eyebrow">
+        {department ? c.departmentDestination : c.destination}
+      </Txt>
+      {department ? (
+        <View>
+          <Txt tone="heading">{departmentLabel(department, locale)}</Txt>
+          <Txt>{departmentLocation(department, locale)}</Txt>
+          {departmentFloor && <Txt>{floorLabel(departmentFloor, locale)}</Txt>}
+        </View>
+      ) : (
+        <DestinationBlock destination={destination} />
+      )}
       <Txt tone="heading">{c.area}</Txt>
       <View style={s.row} accessibilityRole="radiogroup">
         <Choice
@@ -118,10 +239,10 @@ function MapPanel({ destination }: { destination: Destination }) {
         <>
           <Txt tone="heading">{c.level}</Txt>
           <View style={s.row} accessibilityRole="radiogroup">
-            {buildingFloors(area).map((f) => (
+            {buildingFloors(area, hospitalMap).map((f) => (
               <Choice
                 key={f}
-                label={`${c.floor} ${f}`}
+                label={floorLabel(f, locale)}
                 selected={level === f}
                 onPress={() => chooseLevel(f)}
               />
@@ -196,7 +317,7 @@ function MapPanel({ destination }: { destination: Destination }) {
             style={[s.floor, floor === f && s.selected]}
           >
             <Txt style={floor === f ? s.selectedText : undefined}>
-              {c.floor} {f}
+              {floorLabel(f, locale)}
               {route?.nodes.some((n) => n.floor === f) ? " •" : ""}
             </Txt>
           </Pressable>
@@ -207,7 +328,7 @@ function MapPanel({ destination }: { destination: Destination }) {
           width="100%"
           height="100%"
           viewBox="0 0 604 666"
-          accessibilityLabel={`${c.title} · ${c.floor} ${floor}`}
+          accessibilityLabel={`${c.title} · ${floorLabel(floor, locale)}`}
         >
           <Image href={campusImage} width={604} height={2048} opacity={0.6} />
           {hospitalMap.edges
@@ -269,7 +390,7 @@ function MapPanel({ destination }: { destination: Destination }) {
                     if (available) choose(n.id);
                   }}
                   accessibilityRole="button"
-                  accessibilityLabel={`${mapLabel(n, locale)} · ${c.floor} ${n.floor}`}
+                  accessibilityLabel={`${mapLabel(n, locale)} · ${floorLabel(n.floor, locale)}`}
                   accessibilityState={{ selected: start, disabled: !available }}
                   opacity={available ? 1 : 0.35}
                 >
@@ -286,7 +407,14 @@ function MapPanel({ destination }: { destination: Destination }) {
                   <Circle
                     cx={n.x}
                     cy={n.y}
-                    r={n.kind === "room" || start || end ? 12 : 8}
+                    r={
+                      n.kind === "room" ||
+                      n.kind === "department" ||
+                      start ||
+                      end
+                        ? 12
+                        : 8
+                    }
                     fill={start ? "#0a6357" : end ? "#c15b08" : "white"}
                     stroke={start || end ? "white" : "#486878"}
                     strokeWidth={3}
@@ -298,7 +426,11 @@ function MapPanel({ destination }: { destination: Destination }) {
                     fill={start || end ? "white" : "#486878"}
                     textAnchor="middle"
                   >
-                    {start ? "●" : end ? "★" : n.kind === "elevator" ? "↕" : ""}
+                    {start
+                      ? "●"
+                      : end
+                        ? "★"
+                        : (n.marker ?? (n.kind === "elevator" ? "↕" : ""))}
                   </SvgText>
                   {(n.room || n.kind === "gate" || start) && (
                     <SvgText

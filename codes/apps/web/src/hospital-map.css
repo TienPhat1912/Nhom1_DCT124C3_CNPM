@@ -327,3 +327,48 @@ dialog:has(.hospital-map) {
     min-height: 44px;
   }
 }
+
+.map-directory {
+  padding: 14px 16px;
+  margin: 12px 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #f7faf9;
+}
+.map-directory summary,
+.map-floor-directory summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.map-directory p {
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.map-directory select {
+  width: 100%;
+  min-width: 0;
+}
+.map-floor-select .field {
+  margin: 0;
+  font-size: 0.75rem;
+}
+.map-floor-select select {
+  padding: 8px 12px;
+  min-width: 160px;
+}
+.map-floor-directory {
+  margin-bottom: 16px;
+}
+.map-floor-directory button {
+  display: block;
+  text-align: left;
+  width: 100%;
+  padding: 8px 0;
+  color: var(--green);
+  border: 0;
+  background: transparent;
+  font-size: 0.78rem;
+  line-height: 1.6;
+}

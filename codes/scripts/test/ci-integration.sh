@@ -7,7 +7,7 @@ docker compose up -d --wait sql
 export ACCEPTANCE_DB="HospitalAcceptance_$(date +%s)"
 export ConnectionStrings__Hospital="Server=127.0.0.1,14339;Database=$ACCEPTANCE_DB;User Id=sa;Password=$SQL_PASSWORD;TrustServerCertificate=true"
 export Demo__Enabled=true Demo__Password="$DEMO_PASSWORD" ASPNETCORE_ENVIRONMENT=Development
-export ASPNETCORE_URLS=http://127.0.0.1:5280 Web__Origin=http://localhost:5180 API_URL=http://127.0.0.1:5280
+export ASPNETCORE_URLS=http://127.0.0.1:5280 Web__Origin=http://localhost:5180 API_URL=http://127.0.0.1:5280 WEB_URL=http://localhost:5180
 mkdir -p artifacts
 root="$PWD"
 dll="$root/backend/Hospital.Api/bin/Release/net10.0/Hospital.Api.dll"

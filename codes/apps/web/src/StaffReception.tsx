@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CheckCircle2, QrCode } from "lucide-react";
 import {
   dateText,
+  compatibleDoctors,
   displayName,
   type ReceptionRequest,
   type ReceptionResources,
@@ -136,9 +137,40 @@ function ReviewForm({
     )?.id ?? "",
   );
   const [doctor, setDoctor] = useState(
-    resources.doctors.find((d) => d.departments.includes(r.departmentId))?.id ??
-      "",
+    compatibleDoctors(
+      resources.doctors,
+      r.departmentId,
+      config.locations.find(
+        (l) => l.departmentId === r.departmentId && l.room !== "R01",
+      )?.id ?? "",
+    )[0]?.id ?? "",
   );
+  const [specialty, setSpecialty] = useState("");
+  const chooseLocation = (id: string, dep = department) => {
+    setLocation(id);
+    setDoctor(compatibleDoctors(resources.doctors, dep, id)[0]?.id ?? "");
+  };
+  const clinicSpecialty = (id: string) =>
+    resources.clinics?.find((c) => c.id === id)?.specialty;
+  const availableLocations = config.locations.filter(
+    (l) =>
+      l.departmentId === department &&
+      (!specialty || clinicSpecialty(l.id) === specialty),
+  );
+  const departmentSpecialties = [
+    ...new Set(
+      config.locations
+        .filter((l) => l.departmentId === department)
+        .map((l) => clinicSpecialty(l.id))
+        .filter((s): s is string => !!s),
+    ),
+  ];
+  const availableDoctors = compatibleDoctors(
+    resources.doctors,
+    department,
+    location,
+  );
+  const selectedLocation = config.locations.find((l) => l.id === location);
   const [verified, setVerified] = useState(false);
   const [note, setNote] = useState("");
   const [template, setTemplate] = useState(
@@ -221,15 +253,13 @@ function ReviewForm({
                   value={department}
                   onChange={(e) => {
                     setDepartment(e.target.value);
-                    setLocation(
+                    setSpecialty("");
+                    chooseLocation(
                       config.locations.find(
-                        (l) => l.departmentId === e.target.value,
+                        (l) =>
+                          l.departmentId === e.target.value && l.room !== "R01",
                       )?.id ?? "",
-                    );
-                    setDoctor(
-                      resources.doctors.find((d) =>
-                        d.departments.includes(e.target.value),
-                      )?.id ?? "",
+                      e.target.value,
                     );
                   }}
                 >
@@ -246,19 +276,54 @@ function ReviewForm({
                     ))}
                 </select>
               </Field>
+              <Field
+                label={
+                  locale === "vi"
+                    ? "Chuyên khoa / nhóm phòng khám"
+                    : "Specialty / clinic group"
+                }
+              >
+                <select
+                  value={specialty}
+                  onChange={(e) => {
+                    const next = e.target.value;
+                    setSpecialty(next);
+                    chooseLocation(
+                      config.locations.find(
+                        (l) =>
+                          l.departmentId === department &&
+                          l.room !== "R01" &&
+                          (!next || clinicSpecialty(l.id) === next),
+                      )?.id ?? "",
+                    );
+                  }}
+                >
+                  <option value="">
+                    {locale === "vi" ? "Tất cả chuyên khoa" : "All specialties"}
+                  </option>
+                  {departmentSpecialties.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </Field>
               <Field label={t("location")}>
                 <select
                   required
                   value={location}
-                  onChange={(e) => setLocation(e.target.value)}
+                  onChange={(e) => chooseLocation(e.target.value)}
                 >
-                  {config.locations
-                    .filter((l) => l.departmentId === department)
-                    .map((l) => (
-                      <option key={l.id} value={l.id}>
-                        {displayName(l, locale)} · {l.room}
-                      </option>
-                    ))}
+                  {availableLocations.map((l) => (
+                    <option key={l.id} value={l.id}>
+                      {displayName(l, locale)} ·{" "}
+                      {l.room === "?"
+                        ? locale === "vi"
+                          ? "Chưa có số phòng"
+                          : "Room unconfirmed"
+                        : l.room}
+                    </option>
+                  ))}
                 </select>
               </Field>
             </div>
@@ -268,15 +333,37 @@ function ReviewForm({
                 value={doctor}
                 onChange={(e) => setDoctor(e.target.value)}
               >
-                {resources.doctors
-                  .filter((d) => d.departments.includes(department))
-                  .map((d) => (
-                    <option key={d.id} value={d.id}>
-                      {d.name}
-                    </option>
-                  ))}
+                {availableDoctors.map((d) => (
+                  <option key={d.id} value={d.id}>
+                    {d.name}
+                  </option>
+                ))}
               </select>
             </Field>
+            {selectedLocation &&
+              (selectedLocation.building === "?" ||
+                selectedLocation.floor === "?") && (
+                <Notice>
+                  {locale === "vi"
+                    ? "Excel chưa có tòa/tầng của phòng khám này. Cần xác nhận vị trí trước khi hướng dẫn đường đi."
+                    : "The roster does not specify this clinic's building/floor. Confirm its location before giving directions."}
+                </Notice>
+              )}
+            {!!resources.doctors.find((d) => d.id === doctor)?.specialties
+              ?.length && (
+              <p>
+                {resources.doctors
+                  .find((d) => d.id === doctor)
+                  ?.specialties?.join(" · ")}
+              </p>
+            )}
+            {!availableDoctors.length && (
+              <Notice>
+                {locale === "vi"
+                  ? "Chưa có bác sĩ phù hợp với phòng khám đã chọn."
+                  : "No doctor is listed for the selected clinic."}
+              </Notice>
+            )}
             <Field label={t("verificationNote")}>
               <input
                 required
@@ -298,7 +385,11 @@ function ReviewForm({
             <Button
               type="submit"
               busy={mutation.busy}
-              disabled={r.status !== "Submitted"}
+              disabled={
+                r.status !== "Submitted" ||
+                !location ||
+                !availableDoctors.some((d) => d.id === doctor)
+              }
             >
               {t("confirmReception")}
             </Button>

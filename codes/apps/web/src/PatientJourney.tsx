@@ -77,6 +77,12 @@ export function PatientJourney({
       {v && (
         <>
           <div className="visit-meta">
+            {v.doctorName && (
+              <span>
+                {locale === "vi" ? v.departmentNameVi : v.departmentNameEn} ·{" "}
+                {t("doctor")}: <strong>{v.doctorName}</strong>
+              </span>
+            )}
             <span>
               {t("ticket")}: <strong>{v.ticketNumber}</strong>
             </span>
@@ -300,13 +306,21 @@ function TimelineStep({
   );
 }
 export function TicketPanel({ id }: { id: string }) {
-  const { t } = useRuntime();
+  const { t, locale } = useRuntime();
   const r = useResource<Ticket>(`/api/visits/${id}/ticket`);
   return (
     <>
       <ResourceState resource={r} />
       {r.data && (
         <>
+          {r.data.doctorName && (
+            <p>
+              {locale === "vi"
+                ? r.data.departmentNameVi
+                : r.data.departmentNameEn}{" "}
+              · {t("doctor")}: <strong>{r.data.doctorName}</strong>
+            </p>
+          )}
           <QrPanel
             purpose="ticket"
             code={r.data.code}

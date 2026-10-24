@@ -41,6 +41,7 @@ export type HospitalService = Entity & {
   returnRequired: boolean;
 };
 export type Configuration = {
+  catalogVersion?: string;
   name: string;
   demo: boolean;
   departments: Department[];
@@ -103,6 +104,10 @@ export type Order = Entity & {
   mappingVersion: number;
 };
 export type Visit = VisitSummary & {
+  doctorName?: string;
+  departmentNameVi?: string;
+  departmentNameEn?: string;
+  doctorSpecialties?: string[];
   departmentId: string;
   doctorId: string;
   finalSettlementRevision: number | null;
@@ -117,6 +122,9 @@ export type Visit = VisitSummary & {
   orders: Order[];
 };
 export type Ticket = {
+  doctorName?: string;
+  departmentNameVi?: string;
+  departmentNameEn?: string;
   id: string;
   number: string;
   visitId: string;
@@ -274,6 +282,16 @@ export type Staff = Entity & {
   role: Role;
   active: boolean;
   departmentIds: string[];
+  specialties?: string[];
+  directoryOnly?: boolean;
+};
+export type StaffProfile = {
+  id: string;
+  name: string;
+  role: Role;
+  departments: Department[];
+  specialties: string[];
+  clinics: Location[];
 };
 export type AdminConfig = {
   departments: Department[];
@@ -285,7 +303,15 @@ export type AdminConfig = {
   staff: Staff[];
 };
 export type ReceptionResources = {
-  doctors: { id: string; name: string; departments: string[] }[];
+  clinics?: { id: string; specialty: string }[];
+  doctors: {
+    id: string;
+    name: string;
+    departments: string[];
+    specialties?: string[];
+    clinicIds?: string[];
+    directoryOnly?: boolean;
+  }[];
   templates: Template[];
 };
 export type AdminDashboardData = {

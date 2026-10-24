@@ -56,8 +56,10 @@ import StaffReception from "./StaffReception";
 import StaffClinical from "./StaffClinical";
 import StaffSupport from "./StaffSupport";
 import Admin from "./Admin";
+import HospitalDirectory from "./HospitalDirectory";
 import { HospitalEntry } from "./HospitalEntry";
 type Page =
+  | "directory"
   | "home"
   | "reception"
   | "journey"
@@ -74,7 +76,7 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
   const [expired, setExpired] = useState(false);
-  const config = useResource<Configuration>("/api/config");
+  const config = useResource<Configuration>("/api/config", true);
   const t = useMemo(() => translator(locale), [locale]);
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -147,7 +149,7 @@ export default function App() {
   );
 }
 function Workspace() {
-  const { session, setSession, config, locale, setLocale, t } = useRuntime();
+  const { session, setSession, locale, setLocale, t } = useRuntime();
   const patient = session.role === "Patient";
   const [page, setPage] = useState<Page>(
     patient
@@ -199,6 +201,7 @@ function Workspace() {
     ? ([
         ["home", House],
         ["reception", ClipboardList],
+        ["directory", UserRound],
         ["journey", Route],
         ["results", FileText],
         ["history", History],
@@ -207,6 +210,7 @@ function Workspace() {
       ] as const)
     : ([
         ["workspace", session.role === "Admin" ? Settings2 : ClipboardList],
+        ["directory", UserRound],
         ...(["Reception", "Service"].includes(session.role)
           ? [["assistance", MessageCircle] as const]
           : []),
@@ -331,12 +335,6 @@ function Workspace() {
         </header>
         <main id="main">
           <Feedback error={mutation.error} locale={locale} />
-          {config.demo && (
-            <div className="demo-label">
-              <span />
-              {t("demo")}
-            </div>
-          )}
           {pendingQr && patient && (
             <Notice>
               {t("ticketQr")}
@@ -369,7 +367,7 @@ function Workspace() {
               </div>
             </Notice>
           )}
-          {patient ? (
+          {page === "directory" ? <HospitalDirectory /> : patient ? (
             <>
               {["journey", "results", "history"].includes(page) &&
                 visits.data &&

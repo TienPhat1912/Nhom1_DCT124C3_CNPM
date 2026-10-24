@@ -47,6 +47,7 @@ import {
 } from "./ui";
 import { Auth } from "./Auth";
 import { Reception } from "./Reception";
+import { HospitalDirectory } from "./HospitalDirectory";
 import { DirectionsScreen, Journey, ScanTicket } from "./Journey";
 import {
   Help,
@@ -56,6 +57,7 @@ import {
   Results,
 } from "./Records";
 type Page =
+  | "directory"
   | "home"
   | "reception"
   | "journey"
@@ -77,6 +79,11 @@ export default function App() {
   const [pending, setPending] = useState<string | null>(null);
   const [continuation, setContinuation] = useState<string | null>(null);
   const t = useMemo(() => translator(locale), [locale]);
+  useEffect(() => {
+    if (!session) return;
+    const timer = setInterval(() => { void nativeApi<Configuration>("/api/config").then(setConfig).catch(() => {}); }, 15000);
+    return () => clearInterval(timer);
+  }, [session]);
   const updateSession = useCallback(async (s: Session | null) => {
     await saveSession(s);
     setSession(s);
@@ -339,6 +346,7 @@ function PatientApp({
               </Btn>
             </Card>
             <Card>
+              <Btn secondary onPress={() => setPage("directory")}>{t("directory")}</Btn>
               <Btn secondary onPress={() => setPage("notifications")}>
                 {t("notifications")}
               </Btn>
@@ -367,6 +375,7 @@ function PatientApp({
             </Card>
           </>
         )}
+        {page === "directory" && <HospitalDirectory />}
         {page === "reception" && <Reception onVisit={choose} />}
         {page === "journey" && (
           <Journey

@@ -9,7 +9,7 @@ foreach ($port in @($settings.API_PORT, $settings.WEB_PORT)) {
   if (Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue) { throw "Port $port is in use. Stop the previous source demo or Compose api/web before starting." }
 }
 $saved = @{}
-foreach ($name in @('ConnectionStrings__Hospital', 'Demo__Enabled', 'Demo__Password', 'ASPNETCORE_ENVIRONMENT', 'ASPNETCORE_URLS', 'Web__Origin')) {
+foreach ($name in @('ConnectionStrings__Hospital', 'Demo__Enabled', 'Demo__Password', 'ASPNETCORE_ENVIRONMENT', 'ASPNETCORE_URLS', 'Web__Origin', 'Web__AdditionalOrigins__0')) {
   $saved[$name] = [Environment]::GetEnvironmentVariable($name, 'Process')
 }
 try {
@@ -21,6 +21,7 @@ try {
   $env:ASPNETCORE_ENVIRONMENT = 'Development'
   $env:ASPNETCORE_URLS = "http://127.0.0.1:$($settings.API_PORT)"
   $env:Web__Origin = "http://localhost:$($settings.WEB_PORT)"
+  $env:Web__AdditionalOrigins__0 = "http://127.0.0.1:$($settings.WEB_PORT)"
   $dll = Join-Path $root 'backend/Hospital.Api/bin/Debug/net10.0/Hospital.Api.dll'
   $p = Start-Process -FilePath 'dotnet' -ArgumentList @('"' + $dll + '"') -WorkingDirectory (Join-Path $root 'backend/Hospital.Api') -WindowStyle Hidden -RedirectStandardOutput (Join-Path $root '.local/api.stdout.log') -RedirectStandardError (Join-Path $root '.local/api.stderr.log') -PassThru
   $p.Id | Set-Content -LiteralPath '.local/api.pid'

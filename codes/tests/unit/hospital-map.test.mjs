@@ -1,3 +1,8 @@
+import {
+  mapDepartments,
+  floorLabel,
+  searchDepartments,
+} from "../../packages/shared/src/hospitalDepartments.ts";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -91,7 +96,7 @@ test("ticket destination matches building, floor and room, never just location I
   assert.equal(destinationNode({ ...ticket, room: "B202" }).id, "room-B202");
 });
 test("building/floor selection excludes other floors and outside selection excludes indoor nodes", () => {
-  assert.deepEqual(buildingFloors("B"), ["1", "2"]);
+  assert.deepEqual(buildingFloors("B"), ["0", "1", "2"]);
   assert.deepEqual(buildingFloors("unknown"), []);
   assert.ok(startNodes("outside", "").some((n) => n.id === "gate-1"));
   assert.ok(startNodes("outside", "").every((n) => !n.building));
@@ -127,12 +132,12 @@ test("unique room nodes, valid corridors, explicit lifts and bilingual narration
   assert.equal(route.edges.filter((e) => e.kind === "elevator").length, 1);
   assert.ok(
     routeInstructions(route, "vi").some((s) =>
-      s.includes("từ tầng 1 đến tầng 2"),
+      s.includes("từ tầng trệt đến tầng 2"),
     ),
   );
   assert.ok(
     routeInstructions(route, "en").some((s) =>
-      s.includes("from floor 1 to floor 2"),
+      s.includes("from ground floor to floor 2"),
     ),
   );
   assert.match(routeInstructions(route, "vi").at(-1), /B201/);
@@ -166,6 +171,63 @@ test("all fixed checkpoint pairs are connected and match independent Bellman-For
       assert.equal(
         new Set(route.nodes.map((n) => n.id)).size,
         route.nodes.length,
+      );
+    }
+  }
+});
+
+test("directory preserves supplied floors, multi-floor departments and unknown locations without invented nodes", () => {
+  assert.equal(mapDepartments.length, 50);
+  assert.equal(
+    mapDepartments.filter((d) => !d.building || !d.floors.length).length,
+    9,
+  );
+  assert.deepEqual(
+    mapDepartments.find((d) => d.id === "C-neurosurgery").floors,
+    ["4"],
+  );
+  assert.deepEqual(mapDepartments.find((d) => d.id === "C-pharmacy").floors, [
+    "-1",
+  ]);
+  assert.deepEqual(mapDepartments.find((d) => d.id === "B-internal").floors, [
+    "1",
+    "2",
+  ]);
+  assert.deepEqual(mapDepartments.find((d) => d.id === "G-nephrology").floors, [
+    "0",
+    "1",
+  ]);
+  assert.deepEqual(buildingFloors("C"), [
+    "-1",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+  ]);
+  assert.equal(floorLabel("0", "vi"), "Tầng trệt");
+  assert.equal(floorLabel("-1", "en"), "Basement");
+  assert.ok(
+    searchDepartments("ngoai than kinh", "vi").some(
+      (d) => d.id === "C-neurosurgery",
+    ),
+  );
+  for (const d of mapDepartments) {
+    const mapped = hospitalMap.nodes.filter((n) => n.departmentId === d.id);
+    assert.deepEqual(
+      mapped.map((n) => n.floor),
+      d.floors,
+    );
+    for (const n of mapped) {
+      assert.equal(n.building, d.building);
+      assert.equal(n.kind, "department");
+      const route = shortestPath(hospitalMap, "gate-1", n.id);
+      assert.ok(route);
+      assert.ok(
+        !routeInstructions(route, "vi", false).at(-1).includes("trên phiếu"),
       );
     }
   }

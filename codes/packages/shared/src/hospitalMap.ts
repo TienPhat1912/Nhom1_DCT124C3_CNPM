@@ -1,4 +1,10 @@
-import type { Destination, Locale } from "./types";
+import type { Department, Destination, Locale } from "./types";
+import {
+  mapDepartments,
+  configuredMapDepartments,
+  floorLabel,
+  departmentNodeId,
+} from "./hospitalDepartments.ts";
 
 export type MapNode = {
   id: string;
@@ -7,9 +13,11 @@ export type MapNode = {
   floor: string;
   nameVi: string;
   nameEn: string;
-  kind: "room" | "gate" | "checkpoint" | "elevator";
+  kind: "room" | "department" | "gate" | "checkpoint" | "elevator";
   building?: string;
   room?: string;
+  departmentId?: string;
+  marker?: string;
   closed?: boolean;
 };
 export type MapEdge = {
@@ -22,10 +30,8 @@ export type MapEdge = {
 };
 export type MapGraph = { nodes: MapNode[]; edges: MapEdge[] };
 export type MapRoute = { nodes: MapNode[]; edges: MapEdge[]; weight: number };
-
-// SAMPLE: room positions, floors and paths need on-site verification.
-// Coordinates project onto the supplied campus image (604 x 666).
-// Weight is in relative model units, NOT metres or travel time.
+// Department buildings/floors come from the supplied directory. Coordinates,
+// entrances and walkways are still SAMPLE data. No metre/time estimates.
 const point = (
   id: string,
   x: number,
@@ -33,7 +39,7 @@ const point = (
   vi: string,
   en: string,
   building?: string,
-  floor = "1",
+  floor = "0",
   kind: MapNode["kind"] = "checkpoint",
 ): MapNode => ({ id, x, y, nameVi: vi, nameEn: en, building, floor, kind });
 const room = (
@@ -48,7 +54,6 @@ const room = (
   ...point(`room-${code}`, x, y, vi, en, building, floor, "room"),
   room: code,
 });
-
 export const mapBuildings = [
   { id: "A", x: 340, y: 420 },
   { id: "B", x: 345, y: 215 },
@@ -59,9 +64,9 @@ export const mapBuildings = [
   { id: "G", x: 130, y: 480 },
 ];
 const nodes: MapNode[] = [
-  point("gate-1", 310, 600, "Cổng 1", "Gate 1", undefined, "1", "gate"),
-  point("gate-2", 550, 600, "Cổng 2", "Gate 2", undefined, "1", "gate"),
-  point("gate-3", 70, 365, "Cổng 3", "Gate 3", undefined, "1", "gate"),
+  point("gate-1", 310, 600, "Cổng 1", "Gate 1", undefined, "0", "gate"),
+  point("gate-2", 550, 600, "Cổng 2", "Gate 2", undefined, "0", "gate"),
+  point("gate-3", 70, 365, "Cổng 3", "Gate 3", undefined, "0", "gate"),
   point("lobby-a", 310, 550, "Sảnh A", "A lobby", "A"),
   point("south-a", 310, 515, "Hành lang nam A", "South A corridor", "A"),
   point("north-a", 310, 340, "Giao lối A – B", "A–B junction"),
@@ -78,76 +83,17 @@ const nodes: MapNode[] = [
   point("upper-east", 435, 190, "Lối đi đông bắc B", "Northeast B walkway"),
   point("north-b", 310, 190, "Lối đi phía bắc B", "North B walkway"),
   point("lobby-d", 232, 190, "Sảnh D", "D lobby", "D"),
-  point("d-lift-hall", 268, 190, "Lối đến thang máy D", "D lift corridor", "D"),
   point("lobby-e", 102, 274, "Sảnh E", "E lobby", "E"),
   point("west-e", 232, 274, "Lối đi phía đông E", "East E walkway"),
   point("lobby-f", 232, 83, "Sảnh F", "F lobby", "F"),
   point("lobby-g", 128, 400, "Sảnh G", "G lobby", "G"),
-  point(
-    "lift-b-1",
-    297,
-    318,
-    "Thang máy B · tầng 1",
-    "Lift B · floor 1",
-    "B",
-    "1",
-    "elevator",
-  ),
-  point(
-    "lift-b-2",
-    297,
-    318,
-    "Thang máy B · tầng 2",
-    "Lift B · floor 2",
-    "B",
-    "2",
-    "elevator",
-  ),
-  point(
-    "hall-b-2",
-    310,
-    260,
-    "Hành lang B · tầng 2",
-    "B corridor · floor 2",
-    "B",
-    "2",
-  ),
-  point(
-    "lift-d-1",
-    268,
-    98,
-    "Thang máy D · tầng 1",
-    "Lift D · floor 1",
-    "D",
-    "1",
-    "elevator",
-  ),
-  point(
-    "lift-d-3",
-    268,
-    98,
-    "Thang máy D · tầng 3",
-    "Lift D · floor 3",
-    "D",
-    "3",
-    "elevator",
-  ),
-  point(
-    "hall-d-3",
-    268,
-    145,
-    "Hành lang D · tầng 3",
-    "D corridor · floor 3",
-    "D",
-    "3",
-  ),
   room("A101", "A", "1", 345, 470, "Phòng khám tổng quát", "Consultation room"),
   room("R01", "A", "1", 270, 550, "Quầy tiếp nhận", "Reception desk"),
-  room("P01", "A", "1", 445, 605, "Quầy nhà thuốc", "Pharmacy counter"),
-  room("C01", "C", "1", 480, 470, "Quầy thu ngân", "Settlement desk"),
+  room("P01", "A", "1", 400, 530, "Quầy nhà thuốc", "Pharmacy counter"),
+  room("C01", "C", "1", 480, 515, "Quầy thu ngân", "Settlement desk"),
   room("B201", "B", "2", 342, 260, "Phòng lấy mẫu", "Sample collection"),
   room("B202", "B", "2", 400, 260, "Phòng chẩn đoán hình ảnh", "Imaging room"),
-  room("D301", "D", "3", 342, 145, "Phòng khoa khác", "Other clinic"),
+  room("D301", "D", "3", 405, 170, "Phòng khoa khác", "Other clinic"),
 ];
 const pairs = [
   ["gate-1", "lobby-a"],
@@ -178,25 +124,139 @@ const pairs = [
   ["west-e", "west-a"],
   ["west-e", "lobby-e"],
   ["lobby-d", "lobby-f"],
-  ["lobby-d", "d-lift-hall"],
-  ["d-lift-hall", "lift-d-1"],
-  ["north-a", "lift-b-1"],
-  ["lift-b-2", "hall-b-2"],
-  ["hall-b-2", "room-B201"],
-  ["hall-b-2", "room-B202"],
-  ["lift-d-3", "hall-d-3"],
-  ["hall-d-3", "room-D301"],
-  ["south-a", "room-A101"],
-  ["lobby-a", "room-R01"],
-  ["lobby-c", "room-P01"],
-  ["lobby-c", "room-C01"],
 ];
+const buildingLayout: Record<
+  string,
+  {
+    lift: [number, number];
+    hall: [number, number];
+    entrance: string;
+    slots: [number, number][];
+  }
+> = {
+  A: {
+    lift: [295, 500],
+    hall: [310, 515],
+    entrance: "south-a",
+    slots: [
+      [260, 390],
+      [345, 390],
+      [260, 450],
+      [345, 450],
+      [260, 490],
+    ],
+  },
+  B: {
+    lift: [297, 318],
+    hall: [310, 260],
+    entrance: "north-a",
+    slots: [
+      [260, 220],
+      [400, 220],
+      [260, 285],
+      [400, 285],
+    ],
+  },
+  C: {
+    lift: [457, 490],
+    hall: [435, 470],
+    entrance: "lobby-c",
+    slots: [
+      [485, 270],
+      [485, 365],
+      [485, 455],
+    ],
+  },
+  D: {
+    lift: [268, 98],
+    hall: [268, 145],
+    entrance: "lobby-d",
+    slots: [
+      [320, 110],
+      [395, 110],
+      [320, 170],
+    ],
+  },
+  G: {
+    lift: [125, 560],
+    hall: [125, 500],
+    entrance: "lobby-g",
+    slots: [[140, 450]],
+  },
+};
+const liftEdges: MapEdge[] = [];
+for (const [building, layout] of Object.entries(buildingLayout)) {
+  const floors = [
+    ...new Set([
+      "0",
+      ...mapDepartments
+        .filter((d) => d.building === building)
+        .flatMap((d) => d.floors),
+      ...nodes
+        .filter((n) => n.building === building && n.kind === "room")
+        .map((n) => n.floor),
+    ]),
+  ].sort((a, b) => Number(a) - Number(b));
+  for (const floor of floors) {
+    const liftId = `lift-${building.toLowerCase()}-${floor}`;
+    const hallId = `hall-${building.toLowerCase()}-${floor}`;
+    nodes.push(
+      point(
+        liftId,
+        ...layout.lift,
+        `Thang máy ${building} · ${floorLabel(floor, "vi")}`,
+        `Lift ${building} · ${floorLabel(floor, "en")}`,
+        building,
+        floor,
+        "elevator",
+      ),
+    );
+    nodes.push(
+      point(
+        hallId,
+        ...layout.hall,
+        `Hành lang ${building} · ${floorLabel(floor, "vi")}`,
+        `Corridor ${building} · ${floorLabel(floor, "en")}`,
+        building,
+        floor,
+      ),
+    );
+    pairs.push([liftId, hallId]);
+    if (floor === "0") pairs.push([layout.entrance, liftId]);
+    for (const n of nodes.filter(
+      (n) => n.building === building && n.floor === floor && n.kind === "room",
+    ))
+      pairs.push([hallId, n.id]);
+    const departments = mapDepartments.filter(
+      (d) => d.building === building && d.floors.includes(floor),
+    );
+    departments.forEach((d, index) => {
+      const [x, y] = layout.slots[index];
+      const id = departmentNodeId(d.id, floor);
+      nodes.push({
+        ...point(id, x, y, d.nameVi, d.nameEn, building, floor, "department"),
+        departmentId: d.id,
+        marker: d.marker,
+      });
+      pairs.push([hallId, id]);
+    });
+  }
+  // Direct lift travel between served levels: no fictitious walking between floors.
+  for (let i = 0; i < floors.length; i++)
+    for (let j = i + 1; j < floors.length; j++)
+      liftEdges.push({
+        from: `lift-${building.toLowerCase()}-${floors[i]}`,
+        to: `lift-${building.toLowerCase()}-${floors[j]}`,
+        kind: "elevator",
+        weight: 90 * Math.abs(Number(floors[i]) - Number(floors[j])),
+      });
+}
 export const hospitalMap: MapGraph = {
   nodes,
   edges: [
     ...pairs.map(([from, to]): MapEdge => {
-      const a = nodes.find((n) => n.id === from)!;
-      const b = nodes.find((n) => n.id === to)!;
+      const a = nodes.find((n) => n.id === from)!,
+        b = nodes.find((n) => n.id === to)!;
       return {
         from,
         to,
@@ -204,21 +264,43 @@ export const hospitalMap: MapGraph = {
         weight: Math.hypot(a.x - b.x, a.y - b.y),
       };
     }),
-    { from: "lift-b-1", to: "lift-b-2", kind: "elevator", weight: 90 },
-    { from: "lift-d-1", to: "lift-d-3", kind: "elevator", weight: 180 },
+    ...liftEdges,
   ],
 };
-export const mapFloors = ["1", "2", "3"];
-export const buildingFloors = (building: string) =>
+export const mapFloors = [...new Set(nodes.map((n) => n.floor))].sort(
+  (a, b) => Number(a) - Number(b),
+);
+export function configuredHospitalMap(
+  departments: Department[],
+  authoritative = false,
+): MapGraph {
+  const directory = configuredMapDepartments(departments, authoritative);
+  return {
+    ...hospitalMap,
+    nodes: hospitalMap.nodes.map((n) => {
+      if (!n.departmentId) return n;
+      const d = directory.find((d) => d.id === n.departmentId);
+      return d
+        ? {
+            ...n,
+            nameVi: d.nameVi,
+            nameEn: d.nameEn,
+            closed: n.closed || d.active === false,
+          }
+        : n;
+    }),
+  };
+}
+export const buildingFloors = (building: string, graph = hospitalMap) =>
   [
     ...new Set(
-      nodes
+      graph.nodes
         .filter((n) => n.building === building && !n.closed)
         .map((n) => n.floor),
     ),
-  ].sort();
-export const startNodes = (area: string, floor: string) =>
-  nodes.filter(
+  ].sort((a, b) => Number(a) - Number(b));
+export const startNodes = (area: string, floor: string, graph = hospitalMap) =>
+  graph.nodes.filter(
     (n) =>
       !n.closed &&
       (area === "outside"
@@ -229,7 +311,6 @@ export const mapLabel = (n: MapNode, locale: Locale) =>
   `${n.room ? n.room + " · " : ""}${locale === "vi" ? n.nameVi : n.nameEn}`;
 const normalized = (s: string) => s.trim().toUpperCase();
 export function destinationNode(destination: Destination, graph = hospitalMap) {
-  // Use the ticket snapshot, not the current location's ID or inferred room prefix.
   return graph.nodes.find(
     (n) =>
       !n.closed &&
@@ -239,6 +320,7 @@ export function destinationNode(destination: Destination, graph = hospitalMap) {
       normalized(n.floor) === normalized(destination.floor),
   );
 }
+
 export function shortestPath(
   graph: MapGraph,
   from: string,
@@ -307,13 +389,21 @@ export function shortestPath(
   }
   return null;
 }
-export function routeInstructions(route: MapRoute, locale: Locale): string[] {
+export function routeInstructions(
+  route: MapRoute,
+  locale: Locale,
+  ticket = true,
+): string[] {
   const vi = locale === "vi";
   if (route.nodes.length === 1)
     return [
       vi
-        ? "Bạn đã ở đúng phòng trên phiếu."
-        : "You are at the room on your ticket.",
+        ? ticket
+          ? "Bạn đã ở đúng phòng trên phiếu."
+          : "Bạn đã đến điểm đã chọn."
+        : ticket
+          ? "You are at the room on your ticket."
+          : "You have reached your selected destination.",
     ];
   return route.nodes.map((n, i) => {
     const label = mapLabel(n, locale);
@@ -322,13 +412,13 @@ export function routeInstructions(route: MapRoute, locale: Locale): string[] {
     let text: string;
     if (route.edges[i - 1].kind === "elevator") {
       text = vi
-        ? `Đi thang máy tòa ${n.building} từ tầng ${previous.floor} đến tầng ${n.floor}.`
-        : `Take the lift in building ${n.building} from floor ${previous.floor} to floor ${n.floor}.`;
+        ? `Đi thang máy tòa ${n.building} từ ${floorLabel(previous.floor, locale).toLowerCase()} đến ${floorLabel(n.floor, locale).toLowerCase()}.`
+        : `Take the lift in building ${n.building} from ${floorLabel(previous.floor, locale).toLowerCase()} to ${floorLabel(n.floor, locale).toLowerCase()}.`;
     } else if (n.building !== previous.building) {
       text = n.building
         ? vi
-          ? `Đi đến ${label}, vào tòa ${n.building}, tầng ${n.floor}.`
-          : `Go to ${label}, enter building ${n.building}, floor ${n.floor}.`
+          ? `Đi đến ${label}, vào tòa ${n.building}, ${floorLabel(n.floor, locale).toLowerCase()}.`
+          : `Go to ${label}, enter building ${n.building}, ${floorLabel(n.floor, locale).toLowerCase()}.`
         : vi
           ? `Ra khỏi tòa ${previous.building}, đi đến ${label}.`
           : `Leave building ${previous.building} and go to ${label}.`;
@@ -339,17 +429,27 @@ export function routeInstructions(route: MapRoute, locale: Locale): string[] {
     }
     if (i === route.nodes.length - 1)
       text += vi
-        ? " Đây là điểm đến trên phiếu."
-        : " This is your ticket destination.";
+        ? ticket
+          ? " Đây là điểm đến trên phiếu."
+          : " Đây là khoa/phòng đã chọn."
+        : ticket
+          ? " This is your ticket destination."
+          : " This is your selected department.";
     return text;
   });
 }
 export const mapCopy = {
   vi: {
     title: "Bản đồ bệnh viện",
+    unconfirmed:
+      "Cần xác nhận vị trí: ảnh chưa ghi đủ khu hoặc tầng. Chưa thể tìm đường tới khoa này.",
+    chooseTargetFloor: "Chọn tầng cần đến của khoa trước khi tìm đường.",
+    departmentDestination: "Khoa/phòng đã chọn",
+    departmentArrived: "Bạn đã đến điểm đã chọn.",
+    floorDepartments: "Các khoa tại tầng đang xem",
     sample: "Bản đồ mẫu",
     warning:
-      "Vị trí phòng, tầng và lối đi là dữ liệu minh họa. Cần đối chiếu thực tế trước khi dùng để dẫn đường.",
+      "Khu và tầng của các khoa theo ảnh bạn cung cấp; tọa độ điểm vào khoa, phòng mẫu và lối đi là minh họa. Cần đối chiếu thực tế trước khi dùng để dẫn đường.",
     hint: "Trong tòa nhà: chọn tòa → lầu → checkpoint gần nhất. Ngoài tòa nhà: chọn checkpoint gần bạn trên bản đồ.",
     area: "1. Vị trí của bạn",
     outside: "Ngoài tòa nhà",
@@ -363,7 +463,7 @@ export const mapCopy = {
     find: "Tìm đường",
     destination: "Đích trên phiếu",
     current: "Bạn đang ở đây",
-    target: "Phòng cần đến",
+    target: "Điểm cần đến",
     fixed: "Checkpoint cố định",
     route: "Đường đi ngắn nhất",
     steps: "Hướng dẫn từng chặng",
@@ -389,9 +489,16 @@ export const mapCopy = {
   },
   en: {
     title: "Hospital map",
+    unconfirmed:
+      "Needs confirmation: the source does not specify the building or floor. A route is not available yet.",
+    chooseTargetFloor:
+      "Choose the department destination floor before finding a route.",
+    departmentDestination: "Selected department",
+    departmentArrived: "You have reached your selected destination.",
+    floorDepartments: "Departments on the displayed floor",
     sample: "Sample map",
     warning:
-      "Room positions, floors and paths are illustrative. Verify them on site before using this map for navigation.",
+      "Department buildings and floors follow the supplied directory; entry points, sample rooms and paths are illustrative. Verify them on site before using this map for navigation.",
     hint: "Inside: choose building → floor → nearest checkpoint. Outside: select a nearby checkpoint on the map.",
     area: "1. Your location",
     outside: "Outside buildings",
@@ -405,7 +512,7 @@ export const mapCopy = {
     find: "Find route",
     destination: "Ticket destination",
     current: "You are here",
-    target: "Destination room",
+    target: "Destination",
     fixed: "Fixed checkpoint",
     route: "Shortest route",
     steps: "Step-by-step directions",

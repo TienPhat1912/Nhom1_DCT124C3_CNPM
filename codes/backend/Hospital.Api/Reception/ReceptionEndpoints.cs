@@ -93,6 +93,8 @@ public static class ReceptionEndpoints
                 Check.That(doctor is not null && doctor.Scopes.Any(sc => sc.DepartmentId == input.DepartmentId), "doctorInvalid", "Choose an assigned doctor.");
                 if (r.Appointment is not null) Check.That(r.Appointment.PatientId == r.PatientId && r.Appointment.Status == "Confirmed", "bookingInvalid", "Booking is no longer valid.");
                 var rec = new ReceptionRecord { RegistrationRequestId = r.Id, PatientId = r.PatientId, ConfirmedBy = u.Id, VerificationNote = Check.Text(input.VerificationNote, "verificationNote", 3, 500) };
+                var profile = HospitalCatalog.Clinician(input.DoctorId);
+                Check.That(profile is null || profile.ClinicIds.Contains(input.LocationId), "doctorInvalid", "This doctor is not listed for the selected clinic in the imported directory.");
                 var v = new Visit { PatientId = r.PatientId, ReceptionRecordId = rec.Id, AppointmentId = r.AppointmentId, DepartmentId = input.DepartmentId, DoctorId = input.DoctorId };
                 v.Journey = new PatientJourney { VisitId = v.Id }; v.Ticket = new ExaminationTicket { VisitId = v.Id, Number = "H-" + v.Id.ToString("N")[..8].ToUpperInvariant() };
                 var consult = workflow.MakeStep(v.Journey, loc!, "Consultation", "Doctor", "consultation", 10); consult.QueueNumber = v.Ticket.Number;
@@ -106,10 +108,12 @@ public static class ReceptionEndpoints
                 return new { visitId = v.Id };
             });
         });
-        g.MapGet("/visits/{id:guid}/ticket", async (Guid id, Access access, QrService qr) => {
+        g.MapGet("/visits/{id:guid}/ticket", async (Guid id, Access access, QrService qr, HospitalDb db) => {
             var v = await access.Visit(id); var s = await access.Current();
             Check.That(s.PatientId is not null || s.UserAccount?.Role == "Reception", "forbidden", "Ticket access requires patient or reception authority.", 403);
-            var code = await qr.Current("Ticket", v.Ticket.Id); return new { v.Ticket.Id, v.Ticket.Number, visitId = v.Id, journeyId = v.Journey.Id, code = qr.Reveal(code), code.ExpiresAt };
+            var doctor = await db.Users.FindAsync(v.DoctorId);
+            var department = await db.Set<Department>().FindAsync(v.DepartmentId);
+            var code = await qr.Current("Ticket", v.Ticket.Id); return new { doctorName = doctor?.Name, departmentNameVi = department?.NameVi, departmentNameEn = department?.NameEn, v.Ticket.Id, v.Ticket.Number, visitId = v.Id, journeyId = v.Journey.Id, code = qr.Reveal(code), code.ExpiresAt };
         });
         g.MapPost("/tickets/redeem", async (CodeInput input, Access access, HospitalDb db, QrService qr, CommandBus bus) => {
             var s = await access.Patient(); return await bus.Run($"{s.Id}:redeem", input, async () => {

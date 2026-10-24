@@ -1,0 +1,7388 @@
+{
+  "version": "thu-duc-2025-08-v1",
+  "source": {
+    "fileName": "LICH-KHAM-BENH-THANG-08.2025.xlsx",
+    "sha256": "b5bfd8759fbd941e772e777a3403c47e1b24f22e10b10428288a5f2ea9a6b48d",
+    "period": "2025-08",
+    "sheets": [
+      {
+        "sheet": "04.08-10.08",
+        "title": "Từ ngày 04/08/2025 - 10/08/2025",
+        "dateSerials": [
+          "45873",
+          "45874",
+          "45875",
+          "45876",
+          "45877",
+          "45878",
+          "45879"
+        ]
+      },
+      {
+        "sheet": "11.08-17.08",
+        "title": "Từ ngày 11/08/2025 - 17/08/2025",
+        "dateSerials": [
+          "45880",
+          "45881",
+          "45882",
+          "45883",
+          "45884",
+          "45885",
+          "45886"
+        ]
+      },
+      {
+        "sheet": "18.08-24.08",
+        "title": "Từ ngày 18/08/2025 - 24/08/2025",
+        "dateSerials": [
+          "45887",
+          "45888",
+          "45889",
+          "45890",
+          "45891",
+          "45892",
+          "45893"
+        ]
+      },
+      {
+        "sheet": "25.08-31.08",
+        "title": "Từ ngày 25/08/2025 - 31/08/2025",
+        "dateSerials": [
+          "45887",
+          "45888",
+          "45889",
+          "45890",
+          "45891",
+          "45892",
+          "45893"
+        ]
+      }
+    ]
+  },
+  "specialties": [
+    {
+      "id": "1801d013-bc24-5ecf-b0d7-85386542ed87",
+      "departmentKey": "A-emergency",
+      "name": "Ngoài giờ"
+    },
+    {
+      "id": "dab14fe7-577f-5a2c-ac13-4cb4a994b9a1",
+      "departmentKey": "A-nutrition",
+      "name": "Tiêm ngừa"
+    },
+    {
+      "id": "5a783889-90b9-59f2-b5df-e2456671aea1",
+      "departmentKey": "A-nutrition",
+      "name": "và Tư vấn dinh dưỡng"
+    },
+    {
+      "id": "2a07a7d8-c20b-5b82-bcf3-626f0ea2fa8b",
+      "departmentKey": "A-outpatients",
+      "name": "Khám sức khỏe"
+    },
+    {
+      "id": "84f8e1d6-da1c-5469-8f86-765a2d8ac26b",
+      "departmentKey": "A-outpatients",
+      "name": "Nội"
+    },
+    {
+      "id": "27c9389a-54e9-5e3f-a27d-d89b31931ece",
+      "departmentKey": "A-outpatients",
+      "name": "điều trị trong ngày"
+    },
+    {
+      "id": "71ff9771-4ef4-52af-a710-7528ebf7eb60",
+      "departmentKey": "A-services",
+      "name": "Bác sĩ gia đình"
+    },
+    {
+      "id": "af31539f-3c90-597c-983c-e2192ef75789",
+      "departmentKey": "A-services",
+      "name": "Nội"
+    },
+    {
+      "id": "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+      "departmentKey": "B-internal",
+      "name": "Hô hấp"
+    },
+    {
+      "id": "03e2c8df-ca74-5561-a29c-d3e396de000a",
+      "departmentKey": "B-internal",
+      "name": "Nội Hô hấp (Khám lao)"
+    },
+    {
+      "id": "4b2f43f8-5156-5dfb-96d7-70a06f213082",
+      "departmentKey": "B-internal",
+      "name": "Nội tổng hợp - Huyết học"
+    },
+    {
+      "id": "7ebaeb6a-459d-55e8-88a8-b4fec46c6e2f",
+      "departmentKey": "B-internal",
+      "name": "Thân thiện"
+    },
+    {
+      "id": "b28fa996-b588-553a-8d6f-69d27eacc950",
+      "departmentKey": "B-internal",
+      "name": "Tiêu hóa - Gan mật"
+    },
+    {
+      "id": "0d586fbe-872d-52ce-a8e6-87d0f473d8ec",
+      "departmentKey": "B-internal",
+      "name": "Tiêu hóa - Viêm gan"
+    },
+    {
+      "id": "e358b50b-6b8a-5c21-a6ac-bc6547bdf73d",
+      "departmentKey": "B-internal",
+      "name": "Viêm gan - Truyền nhiễm"
+    },
+    {
+      "id": "ef1f5abf-0b05-51b2-87de-200fee79bff1",
+      "departmentKey": "C-cardiac-intensive",
+      "name": "Nội tim mạch"
+    },
+    {
+      "id": "56daf42a-1ffb-5c0f-96cf-eee6c60ecc07",
+      "departmentKey": "C-cardiac-intensive",
+      "name": "Tim mạch can thiệp"
+    },
+    {
+      "id": "61fddd79-ff27-54b0-9e34-5b1e310a7ee0",
+      "departmentKey": "C-dental",
+      "name": "Răng hàm mặt"
+    },
+    {
+      "id": "8d33b0aa-667d-53ec-a7dd-f897f255f7ad",
+      "departmentKey": "C-endocrinology",
+      "name": "Nội"
+    },
+    {
+      "id": "2ab0e90c-3441-5a02-8395-fb9e6b18d591",
+      "departmentKey": "C-ent",
+      "name": "Tai mũi họng"
+    },
+    {
+      "id": "39e78a4e-7a65-59f6-b486-b1e9a60f2fc2",
+      "departmentKey": "C-neonatal",
+      "name": "Sơ sinh và Trẻ nhỏ"
+    },
+    {
+      "id": "204596b4-2e88-5524-8851-0712ce792c7b",
+      "departmentKey": "C-neonatal",
+      "name": "Trẻ em"
+    },
+    {
+      "id": "a4774a61-f92c-5294-86f5-e44227a523b0",
+      "departmentKey": "C-neurosurgery",
+      "name": "Ngoại thần kinh"
+    },
+    {
+      "id": "da41f9c6-80e3-5032-b726-00980c481edc",
+      "departmentKey": "C-ophthalmology",
+      "name": "Mắt"
+    },
+    {
+      "id": "5053ad02-ecbf-522e-b95f-f33e53a69b8f",
+      "departmentKey": "C-orthopaedics",
+      "name": "Chấn thương chỉnh hình"
+    },
+    {
+      "id": "d5dff194-fdfd-51eb-9d8e-1df27ceb350d",
+      "departmentKey": "C-plastic-surgery",
+      "name": "Tạo hình thẩm mỹ"
+    },
+    {
+      "id": "9ed3cc3a-c615-5e57-86eb-0576bc680568",
+      "departmentKey": "C-psychiatry",
+      "name": "Tâm lý"
+    },
+    {
+      "id": "ba4b6e71-15e6-557b-9c87-474655239da0",
+      "departmentKey": "C-psychiatry",
+      "name": "Tâm thần"
+    },
+    {
+      "id": "88e864d3-3164-50cc-bdb5-729d6dd136d4",
+      "departmentKey": "C-thoracic",
+      "name": "Lồng ngực - Mạch máu"
+    },
+    {
+      "id": "3cf9ff01-df7d-56d7-9251-257f6e713303",
+      "departmentKey": "C-urology",
+      "name": "Tiết niệu - Nam khoa"
+    },
+    {
+      "id": "8c413a14-e8c7-5468-8c05-7f6bdc1046c1",
+      "departmentKey": "D-general-surgery",
+      "name": "Ngoại tổng hợp"
+    },
+    {
+      "id": "2451b817-ef41-5f7f-8083-70a510a6260d",
+      "departmentKey": "D-oncology",
+      "name": "Ung bướu"
+    },
+    {
+      "id": "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e",
+      "departmentKey": "D-paediatrics",
+      "name": "Nhi"
+    },
+    {
+      "id": "dcee5115-6e71-5c7c-9b95-ce52e24d4e9c",
+      "departmentKey": "F-traditional",
+      "name": "Y học cổ truyền"
+    },
+    {
+      "id": "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660",
+      "departmentKey": "G-cardiology",
+      "name": "Nội tim mạch"
+    },
+    {
+      "id": "d498f8ea-2f4d-53c3-a744-bb924489a2f2",
+      "departmentKey": "G-nephrology",
+      "name": "Nội tổng hợp - Thận"
+    },
+    {
+      "id": "4e155926-d160-574d-84d8-0def82a359ad",
+      "departmentKey": "unlocated-dermatology",
+      "name": "Da liễu"
+    },
+    {
+      "id": "39f54ad9-8db0-5892-ae34-3e42ec4c450d",
+      "departmentKey": "unlocated-experts",
+      "name": "Chấn thương chỉnh hình"
+    },
+    {
+      "id": "4827dd38-394a-5936-84c9-d3aeff8c96e9",
+      "departmentKey": "unlocated-experts",
+      "name": "Lồng ngực - Mạch máu"
+    },
+    {
+      "id": "f7b9b5bb-3025-558d-95b8-878ed5ed2ae9",
+      "departmentKey": "unlocated-experts",
+      "name": "Nhi"
+    },
+    {
+      "id": "a2944f2e-42cc-5f6d-b05d-e70e4946b426",
+      "departmentKey": "unlocated-experts",
+      "name": "Nội thần kinh"
+    },
+    {
+      "id": "f8e539df-2d5d-5a22-b631-cb946a41cbf4",
+      "departmentKey": "unlocated-experts",
+      "name": "Nội tim mạch"
+    },
+    {
+      "id": "24079cbc-b654-5035-a592-4676756833c7",
+      "departmentKey": "unlocated-experts",
+      "name": "Nội tiết"
+    },
+    {
+      "id": "13e6b2c4-ebac-5334-b746-3110c7f54a06",
+      "departmentKey": "unlocated-experts",
+      "name": "Nội tổng hợp"
+    },
+    {
+      "id": "6e41c85b-c216-5a86-89cc-330829255b60",
+      "departmentKey": "unlocated-experts",
+      "name": "Sản - Phụ khoa"
+    },
+    {
+      "id": "35844257-b17f-5024-97b5-ddcd5541eadc",
+      "departmentKey": "unlocated-experts",
+      "name": "Thận"
+    },
+    {
+      "id": "789f2099-9b1b-5aae-bb2c-82bd17a12655",
+      "departmentKey": "unlocated-experts",
+      "name": "Tim mạch tổng quát"
+    },
+    {
+      "id": "fd63bb1b-5232-52e2-986a-f1825016fef2",
+      "departmentKey": "unlocated-neurology",
+      "name": "Nội thần kinh"
+    },
+    {
+      "id": "a21c4c1f-966f-5e88-9457-8423cd3a3a35",
+      "departmentKey": "unlocated-obstetrics",
+      "name": "Phụ khoa"
+    },
+    {
+      "id": "f785057d-e5d5-53b5-ac97-aebf05f86f81",
+      "departmentKey": "unlocated-obstetrics",
+      "name": "Sản"
+    },
+    {
+      "id": "30ad8a3e-4ef1-5f17-a205-ca1afb297426",
+      "departmentKey": "unlocated-obstetrics",
+      "name": "Thai"
+    },
+    {
+      "id": "d18b4c1e-9571-52ea-b4ae-700ebf4ecd0f",
+      "departmentKey": "unlocated-rehabilitation",
+      "name": "VLTL - PHCN"
+    },
+    {
+      "id": "892cde06-de47-5267-99bd-89fd0866ad69",
+      "departmentKey": "unlocated-rehabilitation",
+      "name": "VLTL-PHCN"
+    }
+  ],
+  "clinics": [
+    {
+      "id": "1ec16ace-5954-5789-9e60-741780ce9a2f",
+      "departmentKey": "A-emergency",
+      "specialtyId": "1801d013-bc24-5ecf-b0d7-85386542ed87",
+      "name": "Phòng khám Ngoài giờ",
+      "room": "66",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C228"
+      }
+    },
+    {
+      "id": "08f66b78-2f62-59aa-a6e6-50bbb5aa2eb9",
+      "departmentKey": "A-nutrition",
+      "specialtyId": "dab14fe7-577f-5a2c-ac13-4cb4a994b9a1",
+      "name": "Phòng khám Tiêm ngừa",
+      "room": "27",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C224"
+      }
+    },
+    {
+      "id": "6fdad41f-a5c5-5ebb-b25b-e3a51d4365e6",
+      "departmentKey": "A-nutrition",
+      "specialtyId": "5a783889-90b9-59f2-b5df-e2456671aea1",
+      "name": "Phòng khám và Tư vấn dinh dưỡng",
+      "room": "26",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C222"
+      }
+    },
+    {
+      "id": "221c1983-18ee-5bcb-aadb-b1a6302d416b",
+      "departmentKey": "A-outpatients",
+      "specialtyId": "2a07a7d8-c20b-5b82-bcf3-626f0ea2fa8b",
+      "name": "Khám sức khỏe",
+      "room": "93",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C212"
+      }
+    },
+    {
+      "id": "79e12276-e808-5eed-a730-4986590d3032",
+      "departmentKey": "A-outpatients",
+      "specialtyId": "84f8e1d6-da1c-5469-8f86-765a2d8ac26b",
+      "name": "Phòng khám Nội 1",
+      "room": "10",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C204"
+      }
+    },
+    {
+      "id": "153e0ddd-790d-5d5b-aedc-977993fce56e",
+      "departmentKey": "A-outpatients",
+      "specialtyId": "84f8e1d6-da1c-5469-8f86-765a2d8ac26b",
+      "name": "Phòng khám Nội 6",
+      "room": "53",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C216"
+      }
+    },
+    {
+      "id": "d0e6e415-65fd-57f8-81bd-f79c6ce9d316",
+      "departmentKey": "A-outpatients",
+      "specialtyId": "84f8e1d6-da1c-5469-8f86-765a2d8ac26b",
+      "name": "Phòng khám Nội 8",
+      "room": "89",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C208"
+      }
+    },
+    {
+      "id": "d2cae7cf-97b8-5159-91b3-840f3afb7459",
+      "departmentKey": "A-outpatients",
+      "specialtyId": "27c9389a-54e9-5e3f-a27d-d89b31931ece",
+      "name": "Phòng khám điều trị trong ngày",
+      "room": "68",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C210"
+      }
+    },
+    {
+      "id": "c2ea8b72-247e-536e-91bd-71e9a9412fd7",
+      "departmentKey": "A-services",
+      "specialtyId": "71ff9771-4ef4-52af-a710-7528ebf7eb60",
+      "name": "Phòng khám Bác sĩ gia đình",
+      "room": "35",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C218"
+      }
+    },
+    {
+      "id": "5a136b46-d4f1-523c-932b-4081056376d0",
+      "departmentKey": "A-services",
+      "specialtyId": "af31539f-3c90-597c-983c-e2192ef75789",
+      "name": "Phòng khám Nội 2",
+      "room": "11",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C220"
+      }
+    },
+    {
+      "id": "79f40a4e-efd1-57b5-b939-6f1a8165fba1",
+      "departmentKey": "B-internal",
+      "specialtyId": "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+      "name": "Phòng khám Hô hấp",
+      "room": "15",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C35"
+      }
+    },
+    {
+      "id": "879979b9-fc3d-5312-b496-a2ee81a0d0b6",
+      "departmentKey": "B-internal",
+      "specialtyId": "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+      "name": "Phòng khám Hô hấp",
+      "room": "41",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C39"
+      }
+    },
+    {
+      "id": "6ab579bd-267a-52c2-92a0-74f91f498e18",
+      "departmentKey": "B-internal",
+      "specialtyId": "03e2c8df-ca74-5561-a29c-d3e396de000a",
+      "name": "Phòng khám Nội Hô hấp 2 (Khám lao)",
+      "room": "76",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C37"
+      }
+    },
+    {
+      "id": "88f2d32f-0ae9-560d-9b5d-e49be7bb3971",
+      "departmentKey": "B-internal",
+      "specialtyId": "4b2f43f8-5156-5dfb-96d7-70a06f213082",
+      "name": "Phòng khám Nội tổng hợp - Huyết học",
+      "room": "56",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C43"
+      }
+    },
+    {
+      "id": "0610524f-6ec7-5c66-ad90-e78584f63abd",
+      "departmentKey": "B-internal",
+      "specialtyId": "7ebaeb6a-459d-55e8-88a8-b4fec46c6e2f",
+      "name": "Phòng khám Thân thiện",
+      "room": "69",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C46"
+      }
+    },
+    {
+      "id": "58b43d2b-aaec-5d83-8079-f1b57fd95360",
+      "departmentKey": "B-internal",
+      "specialtyId": "b28fa996-b588-553a-8d6f-69d27eacc950",
+      "name": "Phòng khám Tiêu hóa - Gan mật",
+      "room": "18",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C31"
+      }
+    },
+    {
+      "id": "4009cb46-5cf7-55f8-ade5-0e278854d9b1",
+      "departmentKey": "B-internal",
+      "specialtyId": "0d586fbe-872d-52ce-a8e6-87d0f473d8ec",
+      "name": "Phòng khám Tiêu hóa - Viêm gan",
+      "room": "40",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C41"
+      }
+    },
+    {
+      "id": "9595376f-b803-5476-ac38-5a53a62a61fc",
+      "departmentKey": "B-internal",
+      "specialtyId": "e358b50b-6b8a-5c21-a6ac-bc6547bdf73d",
+      "name": "Phòng khám Viêm gan - Truyền nhiễm",
+      "room": "14",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C33"
+      }
+    },
+    {
+      "id": "e151efd7-62b5-5712-a850-487a8f522d75",
+      "departmentKey": "C-cardiac-intensive",
+      "specialtyId": "ef1f5abf-0b05-51b2-87de-200fee79bff1",
+      "name": "Phòng khám Nội tim mạch 10",
+      "room": "55",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C23"
+      }
+    },
+    {
+      "id": "35090425-8b36-5806-aa58-7bcffab1e46d",
+      "departmentKey": "C-cardiac-intensive",
+      "specialtyId": "ef1f5abf-0b05-51b2-87de-200fee79bff1",
+      "name": "Phòng khám Nội tim mạch 3",
+      "room": "13",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C15"
+      }
+    },
+    {
+      "id": "5e2dfa4a-4628-5189-8d29-b892ab511d31",
+      "departmentKey": "C-cardiac-intensive",
+      "specialtyId": "56daf42a-1ffb-5c0f-96cf-eee6c60ecc07",
+      "name": "Phòng khám Tim mạch can thiệp",
+      "room": "20",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C21"
+      }
+    },
+    {
+      "id": "8c3c0e4e-8236-5173-9442-237df96334eb",
+      "departmentKey": "C-dental",
+      "specialtyId": "61fddd79-ff27-54b0-9e34-5b1e310a7ee0",
+      "name": "Phòng khám Răng hàm mặt 1",
+      "room": "31",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C160"
+      }
+    },
+    {
+      "id": "1fd4e53a-21a2-525f-a3b9-b74205a2a82d",
+      "departmentKey": "C-dental",
+      "specialtyId": "61fddd79-ff27-54b0-9e34-5b1e310a7ee0",
+      "name": "Phòng khám Răng hàm mặt 2",
+      "room": "32",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C167"
+      }
+    },
+    {
+      "id": "dac97d5e-9f52-5038-8485-fcae7dcedc1e",
+      "departmentKey": "C-dental",
+      "specialtyId": "61fddd79-ff27-54b0-9e34-5b1e310a7ee0",
+      "name": "Phòng khám Răng hàm mặt 7",
+      "room": "70",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C164"
+      }
+    },
+    {
+      "id": "24da3c96-3b66-52d4-bbf9-f0bca611d984",
+      "departmentKey": "C-endocrinology",
+      "specialtyId": "8d33b0aa-667d-53ec-a7dd-f897f255f7ad",
+      "name": "Phòng khám Nội 3",
+      "room": "16",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C78"
+      }
+    },
+    {
+      "id": "c75acc03-cad1-5c65-a176-829669efbf36",
+      "departmentKey": "C-endocrinology",
+      "specialtyId": "8d33b0aa-667d-53ec-a7dd-f897f255f7ad",
+      "name": "Phòng khám Nội 4",
+      "room": "17",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C80"
+      }
+    },
+    {
+      "id": "6bee4654-0adc-5d8b-8906-f0c5d68cd7e7",
+      "departmentKey": "C-endocrinology",
+      "specialtyId": "8d33b0aa-667d-53ec-a7dd-f897f255f7ad",
+      "name": "Phòng khám Nội 5",
+      "room": "51",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C86"
+      }
+    },
+    {
+      "id": "2c7c1643-7a37-55d2-8a8a-3317b42d665f",
+      "departmentKey": "C-ent",
+      "specialtyId": "2ab0e90c-3441-5a02-8395-fb9e6b18d591",
+      "name": "Phòng khám Tai mũi họng 1",
+      "room": "04",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C150"
+      }
+    },
+    {
+      "id": "d628b5d9-db87-58c6-a008-360acc55f304",
+      "departmentKey": "C-ent",
+      "specialtyId": "2ab0e90c-3441-5a02-8395-fb9e6b18d591",
+      "name": "Phòng khám Tai mũi họng 2",
+      "room": "42",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C156"
+      }
+    },
+    {
+      "id": "771b9db3-f1f1-50fa-a1b0-28384f7f0a8c",
+      "departmentKey": "C-neonatal",
+      "specialtyId": "39e78a4e-7a65-59f6-b486-b1e9a60f2fc2",
+      "name": "Phòng khám Sơ sinh và Trẻ nhỏ",
+      "room": "19",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C25"
+      }
+    },
+    {
+      "id": "0089a1f9-98c7-52d4-b61d-6d4e28b3e22b",
+      "departmentKey": "C-neonatal",
+      "specialtyId": "204596b4-2e88-5524-8851-0712ce792c7b",
+      "name": "Phòng khám Trẻ em",
+      "room": "28",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C29"
+      }
+    },
+    {
+      "id": "38b15bf2-dbb2-5239-88af-918af593b477",
+      "departmentKey": "C-neurosurgery",
+      "specialtyId": "a4774a61-f92c-5294-86f5-e44227a523b0",
+      "name": "Phòng khám Ngoại thần kinh 1",
+      "room": "01",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C143"
+      }
+    },
+    {
+      "id": "171bd609-53c3-5241-bb20-bd165dff31f0",
+      "departmentKey": "C-neurosurgery",
+      "specialtyId": "a4774a61-f92c-5294-86f5-e44227a523b0",
+      "name": "Phòng khám Ngoại thần kinh 2",
+      "room": "33",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C147"
+      }
+    },
+    {
+      "id": "421a959c-0f93-5761-bb1e-76ae4ff9c73b",
+      "departmentKey": "C-ophthalmology",
+      "specialtyId": "da41f9c6-80e3-5032-b726-00980c481edc",
+      "name": "Phòng khám Mắt 1",
+      "room": "09",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C169"
+      }
+    },
+    {
+      "id": "f04110f1-a887-563e-99d6-b0e45390feba",
+      "departmentKey": "C-ophthalmology",
+      "specialtyId": "da41f9c6-80e3-5032-b726-00980c481edc",
+      "name": "Phòng khám Mắt 2",
+      "room": "37",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C177"
+      }
+    },
+    {
+      "id": "d7d2352e-5531-5b00-952d-3fddcb594423",
+      "departmentKey": "C-orthopaedics",
+      "specialtyId": "5053ad02-ecbf-522e-b95f-f33e53a69b8f",
+      "name": "Phòng khám Chấn thương chỉnh hình 1",
+      "room": "07",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C133"
+      }
+    },
+    {
+      "id": "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904",
+      "departmentKey": "C-orthopaedics",
+      "specialtyId": "5053ad02-ecbf-522e-b95f-f33e53a69b8f",
+      "name": "Phòng khám Chấn thương chỉnh hình 2",
+      "room": "08",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C135"
+      }
+    },
+    {
+      "id": "f058240f-ffa8-5b05-af32-118e9e03bd1f",
+      "departmentKey": "C-orthopaedics",
+      "specialtyId": "5053ad02-ecbf-522e-b95f-f33e53a69b8f",
+      "name": "Phòng khám Chấn thương chỉnh hình 3",
+      "room": "44",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C139"
+      }
+    },
+    {
+      "id": "04514742-7917-5297-a825-fdc4da4e4a7e",
+      "departmentKey": "C-orthopaedics",
+      "specialtyId": "5053ad02-ecbf-522e-b95f-f33e53a69b8f",
+      "name": "Phòng khám Chấn thương chỉnh hình 4",
+      "room": "45",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C141"
+      }
+    },
+    {
+      "id": "f20256e3-e6ca-5d24-b274-65827e22c6d4",
+      "departmentKey": "C-plastic-surgery",
+      "specialtyId": "d5dff194-fdfd-51eb-9d8e-1df27ceb350d",
+      "name": "Phòng khám Tạo hình thẩm mỹ",
+      "room": "67",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C230"
+      }
+    },
+    {
+      "id": "f0ce92df-1a92-546b-9149-4b893f32930d",
+      "departmentKey": "C-psychiatry",
+      "specialtyId": "9ed3cc3a-c615-5e57-86eb-0576bc680568",
+      "name": "Phòng khám Tâm lý 1",
+      "room": "71",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C62"
+      }
+    },
+    {
+      "id": "24dbce54-87f6-57e0-9160-f401d661eba7",
+      "departmentKey": "C-psychiatry",
+      "specialtyId": "ba4b6e71-15e6-557b-9c87-474655239da0",
+      "name": "Phòng khám Tâm thần",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C64"
+      }
+    },
+    {
+      "id": "02b386e5-de14-5423-8ef2-90c6f4a67dd1",
+      "departmentKey": "C-thoracic",
+      "specialtyId": "88e864d3-3164-50cc-bdb5-729d6dd136d4",
+      "name": "Phòng khám Lồng ngực - Mạch máu",
+      "room": "21",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C127"
+      }
+    },
+    {
+      "id": "36b527d1-7fea-5bf1-8e22-5260b3d222aa",
+      "departmentKey": "C-thoracic",
+      "specialtyId": "88e864d3-3164-50cc-bdb5-729d6dd136d4",
+      "name": "Phòng khám Lồng ngực - Mạch máu 3",
+      "room": "38",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C131"
+      }
+    },
+    {
+      "id": "e409e83e-cd01-50b8-9eab-b842aeb23c30",
+      "departmentKey": "C-urology",
+      "specialtyId": "3cf9ff01-df7d-56d7-9251-257f6e713303",
+      "name": "Phòng khám Tiết niệu - Nam khoa 1",
+      "room": "03",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C123"
+      }
+    },
+    {
+      "id": "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7",
+      "departmentKey": "D-general-surgery",
+      "specialtyId": "8c413a14-e8c7-5468-8c05-7f6bdc1046c1",
+      "name": "Phòng khám Ngoại tổng hợp 1",
+      "room": "02",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C109"
+      }
+    },
+    {
+      "id": "aa20eed2-4a1b-57b4-81c9-27eab5908a5d",
+      "departmentKey": "D-general-surgery",
+      "specialtyId": "8c413a14-e8c7-5468-8c05-7f6bdc1046c1",
+      "name": "Phòng khám Ngoại tổng hợp 2",
+      "room": "46",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C113"
+      }
+    },
+    {
+      "id": "95ef51e3-d114-5316-8b53-a3c070a3dc3a",
+      "departmentKey": "D-oncology",
+      "specialtyId": "2451b817-ef41-5f7f-8083-70a510a6260d",
+      "name": "Phòng khám Ung bướu",
+      "room": "39",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C117"
+      }
+    },
+    {
+      "id": "5bdeb804-1b14-5be5-88ad-dcedc91e537f",
+      "departmentKey": "D-oncology",
+      "specialtyId": "2451b817-ef41-5f7f-8083-70a510a6260d",
+      "name": "Phòng khám Ung bướu",
+      "room": "36",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C115"
+      }
+    },
+    {
+      "id": "93421af8-18d5-5567-8a14-42c7b3a1109f",
+      "departmentKey": "D-paediatrics",
+      "specialtyId": "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e",
+      "name": "Phòng khám Nhi 1",
+      "room": "30",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C189"
+      }
+    },
+    {
+      "id": "f436ed80-3f4c-537e-9d86-c27498302471",
+      "departmentKey": "D-paediatrics",
+      "specialtyId": "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e",
+      "name": "Phòng khám Nhi 2",
+      "room": "48",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C201"
+      }
+    },
+    {
+      "id": "a8480001-d8c2-5e77-bd71-67dd9c602698",
+      "departmentKey": "D-paediatrics",
+      "specialtyId": "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e",
+      "name": "Phòng khám Nhi 3",
+      "room": "47",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C195"
+      }
+    },
+    {
+      "id": "066a13e2-f0cc-55f0-b1ef-d170052d6f1e",
+      "departmentKey": "F-traditional",
+      "specialtyId": "dcee5115-6e71-5c7c-9b95-ce52e24d4e9c",
+      "name": "Phòng khám Y học cổ truyền",
+      "room": "64",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C88"
+      }
+    },
+    {
+      "id": "363cccb9-4c2f-5b39-9ac5-44d40a2c2f89",
+      "departmentKey": "F-traditional",
+      "specialtyId": "dcee5115-6e71-5c7c-9b95-ce52e24d4e9c",
+      "name": "Phòng khám Y học cổ truyền",
+      "room": "65",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C93"
+      }
+    },
+    {
+      "id": "bfd06b70-9739-5028-9004-54dc0b8a94c6",
+      "departmentKey": "G-cardiology",
+      "specialtyId": "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660",
+      "name": "Phòng khám Nội tim mạch 1",
+      "room": "05",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C66"
+      }
+    },
+    {
+      "id": "20921045-d291-5877-ac7a-cd976371d477",
+      "departmentKey": "G-cardiology",
+      "specialtyId": "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660",
+      "name": "Phòng khám Nội tim mạch 11",
+      "room": "54",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C76"
+      }
+    },
+    {
+      "id": "cb94636d-e6be-5bf5-86db-80de1ef5502a",
+      "departmentKey": "G-cardiology",
+      "specialtyId": "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660",
+      "name": "Phòng khám Nội tim mạch 9",
+      "room": "53",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C74"
+      }
+    },
+    {
+      "id": "d7f7a2fb-a934-5fcd-9f60-cef67a3c0ea9",
+      "departmentKey": "G-nephrology",
+      "specialtyId": "d498f8ea-2f4d-53c3-a744-bb924489a2f2",
+      "name": "Phòng khám Nội tổng hợp - Thận",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C9"
+      }
+    },
+    {
+      "id": "fafee17b-e337-5616-85fe-f4cd5413f537",
+      "departmentKey": "G-nephrology",
+      "specialtyId": "d498f8ea-2f4d-53c3-a744-bb924489a2f2",
+      "name": "Phòng khám Nội tổng hợp - Thận",
+      "room": "43",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C13"
+      }
+    },
+    {
+      "id": "54fb1f6d-77b1-5f70-9c2a-05f05034c6d7",
+      "departmentKey": "unlocated-dermatology",
+      "specialtyId": "4e155926-d160-574d-84d8-0def82a359ad",
+      "name": "Phòng khám Da liễu 1",
+      "room": "29",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C103"
+      }
+    },
+    {
+      "id": "66f0df03-fe9b-5824-8beb-b4881510d6b0",
+      "departmentKey": "unlocated-dermatology",
+      "specialtyId": "4e155926-d160-574d-84d8-0def82a359ad",
+      "name": "Phòng khám Da liễu 1 [N Da liễu]",
+      "room": "74",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C105"
+      }
+    },
+    {
+      "id": "8a658b11-811d-5482-8947-e5d949cf1967",
+      "departmentKey": "unlocated-dermatology",
+      "specialtyId": "4e155926-d160-574d-84d8-0def82a359ad",
+      "name": "Phòng khám Da liễu 2",
+      "room": "60",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C107"
+      }
+    },
+    {
+      "id": "c595fb8f-1f9e-5139-ba9f-e7ecd3a4b52f",
+      "departmentKey": "unlocated-experts",
+      "specialtyId": "39f54ad9-8db0-5892-ae34-3e42ec4c450d",
+      "name": "Phòng khám Chấn thương chỉnh hình 6",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C240"
+      }
+    },
+    {
+      "id": "6701af49-4a53-5166-9815-de2e24ef9a45",
+      "departmentKey": "unlocated-experts",
+      "specialtyId": "4827dd38-394a-5936-84c9-d3aeff8c96e9",
+      "name": "Phòng khám Lồng ngực - Mạch máu 2",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C248"
+      }
+    },
+    {
+      "id": "21070151-d8e8-5602-a625-a8a4604fa5c2",
+      "departmentKey": "unlocated-experts",
+      "specialtyId": "f7b9b5bb-3025-558d-95b8-878ed5ed2ae9",
+      "name": "Phòng khám Nhi 8",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C242"
+      }
+    },
+    {
+      "id": "e1ccb54e-4106-58ff-ab08-14de756435c8",
+      "departmentKey": "unlocated-experts",
+      "specialtyId": "a2944f2e-42cc-5f6d-b05d-e70e4946b426",
+      "name": "Phòng khám Nội thần kinh 3",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C234"
+      }
+    },
+    {
+      "id": "ebc26f90-5dc1-58cb-8c33-3352462ca327",
+      "departmentKey": "unlocated-experts",
+      "specialtyId": "f8e539df-2d5d-5a22-b631-cb946a41cbf4",
+      "name": "Phòng khám Nội tim mạch 5",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C232"
+      }
+    },
+    {
+      "id": "b5706647-5a79-51f6-b29d-0ee043ec3e72",
+      "departmentKey": "unlocated-experts",
+      "specialtyId": "24079cbc-b654-5035-a592-4676756833c7",
+      "name": "Phòng khám Nội tiết 7",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C250"
+      }
+    },
+    {
+      "id": "d355f796-f7e5-5e2a-9514-c86dae909e19",
+      "departmentKey": "unlocated-experts",
+      "specialtyId": "13e6b2c4-ebac-5334-b746-3110c7f54a06",
+      "name": "Phòng khám Nội tổng hợp 21",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C236"
+      }
+    },
+    {
+      "id": "cb454c66-da86-5e0f-b0bf-316504786746",
+      "departmentKey": "unlocated-experts",
+      "specialtyId": "6e41c85b-c216-5a86-89cc-330829255b60",
+      "name": "Phòng khám Sản - Phụ khoa 3",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C246"
+      }
+    },
+    {
+      "id": "3c7ae7e3-8fc4-525e-8969-39c586e61c0e",
+      "departmentKey": "unlocated-experts",
+      "specialtyId": "35844257-b17f-5024-97b5-ddcd5541eadc",
+      "name": "Phòng khám Thận 9",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C244"
+      }
+    },
+    {
+      "id": "3edb9c6c-6894-5fbb-9c34-4eee2d81e278",
+      "departmentKey": "unlocated-experts",
+      "specialtyId": "789f2099-9b1b-5aae-bb2c-82bd17a12655",
+      "name": "Phòng khám Tim mạch tổng quát",
+      "room": null,
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C238"
+      }
+    },
+    {
+      "id": "f9cb8b44-3ad9-567e-9bb4-5a4c23fd772c",
+      "departmentKey": "unlocated-neurology",
+      "specialtyId": "fd63bb1b-5232-52e2-986a-f1825016fef2",
+      "name": "Phòng khám Nội thần kinh 1",
+      "room": "06",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C52"
+      }
+    },
+    {
+      "id": "170610ec-3346-58f1-8b9f-23425ae56654",
+      "departmentKey": "unlocated-neurology",
+      "specialtyId": "fd63bb1b-5232-52e2-986a-f1825016fef2",
+      "name": "Phòng khám Nội thần kinh 2",
+      "room": "34",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C60"
+      }
+    },
+    {
+      "id": "b25a6420-c870-5641-b6eb-0a4f6e83398e",
+      "departmentKey": "unlocated-obstetrics",
+      "specialtyId": "a21c4c1f-966f-5e88-9457-8423cd3a3a35",
+      "name": "Phòng khám Phụ khoa 1",
+      "room": "25",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C183"
+      }
+    },
+    {
+      "id": "38f3518b-9c64-563d-b868-d82af857139e",
+      "departmentKey": "unlocated-obstetrics",
+      "specialtyId": "a21c4c1f-966f-5e88-9457-8423cd3a3a35",
+      "name": "Phòng khám Phụ khoa",
+      "room": "49",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C185"
+      }
+    },
+    {
+      "id": "87df14cc-e3f3-5127-bc33-5a24b0e1d1de",
+      "departmentKey": "unlocated-obstetrics",
+      "specialtyId": "f785057d-e5d5-53b5-ac97-aebf05f86f81",
+      "name": "Phòng khám Sản",
+      "room": "50",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C187"
+      }
+    },
+    {
+      "id": "0efe7477-1d28-560f-9ad2-fb2bdcb28188",
+      "departmentKey": "unlocated-obstetrics",
+      "specialtyId": "30ad8a3e-4ef1-5f17-a205-ca1afb297426",
+      "name": "Phòng khám Thai 1",
+      "room": "24",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C179"
+      }
+    },
+    {
+      "id": "21dea0d1-6438-5312-baaa-c486c37512ad",
+      "departmentKey": "unlocated-obstetrics",
+      "specialtyId": "30ad8a3e-4ef1-5f17-a205-ca1afb297426",
+      "name": "Phòng khám Thai 2",
+      "room": "23",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C181"
+      }
+    },
+    {
+      "id": "18eaca88-0875-583f-9cbf-e5eb419eca52",
+      "departmentKey": "unlocated-rehabilitation",
+      "specialtyId": "d18b4c1e-9571-52ea-b4ae-700ebf4ecd0f",
+      "name": "Phòng khám VLTL - PHCN",
+      "room": "63",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C99"
+      }
+    },
+    {
+      "id": "60ad866c-36a0-5216-a584-dc054c1587ee",
+      "departmentKey": "unlocated-rehabilitation",
+      "specialtyId": "892cde06-de47-5267-99bd-89fd0866ad69",
+      "name": "Phòng khám VLTL-PHCN",
+      "room": "82",
+      "building": null,
+      "floor": null,
+      "source": {
+        "sheet": "04.08-10.08",
+        "cell": "C95"
+      }
+    }
+  ],
+  "clinicians": [
+    {
+      "id": "cb313eab-4efc-5532-99b0-1adcc2cdce9e",
+      "name": "Huỳnh Tiến Vỹ",
+      "departmentKey": "A-emergency",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "1801d013-bc24-5ecf-b0d7-85386542ed87"
+      ],
+      "clinicIds": [
+        "1ec16ace-5954-5789-9e60-741780ce9a2f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS HUỲNH TIẾN VỸ",
+          "sheet": "04.08-10.08",
+          "cell": "L228"
+        }
+      ]
+    },
+    {
+      "id": "4ac5afa2-cbcf-5deb-8174-a611d32646dd",
+      "name": "Lê Long Kỳ",
+      "departmentKey": "A-emergency",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "1801d013-bc24-5ecf-b0d7-85386542ed87"
+      ],
+      "clinicIds": [
+        "1ec16ace-5954-5789-9e60-741780ce9a2f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS LÊ LONG KỲ",
+          "sheet": "04.08-10.08",
+          "cell": "F229"
+        }
+      ]
+    },
+    {
+      "id": "469bf440-e3e7-521b-b6d8-196d9c9b63d8",
+      "name": "Nguyễn Huỳnh Đức Thiện",
+      "departmentKey": "A-emergency",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "1801d013-bc24-5ecf-b0d7-85386542ed87"
+      ],
+      "clinicIds": [
+        "1ec16ace-5954-5789-9e60-741780ce9a2f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS NGUYỄN HUỲNH ĐỨC THIỆN",
+          "sheet": "04.08-10.08",
+          "cell": "G228"
+        }
+      ]
+    },
+    {
+      "id": "eba7db19-2a4b-592e-b684-9bbd9cbf0307",
+      "name": "Nguyễn Thị Phương Nam",
+      "departmentKey": "A-emergency",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "1801d013-bc24-5ecf-b0d7-85386542ed87"
+      ],
+      "clinicIds": [
+        "1ec16ace-5954-5789-9e60-741780ce9a2f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS NGUYỄN THỊ PHƯƠNG NAM",
+          "sheet": "04.08-10.08",
+          "cell": "F228"
+        }
+      ]
+    },
+    {
+      "id": "8f1ccadd-4676-56e1-a172-3a52abf781b4",
+      "name": "Nguyễn Tấn Tài",
+      "departmentKey": "A-emergency",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "1801d013-bc24-5ecf-b0d7-85386542ed87"
+      ],
+      "clinicIds": [
+        "1ec16ace-5954-5789-9e60-741780ce9a2f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS NGUYỄN TẤN TÀI",
+          "sheet": "04.08-10.08",
+          "cell": "I228"
+        }
+      ]
+    },
+    {
+      "id": "71db312a-f25b-5c1f-a514-bf80612ec27a",
+      "name": "Nguyễn Văn Trình",
+      "departmentKey": "A-emergency",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "1801d013-bc24-5ecf-b0d7-85386542ed87"
+      ],
+      "clinicIds": [
+        "1ec16ace-5954-5789-9e60-741780ce9a2f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS NGUYỄN VĂN TRÌNH",
+          "sheet": "04.08-10.08",
+          "cell": "H228"
+        }
+      ]
+    },
+    {
+      "id": "07620649-9da5-5136-98e6-2e93932550fa",
+      "name": "Nguyễn Út Em",
+      "departmentKey": "A-emergency",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "1801d013-bc24-5ecf-b0d7-85386542ed87"
+      ],
+      "clinicIds": [
+        "1ec16ace-5954-5789-9e60-741780ce9a2f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS NGUYỄN ÚT EM",
+          "sheet": "04.08-10.08",
+          "cell": "J228"
+        }
+      ]
+    },
+    {
+      "id": "bc6d0800-470d-5905-98db-df0d544ac940",
+      "name": "Lê Thuận Linh",
+      "departmentKey": "A-nutrition",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "5a783889-90b9-59f2-b5df-e2456671aea1",
+        "dab14fe7-577f-5a2c-ac13-4cb4a994b9a1"
+      ],
+      "clinicIds": [
+        "6fdad41f-a5c5-5ebb-b25b-e3a51d4365e6",
+        "08f66b78-2f62-59aa-a6e6-50bbb5aa2eb9"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS LÊ THUẬN LINH",
+          "sheet": "04.08-10.08",
+          "cell": "F222"
+        }
+      ]
+    },
+    {
+      "id": "3cf68ae0-7061-5045-ae1e-63198a24c2ce",
+      "name": "Nguyễn Thị Trang Nhung",
+      "departmentKey": "A-nutrition",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "dab14fe7-577f-5a2c-ac13-4cb4a994b9a1",
+        "5a783889-90b9-59f2-b5df-e2456671aea1"
+      ],
+      "clinicIds": [
+        "08f66b78-2f62-59aa-a6e6-50bbb5aa2eb9",
+        "6fdad41f-a5c5-5ebb-b25b-e3a51d4365e6"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS NGUYỄN THỊ TRANG NHUNG",
+          "sheet": "04.08-10.08",
+          "cell": "F224"
+        }
+      ]
+    },
+    {
+      "id": "db50513b-859b-54aa-bf61-7588924a28f3",
+      "name": "Đoàn Thị Mỹ Hòa",
+      "departmentKey": "A-nutrition",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "dab14fe7-577f-5a2c-ac13-4cb4a994b9a1"
+      ],
+      "clinicIds": [
+        "08f66b78-2f62-59aa-a6e6-50bbb5aa2eb9"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS ĐOÀN THỊ MỸ HÒA",
+          "sheet": "04.08-10.08",
+          "cell": "F225"
+        }
+      ]
+    },
+    {
+      "id": "4bdab760-ccba-51fa-bc1f-42b0d61ce92a",
+      "name": "Đoàn Thị Mỹ Hạnh",
+      "departmentKey": "A-nutrition",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "dab14fe7-577f-5a2c-ac13-4cb4a994b9a1"
+      ],
+      "clinicIds": [
+        "08f66b78-2f62-59aa-a6e6-50bbb5aa2eb9"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS ĐOÀN THỊ MỸ HẠNH",
+          "sheet": "18.08-24.08",
+          "cell": "K225"
+        }
+      ]
+    },
+    {
+      "id": "3a068413-0281-5226-8fb4-42c28074b444",
+      "name": "Đặng Thị Hạnh",
+      "departmentKey": "A-nutrition",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "5a783889-90b9-59f2-b5df-e2456671aea1",
+        "dab14fe7-577f-5a2c-ac13-4cb4a994b9a1"
+      ],
+      "clinicIds": [
+        "6fdad41f-a5c5-5ebb-b25b-e3a51d4365e6",
+        "08f66b78-2f62-59aa-a6e6-50bbb5aa2eb9"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS ĐẶNG THỊ HẠNH",
+          "sheet": "04.08-10.08",
+          "cell": "F222"
+        }
+      ]
+    },
+    {
+      "id": "b613a2e3-005f-55a4-bcac-a1aae03b62c0",
+      "name": "Hà Công Sinh",
+      "departmentKey": "A-outpatients",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "2a07a7d8-c20b-5b82-bcf3-626f0ea2fa8b"
+      ],
+      "clinicIds": [
+        "221c1983-18ee-5bcb-aadb-b1a6302d416b"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. Hà Công Sinh",
+          "sheet": "04.08-10.08",
+          "cell": "F212"
+        }
+      ]
+    },
+    {
+      "id": "301b8806-45c1-58b8-894f-5cafc87475bb",
+      "name": "Hồ Thị Tý",
+      "departmentKey": "A-outpatients",
+      "isDoctor": true,
+      "titles": [
+        "BS CKII."
+      ],
+      "specialtyIds": [
+        "84f8e1d6-da1c-5469-8f86-765a2d8ac26b",
+        "2a07a7d8-c20b-5b82-bcf3-626f0ea2fa8b"
+      ],
+      "clinicIds": [
+        "79e12276-e808-5eed-a730-4986590d3032",
+        "153e0ddd-790d-5d5b-aedc-977993fce56e",
+        "221c1983-18ee-5bcb-aadb-b1a6302d416b"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKII. Hồ Thị Tý",
+          "sheet": "04.08-10.08",
+          "cell": "F205"
+        }
+      ]
+    },
+    {
+      "id": "63f83cd9-2e18-5180-a9d2-07e2df377aab",
+      "name": "Phu Vy Vị",
+      "departmentKey": "A-outpatients",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "84f8e1d6-da1c-5469-8f86-765a2d8ac26b"
+      ],
+      "clinicIds": [
+        "79e12276-e808-5eed-a730-4986590d3032",
+        "d0e6e415-65fd-57f8-81bd-f79c6ce9d316",
+        "153e0ddd-790d-5d5b-aedc-977993fce56e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BsCKI. Phu Vy Vị",
+          "sheet": "04.08-10.08",
+          "cell": "F204"
+        }
+      ]
+    },
+    {
+      "id": "cea14b0e-c6a7-5476-8e7c-d4544674753e",
+      "name": "Phạm Ngọc Ánh",
+      "departmentKey": "A-outpatients",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "27c9389a-54e9-5e3f-a27d-d89b31931ece"
+      ],
+      "clinicIds": [
+        "d2cae7cf-97b8-5159-91b3-840f3afb7459"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BsCKI. Phạm Ngọc Ánh",
+          "sheet": "04.08-10.08",
+          "cell": "F210"
+        }
+      ]
+    },
+    {
+      "id": "37e2ce1b-5bad-5f03-978d-70d5f9ee45f4",
+      "name": "Trần Hoàng Hải",
+      "departmentKey": "A-outpatients",
+      "isDoctor": true,
+      "titles": [
+        "BSCKII."
+      ],
+      "specialtyIds": [
+        "84f8e1d6-da1c-5469-8f86-765a2d8ac26b"
+      ],
+      "clinicIds": [
+        "d0e6e415-65fd-57f8-81bd-f79c6ce9d316"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BsCKII. Trần Hoàng Hải",
+          "sheet": "04.08-10.08",
+          "cell": "F208"
+        }
+      ]
+    },
+    {
+      "id": "ddd23ab2-1e9b-5745-a551-ced7b791443c",
+      "name": "Vũ Duy Lộc",
+      "departmentKey": "A-outpatients",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "84f8e1d6-da1c-5469-8f86-765a2d8ac26b"
+      ],
+      "clinicIds": [
+        "79e12276-e808-5eed-a730-4986590d3032",
+        "153e0ddd-790d-5d5b-aedc-977993fce56e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BsCKI. Vũ Duy Lộc",
+          "sheet": "04.08-10.08",
+          "cell": "G204"
+        }
+      ]
+    },
+    {
+      "id": "9392818c-8db2-5c0d-9678-beecfb263866",
+      "name": "Nguyễn Hùng Dương",
+      "departmentKey": "A-services",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI"
+      ],
+      "specialtyIds": [
+        "af31539f-3c90-597c-983c-e2192ef75789"
+      ],
+      "clinicIds": [
+        "5a136b46-d4f1-523c-932b-4081056376d0"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI NGUYỄN HÙNG DƯƠNG",
+          "sheet": "04.08-10.08",
+          "cell": "F220"
+        }
+      ]
+    },
+    {
+      "id": "10896c3b-a4de-522d-adf2-5fc48ad49cc6",
+      "name": "Nguyễn Đỗ Ngọc",
+      "departmentKey": "A-services",
+      "isDoctor": true,
+      "titles": [
+        "BSCKII"
+      ],
+      "specialtyIds": [
+        "71ff9771-4ef4-52af-a710-7528ebf7eb60"
+      ],
+      "clinicIds": [
+        "c2ea8b72-247e-536e-91bd-71e9a9412fd7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKII NGUYỄN ĐỖ NGỌC",
+          "sheet": "04.08-10.08",
+          "cell": "F218"
+        }
+      ]
+    },
+    {
+      "id": "a153e6e5-2702-507f-a0af-1d123e8d80b0",
+      "name": "Bành Phúc Hậu",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI",
+        "BS"
+      ],
+      "specialtyIds": [
+        "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+        "0d586fbe-872d-52ce-a8e6-87d0f473d8ec",
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082"
+      ],
+      "clinicIds": [
+        "879979b9-fc3d-5312-b496-a2ee81a0d0b6",
+        "4009cb46-5cf7-55f8-ade5-0e278854d9b1",
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Bành Phúc Hậu",
+          "sheet": "18.08-24.08",
+          "cell": "J40"
+        },
+        {
+          "text": "Bs Bành Phúc Hậu",
+          "sheet": "25.08-31.08",
+          "cell": "I40"
+        }
+      ]
+    },
+    {
+      "id": "988af8ba-7147-5453-a0d9-655f551d9cbe",
+      "name": "Cao Văn Toàn",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "e358b50b-6b8a-5c21-a6ac-bc6547bdf73d",
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082",
+        "7ebaeb6a-459d-55e8-88a8-b4fec46c6e2f",
+        "03e2c8df-ca74-5561-a29c-d3e396de000a"
+      ],
+      "clinicIds": [
+        "9595376f-b803-5476-ac38-5a53a62a61fc",
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971",
+        "0610524f-6ec7-5c66-ad90-e78584f63abd",
+        "6ab579bd-267a-52c2-92a0-74f91f498e18"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Cao Văn Toàn",
+          "sheet": "04.08-10.08",
+          "cell": "F33"
+        }
+      ]
+    },
+    {
+      "id": "25754d4e-c3e0-5fdb-88ee-e9f80017054d",
+      "name": "Huỳnh Ánh Tươi",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+        "0d586fbe-872d-52ce-a8e6-87d0f473d8ec",
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082",
+        "b28fa996-b588-553a-8d6f-69d27eacc950",
+        "03e2c8df-ca74-5561-a29c-d3e396de000a"
+      ],
+      "clinicIds": [
+        "879979b9-fc3d-5312-b496-a2ee81a0d0b6",
+        "4009cb46-5cf7-55f8-ade5-0e278854d9b1",
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971",
+        "58b43d2b-aaec-5d83-8079-f1b57fd95360",
+        "79f40a4e-efd1-57b5-b939-6f1a8165fba1",
+        "6ab579bd-267a-52c2-92a0-74f91f498e18"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Huỳnh Ánh Tươi",
+          "sheet": "04.08-10.08",
+          "cell": "F39"
+        }
+      ]
+    },
+    {
+      "id": "4ad3c5e5-ea6d-528a-b9b8-3654aeb09295",
+      "name": "Hứa Thị Thah Tuyền",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "8e118b7d-9df6-59a4-8356-f8feb1e24ae4"
+      ],
+      "clinicIds": [
+        "79f40a4e-efd1-57b5-b939-6f1a8165fba1"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Hứa Thị Thah Tuyền",
+          "sheet": "18.08-24.08",
+          "cell": "I35"
+        }
+      ]
+    },
+    {
+      "id": "28b6db4b-d83c-5071-9599-2c2dc3e609e2",
+      "name": "Hứa Thị Thanh Tuyền",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+        "03e2c8df-ca74-5561-a29c-d3e396de000a",
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082",
+        "0d586fbe-872d-52ce-a8e6-87d0f473d8ec"
+      ],
+      "clinicIds": [
+        "79f40a4e-efd1-57b5-b939-6f1a8165fba1",
+        "6ab579bd-267a-52c2-92a0-74f91f498e18",
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971",
+        "879979b9-fc3d-5312-b496-a2ee81a0d0b6",
+        "4009cb46-5cf7-55f8-ade5-0e278854d9b1"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Hứa Thị Thanh Tuyền",
+          "sheet": "04.08-10.08",
+          "cell": "H35"
+        }
+      ]
+    },
+    {
+      "id": "cfe208c1-82ff-5216-9029-a26a05bfe9d6",
+      "name": "Lê Hương Ly",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+        "03e2c8df-ca74-5561-a29c-d3e396de000a",
+        "0d586fbe-872d-52ce-a8e6-87d0f473d8ec",
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082"
+      ],
+      "clinicIds": [
+        "79f40a4e-efd1-57b5-b939-6f1a8165fba1",
+        "6ab579bd-267a-52c2-92a0-74f91f498e18",
+        "879979b9-fc3d-5312-b496-a2ee81a0d0b6",
+        "4009cb46-5cf7-55f8-ade5-0e278854d9b1",
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Lê Hương Ly",
+          "sheet": "04.08-10.08",
+          "cell": "F35"
+        }
+      ]
+    },
+    {
+      "id": "4b4a4e96-ac7f-52ac-96d2-d83de4fec242",
+      "name": "Lê Thúy Liều",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "7ebaeb6a-459d-55e8-88a8-b4fec46c6e2f"
+      ],
+      "clinicIds": [
+        "0610524f-6ec7-5c66-ad90-e78584f63abd"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Lê Thúy Liều",
+          "sheet": "11.08-17.08",
+          "cell": "F46"
+        }
+      ]
+    },
+    {
+      "id": "22348595-7f18-58f3-becd-14a3000d5153",
+      "name": "Lê Thúy Liểu",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "e358b50b-6b8a-5c21-a6ac-bc6547bdf73d",
+        "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+        "0d586fbe-872d-52ce-a8e6-87d0f473d8ec",
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082",
+        "7ebaeb6a-459d-55e8-88a8-b4fec46c6e2f"
+      ],
+      "clinicIds": [
+        "9595376f-b803-5476-ac38-5a53a62a61fc",
+        "879979b9-fc3d-5312-b496-a2ee81a0d0b6",
+        "4009cb46-5cf7-55f8-ade5-0e278854d9b1",
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971",
+        "0610524f-6ec7-5c66-ad90-e78584f63abd"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Lê Thúy Liểu",
+          "sheet": "04.08-10.08",
+          "cell": "H33"
+        },
+        {
+          "text": "BS Lê Thúy Liểu",
+          "sheet": "04.08-10.08",
+          "cell": "J46"
+        }
+      ]
+    },
+    {
+      "id": "1c1e761f-687a-5378-9885-80e78c63b5d1",
+      "name": "Nguyễn Ngọc Hà",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "03e2c8df-ca74-5561-a29c-d3e396de000a"
+      ],
+      "clinicIds": [
+        "6ab579bd-267a-52c2-92a0-74f91f498e18"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Nguyễn Ngọc Hà",
+          "sheet": "04.08-10.08",
+          "cell": "I37"
+        }
+      ]
+    },
+    {
+      "id": "5313ff23-26cd-5eae-aced-341e090bb175",
+      "name": "Nguyễn Thị Hoài Thu",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+        "0d586fbe-872d-52ce-a8e6-87d0f473d8ec",
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082",
+        "7ebaeb6a-459d-55e8-88a8-b4fec46c6e2f",
+        "e358b50b-6b8a-5c21-a6ac-bc6547bdf73d"
+      ],
+      "clinicIds": [
+        "879979b9-fc3d-5312-b496-a2ee81a0d0b6",
+        "4009cb46-5cf7-55f8-ade5-0e278854d9b1",
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971",
+        "0610524f-6ec7-5c66-ad90-e78584f63abd",
+        "9595376f-b803-5476-ac38-5a53a62a61fc"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Nguyễn Thị Hoài Thu",
+          "sheet": "04.08-10.08",
+          "cell": "J39"
+        },
+        {
+          "text": "BS CKI Nguyễn Thị Hoài Thu",
+          "sheet": "04.08-10.08",
+          "cell": "F46"
+        }
+      ]
+    },
+    {
+      "id": "aa62f060-2b36-572e-ba03-9d004a1c86c7",
+      "name": "Nguyễn Văn Luyện",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+        "0d586fbe-872d-52ce-a8e6-87d0f473d8ec",
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082",
+        "b28fa996-b588-553a-8d6f-69d27eacc950",
+        "03e2c8df-ca74-5561-a29c-d3e396de000a"
+      ],
+      "clinicIds": [
+        "879979b9-fc3d-5312-b496-a2ee81a0d0b6",
+        "4009cb46-5cf7-55f8-ade5-0e278854d9b1",
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971",
+        "58b43d2b-aaec-5d83-8079-f1b57fd95360",
+        "6ab579bd-267a-52c2-92a0-74f91f498e18"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Nguyễn Văn Luyện",
+          "sheet": "04.08-10.08",
+          "cell": "H39"
+        }
+      ]
+    },
+    {
+      "id": "e36bd9fb-1d84-5c68-b11f-e6d844d1de09",
+      "name": "Nguyễn Đức Độ",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "b28fa996-b588-553a-8d6f-69d27eacc950",
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082"
+      ],
+      "clinicIds": [
+        "58b43d2b-aaec-5d83-8079-f1b57fd95360",
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Nguyễn Đức Độ",
+          "sheet": "04.08-10.08",
+          "cell": "F31"
+        }
+      ]
+    },
+    {
+      "id": "97b4660f-f28e-571d-b505-8d2f5f722e10",
+      "name": "Ngụy Như Ngọc Chiêu",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "0d586fbe-872d-52ce-a8e6-87d0f473d8ec",
+        "7ebaeb6a-459d-55e8-88a8-b4fec46c6e2f"
+      ],
+      "clinicIds": [
+        "4009cb46-5cf7-55f8-ade5-0e278854d9b1",
+        "0610524f-6ec7-5c66-ad90-e78584f63abd"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Ngụy Như Ngọc Chiêu",
+          "sheet": "04.08-10.08",
+          "cell": "K41"
+        }
+      ]
+    },
+    {
+      "id": "528bc454-a8d6-544f-b9a5-5eab1e603bfc",
+      "name": "Nông Thị Ngọc Lan",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082"
+      ],
+      "clinicIds": [
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Nông Thị Ngọc Lan",
+          "sheet": "11.08-17.08",
+          "cell": "K43"
+        }
+      ]
+    },
+    {
+      "id": "6c33ca9d-dc60-55b1-a94f-cd0b6b3005ed",
+      "name": "Phạm Thị Thu Thảo",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "0d586fbe-872d-52ce-a8e6-87d0f473d8ec"
+      ],
+      "clinicIds": [
+        "4009cb46-5cf7-55f8-ade5-0e278854d9b1"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Phạm Thị Thu Thảo",
+          "sheet": "11.08-17.08",
+          "cell": "L41"
+        }
+      ]
+    },
+    {
+      "id": "c7ddb2ed-e479-5d17-b93b-cd9ced08f14b",
+      "name": "Trần Quốc Tuấn",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082",
+        "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+        "03e2c8df-ca74-5561-a29c-d3e396de000a"
+      ],
+      "clinicIds": [
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971",
+        "79f40a4e-efd1-57b5-b939-6f1a8165fba1",
+        "6ab579bd-267a-52c2-92a0-74f91f498e18"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Trần Quốc Tuấn",
+          "sheet": "04.08-10.08",
+          "cell": "F45"
+        }
+      ]
+    },
+    {
+      "id": "35e7d738-b784-5bf9-bad8-2a366d1c4b00",
+      "name": "Trần Thu Hằng",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082",
+        "7ebaeb6a-459d-55e8-88a8-b4fec46c6e2f",
+        "0d586fbe-872d-52ce-a8e6-87d0f473d8ec"
+      ],
+      "clinicIds": [
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971",
+        "0610524f-6ec7-5c66-ad90-e78584f63abd",
+        "4009cb46-5cf7-55f8-ade5-0e278854d9b1"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Trần Thu Hằng",
+          "sheet": "04.08-10.08",
+          "cell": "H45"
+        }
+      ]
+    },
+    {
+      "id": "ada619eb-63b7-529c-a3fe-80be125790ba",
+      "name": "Trần Thị Ngọc Diệu",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082"
+      ],
+      "clinicIds": [
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Trần Thị Ngọc Diệu",
+          "sheet": "18.08-24.08",
+          "cell": "K43"
+        }
+      ]
+    },
+    {
+      "id": "6ff86250-374b-518f-9994-6de4f43d664f",
+      "name": "Trịnh Hồng Phong",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "03e2c8df-ca74-5561-a29c-d3e396de000a"
+      ],
+      "clinicIds": [
+        "6ab579bd-267a-52c2-92a0-74f91f498e18"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Trịnh Hồng Phong",
+          "sheet": "18.08-24.08",
+          "cell": "I38"
+        }
+      ]
+    },
+    {
+      "id": "16e92bd6-cccf-5c85-8b6e-ff41a0b03ad9",
+      "name": "Võ Văn Thuận",
+      "departmentKey": "B-internal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "b28fa996-b588-553a-8d6f-69d27eacc950",
+        "8e118b7d-9df6-59a4-8356-f8feb1e24ae4",
+        "0d586fbe-872d-52ce-a8e6-87d0f473d8ec",
+        "4b2f43f8-5156-5dfb-96d7-70a06f213082"
+      ],
+      "clinicIds": [
+        "58b43d2b-aaec-5d83-8079-f1b57fd95360",
+        "879979b9-fc3d-5312-b496-a2ee81a0d0b6",
+        "4009cb46-5cf7-55f8-ade5-0e278854d9b1",
+        "88f2d32f-0ae9-560d-9b5d-e49be7bb3971"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Võ Văn Thuận",
+          "sheet": "04.08-10.08",
+          "cell": "H31"
+        }
+      ]
+    },
+    {
+      "id": "2b5db846-41e3-50f8-8f1b-c3391611fee7",
+      "name": "Báo Dương Duy Hưng",
+      "departmentKey": "C-cardiac-intensive",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "ef1f5abf-0b05-51b2-87de-200fee79bff1",
+        "56daf42a-1ffb-5c0f-96cf-eee6c60ecc07"
+      ],
+      "clinicIds": [
+        "35090425-8b36-5806-aa58-7bcffab1e46d",
+        "5e2dfa4a-4628-5189-8d29-b892ab511d31"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Báo Dương Duy Hưng",
+          "sheet": "04.08-10.08",
+          "cell": "H16"
+        }
+      ]
+    },
+    {
+      "id": "b4f91cdc-284e-5692-8e0f-81197709de3d",
+      "name": "Huỳnh Tấn Đức",
+      "departmentKey": "C-cardiac-intensive",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "ef1f5abf-0b05-51b2-87de-200fee79bff1",
+        "56daf42a-1ffb-5c0f-96cf-eee6c60ecc07"
+      ],
+      "clinicIds": [
+        "35090425-8b36-5806-aa58-7bcffab1e46d",
+        "e151efd7-62b5-5712-a850-487a8f522d75",
+        "5e2dfa4a-4628-5189-8d29-b892ab511d31"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Huỳnh Tấn Đức",
+          "sheet": "04.08-10.08",
+          "cell": "F16"
+        }
+      ]
+    },
+    {
+      "id": "d7aa86fc-21b3-5651-8ab7-44b7b8f10445",
+      "name": "Hồ Lê Hoàng Lam",
+      "departmentKey": "C-cardiac-intensive",
+      "isDoctor": true,
+      "titles": [
+        "BS",
+        "BS."
+      ],
+      "specialtyIds": [
+        "ef1f5abf-0b05-51b2-87de-200fee79bff1",
+        "56daf42a-1ffb-5c0f-96cf-eee6c60ecc07"
+      ],
+      "clinicIds": [
+        "35090425-8b36-5806-aa58-7bcffab1e46d",
+        "e151efd7-62b5-5712-a850-487a8f522d75",
+        "5e2dfa4a-4628-5189-8d29-b892ab511d31"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Hồ Lê Hoàng Lam",
+          "sheet": "04.08-10.08",
+          "cell": "I19"
+        },
+        {
+          "text": "Bs.Hồ Lê Hoàng Lam",
+          "sheet": "25.08-31.08",
+          "cell": "L23"
+        }
+      ]
+    },
+    {
+      "id": "9ed074f2-91cc-5a1e-8fbf-c672a51651ab",
+      "name": "Lâm Văn Tâm",
+      "departmentKey": "C-cardiac-intensive",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "ef1f5abf-0b05-51b2-87de-200fee79bff1",
+        "56daf42a-1ffb-5c0f-96cf-eee6c60ecc07"
+      ],
+      "clinicIds": [
+        "35090425-8b36-5806-aa58-7bcffab1e46d",
+        "5e2dfa4a-4628-5189-8d29-b892ab511d31"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Lâm Văn Tâm",
+          "sheet": "04.08-10.08",
+          "cell": "G16"
+        }
+      ]
+    },
+    {
+      "id": "75428de8-aeb1-5e66-9a4a-a0d6d0aac6e2",
+      "name": "Nguyễn Phúc Nguyên",
+      "departmentKey": "C-cardiac-intensive",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "ef1f5abf-0b05-51b2-87de-200fee79bff1",
+        "56daf42a-1ffb-5c0f-96cf-eee6c60ecc07"
+      ],
+      "clinicIds": [
+        "35090425-8b36-5806-aa58-7bcffab1e46d",
+        "5e2dfa4a-4628-5189-8d29-b892ab511d31"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Nguyễn Phúc Nguyên",
+          "sheet": "04.08-10.08",
+          "cell": "I16"
+        }
+      ]
+    },
+    {
+      "id": "36226a8d-55b8-583e-8d7e-f1a3de0b5cde",
+      "name": "Nguyễn Thái Anh",
+      "departmentKey": "C-cardiac-intensive",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI",
+        "BS."
+      ],
+      "specialtyIds": [
+        "ef1f5abf-0b05-51b2-87de-200fee79bff1"
+      ],
+      "clinicIds": [
+        "35090425-8b36-5806-aa58-7bcffab1e46d",
+        "e151efd7-62b5-5712-a850-487a8f522d75"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Nguyễn Thái Anh",
+          "sheet": "04.08-10.08",
+          "cell": "F15"
+        },
+        {
+          "text": "Bs.Nguyễn Thái Anh",
+          "sheet": "25.08-31.08",
+          "cell": "K23"
+        }
+      ]
+    },
+    {
+      "id": "ed3e3a3d-8fa8-5d8e-97da-e82663d490ed",
+      "name": "Nguyễn Tiến Nhân",
+      "departmentKey": "C-cardiac-intensive",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "ef1f5abf-0b05-51b2-87de-200fee79bff1",
+        "56daf42a-1ffb-5c0f-96cf-eee6c60ecc07"
+      ],
+      "clinicIds": [
+        "35090425-8b36-5806-aa58-7bcffab1e46d",
+        "e151efd7-62b5-5712-a850-487a8f522d75",
+        "5e2dfa4a-4628-5189-8d29-b892ab511d31"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Nguyễn Tiến Nhân",
+          "sheet": "04.08-10.08",
+          "cell": "H15"
+        }
+      ]
+    },
+    {
+      "id": "d6f57311-c0b3-5f3b-96d8-d67562268af8",
+      "name": "Phạm Thanh Tùng",
+      "departmentKey": "C-cardiac-intensive",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "ef1f5abf-0b05-51b2-87de-200fee79bff1",
+        "56daf42a-1ffb-5c0f-96cf-eee6c60ecc07"
+      ],
+      "clinicIds": [
+        "35090425-8b36-5806-aa58-7bcffab1e46d",
+        "5e2dfa4a-4628-5189-8d29-b892ab511d31",
+        "e151efd7-62b5-5712-a850-487a8f522d75"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Phạm Thanh Tùng",
+          "sheet": "04.08-10.08",
+          "cell": "J16"
+        }
+      ]
+    },
+    {
+      "id": "f1f5a759-0d22-53a6-97bb-46e12d214c9d",
+      "name": "Phạm Thị Duyên",
+      "departmentKey": "C-cardiac-intensive",
+      "isDoctor": true,
+      "titles": [
+        "BS CKII"
+      ],
+      "specialtyIds": [
+        "ef1f5abf-0b05-51b2-87de-200fee79bff1"
+      ],
+      "clinicIds": [
+        "35090425-8b36-5806-aa58-7bcffab1e46d",
+        "e151efd7-62b5-5712-a850-487a8f522d75"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKII Phạm Thị Duyên",
+          "sheet": "04.08-10.08",
+          "cell": "G15"
+        }
+      ]
+    },
+    {
+      "id": "387711fb-f869-5a2e-b530-e1e83997d4d8",
+      "name": "Phạm Tấn Thanh",
+      "departmentKey": "C-cardiac-intensive",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "56daf42a-1ffb-5c0f-96cf-eee6c60ecc07"
+      ],
+      "clinicIds": [
+        "5e2dfa4a-4628-5189-8d29-b892ab511d31"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Phạm Tấn Thanh",
+          "sheet": "04.08-10.08",
+          "cell": "J21"
+        }
+      ]
+    },
+    {
+      "id": "f4488fbe-8562-5360-8693-1c535776990f",
+      "name": "Vũ Quỳnh Trân",
+      "departmentKey": "C-cardiac-intensive",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "ef1f5abf-0b05-51b2-87de-200fee79bff1"
+      ],
+      "clinicIds": [
+        "35090425-8b36-5806-aa58-7bcffab1e46d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Vũ Quỳnh Trân",
+          "sheet": "04.08-10.08",
+          "cell": "I15"
+        }
+      ]
+    },
+    {
+      "id": "65a52e79-479e-5db8-9893-1e2e0f19f343",
+      "name": "Kim Ngọc Tâm",
+      "departmentKey": "C-dental",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI."
+      ],
+      "specialtyIds": [
+        "61fddd79-ff27-54b0-9e34-5b1e310a7ee0"
+      ],
+      "clinicIds": [
+        "8c3c0e4e-8236-5173-9442-237df96334eb",
+        "dac97d5e-9f52-5038-8485-fcae7dcedc1e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CKI. KIM NGỌC TÂM",
+          "sheet": "04.08-10.08",
+          "cell": "F160"
+        }
+      ]
+    },
+    {
+      "id": "3b822c8e-f80d-5367-bf4d-9a2d4233f846",
+      "name": "Nguyễn Anh Tài",
+      "departmentKey": "C-dental",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI."
+      ],
+      "specialtyIds": [
+        "61fddd79-ff27-54b0-9e34-5b1e310a7ee0"
+      ],
+      "clinicIds": [
+        "8c3c0e4e-8236-5173-9442-237df96334eb",
+        "dac97d5e-9f52-5038-8485-fcae7dcedc1e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CKI.NGUYỄN ANH TÀI",
+          "sheet": "04.08-10.08",
+          "cell": "I160"
+        }
+      ]
+    },
+    {
+      "id": "c0742924-3365-5d89-84ae-6b3cd5057d3b",
+      "name": "Nguyễn Thị Thu Thủy",
+      "departmentKey": "C-dental",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS"
+      ],
+      "specialtyIds": [
+        "61fddd79-ff27-54b0-9e34-5b1e310a7ee0"
+      ],
+      "clinicIds": [
+        "8c3c0e4e-8236-5173-9442-237df96334eb",
+        "dac97d5e-9f52-5038-8485-fcae7dcedc1e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs NGUYỄN THỊ THU THỦY",
+          "sheet": "04.08-10.08",
+          "cell": "G160"
+        }
+      ]
+    },
+    {
+      "id": "2e740a8e-aa6e-5c76-907b-568f73cad1d2",
+      "name": "Nguyễn Thị Thùy Dung",
+      "departmentKey": "C-dental",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI."
+      ],
+      "specialtyIds": [
+        "61fddd79-ff27-54b0-9e34-5b1e310a7ee0"
+      ],
+      "clinicIds": [
+        "8c3c0e4e-8236-5173-9442-237df96334eb"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CKI. NGUYỄN THỊ THÙY DUNG",
+          "sheet": "11.08-17.08",
+          "cell": "I160"
+        }
+      ]
+    },
+    {
+      "id": "db0b37eb-a255-5ad9-8023-496a2878d14c",
+      "name": "Ngô Nhật Phương",
+      "departmentKey": "C-dental",
+      "isDoctor": true,
+      "titles": [
+        "BS CKII."
+      ],
+      "specialtyIds": [
+        "61fddd79-ff27-54b0-9e34-5b1e310a7ee0"
+      ],
+      "clinicIds": [
+        "dac97d5e-9f52-5038-8485-fcae7dcedc1e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CKII. NGÔ NHẬT PHƯƠNG",
+          "sheet": "04.08-10.08",
+          "cell": "G164"
+        },
+        {
+          "text": "NGÔ NHẬT PHƯƠNG",
+          "sheet": "04.08-10.08",
+          "cell": "I166"
+        }
+      ]
+    },
+    {
+      "id": "6edde442-c9a9-5710-a627-fd650ff1dad7",
+      "name": "Trần Thị Bích Như",
+      "departmentKey": "C-dental",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "61fddd79-ff27-54b0-9e34-5b1e310a7ee0"
+      ],
+      "clinicIds": [
+        "8c3c0e4e-8236-5173-9442-237df96334eb",
+        "dac97d5e-9f52-5038-8485-fcae7dcedc1e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. TRẦN THỊ BÍCH NHƯ",
+          "sheet": "04.08-10.08",
+          "cell": "H160"
+        }
+      ]
+    },
+    {
+      "id": "22a0846c-6af0-569f-8370-7f35c770a4d1",
+      "name": "Trần Tiểu Trang",
+      "departmentKey": "C-dental",
+      "isDoctor": true,
+      "titles": [
+        "THS. BS.",
+        "THS.BS"
+      ],
+      "specialtyIds": [
+        "61fddd79-ff27-54b0-9e34-5b1e310a7ee0"
+      ],
+      "clinicIds": [
+        "8c3c0e4e-8236-5173-9442-237df96334eb"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths. Bs.TRẦN TIỂU TRANG",
+          "sheet": "04.08-10.08",
+          "cell": "F161"
+        },
+        {
+          "text": "Ths.Bs TRẦN TIỂU TRANG",
+          "sheet": "25.08-31.08",
+          "cell": "H160"
+        }
+      ]
+    },
+    {
+      "id": "9a309104-bce6-5c2c-b47a-4d4e0d21a60c",
+      "name": "Hồ Thị Thanh",
+      "departmentKey": "C-endocrinology",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI"
+      ],
+      "specialtyIds": [
+        "8d33b0aa-667d-53ec-a7dd-f897f255f7ad"
+      ],
+      "clinicIds": [
+        "c75acc03-cad1-5c65-a176-829669efbf36",
+        "6bee4654-0adc-5d8b-8906-f0c5d68cd7e7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI HỒ THỊ THANH",
+          "sheet": "04.08-10.08",
+          "cell": "G80"
+        }
+      ]
+    },
+    {
+      "id": "ccb03bb5-c699-51c2-ab04-738f88e2536d",
+      "name": "Lê Anh Tuấn",
+      "departmentKey": "C-endocrinology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "8d33b0aa-667d-53ec-a7dd-f897f255f7ad"
+      ],
+      "clinicIds": [
+        "c75acc03-cad1-5c65-a176-829669efbf36",
+        "6bee4654-0adc-5d8b-8906-f0c5d68cd7e7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS LÊ ANH TUẤN",
+          "sheet": "04.08-10.08",
+          "cell": "I80"
+        }
+      ]
+    },
+    {
+      "id": "1af08959-2e06-5548-a7d7-f7d0cf238aa5",
+      "name": "Nguyễn Quỳnh Như",
+      "departmentKey": "C-endocrinology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "8d33b0aa-667d-53ec-a7dd-f897f255f7ad"
+      ],
+      "clinicIds": [
+        "c75acc03-cad1-5c65-a176-829669efbf36",
+        "6bee4654-0adc-5d8b-8906-f0c5d68cd7e7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS NGUYỄN QUỲNH NHƯ",
+          "sheet": "04.08-10.08",
+          "cell": "F81"
+        }
+      ]
+    },
+    {
+      "id": "7ab3a6dd-319c-5284-acee-bd093a3f69e3",
+      "name": "Nguyễn Thị Thu Thủy",
+      "departmentKey": "C-endocrinology",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI"
+      ],
+      "specialtyIds": [
+        "8d33b0aa-667d-53ec-a7dd-f897f255f7ad"
+      ],
+      "clinicIds": [
+        "24da3c96-3b66-52d4-bbf9-f0bca611d984",
+        "c75acc03-cad1-5c65-a176-829669efbf36",
+        "6bee4654-0adc-5d8b-8906-f0c5d68cd7e7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI NGUYỄN THỊ THU THỦY",
+          "sheet": "04.08-10.08",
+          "cell": "H78"
+        }
+      ]
+    },
+    {
+      "id": "4d943af0-8f49-5299-b787-877bd6501c25",
+      "name": "Ngô Thế Phi",
+      "departmentKey": "C-endocrinology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "8d33b0aa-667d-53ec-a7dd-f897f255f7ad"
+      ],
+      "clinicIds": [
+        "24da3c96-3b66-52d4-bbf9-f0bca611d984"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS NGÔ THẾ PHI",
+          "sheet": "04.08-10.08",
+          "cell": "F78"
+        }
+      ]
+    },
+    {
+      "id": "c35492ca-245e-5007-aa12-4a26ef60224c",
+      "name": "Phan Nguyễn Ngọc Linh",
+      "departmentKey": "C-endocrinology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "8d33b0aa-667d-53ec-a7dd-f897f255f7ad"
+      ],
+      "clinicIds": [
+        "c75acc03-cad1-5c65-a176-829669efbf36",
+        "6bee4654-0adc-5d8b-8906-f0c5d68cd7e7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS PHAN NGUYỄN NGỌC LINH",
+          "sheet": "04.08-10.08",
+          "cell": "F80"
+        }
+      ]
+    },
+    {
+      "id": "1ff8e530-a09b-5c43-b7bd-89982ea4a142",
+      "name": "Trần Cư",
+      "departmentKey": "C-endocrinology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "8d33b0aa-667d-53ec-a7dd-f897f255f7ad"
+      ],
+      "clinicIds": [
+        "6bee4654-0adc-5d8b-8906-f0c5d68cd7e7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS TRẦN CƯ",
+          "sheet": "04.08-10.08",
+          "cell": "J86"
+        }
+      ]
+    },
+    {
+      "id": "25fd1df5-dd62-5b43-8c7a-55c9af1b2984",
+      "name": "Trần Thị Mộng Trinh",
+      "departmentKey": "C-endocrinology",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "8d33b0aa-667d-53ec-a7dd-f897f255f7ad"
+      ],
+      "clinicIds": [
+        "6bee4654-0adc-5d8b-8906-f0c5d68cd7e7",
+        "24da3c96-3b66-52d4-bbf9-f0bca611d984",
+        "c75acc03-cad1-5c65-a176-829669efbf36"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CKI TRẦN THỊ MỘNG TRINH",
+          "sheet": "04.08-10.08",
+          "cell": "K86"
+        }
+      ]
+    },
+    {
+      "id": "9f629cc6-2d9b-5ed0-821c-e6b76ab2c1e6",
+      "name": "Dương Văn Tá",
+      "departmentKey": "C-ent",
+      "isDoctor": true,
+      "titles": [
+        "BSCKII."
+      ],
+      "specialtyIds": [
+        "2ab0e90c-3441-5a02-8395-fb9e6b18d591"
+      ],
+      "clinicIds": [
+        "d628b5d9-db87-58c6-a008-360acc55f304",
+        "2c7c1643-7a37-55d2-8a8a-3317b42d665f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKII. DƯƠNG VĂN TÁ",
+          "sheet": "04.08-10.08",
+          "cell": "F156"
+        }
+      ]
+    },
+    {
+      "id": "1aade0b5-6bc2-5044-a058-a405f444a78c",
+      "name": "Lâm Thế Phương",
+      "departmentKey": "C-ent",
+      "isDoctor": true,
+      "titles": [
+        "BSCKII."
+      ],
+      "specialtyIds": [
+        "2ab0e90c-3441-5a02-8395-fb9e6b18d591"
+      ],
+      "clinicIds": [
+        "2c7c1643-7a37-55d2-8a8a-3317b42d665f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKII. LÂM THẾ PHƯƠNG",
+          "sheet": "04.08-10.08",
+          "cell": "F150"
+        }
+      ]
+    },
+    {
+      "id": "cfe2f557-2314-5995-beae-636c78c49ff9",
+      "name": "Lê Công Thanh Tùng",
+      "departmentKey": "C-ent",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "2ab0e90c-3441-5a02-8395-fb9e6b18d591"
+      ],
+      "clinicIds": [
+        "2c7c1643-7a37-55d2-8a8a-3317b42d665f",
+        "d628b5d9-db87-58c6-a008-360acc55f304"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. LÊ CÔNG THANH TÙNG",
+          "sheet": "04.08-10.08",
+          "cell": "J151"
+        }
+      ]
+    },
+    {
+      "id": "a0d062c8-0cd5-5f76-ab3e-6c4702e04d76",
+      "name": "Lê Thị Thu Hiền",
+      "departmentKey": "C-ent",
+      "isDoctor": true,
+      "titles": [
+        "THSBS."
+      ],
+      "specialtyIds": [
+        "2ab0e90c-3441-5a02-8395-fb9e6b18d591"
+      ],
+      "clinicIds": [
+        "2c7c1643-7a37-55d2-8a8a-3317b42d665f",
+        "d628b5d9-db87-58c6-a008-360acc55f304"
+      ],
+      "sourceVariants": [
+        {
+          "text": "THSBS. LÊ THỊ THU HIỀN",
+          "sheet": "04.08-10.08",
+          "cell": "I150"
+        }
+      ]
+    },
+    {
+      "id": "276b9c5e-d25a-51a4-999c-46d12f7bd3af",
+      "name": "Nguyễn Thanh Điệp",
+      "departmentKey": "C-ent",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "2ab0e90c-3441-5a02-8395-fb9e6b18d591"
+      ],
+      "clinicIds": [
+        "2c7c1643-7a37-55d2-8a8a-3317b42d665f",
+        "d628b5d9-db87-58c6-a008-360acc55f304"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. NGUYỄN THANH ĐIỆP",
+          "sheet": "04.08-10.08",
+          "cell": "G150"
+        }
+      ]
+    },
+    {
+      "id": "0fe517fe-c87c-5863-ad64-15d4a17c1b26",
+      "name": "Nguyễn Thái Thành Được",
+      "departmentKey": "C-ent",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "2ab0e90c-3441-5a02-8395-fb9e6b18d591"
+      ],
+      "clinicIds": [
+        "2c7c1643-7a37-55d2-8a8a-3317b42d665f",
+        "d628b5d9-db87-58c6-a008-360acc55f304"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. NGUYỄN THÁI THÀNH ĐƯỢC",
+          "sheet": "04.08-10.08",
+          "cell": "G151"
+        }
+      ]
+    },
+    {
+      "id": "8cc87cf8-a1a8-557a-9f27-32300b9d3ebf",
+      "name": "Ngô Đức Lưu",
+      "departmentKey": "C-ent",
+      "isDoctor": true,
+      "titles": [
+        "THSBS."
+      ],
+      "specialtyIds": [
+        "2ab0e90c-3441-5a02-8395-fb9e6b18d591"
+      ],
+      "clinicIds": [
+        "2c7c1643-7a37-55d2-8a8a-3317b42d665f",
+        "d628b5d9-db87-58c6-a008-360acc55f304"
+      ],
+      "sourceVariants": [
+        {
+          "text": "THSBS. NGÔ ĐỨC LƯU",
+          "sheet": "04.08-10.08",
+          "cell": "F151"
+        }
+      ]
+    },
+    {
+      "id": "ea00d4b2-8af6-5f80-b0be-f92af962e1fb",
+      "name": "Phan Minh Duy",
+      "departmentKey": "C-ent",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "2ab0e90c-3441-5a02-8395-fb9e6b18d591"
+      ],
+      "clinicIds": [
+        "2c7c1643-7a37-55d2-8a8a-3317b42d665f",
+        "d628b5d9-db87-58c6-a008-360acc55f304"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. PHAN MINH DUY",
+          "sheet": "04.08-10.08",
+          "cell": "J150"
+        }
+      ]
+    },
+    {
+      "id": "dcf2b82e-8c31-5f98-a944-967410466b94",
+      "name": "Phan Văn Thái",
+      "departmentKey": "C-ent",
+      "isDoctor": true,
+      "titles": [
+        "BSCKII."
+      ],
+      "specialtyIds": [
+        "2ab0e90c-3441-5a02-8395-fb9e6b18d591"
+      ],
+      "clinicIds": [
+        "2c7c1643-7a37-55d2-8a8a-3317b42d665f",
+        "d628b5d9-db87-58c6-a008-360acc55f304"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKII. PHAN VĂN THÁI",
+          "sheet": "04.08-10.08",
+          "cell": "I151"
+        }
+      ]
+    },
+    {
+      "id": "c9b82262-2be1-53c7-9960-705af1eb3ee3",
+      "name": "Trần Thị Thanh Bình",
+      "departmentKey": "C-ent",
+      "isDoctor": true,
+      "titles": [
+        "BSCKII."
+      ],
+      "specialtyIds": [
+        "2ab0e90c-3441-5a02-8395-fb9e6b18d591"
+      ],
+      "clinicIds": [
+        "2c7c1643-7a37-55d2-8a8a-3317b42d665f",
+        "d628b5d9-db87-58c6-a008-360acc55f304"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKII. TRẦN THỊ THANH BÌNH",
+          "sheet": "04.08-10.08",
+          "cell": "H150"
+        }
+      ]
+    },
+    {
+      "id": "e47c6dda-acbe-5b2d-9241-f30dd0a4bd60",
+      "name": "Đặng Hoài Anh",
+      "departmentKey": "C-ent",
+      "isDoctor": true,
+      "titles": [
+        "THSBS."
+      ],
+      "specialtyIds": [
+        "2ab0e90c-3441-5a02-8395-fb9e6b18d591"
+      ],
+      "clinicIds": [
+        "2c7c1643-7a37-55d2-8a8a-3317b42d665f",
+        "d628b5d9-db87-58c6-a008-360acc55f304"
+      ],
+      "sourceVariants": [
+        {
+          "text": "THSBS. ĐẶNG HOÀI ANH",
+          "sheet": "04.08-10.08",
+          "cell": "H151"
+        }
+      ]
+    },
+    {
+      "id": "04ce3be4-cb8c-5542-9753-3c5f5a145f40",
+      "name": "Bùi Nguyễn Tấn Thi",
+      "departmentKey": "C-neonatal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "204596b4-2e88-5524-8851-0712ce792c7b"
+      ],
+      "clinicIds": [
+        "0089a1f9-98c7-52d4-b61d-6d4e28b3e22b"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Bùi Nguyễn Tấn Thi",
+          "sheet": "04.08-10.08",
+          "cell": "I29"
+        }
+      ]
+    },
+    {
+      "id": "1eaee772-a773-5e72-bfbe-122f0e417fc3",
+      "name": "Cổ Ngọc Đăng",
+      "departmentKey": "C-neonatal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "39e78a4e-7a65-59f6-b486-b1e9a60f2fc2"
+      ],
+      "clinicIds": [
+        "771b9db3-f1f1-50fa-a1b0-28384f7f0a8c"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Cổ Ngọc Đăng",
+          "sheet": "04.08-10.08",
+          "cell": "H25"
+        }
+      ]
+    },
+    {
+      "id": "7a9b3a6e-0b0e-5ce8-b86f-2482b128523c",
+      "name": "Mai Thanh Thiên",
+      "departmentKey": "C-neonatal",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI."
+      ],
+      "specialtyIds": [
+        "204596b4-2e88-5524-8851-0712ce792c7b",
+        "39e78a4e-7a65-59f6-b486-b1e9a60f2fc2"
+      ],
+      "clinicIds": [
+        "0089a1f9-98c7-52d4-b61d-6d4e28b3e22b",
+        "771b9db3-f1f1-50fa-a1b0-28384f7f0a8c"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI. Mai Thanh Thiên",
+          "sheet": "04.08-10.08",
+          "cell": "H29"
+        }
+      ]
+    },
+    {
+      "id": "b881fc9e-42ef-5c9a-b470-18e5095316c6",
+      "name": "Nguyễn Hữu Trung",
+      "departmentKey": "C-neonatal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "204596b4-2e88-5524-8851-0712ce792c7b",
+        "39e78a4e-7a65-59f6-b486-b1e9a60f2fc2"
+      ],
+      "clinicIds": [
+        "0089a1f9-98c7-52d4-b61d-6d4e28b3e22b",
+        "771b9db3-f1f1-50fa-a1b0-28384f7f0a8c"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Nguyễn Hữu Trung",
+          "sheet": "04.08-10.08",
+          "cell": "J29"
+        }
+      ]
+    },
+    {
+      "id": "edd9b820-b1cf-5e08-acca-6a006ae27df6",
+      "name": "Nguyễn Ngọc Toàn",
+      "departmentKey": "C-neonatal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "39e78a4e-7a65-59f6-b486-b1e9a60f2fc2",
+        "204596b4-2e88-5524-8851-0712ce792c7b"
+      ],
+      "clinicIds": [
+        "771b9db3-f1f1-50fa-a1b0-28384f7f0a8c",
+        "0089a1f9-98c7-52d4-b61d-6d4e28b3e22b"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Nguyễn Ngọc Toàn",
+          "sheet": "04.08-10.08",
+          "cell": "K25"
+        }
+      ]
+    },
+    {
+      "id": "28068648-528a-5c54-9207-ed071219b0d1",
+      "name": "Nguyễn Thị Bạch Cúc",
+      "departmentKey": "C-neonatal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "39e78a4e-7a65-59f6-b486-b1e9a60f2fc2"
+      ],
+      "clinicIds": [
+        "771b9db3-f1f1-50fa-a1b0-28384f7f0a8c"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Nguyễn Thị Bạch Cúc",
+          "sheet": "04.08-10.08",
+          "cell": "G25"
+        }
+      ]
+    },
+    {
+      "id": "9039b5c6-9254-57bd-8ee9-064c1a1a8e3c",
+      "name": "Nguyễn Thị Đào",
+      "departmentKey": "C-neonatal",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI."
+      ],
+      "specialtyIds": [
+        "39e78a4e-7a65-59f6-b486-b1e9a60f2fc2"
+      ],
+      "clinicIds": [
+        "771b9db3-f1f1-50fa-a1b0-28384f7f0a8c"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI. Nguyễn Thị Đào",
+          "sheet": "04.08-10.08",
+          "cell": "J25"
+        }
+      ]
+    },
+    {
+      "id": "3582222b-2adc-5fa3-bee4-ba1d727ea781",
+      "name": "Nguyễn Đình Trường An",
+      "departmentKey": "C-neonatal",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "39e78a4e-7a65-59f6-b486-b1e9a60f2fc2"
+      ],
+      "clinicIds": [
+        "771b9db3-f1f1-50fa-a1b0-28384f7f0a8c"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Nguyễn Đình Trường An",
+          "sheet": "04.08-10.08",
+          "cell": "F25"
+        }
+      ]
+    },
+    {
+      "id": "b793ad26-3862-58f4-8cf3-4a4487d56b62",
+      "name": "Ngô Văn Mạnh",
+      "departmentKey": "C-neonatal",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI."
+      ],
+      "specialtyIds": [
+        "204596b4-2e88-5524-8851-0712ce792c7b",
+        "39e78a4e-7a65-59f6-b486-b1e9a60f2fc2"
+      ],
+      "clinicIds": [
+        "0089a1f9-98c7-52d4-b61d-6d4e28b3e22b",
+        "771b9db3-f1f1-50fa-a1b0-28384f7f0a8c"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI. Ngô Văn Mạnh",
+          "sheet": "04.08-10.08",
+          "cell": "F29"
+        }
+      ]
+    },
+    {
+      "id": "8230f045-5845-5444-95f4-fa81855fdbe9",
+      "name": "Kiều Minh Rin",
+      "departmentKey": "C-neurosurgery",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "a4774a61-f92c-5294-86f5-e44227a523b0"
+      ],
+      "clinicIds": [
+        "38b15bf2-dbb2-5239-88af-918af593b477",
+        "171bd609-53c3-5241-bb20-bd165dff31f0"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS KIỀU MINH RIN",
+          "sheet": "04.08-10.08",
+          "cell": "G143"
+        },
+        {
+          "text": "Bs kiều minh rin",
+          "sheet": "11.08-17.08",
+          "cell": "F143"
+        },
+        {
+          "text": "BS Kiều Minh Rin",
+          "sheet": "18.08-24.08",
+          "cell": "H143"
+        },
+        {
+          "text": "BS Kiều Minh RIN",
+          "sheet": "25.08-31.08",
+          "cell": "G143"
+        }
+      ]
+    },
+    {
+      "id": "7a2810b0-a28c-5ce2-ad45-a9b80f216792",
+      "name": "Nguyễn Quang Vũ",
+      "departmentKey": "C-neurosurgery",
+      "isDoctor": true,
+      "titles": [
+        "BS",
+        "BS."
+      ],
+      "specialtyIds": [
+        "a4774a61-f92c-5294-86f5-e44227a523b0"
+      ],
+      "clinicIds": [
+        "38b15bf2-dbb2-5239-88af-918af593b477",
+        "171bd609-53c3-5241-bb20-bd165dff31f0"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS NGUYỄN QUANG VŨ",
+          "sheet": "04.08-10.08",
+          "cell": "H143"
+        },
+        {
+          "text": "BS Nguyễn quang vũ",
+          "sheet": "11.08-17.08",
+          "cell": "G143"
+        },
+        {
+          "text": "BS. Nguyễn Quang Vũ",
+          "sheet": "18.08-24.08",
+          "cell": "F143"
+        },
+        {
+          "text": "BS Nguyễn Quang Vũ",
+          "sheet": "25.08-31.08",
+          "cell": "H143"
+        }
+      ]
+    },
+    {
+      "id": "0e80de8b-c045-56fe-9129-3cb0e6e85367",
+      "name": "Võ Ngọc Anh Thuấn",
+      "departmentKey": "C-neurosurgery",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "a4774a61-f92c-5294-86f5-e44227a523b0"
+      ],
+      "clinicIds": [
+        "38b15bf2-dbb2-5239-88af-918af593b477",
+        "171bd609-53c3-5241-bb20-bd165dff31f0"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS VÕ NGỌC ANH THUẤN",
+          "sheet": "04.08-10.08",
+          "cell": "F143"
+        },
+        {
+          "text": "Bs võ ngọc anh thuấn",
+          "sheet": "11.08-17.08",
+          "cell": "H143"
+        },
+        {
+          "text": "BS Võ Ngọc Anh Thuấn",
+          "sheet": "18.08-24.08",
+          "cell": "G143"
+        }
+      ]
+    },
+    {
+      "id": "25c6f449-4ea1-599b-ad9c-a103d9e1352e",
+      "name": "Hoàng Ngọc Long",
+      "departmentKey": "C-ophthalmology",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "da41f9c6-80e3-5032-b726-00980c481edc"
+      ],
+      "clinicIds": [
+        "421a959c-0f93-5761-bb1e-76ae4ff9c73b",
+        "f04110f1-a887-563e-99d6-b0e45390feba"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BsCKI. Hoàng Ngọc Long",
+          "sheet": "04.08-10.08",
+          "cell": "J169"
+        }
+      ]
+    },
+    {
+      "id": "7f18b811-55a5-54fd-9180-a84b8b471418",
+      "name": "Nguyễn Lê Huy Anh",
+      "departmentKey": "C-ophthalmology",
+      "isDoctor": true,
+      "titles": [
+        "THSBSCKI."
+      ],
+      "specialtyIds": [
+        "da41f9c6-80e3-5032-b726-00980c481edc"
+      ],
+      "clinicIds": [
+        "421a959c-0f93-5761-bb1e-76ae4ff9c73b",
+        "f04110f1-a887-563e-99d6-b0e45390feba"
+      ],
+      "sourceVariants": [
+        {
+          "text": "ThsBsCKI. Nguyễn Lê Huy Anh",
+          "sheet": "04.08-10.08",
+          "cell": "G169"
+        }
+      ]
+    },
+    {
+      "id": "7549ced2-5f80-5630-9e79-8c31bb4df845",
+      "name": "Phạm Thị Hiền",
+      "departmentKey": "C-ophthalmology",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "da41f9c6-80e3-5032-b726-00980c481edc"
+      ],
+      "clinicIds": [
+        "421a959c-0f93-5761-bb1e-76ae4ff9c73b",
+        "f04110f1-a887-563e-99d6-b0e45390feba"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BsCKI. Phạm Thị Hiền",
+          "sheet": "04.08-10.08",
+          "cell": "F169"
+        }
+      ]
+    },
+    {
+      "id": "448693fd-6877-5346-8a08-cf7350f8b922",
+      "name": "Trương Thị Trang",
+      "departmentKey": "C-ophthalmology",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "da41f9c6-80e3-5032-b726-00980c481edc"
+      ],
+      "clinicIds": [
+        "421a959c-0f93-5761-bb1e-76ae4ff9c73b",
+        "f04110f1-a887-563e-99d6-b0e45390feba"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BsCKI. Trương Thị Trang",
+          "sheet": "04.08-10.08",
+          "cell": "I169"
+        }
+      ]
+    },
+    {
+      "id": "0c652d6d-b76a-5bf6-9e99-60a52c3e52d2",
+      "name": "Bế Minh Kha",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "d7d2352e-5531-5b00-952d-3fddcb594423",
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904",
+        "f058240f-ffa8-5b05-af32-118e9e03bd1f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bế Minh Kha",
+          "sheet": "04.08-10.08",
+          "cell": "J133"
+        }
+      ]
+    },
+    {
+      "id": "96ade886-8909-57c6-b8f0-67ab4425817c",
+      "name": "Luân Hải Sơn",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "d7d2352e-5531-5b00-952d-3fddcb594423",
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904",
+        "f058240f-ffa8-5b05-af32-118e9e03bd1f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Luân Hải Sơn",
+          "sheet": "04.08-10.08",
+          "cell": "F133"
+        }
+      ]
+    },
+    {
+      "id": "ff7b10ce-a39a-5ebe-8c7e-0561a7c6fd18",
+      "name": "Lê Anh Võ",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904",
+        "f058240f-ffa8-5b05-af32-118e9e03bd1f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Lê Anh Võ",
+          "sheet": "04.08-10.08",
+          "cell": "J136"
+        }
+      ]
+    },
+    {
+      "id": "42384de0-abe4-59dd-8fad-2ca81be1d858",
+      "name": "Lê Đại Chiến",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Lê Đại Chiến",
+          "sheet": "04.08-10.08",
+          "cell": "G136"
+        }
+      ]
+    },
+    {
+      "id": "d94a24d5-39e2-5f55-980f-1947786f3aeb",
+      "name": "Nguyễn Duy Tài",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "d7d2352e-5531-5b00-952d-3fddcb594423",
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Nguyễn Duy Tài",
+          "sheet": "04.08-10.08",
+          "cell": "G133"
+        }
+      ]
+    },
+    {
+      "id": "c31b054a-bd02-5542-9a25-0bb149f40763",
+      "name": "Nguyễn Hoàng Tuấn Anh",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904",
+        "f058240f-ffa8-5b05-af32-118e9e03bd1f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Nguyễn Hoàng Tuấn Anh",
+          "sheet": "04.08-10.08",
+          "cell": "I136"
+        }
+      ]
+    },
+    {
+      "id": "5257d264-0e23-5cf3-826e-67d98485a4ff",
+      "name": "Nguyễn Minh Hải",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "d7d2352e-5531-5b00-952d-3fddcb594423",
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904",
+        "f058240f-ffa8-5b05-af32-118e9e03bd1f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Nguyễn Minh Hải",
+          "sheet": "04.08-10.08",
+          "cell": "F134"
+        }
+      ]
+    },
+    {
+      "id": "932cc167-6914-519f-b376-eb647830f11c",
+      "name": "Nguyễn Phạm Phan Vũ",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904",
+        "f058240f-ffa8-5b05-af32-118e9e03bd1f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Nguyễn Phạm Phan Vũ",
+          "sheet": "04.08-10.08",
+          "cell": "J135"
+        }
+      ]
+    },
+    {
+      "id": "113b6698-90c5-5917-ba54-b4490ea75d33",
+      "name": "Phan Đình Chung",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904",
+        "f058240f-ffa8-5b05-af32-118e9e03bd1f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Phan Đình Chung",
+          "sheet": "04.08-10.08",
+          "cell": "H136"
+        }
+      ]
+    },
+    {
+      "id": "242ae9a3-d3ac-561a-97f0-ac9a2e15903f",
+      "name": "Phạm Thanh Vủ",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Phạm Thanh Vủ",
+          "sheet": "04.08-10.08",
+          "cell": "F135"
+        }
+      ]
+    },
+    {
+      "id": "b08d2239-e023-51ae-87ff-1b8fd22489e9",
+      "name": "Phạm Đình Thế",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904",
+        "f058240f-ffa8-5b05-af32-118e9e03bd1f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Phạm Đình Thế",
+          "sheet": "04.08-10.08",
+          "cell": "H135"
+        }
+      ]
+    },
+    {
+      "id": "5fe95faa-aec3-5830-b135-c62fc3b714db",
+      "name": "Tiêu Hiếu",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "9893bf4a-ee9e-55ec-bef2-89b0ea3ed904",
+        "f058240f-ffa8-5b05-af32-118e9e03bd1f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Tiêu Hiếu",
+          "sheet": "04.08-10.08",
+          "cell": "K135"
+        }
+      ]
+    },
+    {
+      "id": "5da95e6f-6816-53f8-9184-c9f0f2f8bfcd",
+      "name": "Vũ Nhật Minh",
+      "departmentKey": "C-orthopaedics",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "5053ad02-ecbf-522e-b95f-f33e53a69b8f"
+      ],
+      "clinicIds": [
+        "d7d2352e-5531-5b00-952d-3fddcb594423",
+        "f058240f-ffa8-5b05-af32-118e9e03bd1f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Vũ Nhật Minh",
+          "sheet": "04.08-10.08",
+          "cell": "I133"
+        }
+      ]
+    },
+    {
+      "id": "41451495-275a-5c4a-afb3-04b22ae98326",
+      "name": "Dương Văn Tá",
+      "departmentKey": "C-plastic-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BSCKII."
+      ],
+      "specialtyIds": [
+        "d5dff194-fdfd-51eb-9d8e-1df27ceb350d"
+      ],
+      "clinicIds": [
+        "f20256e3-e6ca-5d24-b274-65827e22c6d4"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKII.DƯƠNG VĂN TÁ",
+          "sheet": "11.08-17.08",
+          "cell": "F229"
+        }
+      ]
+    },
+    {
+      "id": "c9dbcc18-f733-52bf-92c9-5dcc97db5ade",
+      "name": "Võ Thị Mỹ Lân",
+      "departmentKey": "C-plastic-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "d5dff194-fdfd-51eb-9d8e-1df27ceb350d"
+      ],
+      "clinicIds": [
+        "f20256e3-e6ca-5d24-b274-65827e22c6d4"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.VÕ THỊ MỸ LÂN",
+          "sheet": "11.08-17.08",
+          "cell": "G229"
+        },
+        {
+          "text": "BS. VÕ THỊ MỸ LÂN",
+          "sheet": "18.08-24.08",
+          "cell": "G230"
+        }
+      ]
+    },
+    {
+      "id": "36e739ec-c95f-55a3-9456-8d0719c1276d",
+      "name": "Lê Thị Mến",
+      "departmentKey": "C-psychiatry",
+      "isDoctor": false,
+      "titles": [
+        "CN."
+      ],
+      "specialtyIds": [
+        "9ed3cc3a-c615-5e57-86eb-0576bc680568"
+      ],
+      "clinicIds": [
+        "f0ce92df-1a92-546b-9149-4b893f32930d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "CN. Lê Thị Mến",
+          "sheet": "04.08-10.08",
+          "cell": "I62"
+        }
+      ]
+    },
+    {
+      "id": "749f3d8c-123a-50e0-a4d2-a5756fa8494f",
+      "name": "Nguyễn Huỳnh Thái Dương",
+      "departmentKey": "C-psychiatry",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "ba4b6e71-15e6-557b-9c87-474655239da0"
+      ],
+      "clinicIds": [
+        "24dbce54-87f6-57e0-9160-f401d661eba7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. Nguyễn Huỳnh Thái Dương",
+          "sheet": "04.08-10.08",
+          "cell": "F65"
+        }
+      ]
+    },
+    {
+      "id": "401f0270-781b-5123-8739-8d86909a4415",
+      "name": "Nguyễn Thành Trung",
+      "departmentKey": "C-psychiatry",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "ba4b6e71-15e6-557b-9c87-474655239da0"
+      ],
+      "clinicIds": [
+        "24dbce54-87f6-57e0-9160-f401d661eba7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. Nguyễn Thành Trung",
+          "sheet": "04.08-10.08",
+          "cell": "F64"
+        }
+      ]
+    },
+    {
+      "id": "75c2ee75-5e47-5ce0-b89e-6fa2a40c6656",
+      "name": "Trần Huy Tuấn",
+      "departmentKey": "C-psychiatry",
+      "isDoctor": false,
+      "titles": [
+        "CN."
+      ],
+      "specialtyIds": [
+        "9ed3cc3a-c615-5e57-86eb-0576bc680568"
+      ],
+      "clinicIds": [
+        "f0ce92df-1a92-546b-9149-4b893f32930d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "CN. Trần Huy Tuấn",
+          "sheet": "04.08-10.08",
+          "cell": "F63"
+        }
+      ]
+    },
+    {
+      "id": "cd9e0adf-2c6c-5a50-8c0b-8e90173dd140",
+      "name": "Trần Phan Diệu Anh",
+      "departmentKey": "C-psychiatry",
+      "isDoctor": false,
+      "titles": [
+        "CN."
+      ],
+      "specialtyIds": [
+        "9ed3cc3a-c615-5e57-86eb-0576bc680568"
+      ],
+      "clinicIds": [
+        "f0ce92df-1a92-546b-9149-4b893f32930d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "CN. Trần Phan Diệu Anh",
+          "sheet": "04.08-10.08",
+          "cell": "F62"
+        }
+      ]
+    },
+    {
+      "id": "e441ea77-5dcb-5b3f-aa82-0dd2612687a5",
+      "name": "Bùi Ngọc Huy",
+      "departmentKey": "C-thoracic",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS"
+      ],
+      "specialtyIds": [
+        "88e864d3-3164-50cc-bdb5-729d6dd136d4"
+      ],
+      "clinicIds": [
+        "02b386e5-de14-5423-8ef2-90c6f4a67dd1",
+        "36b527d1-7fea-5bf1-8e22-5260b3d222aa"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs Bùi Ngọc Huy",
+          "sheet": "04.08-10.08",
+          "cell": "F128"
+        }
+      ]
+    },
+    {
+      "id": "7f4d4ecc-4c71-5ab5-82f9-46d64fc1b6f8",
+      "name": "Hoàng Nguyễn Quang Minh",
+      "departmentKey": "C-thoracic",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS"
+      ],
+      "specialtyIds": [
+        "88e864d3-3164-50cc-bdb5-729d6dd136d4"
+      ],
+      "clinicIds": [
+        "02b386e5-de14-5423-8ef2-90c6f4a67dd1",
+        "36b527d1-7fea-5bf1-8e22-5260b3d222aa"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs Hoàng Nguyễn Quang Minh",
+          "sheet": "04.08-10.08",
+          "cell": "F127"
+        }
+      ]
+    },
+    {
+      "id": "b37ad997-841f-5422-9499-50362c434b3c",
+      "name": "Lê Thị Thúy Ngọc",
+      "departmentKey": "C-thoracic",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS"
+      ],
+      "specialtyIds": [
+        "88e864d3-3164-50cc-bdb5-729d6dd136d4"
+      ],
+      "clinicIds": [
+        "02b386e5-de14-5423-8ef2-90c6f4a67dd1",
+        "36b527d1-7fea-5bf1-8e22-5260b3d222aa"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs Lê Thị Thúy Ngọc",
+          "sheet": "04.08-10.08",
+          "cell": "G128"
+        }
+      ]
+    },
+    {
+      "id": "10067a92-fa29-54c5-96e5-e32e9c172c65",
+      "name": "Nguyễn Ngọc Tín",
+      "departmentKey": "C-thoracic",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS"
+      ],
+      "specialtyIds": [
+        "88e864d3-3164-50cc-bdb5-729d6dd136d4"
+      ],
+      "clinicIds": [
+        "02b386e5-de14-5423-8ef2-90c6f4a67dd1",
+        "36b527d1-7fea-5bf1-8e22-5260b3d222aa"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs Nguyễn Ngọc Tín",
+          "sheet": "04.08-10.08",
+          "cell": "I128"
+        }
+      ]
+    },
+    {
+      "id": "fb6c9766-e626-562b-b9f8-f334634aa0e0",
+      "name": "Phan Thanh Thái",
+      "departmentKey": "C-thoracic",
+      "isDoctor": true,
+      "titles": [
+        "THS.BSCKII"
+      ],
+      "specialtyIds": [
+        "88e864d3-3164-50cc-bdb5-729d6dd136d4"
+      ],
+      "clinicIds": [
+        "02b386e5-de14-5423-8ef2-90c6f4a67dd1",
+        "36b527d1-7fea-5bf1-8e22-5260b3d222aa"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.BsCKII Phan Thanh Thái",
+          "sheet": "04.08-10.08",
+          "cell": "G127"
+        }
+      ]
+    },
+    {
+      "id": "e83821a0-6e43-54b4-bb1d-f88b817e6e2b",
+      "name": "Phạm Văn Sỹ",
+      "departmentKey": "C-thoracic",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS"
+      ],
+      "specialtyIds": [
+        "88e864d3-3164-50cc-bdb5-729d6dd136d4"
+      ],
+      "clinicIds": [
+        "02b386e5-de14-5423-8ef2-90c6f4a67dd1",
+        "36b527d1-7fea-5bf1-8e22-5260b3d222aa"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs Phạm Văn Sỹ",
+          "sheet": "04.08-10.08",
+          "cell": "H128"
+        }
+      ]
+    },
+    {
+      "id": "928f3c19-3706-51c0-af41-7350242120da",
+      "name": "Phạm Xuân Vinh",
+      "departmentKey": "C-thoracic",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS"
+      ],
+      "specialtyIds": [
+        "88e864d3-3164-50cc-bdb5-729d6dd136d4"
+      ],
+      "clinicIds": [
+        "02b386e5-de14-5423-8ef2-90c6f4a67dd1",
+        "36b527d1-7fea-5bf1-8e22-5260b3d222aa"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs Phạm Xuân Vinh",
+          "sheet": "04.08-10.08",
+          "cell": "I127"
+        }
+      ]
+    },
+    {
+      "id": "f3611833-09e5-534a-a6b4-9583dc32e81e",
+      "name": "Trần Minh Châu",
+      "departmentKey": "C-thoracic",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS"
+      ],
+      "specialtyIds": [
+        "88e864d3-3164-50cc-bdb5-729d6dd136d4"
+      ],
+      "clinicIds": [
+        "02b386e5-de14-5423-8ef2-90c6f4a67dd1",
+        "36b527d1-7fea-5bf1-8e22-5260b3d222aa"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs Trần Minh Châu",
+          "sheet": "04.08-10.08",
+          "cell": "H127"
+        }
+      ]
+    },
+    {
+      "id": "443f637d-09e2-5b84-b11d-4ad53f02df2a",
+      "name": "Nguyễn Cao Đạt",
+      "departmentKey": "C-urology",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "3cf9ff01-df7d-56d7-9251-257f6e713303"
+      ],
+      "clinicIds": [
+        "e409e83e-cd01-50b8-9eab-b842aeb23c30"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs. Nguyễn Cao Đạt",
+          "sheet": "04.08-10.08",
+          "cell": "F123"
+        }
+      ]
+    },
+    {
+      "id": "8dfb0ae2-b2d8-52c7-9ba0-2fc0fb42c99b",
+      "name": "Nguyễn Thành Đạt",
+      "departmentKey": "C-urology",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS."
+      ],
+      "specialtyIds": [
+        "3cf9ff01-df7d-56d7-9251-257f6e713303"
+      ],
+      "clinicIds": [
+        "e409e83e-cd01-50b8-9eab-b842aeb23c30"
+      ],
+      "sourceVariants": [
+        {
+          "text": "ThS.bs. Nguyễn Thành Đạt",
+          "sheet": "04.08-10.08",
+          "cell": "G123"
+        }
+      ]
+    },
+    {
+      "id": "a9ff95ce-1eae-5a9a-bacd-c2015a8f11c4",
+      "name": "Nguyễn Thái Bình",
+      "departmentKey": "C-urology",
+      "isDoctor": true,
+      "titles": [
+        "BS.CKI."
+      ],
+      "specialtyIds": [
+        "3cf9ff01-df7d-56d7-9251-257f6e713303"
+      ],
+      "clinicIds": [
+        "e409e83e-cd01-50b8-9eab-b842aeb23c30"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs.CKI. Nguyễn Thái Bình",
+          "sheet": "04.08-10.08",
+          "cell": "H123"
+        }
+      ]
+    },
+    {
+      "id": "d16f0a43-1bc7-503a-b809-ecca5899afdd",
+      "name": "Trường Hồng Ngân",
+      "departmentKey": "C-urology",
+      "isDoctor": true,
+      "titles": [
+        "BSCK1."
+      ],
+      "specialtyIds": [
+        "3cf9ff01-df7d-56d7-9251-257f6e713303"
+      ],
+      "clinicIds": [
+        "e409e83e-cd01-50b8-9eab-b842aeb23c30"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BsCK1. Trường Hồng Ngân",
+          "sheet": "04.08-10.08",
+          "cell": "I123"
+        }
+      ]
+    },
+    {
+      "id": "21fb17aa-6fb0-5a47-81f4-8983b745e656",
+      "name": "Trần Văn Hậu",
+      "departmentKey": "C-urology",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "3cf9ff01-df7d-56d7-9251-257f6e713303"
+      ],
+      "clinicIds": [
+        "e409e83e-cd01-50b8-9eab-b842aeb23c30"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs.Trần Văn Hậu",
+          "sheet": "04.08-10.08",
+          "cell": "G124"
+        }
+      ]
+    },
+    {
+      "id": "b8e43f0d-19b9-5580-8aa0-242db49303f8",
+      "name": "Đỗ Đức Trí",
+      "departmentKey": "C-urology",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "3cf9ff01-df7d-56d7-9251-257f6e713303"
+      ],
+      "clinicIds": [
+        "e409e83e-cd01-50b8-9eab-b842aeb23c30"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs.Đỗ Đức Trí",
+          "sheet": "04.08-10.08",
+          "cell": "J123"
+        }
+      ]
+    },
+    {
+      "id": "6f10474f-707a-5b7f-936c-6fa41a2a6d6e",
+      "name": "Bùi Đức Thịnh",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "aa20eed2-4a1b-57b4-81c9-27eab5908a5d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs. Bùi Đức Thịnh",
+          "sheet": "04.08-10.08",
+          "cell": "J113"
+        }
+      ]
+    },
+    {
+      "id": "22225b4e-f1f4-575c-a335-fd6bef103b27",
+      "name": "Huỳnh Tấn Đạt",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS.CKI"
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CKI Huỳnh Tấn Đạt",
+          "sheet": "04.08-10.08",
+          "cell": "J110"
+        }
+      ]
+    },
+    {
+      "id": "8c247afe-791e-5fb1-9f37-132717ea10d9",
+      "name": "Hồ Nam Anh",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS.CKI"
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7",
+        "aa20eed2-4a1b-57b4-81c9-27eab5908a5d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs.CKI Hồ Nam Anh",
+          "sheet": "04.08-10.08",
+          "cell": "F109"
+        }
+      ]
+    },
+    {
+      "id": "22f8782c-8539-579b-8180-64e68bdf66b1",
+      "name": "Nguyễn Hoàng Khánh",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS"
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs Nguyễn Hoàng Khánh",
+          "sheet": "04.08-10.08",
+          "cell": "I109"
+        }
+      ]
+    },
+    {
+      "id": "ee9beee1-da30-55c1-a72e-17ea115adc19",
+      "name": "Nguyễn Lê Phú",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS.CKI"
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7",
+        "aa20eed2-4a1b-57b4-81c9-27eab5908a5d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CKI Nguyễn Lê Phú",
+          "sheet": "04.08-10.08",
+          "cell": "I110"
+        }
+      ]
+    },
+    {
+      "id": "aa5870e2-faf0-540a-88d2-0dc59a229907",
+      "name": "Nguyễn Minh Lý",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS.CKI"
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7",
+        "aa20eed2-4a1b-57b4-81c9-27eab5908a5d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CKI Nguyễn Minh Lý",
+          "sheet": "04.08-10.08",
+          "cell": "H109"
+        }
+      ]
+    },
+    {
+      "id": "10b087dc-7b2a-5230-a225-d6afb69b5c54",
+      "name": "Nguyễn Văn Sang",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS.CKI"
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7",
+        "aa20eed2-4a1b-57b4-81c9-27eab5908a5d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CKI Nguyễn Văn Sang",
+          "sheet": "04.08-10.08",
+          "cell": "H110"
+        }
+      ]
+    },
+    {
+      "id": "0ea8be13-f15a-5727-8c89-0ca7e11e0533",
+      "name": "Phạm Bá Hoàng Minh",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS.CKI"
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CKI Phạm Bá Hoàng Minh",
+          "sheet": "04.08-10.08",
+          "cell": "G110"
+        }
+      ]
+    },
+    {
+      "id": "1cb0e5fb-b08c-5690-95e3-7ee949904c33",
+      "name": "Phạm Ngọc Thạch",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS.CKI"
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CKI Phạm Ngọc Thạch",
+          "sheet": "04.08-10.08",
+          "cell": "G109"
+        }
+      ]
+    },
+    {
+      "id": "53c082ad-32cd-5d89-9c90-b19d5404d321",
+      "name": "Trần Minh Lực",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "aa20eed2-4a1b-57b4-81c9-27eab5908a5d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs. Trần Minh Lực",
+          "sheet": "04.08-10.08",
+          "cell": "H113"
+        }
+      ]
+    },
+    {
+      "id": "88844a40-98c2-5baa-9187-32208635bec2",
+      "name": "Trần Nam",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS"
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7",
+        "aa20eed2-4a1b-57b4-81c9-27eab5908a5d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs Trần Nam",
+          "sheet": "04.08-10.08",
+          "cell": "F110"
+        }
+      ]
+    },
+    {
+      "id": "058e9447-51b8-5073-9430-4a92179cd453",
+      "name": "Trần Phan Minh Triết",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs.Trần Phan Minh Triết",
+          "sheet": "04.08-10.08",
+          "cell": "I109"
+        }
+      ]
+    },
+    {
+      "id": "1abb1dfc-58bb-56d8-88d8-c9880927dd8b",
+      "name": "Đỗ Hồng Phong",
+      "departmentKey": "D-general-surgery",
+      "isDoctor": true,
+      "titles": [
+        "BS.CKI"
+      ],
+      "specialtyIds": [
+        "8c413a14-e8c7-5468-8c05-7f6bdc1046c1"
+      ],
+      "clinicIds": [
+        "097d89c3-cb9c-5053-9f3b-806a6e9ca4d7",
+        "aa20eed2-4a1b-57b4-81c9-27eab5908a5d"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CKI Đỗ Hồng Phong",
+          "sheet": "04.08-10.08",
+          "cell": "J109"
+        }
+      ]
+    },
+    {
+      "id": "839beb6d-d172-514c-9a68-aaee4fd0dca9",
+      "name": "Hoàng Xuân Hạnh",
+      "departmentKey": "D-oncology",
+      "isDoctor": true,
+      "titles": [
+        "BS CK1"
+      ],
+      "specialtyIds": [
+        "2451b817-ef41-5f7f-8083-70a510a6260d"
+      ],
+      "clinicIds": [
+        "5bdeb804-1b14-5be5-88ad-dcedc91e537f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CK1 Hoàng Xuân Hạnh",
+          "sheet": "04.08-10.08",
+          "cell": "G115"
+        }
+      ]
+    },
+    {
+      "id": "3b45557f-e65b-5e66-9718-0cfc30f44430",
+      "name": "Huỳnh Kim Tín",
+      "departmentKey": "D-oncology",
+      "isDoctor": true,
+      "titles": [
+        "BS CK1"
+      ],
+      "specialtyIds": [
+        "2451b817-ef41-5f7f-8083-70a510a6260d"
+      ],
+      "clinicIds": [
+        "5bdeb804-1b14-5be5-88ad-dcedc91e537f",
+        "95ef51e3-d114-5316-8b53-a3c070a3dc3a"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CK1 Huỳnh Kim Tín",
+          "sheet": "04.08-10.08",
+          "cell": "I115"
+        }
+      ]
+    },
+    {
+      "id": "67fb4525-d531-59a7-8907-fa91d43d78e7",
+      "name": "Lâm Hoàng Long",
+      "departmentKey": "D-oncology",
+      "isDoctor": true,
+      "titles": [
+        "BS.CK1"
+      ],
+      "specialtyIds": [
+        "2451b817-ef41-5f7f-8083-70a510a6260d"
+      ],
+      "clinicIds": [
+        "5bdeb804-1b14-5be5-88ad-dcedc91e537f",
+        "95ef51e3-d114-5316-8b53-a3c070a3dc3a"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CK1 Lâm Hoàng Long",
+          "sheet": "04.08-10.08",
+          "cell": "F115"
+        }
+      ]
+    },
+    {
+      "id": "4dbbfc03-71a8-5314-bfbd-1af13d4cb930",
+      "name": "Lê Văn Vũ",
+      "departmentKey": "D-oncology",
+      "isDoctor": true,
+      "titles": [
+        "BS CK1"
+      ],
+      "specialtyIds": [
+        "2451b817-ef41-5f7f-8083-70a510a6260d"
+      ],
+      "clinicIds": [
+        "5bdeb804-1b14-5be5-88ad-dcedc91e537f",
+        "95ef51e3-d114-5316-8b53-a3c070a3dc3a"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CK1 Lê Văn Vũ",
+          "sheet": "04.08-10.08",
+          "cell": "K115"
+        }
+      ]
+    },
+    {
+      "id": "4550995c-41d4-51c4-b3d7-c543e41b5d85",
+      "name": "Nguyễn Anh Dũng",
+      "departmentKey": "D-oncology",
+      "isDoctor": true,
+      "titles": [
+        "BS CK1"
+      ],
+      "specialtyIds": [
+        "2451b817-ef41-5f7f-8083-70a510a6260d"
+      ],
+      "clinicIds": [
+        "95ef51e3-d114-5316-8b53-a3c070a3dc3a"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CK1 Nguyễn Anh Dũng",
+          "sheet": "04.08-10.08",
+          "cell": "I118"
+        }
+      ]
+    },
+    {
+      "id": "81d647b5-617f-51cd-a816-373bf4bd87c9",
+      "name": "Nguyễn Quốc Huy",
+      "departmentKey": "D-oncology",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "2451b817-ef41-5f7f-8083-70a510a6260d"
+      ],
+      "clinicIds": [
+        "95ef51e3-d114-5316-8b53-a3c070a3dc3a"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CKI Nguyễn Quốc Huy",
+          "sheet": "04.08-10.08",
+          "cell": "F119"
+        }
+      ]
+    },
+    {
+      "id": "24981483-7a2a-52ed-a728-533050d864aa",
+      "name": "Nguyễn Xuân Trường",
+      "departmentKey": "D-oncology",
+      "isDoctor": true,
+      "titles": [
+        "BS CKII"
+      ],
+      "specialtyIds": [
+        "2451b817-ef41-5f7f-8083-70a510a6260d"
+      ],
+      "clinicIds": [
+        "95ef51e3-d114-5316-8b53-a3c070a3dc3a"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CKII Nguyễn Xuân Trường",
+          "sheet": "04.08-10.08",
+          "cell": "F117"
+        }
+      ]
+    },
+    {
+      "id": "ccbfd799-c2cf-5a96-b3ee-29fbecef2c49",
+      "name": "Đinh Thị Cúc",
+      "departmentKey": "D-oncology",
+      "isDoctor": true,
+      "titles": [
+        "THSBS"
+      ],
+      "specialtyIds": [
+        "2451b817-ef41-5f7f-8083-70a510a6260d"
+      ],
+      "clinicIds": [
+        "5bdeb804-1b14-5be5-88ad-dcedc91e537f",
+        "95ef51e3-d114-5316-8b53-a3c070a3dc3a"
+      ],
+      "sourceVariants": [
+        {
+          "text": "ThsBS Đinh Thị Cúc",
+          "sheet": "04.08-10.08",
+          "cell": "H115"
+        }
+      ]
+    },
+    {
+      "id": "e032630e-73bf-59df-86a2-a67d7b570e4e",
+      "name": "Đặng Đình Đường",
+      "departmentKey": "D-oncology",
+      "isDoctor": true,
+      "titles": [
+        "BS.CK1"
+      ],
+      "specialtyIds": [
+        "2451b817-ef41-5f7f-8083-70a510a6260d"
+      ],
+      "clinicIds": [
+        "5bdeb804-1b14-5be5-88ad-dcedc91e537f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CK1 Đặng Đình Đường",
+          "sheet": "04.08-10.08",
+          "cell": "J115"
+        }
+      ]
+    },
+    {
+      "id": "750f6bb0-ce64-5c8b-92c7-04477a84800f",
+      "name": "Bùi Nữ Kim Oanh",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. Bùi Nữ Kim Oanh",
+          "sheet": "04.08-10.08",
+          "cell": "F190"
+        }
+      ]
+    },
+    {
+      "id": "045b56c0-6b41-5429-8071-c5c76628bf72",
+      "name": "Bùi Nữ Kiều Oanh",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. Bùi Nữ Kiều Oanh",
+          "sheet": "04.08-10.08",
+          "cell": "K195"
+        }
+      ]
+    },
+    {
+      "id": "65c672b0-5b4c-5198-9f51-7c99579abc80",
+      "name": "Bùi Thị Yến Thương",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI.",
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Bùi Thị Yến Thương",
+          "sheet": "04.08-10.08",
+          "cell": "G195"
+        },
+        {
+          "text": "BS. Bùi Thị Yến Thương",
+          "sheet": "25.08-31.08",
+          "cell": "G190"
+        }
+      ]
+    },
+    {
+      "id": "91e84140-8ee7-5580-b428-4b8d191633d1",
+      "name": "Dương Phạm Bình Long",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Dương Phạm Bình Long",
+          "sheet": "04.08-10.08",
+          "cell": "F199"
+        }
+      ]
+    },
+    {
+      "id": "02397a2a-f0ed-5903-ad6f-03a451c43e0a",
+      "name": "Hà Thị Thu Hương",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "93421af8-18d5-5567-8a14-42c7b3a1109f",
+        "a8480001-d8c2-5e77-bd71-67dd9c602698"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. Hà Thị Thu Hương",
+          "sheet": "18.08-24.08",
+          "cell": "F190"
+        }
+      ]
+    },
+    {
+      "id": "c9ef0efe-f4c9-59da-b6bc-9ee17909c5a9",
+      "name": "Liêu Thị Ngọc Hân",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. Liêu Thị Ngọc Hân",
+          "sheet": "04.08-10.08",
+          "cell": "F200"
+        }
+      ]
+    },
+    {
+      "id": "8ce130e3-0c7b-5a79-a345-0240f36207de",
+      "name": "Lâm Minh Quang",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. Lâm Minh Quang",
+          "sheet": "04.08-10.08",
+          "cell": "H200"
+        }
+      ]
+    },
+    {
+      "id": "c2e78421-eb22-5ebe-9f54-682bfc15c889",
+      "name": "Lê Công Thanh Quang",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Lê Công Thanh Quang",
+          "sheet": "04.08-10.08",
+          "cell": "I199"
+        }
+      ]
+    },
+    {
+      "id": "49370ef2-b1ce-5c5d-ab19-d226ced3d717",
+      "name": "Lê Huỳnh Thanh Lan",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Lê Huỳnh Thanh Lan",
+          "sheet": "04.08-10.08",
+          "cell": "F195"
+        }
+      ]
+    },
+    {
+      "id": "30b39083-3a98-532c-bfda-7ba11b00ce59",
+      "name": "Lê Tuấn Kiệt",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Lê Tuấn Kiệt",
+          "sheet": "04.08-10.08",
+          "cell": "L196"
+        }
+      ]
+    },
+    {
+      "id": "bf3351c7-5058-5901-9737-f057f55ec1da",
+      "name": "Nguyễn Ngọc Uyên Phương",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI.",
+        "BCSKI."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Nguyễn Ngọc Uyên Phương",
+          "sheet": "04.08-10.08",
+          "cell": "G196"
+        },
+        {
+          "text": "BCSKI. Nguyễn Ngọc Uyên Phương",
+          "sheet": "11.08-17.08",
+          "cell": "I190"
+        }
+      ]
+    },
+    {
+      "id": "a79011be-e3bc-59b4-b1b1-5dd63ffcab31",
+      "name": "Nguyễn Thu Ngân",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "93421af8-18d5-5567-8a14-42c7b3a1109f",
+        "a8480001-d8c2-5e77-bd71-67dd9c602698"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Nguyễn Thu Ngân",
+          "sheet": "04.08-10.08",
+          "cell": "G189"
+        }
+      ]
+    },
+    {
+      "id": "69cacd23-fced-56ba-96ec-9767ac7e75e0",
+      "name": "Nguyễn Thị Huyền Trang",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "93421af8-18d5-5567-8a14-42c7b3a1109f",
+        "a8480001-d8c2-5e77-bd71-67dd9c602698"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. Nguyễn Thị Huyền Trang",
+          "sheet": "04.08-10.08",
+          "cell": "I191"
+        }
+      ]
+    },
+    {
+      "id": "22c34b08-663d-5039-b08c-969b78c95c21",
+      "name": "Nguyễn Thị Thu",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. Nguyễn Thị Thu",
+          "sheet": "04.08-10.08",
+          "cell": "J200"
+        }
+      ]
+    },
+    {
+      "id": "613d8096-1142-5f26-9d9c-eee7e5b1b5e0",
+      "name": "Nguyễn Thị Thuỷ Hà",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Nguyễn Thị Thuỷ Hà",
+          "sheet": "18.08-24.08",
+          "cell": "I195"
+        }
+      ]
+    },
+    {
+      "id": "74f5ac64-ede7-5753-92cf-04d293eaadb3",
+      "name": "Phan Danh",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "f436ed80-3f4c-537e-9d86-c27498302471"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Phan Danh",
+          "sheet": "04.08-10.08",
+          "cell": "F201"
+        }
+      ]
+    },
+    {
+      "id": "cfa78c62-f176-5e88-8689-01fd03851fe8",
+      "name": "Phạm Hoàng Anh Khoa",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "93421af8-18d5-5567-8a14-42c7b3a1109f",
+        "a8480001-d8c2-5e77-bd71-67dd9c602698"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. Phạm Hoàng Anh Khoa",
+          "sheet": "04.08-10.08",
+          "cell": "F191"
+        },
+        {
+          "text": "BS. Phạm HOàng Anh Khoa",
+          "sheet": "11.08-17.08",
+          "cell": "K194"
+        }
+      ]
+    },
+    {
+      "id": "ca43bd3b-b1ad-5d9d-ba33-c51a7ee3a1ea",
+      "name": "Trần Thị Hường",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "THSBS."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "ThsBs. Trần Thị Hường",
+          "sheet": "04.08-10.08",
+          "cell": "J196"
+        }
+      ]
+    },
+    {
+      "id": "acd688de-d1bb-52b2-bd9f-03bbd5e580c8",
+      "name": "Trần Thị Minh Tâm",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "a8480001-d8c2-5e77-bd71-67dd9c602698",
+        "93421af8-18d5-5567-8a14-42c7b3a1109f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Trần Thị Minh Tâm",
+          "sheet": "04.08-10.08",
+          "cell": "L195"
+        }
+      ]
+    },
+    {
+      "id": "987f2608-016e-510b-a4bd-d8977f20398e",
+      "name": "Võ Trường Giang",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "93421af8-18d5-5567-8a14-42c7b3a1109f",
+        "a8480001-d8c2-5e77-bd71-67dd9c602698"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Võ Trường Giang",
+          "sheet": "04.08-10.08",
+          "cell": "G190"
+        }
+      ]
+    },
+    {
+      "id": "cb6544e0-42c7-5f52-aa61-f2d5c3f777d6",
+      "name": "Đỗ Vũ Long",
+      "departmentKey": "D-paediatrics",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI.",
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcaae0e2-096d-5cc7-831d-b8c0a3bd6a0e"
+      ],
+      "clinicIds": [
+        "93421af8-18d5-5567-8a14-42c7b3a1109f",
+        "a8480001-d8c2-5e77-bd71-67dd9c602698"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Đỗ Vũ Long",
+          "sheet": "04.08-10.08",
+          "cell": "F189"
+        },
+        {
+          "text": "BS. Đỗ Vũ Long",
+          "sheet": "18.08-24.08",
+          "cell": "J199"
+        }
+      ]
+    },
+    {
+      "id": "7934470e-a486-556e-b29a-02d904084a70",
+      "name": "Lê Văn Định",
+      "departmentKey": "F-traditional",
+      "isDoctor": true,
+      "titles": [
+        "BS CK1."
+      ],
+      "specialtyIds": [
+        "dcee5115-6e71-5c7c-9b95-ce52e24d4e9c"
+      ],
+      "clinicIds": [
+        "066a13e2-f0cc-55f0-b1ef-d170052d6f1e",
+        "363cccb9-4c2f-5b39-9ac5-44d40a2c2f89"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CK1. LÊ VĂN ĐỊNH",
+          "sheet": "04.08-10.08",
+          "cell": "F88"
+        }
+      ]
+    },
+    {
+      "id": "62726898-386b-5006-a979-f95e0eed1143",
+      "name": "Nguyễn Ngọc Đoan Thùy",
+      "departmentKey": "F-traditional",
+      "isDoctor": true,
+      "titles": [
+        "TH BS."
+      ],
+      "specialtyIds": [
+        "dcee5115-6e71-5c7c-9b95-ce52e24d4e9c"
+      ],
+      "clinicIds": [
+        "066a13e2-f0cc-55f0-b1ef-d170052d6f1e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Th BS. NGUYỄN NGỌC ĐOAN THÙY",
+          "sheet": "04.08-10.08",
+          "cell": "H89"
+        }
+      ]
+    },
+    {
+      "id": "6b1a972c-f0e4-59f4-8ed7-f5d6e58d0833",
+      "name": "Nguyễn Xuân Tổng",
+      "departmentKey": "F-traditional",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcee5115-6e71-5c7c-9b95-ce52e24d4e9c"
+      ],
+      "clinicIds": [
+        "066a13e2-f0cc-55f0-b1ef-d170052d6f1e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. NGUYỄN XUÂN TỔNG",
+          "sheet": "04.08-10.08",
+          "cell": "H88"
+        }
+      ]
+    },
+    {
+      "id": "c1ce780e-a365-5e6a-9697-e04fad3c17f0",
+      "name": "Trương Xuân Sỹ",
+      "departmentKey": "F-traditional",
+      "isDoctor": true,
+      "titles": [
+        "BS CK1."
+      ],
+      "specialtyIds": [
+        "dcee5115-6e71-5c7c-9b95-ce52e24d4e9c"
+      ],
+      "clinicIds": [
+        "363cccb9-4c2f-5b39-9ac5-44d40a2c2f89"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CK1. TRƯƠNG XUÂN SỸ",
+          "sheet": "04.08-10.08",
+          "cell": "F93"
+        }
+      ]
+    },
+    {
+      "id": "7c440082-abe3-5a16-baf1-62693f6d164d",
+      "name": "Trần Nguyễn Linh Đan",
+      "departmentKey": "F-traditional",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "dcee5115-6e71-5c7c-9b95-ce52e24d4e9c"
+      ],
+      "clinicIds": [
+        "066a13e2-f0cc-55f0-b1ef-d170052d6f1e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. TRẦN NGUYỄN LINH ĐAN",
+          "sheet": "04.08-10.08",
+          "cell": "K88"
+        }
+      ]
+    },
+    {
+      "id": "ad225df3-3035-5844-bcbb-e549c37e61ef",
+      "name": "Bùi Minh Khang",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. BÙI MINH KHANG",
+          "sheet": "04.08-10.08",
+          "cell": "F72"
+        }
+      ]
+    },
+    {
+      "id": "5e32a267-64f0-53ea-9eaa-9676259912cd",
+      "name": "Lê Thị Thu Phương",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS.CK1."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6",
+        "cb94636d-e6be-5bf5-86db-80de1ef5502a",
+        "20921045-d291-5877-ac7a-cd976371d477"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CK1. LÊ THỊ THU PHƯƠNG",
+          "sheet": "04.08-10.08",
+          "cell": "F69"
+        }
+      ]
+    },
+    {
+      "id": "7fbcf1c8-2479-5e42-b673-e9b023aaa50c",
+      "name": "Nguyễn Hồng Phúc (A)",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. NGUYỄN HỒNG PHÚC (A)",
+          "sheet": "04.08-10.08",
+          "cell": "G69"
+        }
+      ]
+    },
+    {
+      "id": "dc2cc58c-626b-586f-9403-0adb6ff2296d",
+      "name": "Nguyễn Hồng Phúc (B)",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6",
+        "cb94636d-e6be-5bf5-86db-80de1ef5502a",
+        "20921045-d291-5877-ac7a-cd976371d477"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. NGUYỄN HỒNG PHÚC (B)",
+          "sheet": "04.08-10.08",
+          "cell": "F70"
+        }
+      ]
+    },
+    {
+      "id": "d6146ddb-7887-53ac-98d6-bd1462d92b0f",
+      "name": "Nguyễn Khánh Phước Đại",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. NGUYỄN KHÁNH PHƯỚC ĐẠI",
+          "sheet": "04.08-10.08",
+          "cell": "F66"
+        }
+      ]
+    },
+    {
+      "id": "fadb9c70-181e-5941-8c23-921d7d13082e",
+      "name": "Phạm Ngọc An",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. PHẠM NGỌC AN",
+          "sheet": "04.08-10.08",
+          "cell": "H66"
+        }
+      ]
+    },
+    {
+      "id": "3aea04d0-b81c-5547-afa1-7d965de21d47",
+      "name": "Thái Công Tiến",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. THÁI CÔNG TIẾN",
+          "sheet": "04.08-10.08",
+          "cell": "H69"
+        }
+      ]
+    },
+    {
+      "id": "780400a9-e10a-5b86-8f7b-de41089b01a1",
+      "name": "Trần Bá Lộc",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6",
+        "cb94636d-e6be-5bf5-86db-80de1ef5502a",
+        "20921045-d291-5877-ac7a-cd976371d477"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. TRẦN BÁ LỘC",
+          "sheet": "04.08-10.08",
+          "cell": "I69"
+        }
+      ]
+    },
+    {
+      "id": "e9acc6c2-2641-5114-830e-35b6c6c9281d",
+      "name": "Võ Thanh Hải",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6",
+        "cb94636d-e6be-5bf5-86db-80de1ef5502a",
+        "20921045-d291-5877-ac7a-cd976371d477"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. VÕ THANH HẢI",
+          "sheet": "04.08-10.08",
+          "cell": "I66"
+        }
+      ]
+    },
+    {
+      "id": "28396cd3-2ba2-5305-b47c-c07ce4af1e64",
+      "name": "Đinh Hữu",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS.CK1."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6",
+        "cb94636d-e6be-5bf5-86db-80de1ef5502a"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CK1. ĐINH HỮU",
+          "sheet": "04.08-10.08",
+          "cell": "G70"
+        }
+      ]
+    },
+    {
+      "id": "309ab46c-d017-5b6b-8859-3f7b4e655ada",
+      "name": "Đặng Minh Hùng",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS.CK1."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6",
+        "cb94636d-e6be-5bf5-86db-80de1ef5502a"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CK1. ĐẶNG MINH HÙNG",
+          "sheet": "04.08-10.08",
+          "cell": "I67"
+        }
+      ]
+    },
+    {
+      "id": "5a5132c2-ca4c-5e30-8b01-4e0fa85148dd",
+      "name": "Đỗ Thị Thủy",
+      "departmentKey": "G-cardiology",
+      "isDoctor": true,
+      "titles": [
+        "BS.CK1."
+      ],
+      "specialtyIds": [
+        "12f9d45c-b9d8-5a35-a4cc-c42a6e97c660"
+      ],
+      "clinicIds": [
+        "bfd06b70-9739-5028-9004-54dc0b8a94c6",
+        "cb94636d-e6be-5bf5-86db-80de1ef5502a",
+        "20921045-d291-5877-ac7a-cd976371d477"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CK1. ĐỖ THỊ THỦY",
+          "sheet": "04.08-10.08",
+          "cell": "F67"
+        }
+      ]
+    },
+    {
+      "id": "45e744ac-2aa1-5e97-9018-00922d5869cf",
+      "name": "Bùi Thị Thương",
+      "departmentKey": "G-nephrology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "d498f8ea-2f4d-53c3-a744-bb924489a2f2"
+      ],
+      "clinicIds": [
+        "d7f7a2fb-a934-5fcd-9f60-cef67a3c0ea9",
+        "fafee17b-e337-5616-85fe-f4cd5413f537"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Bùi Thị Thương",
+          "sheet": "04.08-10.08",
+          "cell": "H10"
+        }
+      ]
+    },
+    {
+      "id": "0ac6c3af-858e-528b-b4f2-0a1a531a7e4d",
+      "name": "Lê Thị Quy",
+      "departmentKey": "G-nephrology",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "d498f8ea-2f4d-53c3-a744-bb924489a2f2"
+      ],
+      "clinicIds": [
+        "d7f7a2fb-a934-5fcd-9f60-cef67a3c0ea9"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Lê Thị Quy",
+          "sheet": "04.08-10.08",
+          "cell": "J9"
+        }
+      ]
+    },
+    {
+      "id": "65595d90-aee9-57d9-92cf-568bdf1cf06c",
+      "name": "Nguyễn Thanh Lịch",
+      "departmentKey": "G-nephrology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "d498f8ea-2f4d-53c3-a744-bb924489a2f2"
+      ],
+      "clinicIds": [
+        "d7f7a2fb-a934-5fcd-9f60-cef67a3c0ea9",
+        "fafee17b-e337-5616-85fe-f4cd5413f537"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Nguyễn Thanh Lịch",
+          "sheet": "04.08-10.08",
+          "cell": "F10"
+        }
+      ]
+    },
+    {
+      "id": "e289dd39-419a-51c7-9ed1-71503f28f29d",
+      "name": "Nguyễn Thị Thảo Chi",
+      "departmentKey": "G-nephrology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "d498f8ea-2f4d-53c3-a744-bb924489a2f2"
+      ],
+      "clinicIds": [
+        "d7f7a2fb-a934-5fcd-9f60-cef67a3c0ea9",
+        "fafee17b-e337-5616-85fe-f4cd5413f537"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Nguyễn Thị Thảo Chi",
+          "sheet": "04.08-10.08",
+          "cell": "G9"
+        }
+      ]
+    },
+    {
+      "id": "0189a0a0-32d6-5c9c-aca8-37015a533170",
+      "name": "Phạm Thị Minh Thư",
+      "departmentKey": "G-nephrology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "d498f8ea-2f4d-53c3-a744-bb924489a2f2"
+      ],
+      "clinicIds": [
+        "d7f7a2fb-a934-5fcd-9f60-cef67a3c0ea9",
+        "fafee17b-e337-5616-85fe-f4cd5413f537"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Phạm Thị Minh Thư",
+          "sheet": "04.08-10.08",
+          "cell": "F9"
+        }
+      ]
+    },
+    {
+      "id": "91897af3-2e8c-510a-9723-baa4a2fbd28b",
+      "name": "Quách Phước Lộc",
+      "departmentKey": "G-nephrology",
+      "isDoctor": true,
+      "titles": [
+        "BS CKI"
+      ],
+      "specialtyIds": [
+        "d498f8ea-2f4d-53c3-a744-bb924489a2f2"
+      ],
+      "clinicIds": [
+        "d7f7a2fb-a934-5fcd-9f60-cef67a3c0ea9",
+        "fafee17b-e337-5616-85fe-f4cd5413f537"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKI Quách Phước Lộc",
+          "sheet": "11.08-17.08",
+          "cell": "F10"
+        }
+      ]
+    },
+    {
+      "id": "7b7ec486-00c7-597d-9ddf-6300b6d73549",
+      "name": "Vương Quốc Thịnh",
+      "departmentKey": "G-nephrology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "d498f8ea-2f4d-53c3-a744-bb924489a2f2"
+      ],
+      "clinicIds": [
+        "d7f7a2fb-a934-5fcd-9f60-cef67a3c0ea9",
+        "fafee17b-e337-5616-85fe-f4cd5413f537"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Vương Quốc Thịnh",
+          "sheet": "04.08-10.08",
+          "cell": "H9"
+        }
+      ]
+    },
+    {
+      "id": "5c4c701b-6ccc-5ef1-a9f8-9c201d724d1d",
+      "name": "Đậu Thanh Tùng",
+      "departmentKey": "G-nephrology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "d498f8ea-2f4d-53c3-a744-bb924489a2f2"
+      ],
+      "clinicIds": [
+        "d7f7a2fb-a934-5fcd-9f60-cef67a3c0ea9",
+        "fafee17b-e337-5616-85fe-f4cd5413f537"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Đậu Thanh Tùng",
+          "sheet": "11.08-17.08",
+          "cell": "G9"
+        }
+      ]
+    },
+    {
+      "id": "e7913b86-6722-57d7-b04b-ad71792b59d3",
+      "name": "Dương Tấn Hưng",
+      "departmentKey": "unlocated-dermatology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "4e155926-d160-574d-84d8-0def82a359ad"
+      ],
+      "clinicIds": [
+        "54fb1f6d-77b1-5f70-9c2a-05f05034c6d7"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Dương Tấn Hưng",
+          "sheet": "04.08-10.08",
+          "cell": "F103"
+        }
+      ]
+    },
+    {
+      "id": "fe47ff67-1755-5a7a-9f19-f7dd0b91dd86",
+      "name": "Hoàng Thanh Tuấn",
+      "departmentKey": "unlocated-dermatology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "4e155926-d160-574d-84d8-0def82a359ad"
+      ],
+      "clinicIds": [
+        "8a658b11-811d-5482-8947-e5d949cf1967"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Hoàng Thanh Tuấn",
+          "sheet": "04.08-10.08",
+          "cell": "G107"
+        }
+      ]
+    },
+    {
+      "id": "2d41c8b0-877a-5c03-b391-e8154af35553",
+      "name": "Nguyễn Lan Linh",
+      "departmentKey": "unlocated-dermatology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "4e155926-d160-574d-84d8-0def82a359ad"
+      ],
+      "clinicIds": [
+        "66f0df03-fe9b-5824-8beb-b4881510d6b0",
+        "8a658b11-811d-5482-8947-e5d949cf1967"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Nguyễn Lan Linh",
+          "sheet": "04.08-10.08",
+          "cell": "H105"
+        }
+      ]
+    },
+    {
+      "id": "bf9664cb-c4e1-59e4-b7c7-1d90357df827",
+      "name": "Nguyễn Thị Oanh Kiều",
+      "departmentKey": "unlocated-dermatology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "4e155926-d160-574d-84d8-0def82a359ad"
+      ],
+      "clinicIds": [
+        "66f0df03-fe9b-5824-8beb-b4881510d6b0",
+        "8a658b11-811d-5482-8947-e5d949cf1967"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Nguyễn Thị Oanh Kiều",
+          "sheet": "04.08-10.08",
+          "cell": "F105"
+        }
+      ]
+    },
+    {
+      "id": "04a609a9-d6f1-5322-b46e-b6824bcb178d",
+      "name": "Trương Nguyễn Như Nhàn",
+      "departmentKey": "unlocated-dermatology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "4e155926-d160-574d-84d8-0def82a359ad"
+      ],
+      "clinicIds": [
+        "8a658b11-811d-5482-8947-e5d949cf1967"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Trương Nguyễn Như Nhàn",
+          "sheet": "04.08-10.08",
+          "cell": "H107"
+        }
+      ]
+    },
+    {
+      "id": "c2558060-3ed9-50a2-9e5c-6cdd24cb6095",
+      "name": "Võ Hoàng Ly",
+      "departmentKey": "unlocated-dermatology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "4e155926-d160-574d-84d8-0def82a359ad"
+      ],
+      "clinicIds": [
+        "8a658b11-811d-5482-8947-e5d949cf1967"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Võ Hoàng Ly",
+          "sheet": "04.08-10.08",
+          "cell": "F107"
+        }
+      ]
+    },
+    {
+      "id": "416108c9-0155-5196-ac6c-3ffe0520c35b",
+      "name": "Võ Thị Thu Thùy",
+      "departmentKey": "unlocated-dermatology",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "4e155926-d160-574d-84d8-0def82a359ad"
+      ],
+      "clinicIds": [
+        "54fb1f6d-77b1-5f70-9c2a-05f05034c6d7",
+        "66f0df03-fe9b-5824-8beb-b4881510d6b0",
+        "8a658b11-811d-5482-8947-e5d949cf1967"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Võ Thị Thu Thùy",
+          "sheet": "04.08-10.08",
+          "cell": "G103"
+        }
+      ]
+    },
+    {
+      "id": "f1b06f48-c630-5b8b-8d19-72cfd5f94d51",
+      "name": "Bùi Thị Yến Thương",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "f7b9b5bb-3025-558d-95b8-878ed5ed2ae9"
+      ],
+      "clinicIds": [
+        "21070151-d8e8-5602-a625-a8a4604fa5c2"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Bùi Thị Yến Thương",
+          "sheet": "11.08-17.08",
+          "cell": "J241"
+        }
+      ]
+    },
+    {
+      "id": "4ad5356a-f94a-5a1f-acc1-7c767ffee903",
+      "name": "Dương Phạm Bình Long",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "f7b9b5bb-3025-558d-95b8-878ed5ed2ae9"
+      ],
+      "clinicIds": [
+        "21070151-d8e8-5602-a625-a8a4604fa5c2"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Dương Phạm Bình Long",
+          "sheet": "04.08-10.08",
+          "cell": "H242"
+        }
+      ]
+    },
+    {
+      "id": "1076a46f-b5ff-5a36-b3c9-2e3390095074",
+      "name": "Dương Thị Thanh Hoa",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "THSBS."
+      ],
+      "specialtyIds": [
+        "a2944f2e-42cc-5f6d-b05d-e70e4946b426"
+      ],
+      "clinicIds": [
+        "e1ccb54e-4106-58ff-ab08-14de756435c8"
+      ],
+      "sourceVariants": [
+        {
+          "text": "THSBS. DƯƠNG THỊ THANH HOA",
+          "sheet": "04.08-10.08",
+          "cell": "K234"
+        }
+      ]
+    },
+    {
+      "id": "89fffdf1-26ae-5c8d-aa4e-51fc3fab008a",
+      "name": "Hoàng Văn Dũng",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK2."
+      ],
+      "specialtyIds": [
+        "f8e539df-2d5d-5a22-b631-cb946a41cbf4"
+      ],
+      "clinicIds": [
+        "ebc26f90-5dc1-58cb-8c33-3352462ca327"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK2. HOÀNG VĂN DŨNG",
+          "sheet": "04.08-10.08",
+          "cell": "F232"
+        }
+      ]
+    },
+    {
+      "id": "02b5602a-4bce-5bb3-a0f4-d7be580c8cdb",
+      "name": "Huỳnh Tấn Đức",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK1."
+      ],
+      "specialtyIds": [
+        "789f2099-9b1b-5aae-bb2c-82bd17a12655"
+      ],
+      "clinicIds": [
+        "3edb9c6c-6894-5fbb-9c34-4eee2d81e278"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK1. HUỲNH TẤN ĐỨC",
+          "sheet": "04.08-10.08",
+          "cell": "I238"
+        }
+      ]
+    },
+    {
+      "id": "319c2bdf-b51e-5184-8167-baaf358c2998",
+      "name": "Lê Duy Lạc",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK2."
+      ],
+      "specialtyIds": [
+        "789f2099-9b1b-5aae-bb2c-82bd17a12655"
+      ],
+      "clinicIds": [
+        "3edb9c6c-6894-5fbb-9c34-4eee2d81e278"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK2. LÊ DUY LẠC",
+          "sheet": "04.08-10.08",
+          "cell": "F238"
+        }
+      ]
+    },
+    {
+      "id": "a90afd5c-68e8-517e-8168-7b5c219b71b0",
+      "name": "Lê Thị Thu Phương",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BS.CK1."
+      ],
+      "specialtyIds": [
+        "f8e539df-2d5d-5a22-b631-cb946a41cbf4"
+      ],
+      "clinicIds": [
+        "ebc26f90-5dc1-58cb-8c33-3352462ca327"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CK1. LÊ THỊ THU PHƯƠNG",
+          "sheet": "04.08-10.08",
+          "cell": "I233"
+        }
+      ]
+    },
+    {
+      "id": "c21f8c67-1740-5624-b6a1-995dc5dcf719",
+      "name": "Lê Trần Vinh",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK2."
+      ],
+      "specialtyIds": [
+        "a2944f2e-42cc-5f6d-b05d-e70e4946b426"
+      ],
+      "clinicIds": [
+        "e1ccb54e-4106-58ff-ab08-14de756435c8"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK2. LÊ TRẦN VINH",
+          "sheet": "04.08-10.08",
+          "cell": "F234"
+        }
+      ]
+    },
+    {
+      "id": "9081845b-4921-5cb9-aace-df799ecaeb7f",
+      "name": "Mai Hùng Cường",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK1."
+      ],
+      "specialtyIds": [
+        "13e6b2c4-ebac-5334-b746-3110c7f54a06"
+      ],
+      "clinicIds": [
+        "d355f796-f7e5-5e2a-9514-c86dae909e19"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK1. MAI HÙNG CƯỜNG",
+          "sheet": "04.08-10.08",
+          "cell": "F236"
+        }
+      ]
+    },
+    {
+      "id": "bbfb3f4c-51cc-5c8e-b198-55a1a8932d6f",
+      "name": "Nguyễn Hồng Phúc (B)",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "f8e539df-2d5d-5a22-b631-cb946a41cbf4"
+      ],
+      "clinicIds": [
+        "ebc26f90-5dc1-58cb-8c33-3352462ca327"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. NGUYỄN HỒNG PHÚC (B)",
+          "sheet": "04.08-10.08",
+          "cell": "H233"
+        }
+      ]
+    },
+    {
+      "id": "20b02ef5-3108-5467-ada3-821cd2483d7d",
+      "name": "Nguyễn Kim Anh",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS CKII"
+      ],
+      "specialtyIds": [
+        "4827dd38-394a-5936-84c9-d3aeff8c96e9"
+      ],
+      "clinicIds": [
+        "6701af49-4a53-5166-9815-de2e24ef9a45"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs CKII Nguyễn Kim Anh",
+          "sheet": "04.08-10.08",
+          "cell": "F248"
+        }
+      ]
+    },
+    {
+      "id": "48a189d0-f335-52aa-8b19-da9d0d0034e5",
+      "name": "Nguyễn Ngọc Hà",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK1."
+      ],
+      "specialtyIds": [
+        "13e6b2c4-ebac-5334-b746-3110c7f54a06"
+      ],
+      "clinicIds": [
+        "d355f796-f7e5-5e2a-9514-c86dae909e19"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK1. NGUYỄN NGỌC HÀ",
+          "sheet": "04.08-10.08",
+          "cell": "G236"
+        }
+      ]
+    },
+    {
+      "id": "c9e44822-fbda-5eb0-93a0-b639e5c41b83",
+      "name": "Nguyễn Phạm Phan Vũ",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK2."
+      ],
+      "specialtyIds": [
+        "39f54ad9-8db0-5892-ae34-3e42ec4c450d"
+      ],
+      "clinicIds": [
+        "c595fb8f-1f9e-5139-ba9f-e7ecd3a4b52f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK2. NGUYỄN PHẠM PHAN VŨ",
+          "sheet": "04.08-10.08",
+          "cell": "F240"
+        }
+      ]
+    },
+    {
+      "id": "eecd71e4-bacd-5f81-b951-172a87bb2c71",
+      "name": "Nguyễn Thu Ngân",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "f7b9b5bb-3025-558d-95b8-878ed5ed2ae9"
+      ],
+      "clinicIds": [
+        "21070151-d8e8-5602-a625-a8a4604fa5c2"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Nguyễn Thu Ngân",
+          "sheet": "18.08-24.08",
+          "cell": "G242"
+        }
+      ]
+    },
+    {
+      "id": "5e515efa-0156-51ff-a6e0-a14d402e387f",
+      "name": "Nguyễn Thái Anh",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK1."
+      ],
+      "specialtyIds": [
+        "789f2099-9b1b-5aae-bb2c-82bd17a12655"
+      ],
+      "clinicIds": [
+        "3edb9c6c-6894-5fbb-9c34-4eee2d81e278"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK1. NGUYỄN THÁI ANH",
+          "sheet": "04.08-10.08",
+          "cell": "H238"
+        }
+      ]
+    },
+    {
+      "id": "52bb3fe4-1c65-5bff-a465-ddf6a9c1207e",
+      "name": "Nguyễn Thị Ngọc",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK2."
+      ],
+      "specialtyIds": [
+        "35844257-b17f-5024-97b5-ddcd5541eadc"
+      ],
+      "clinicIds": [
+        "3c7ae7e3-8fc4-525e-8969-39c586e61c0e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK2. NGUYỄN THỊ NGỌC",
+          "sheet": "04.08-10.08",
+          "cell": "F244"
+        }
+      ]
+    },
+    {
+      "id": "64a801e3-b2d1-5b3c-9423-6bfaa8c5d4ac",
+      "name": "Nguyễn Thị Ngọc Bích",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK2."
+      ],
+      "specialtyIds": [
+        "6e41c85b-c216-5a86-89cc-330829255b60"
+      ],
+      "clinicIds": [
+        "cb454c66-da86-5e0f-b0bf-316504786746"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK2. NGUYỄN THỊ NGỌC BÍCH",
+          "sheet": "04.08-10.08",
+          "cell": "F246"
+        }
+      ]
+    },
+    {
+      "id": "ff0dce1c-2af0-56eb-ae20-0dd95f9c3907",
+      "name": "Nguyễn Thị Thuỷ Hà",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "f7b9b5bb-3025-558d-95b8-878ed5ed2ae9"
+      ],
+      "clinicIds": [
+        "21070151-d8e8-5602-a625-a8a4604fa5c2"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Nguyễn Thị Thuỷ Hà",
+          "sheet": "04.08-10.08",
+          "cell": "F242"
+        }
+      ]
+    },
+    {
+      "id": "09148abf-fb7e-5eed-beb0-810cab4960d3",
+      "name": "Nguyễn Tiến Nhân",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK1."
+      ],
+      "specialtyIds": [
+        "789f2099-9b1b-5aae-bb2c-82bd17a12655"
+      ],
+      "clinicIds": [
+        "3edb9c6c-6894-5fbb-9c34-4eee2d81e278"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK1. NGUYỄN TIẾN NHÂN",
+          "sheet": "04.08-10.08",
+          "cell": "J238"
+        }
+      ]
+    },
+    {
+      "id": "ef3f92a0-7476-5898-b960-2adee39b061a",
+      "name": "Nguyễn Vũ Quỳnh Hoa",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCKII."
+      ],
+      "specialtyIds": [
+        "f7b9b5bb-3025-558d-95b8-878ed5ed2ae9"
+      ],
+      "clinicIds": [
+        "21070151-d8e8-5602-a625-a8a4604fa5c2"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKII. Nguyễn Vũ Quỳnh Hoa",
+          "sheet": "04.08-10.08",
+          "cell": "G242"
+        }
+      ]
+    },
+    {
+      "id": "976e08cb-69a4-531b-a6d2-aaaa81b3b2dc",
+      "name": "Nguyễn Xuân Dũng",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK2."
+      ],
+      "specialtyIds": [
+        "39f54ad9-8db0-5892-ae34-3e42ec4c450d"
+      ],
+      "clinicIds": [
+        "c595fb8f-1f9e-5139-ba9f-e7ecd3a4b52f"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK2. NGUYỄN XUÂN DŨNG",
+          "sheet": "04.08-10.08",
+          "cell": "J240"
+        }
+      ]
+    },
+    {
+      "id": "f5e028be-3f75-58d1-8141-b35676c4339f",
+      "name": "Ngô Thế Phi",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK2."
+      ],
+      "specialtyIds": [
+        "24079cbc-b654-5035-a592-4676756833c7"
+      ],
+      "clinicIds": [
+        "b5706647-5a79-51f6-b29d-0ee043ec3e72"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK2. NGÔ THẾ PHI",
+          "sheet": "04.08-10.08",
+          "cell": "F250"
+        }
+      ]
+    },
+    {
+      "id": "1abe02f5-27a4-5620-85a2-9bf972e5f497",
+      "name": "Phan Thanh Thái",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "THS.BS CKII"
+      ],
+      "specialtyIds": [
+        "4827dd38-394a-5936-84c9-d3aeff8c96e9"
+      ],
+      "clinicIds": [
+        "6701af49-4a53-5166-9815-de2e24ef9a45"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Ths.Bs CKII Phan Thanh Thái",
+          "sheet": "04.08-10.08",
+          "cell": "G248"
+        }
+      ]
+    },
+    {
+      "id": "f4c6f2ca-f12c-5e2a-bf0e-dd27c4794aae",
+      "name": "Phạm Thị Duyên",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "THSBS."
+      ],
+      "specialtyIds": [
+        "789f2099-9b1b-5aae-bb2c-82bd17a12655"
+      ],
+      "clinicIds": [
+        "3edb9c6c-6894-5fbb-9c34-4eee2d81e278"
+      ],
+      "sourceVariants": [
+        {
+          "text": "THSBS. PHẠM THỊ DUYÊN",
+          "sheet": "04.08-10.08",
+          "cell": "G238"
+        }
+      ]
+    },
+    {
+      "id": "4c237359-00be-5436-b66a-a6f60bc84438",
+      "name": "Phạm Thị Mỹ Anh",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCKI."
+      ],
+      "specialtyIds": [
+        "f7b9b5bb-3025-558d-95b8-878ed5ed2ae9"
+      ],
+      "clinicIds": [
+        "21070151-d8e8-5602-a625-a8a4604fa5c2"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCKI. Phạm Thị Mỹ Anh",
+          "sheet": "25.08-31.08",
+          "cell": "H241"
+        }
+      ]
+    },
+    {
+      "id": "956f28ac-b317-5da3-9f60-07ea1f3ab317",
+      "name": "Phạm Thị Ngọc Duy",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK2."
+      ],
+      "specialtyIds": [
+        "35844257-b17f-5024-97b5-ddcd5541eadc"
+      ],
+      "clinicIds": [
+        "3c7ae7e3-8fc4-525e-8969-39c586e61c0e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK2. PHẠM THỊ NGỌC DUY",
+          "sheet": "04.08-10.08",
+          "cell": "F244"
+        }
+      ]
+    },
+    {
+      "id": "d3650974-7310-5e15-92da-54e04e2de1fa",
+      "name": "Trần Bá Lộc",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "f8e539df-2d5d-5a22-b631-cb946a41cbf4"
+      ],
+      "clinicIds": [
+        "ebc26f90-5dc1-58cb-8c33-3352462ca327"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. TRẦN BÁ LỘC",
+          "sheet": "04.08-10.08",
+          "cell": "J233"
+        }
+      ]
+    },
+    {
+      "id": "91bae396-7f01-5445-9382-486003ee3865",
+      "name": "Trần Cư",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK2."
+      ],
+      "specialtyIds": [
+        "24079cbc-b654-5035-a592-4676756833c7"
+      ],
+      "clinicIds": [
+        "b5706647-5a79-51f6-b29d-0ee043ec3e72"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK2. TRẦN CƯ",
+          "sheet": "04.08-10.08",
+          "cell": "G250"
+        }
+      ]
+    },
+    {
+      "id": "d0a4b23c-eefa-5e83-a56c-323a44738728",
+      "name": "Trần Thị Mộng Trinh",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BSCK1."
+      ],
+      "specialtyIds": [
+        "24079cbc-b654-5035-a592-4676756833c7"
+      ],
+      "clinicIds": [
+        "b5706647-5a79-51f6-b29d-0ee043ec3e72"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BSCK1. TRẦN THỊ MỘNG TRINH",
+          "sheet": "04.08-10.08",
+          "cell": "F250"
+        }
+      ]
+    },
+    {
+      "id": "3d6d7612-5b9d-5e83-b76a-9ecd5bb55749",
+      "name": "Võ Thanh Hải",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "f8e539df-2d5d-5a22-b631-cb946a41cbf4"
+      ],
+      "clinicIds": [
+        "ebc26f90-5dc1-58cb-8c33-3352462ca327"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS. VÕ THANH HẢI",
+          "sheet": "04.08-10.08",
+          "cell": "F233"
+        }
+      ]
+    },
+    {
+      "id": "c641bef3-eba5-5161-ac01-0e75e4eff161",
+      "name": "Đào Quang Hoàng",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "THSBS."
+      ],
+      "specialtyIds": [
+        "f8e539df-2d5d-5a22-b631-cb946a41cbf4"
+      ],
+      "clinicIds": [
+        "ebc26f90-5dc1-58cb-8c33-3352462ca327"
+      ],
+      "sourceVariants": [
+        {
+          "text": "THSBS. ĐÀO QUANG HOÀNG",
+          "sheet": "04.08-10.08",
+          "cell": "F232"
+        }
+      ]
+    },
+    {
+      "id": "6d05b0d1-9f5b-5c8a-a792-282a882f8fcc",
+      "name": "Đỗ Thị Thủy",
+      "departmentKey": "unlocated-experts",
+      "isDoctor": true,
+      "titles": [
+        "BS.CK1."
+      ],
+      "specialtyIds": [
+        "f8e539df-2d5d-5a22-b631-cb946a41cbf4"
+      ],
+      "clinicIds": [
+        "ebc26f90-5dc1-58cb-8c33-3352462ca327"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS.CK1. ĐỖ THỊ THỦY",
+          "sheet": "04.08-10.08",
+          "cell": "G233"
+        }
+      ]
+    },
+    {
+      "id": "36794304-9835-53c7-990a-984820e14084",
+      "name": "Dương Thị Thanh Hoa",
+      "departmentKey": "unlocated-neurology",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "fd63bb1b-5232-52e2-986a-f1825016fef2"
+      ],
+      "clinicIds": [
+        "f9cb8b44-3ad9-567e-9bb4-5a4c23fd772c",
+        "170610ec-3346-58f1-8b9f-23425ae56654"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Dương Thị Thanh Hoa",
+          "sheet": "04.08-10.08",
+          "cell": "H52"
+        }
+      ]
+    },
+    {
+      "id": "6edd5b14-938c-5138-82f6-5a4594b30bd9",
+      "name": "Lê Công Trí",
+      "departmentKey": "unlocated-neurology",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "fd63bb1b-5232-52e2-986a-f1825016fef2"
+      ],
+      "clinicIds": [
+        "170610ec-3346-58f1-8b9f-23425ae56654"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Lê Công Trí",
+          "sheet": "04.08-10.08",
+          "cell": "G60"
+        }
+      ]
+    },
+    {
+      "id": "3950380b-182c-53d8-b2cf-7664da0e69a2",
+      "name": "Lê Nguyễn Gia Hân",
+      "departmentKey": "unlocated-neurology",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "fd63bb1b-5232-52e2-986a-f1825016fef2"
+      ],
+      "clinicIds": [
+        "f9cb8b44-3ad9-567e-9bb4-5a4c23fd772c",
+        "170610ec-3346-58f1-8b9f-23425ae56654"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Lê Nguyễn Gia Hân",
+          "sheet": "11.08-17.08",
+          "cell": "I57"
+        }
+      ]
+    },
+    {
+      "id": "5333cea1-da05-574a-b367-36a7415246df",
+      "name": "Lê Trần Vinh",
+      "departmentKey": "unlocated-neurology",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "fd63bb1b-5232-52e2-986a-f1825016fef2"
+      ],
+      "clinicIds": [
+        "f9cb8b44-3ad9-567e-9bb4-5a4c23fd772c",
+        "170610ec-3346-58f1-8b9f-23425ae56654"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Lê Trần Vinh",
+          "sheet": "04.08-10.08",
+          "cell": "F54"
+        }
+      ]
+    },
+    {
+      "id": "8556d908-57ee-566e-91e2-148b4f3ec3bd",
+      "name": "Nguyễn Hữu Hải",
+      "departmentKey": "unlocated-neurology",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "fd63bb1b-5232-52e2-986a-f1825016fef2"
+      ],
+      "clinicIds": [
+        "f9cb8b44-3ad9-567e-9bb4-5a4c23fd772c",
+        "170610ec-3346-58f1-8b9f-23425ae56654"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Nguyễn Hữu Hải",
+          "sheet": "04.08-10.08",
+          "cell": "F53"
+        }
+      ]
+    },
+    {
+      "id": "cb9bcc66-53ef-541a-b6b9-e52d39b05fd5",
+      "name": "Nguyễn Thị Thu Trang",
+      "departmentKey": "unlocated-neurology",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "fd63bb1b-5232-52e2-986a-f1825016fef2"
+      ],
+      "clinicIds": [
+        "f9cb8b44-3ad9-567e-9bb4-5a4c23fd772c"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Nguyễn Thị Thu Trang",
+          "sheet": "04.08-10.08",
+          "cell": "I54"
+        }
+      ]
+    },
+    {
+      "id": "966e74ee-d50d-525e-97c1-e5ffd34bce64",
+      "name": "Trần Hà Mai Khương",
+      "departmentKey": "unlocated-neurology",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "fd63bb1b-5232-52e2-986a-f1825016fef2"
+      ],
+      "clinicIds": [
+        "f9cb8b44-3ad9-567e-9bb4-5a4c23fd772c",
+        "170610ec-3346-58f1-8b9f-23425ae56654"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Trần Hà Mai Khương",
+          "sheet": "04.08-10.08",
+          "cell": "F52"
+        },
+        {
+          "text": "Trần hà Mai Khương",
+          "sheet": "04.08-10.08",
+          "cell": "K60"
+        }
+      ]
+    },
+    {
+      "id": "872a72e5-602d-547a-bb13-636e67cf0672",
+      "name": "Đặng Nguyễn Mai Thảo",
+      "departmentKey": "unlocated-neurology",
+      "isDoctor": true,
+      "titles": [],
+      "specialtyIds": [
+        "fd63bb1b-5232-52e2-986a-f1825016fef2"
+      ],
+      "clinicIds": [
+        "f9cb8b44-3ad9-567e-9bb4-5a4c23fd772c"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Đặng Nguyễn Mai Thảo",
+          "sheet": "04.08-10.08",
+          "cell": "G54"
+        }
+      ]
+    },
+    {
+      "id": "db57e80d-4d4b-51f2-8df8-8a0b1f753b04",
+      "name": "Cao Thị Thơm",
+      "departmentKey": "unlocated-obstetrics",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "30ad8a3e-4ef1-5f17-a205-ca1afb297426",
+        "a21c4c1f-966f-5e88-9457-8423cd3a3a35"
+      ],
+      "clinicIds": [
+        "21dea0d1-6438-5312-baaa-c486c37512ad",
+        "b25a6420-c870-5641-b6eb-0a4f6e83398e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS Cao Thị Thơm",
+          "sheet": "04.08-10.08",
+          "cell": "F181"
+        }
+      ]
+    },
+    {
+      "id": "4833ad8c-68c3-5a2e-a2f3-706ea8b1507e",
+      "name": "Huỳnh Thị Kim Liên",
+      "departmentKey": "unlocated-obstetrics",
+      "isDoctor": true,
+      "titles": [
+        "BS CK II"
+      ],
+      "specialtyIds": [
+        "a21c4c1f-966f-5e88-9457-8423cd3a3a35",
+        "f785057d-e5d5-53b5-ac97-aebf05f86f81"
+      ],
+      "clinicIds": [
+        "b25a6420-c870-5641-b6eb-0a4f6e83398e",
+        "38f3518b-9c64-563d-b868-d82af857139e",
+        "87df14cc-e3f3-5127-bc33-5a24b0e1d1de"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CK II Huỳnh Thị Kim Liên",
+          "sheet": "04.08-10.08",
+          "cell": "G183"
+        }
+      ]
+    },
+    {
+      "id": "b8ec4940-373b-5769-9295-5d51f4b5519e",
+      "name": "Lê Thị Xuân Quý",
+      "departmentKey": "unlocated-obstetrics",
+      "isDoctor": true,
+      "titles": [
+        "BS CK I"
+      ],
+      "specialtyIds": [
+        "a21c4c1f-966f-5e88-9457-8423cd3a3a35",
+        "f785057d-e5d5-53b5-ac97-aebf05f86f81",
+        "30ad8a3e-4ef1-5f17-a205-ca1afb297426"
+      ],
+      "clinicIds": [
+        "b25a6420-c870-5641-b6eb-0a4f6e83398e",
+        "38f3518b-9c64-563d-b868-d82af857139e",
+        "87df14cc-e3f3-5127-bc33-5a24b0e1d1de",
+        "21dea0d1-6438-5312-baaa-c486c37512ad"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CK I Lê Thị Xuân Quý",
+          "sheet": "04.08-10.08",
+          "cell": "I183"
+        }
+      ]
+    },
+    {
+      "id": "9f3f2464-55cf-5245-b056-5afe99ae9c3f",
+      "name": "Lê Tống Thụy Vân",
+      "departmentKey": "unlocated-obstetrics",
+      "isDoctor": true,
+      "titles": [
+        "BS CK I"
+      ],
+      "specialtyIds": [
+        "30ad8a3e-4ef1-5f17-a205-ca1afb297426",
+        "a21c4c1f-966f-5e88-9457-8423cd3a3a35",
+        "f785057d-e5d5-53b5-ac97-aebf05f86f81"
+      ],
+      "clinicIds": [
+        "0efe7477-1d28-560f-9ad2-fb2bdcb28188",
+        "b25a6420-c870-5641-b6eb-0a4f6e83398e",
+        "21dea0d1-6438-5312-baaa-c486c37512ad",
+        "38f3518b-9c64-563d-b868-d82af857139e",
+        "87df14cc-e3f3-5127-bc33-5a24b0e1d1de"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CK I Lê Tống Thụy Vân",
+          "sheet": "04.08-10.08",
+          "cell": "F179"
+        }
+      ]
+    },
+    {
+      "id": "e4b87e7f-d611-5f37-8966-d49229e1f592",
+      "name": "Nguyễn Hoàng Linh",
+      "departmentKey": "unlocated-obstetrics",
+      "isDoctor": true,
+      "titles": [
+        "BS CK I"
+      ],
+      "specialtyIds": [
+        "30ad8a3e-4ef1-5f17-a205-ca1afb297426"
+      ],
+      "clinicIds": [
+        "0efe7477-1d28-560f-9ad2-fb2bdcb28188",
+        "21dea0d1-6438-5312-baaa-c486c37512ad"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CK I Nguyễn Hoàng Linh",
+          "sheet": "04.08-10.08",
+          "cell": "J179"
+        }
+      ]
+    },
+    {
+      "id": "f7ed4604-9a8d-571b-9ba1-be0fa1e9d316",
+      "name": "Nguyễn Quốc Hiếu",
+      "departmentKey": "unlocated-obstetrics",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "30ad8a3e-4ef1-5f17-a205-ca1afb297426"
+      ],
+      "clinicIds": [
+        "0efe7477-1d28-560f-9ad2-fb2bdcb28188",
+        "21dea0d1-6438-5312-baaa-c486c37512ad"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS Nguyễn Quốc Hiếu",
+          "sheet": "04.08-10.08",
+          "cell": "I179"
+        }
+      ]
+    },
+    {
+      "id": "2a8690b0-fe63-5119-88c6-bdfb7bf67f5d",
+      "name": "Phạm Thị Lê Uyên",
+      "departmentKey": "unlocated-obstetrics",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "30ad8a3e-4ef1-5f17-a205-ca1afb297426",
+        "a21c4c1f-966f-5e88-9457-8423cd3a3a35"
+      ],
+      "clinicIds": [
+        "0efe7477-1d28-560f-9ad2-fb2bdcb28188",
+        "b25a6420-c870-5641-b6eb-0a4f6e83398e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS Phạm Thị Lê Uyên",
+          "sheet": "04.08-10.08",
+          "cell": "H179"
+        }
+      ]
+    },
+    {
+      "id": "15b1bf3f-7571-5bf7-8b2a-bd850ba9af59",
+      "name": "Trần Thị Kim Ngân",
+      "departmentKey": "unlocated-obstetrics",
+      "isDoctor": true,
+      "titles": [
+        "BS CK I"
+      ],
+      "specialtyIds": [
+        "30ad8a3e-4ef1-5f17-a205-ca1afb297426",
+        "a21c4c1f-966f-5e88-9457-8423cd3a3a35",
+        "f785057d-e5d5-53b5-ac97-aebf05f86f81"
+      ],
+      "clinicIds": [
+        "21dea0d1-6438-5312-baaa-c486c37512ad",
+        "38f3518b-9c64-563d-b868-d82af857139e",
+        "87df14cc-e3f3-5127-bc33-5a24b0e1d1de",
+        "0efe7477-1d28-560f-9ad2-fb2bdcb28188",
+        "b25a6420-c870-5641-b6eb-0a4f6e83398e"
+      ],
+      "sourceVariants": [
+        {
+          "text": "BS CK I Trần Thị Kim Ngân",
+          "sheet": "04.08-10.08",
+          "cell": "G181"
+        }
+      ]
+    },
+    {
+      "id": "4395f342-41c8-5f7b-9762-9e95ac6a043e",
+      "name": "Tô Thị Trâm Anh",
+      "departmentKey": "unlocated-obstetrics",
+      "isDoctor": true,
+      "titles": [
+        "TH BS"
+      ],
+      "specialtyIds": [
+        "a21c4c1f-966f-5e88-9457-8423cd3a3a35",
+        "f785057d-e5d5-53b5-ac97-aebf05f86f81",
+        "30ad8a3e-4ef1-5f17-a205-ca1afb297426"
+      ],
+      "clinicIds": [
+        "b25a6420-c870-5641-b6eb-0a4f6e83398e",
+        "38f3518b-9c64-563d-b868-d82af857139e",
+        "87df14cc-e3f3-5127-bc33-5a24b0e1d1de",
+        "0efe7477-1d28-560f-9ad2-fb2bdcb28188"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Th BS Tô Thị Trâm Anh",
+          "sheet": "04.08-10.08",
+          "cell": "H183"
+        }
+      ]
+    },
+    {
+      "id": "13b819a4-e89a-5000-abae-8977ba4c46bc",
+      "name": "Tạ Việt Dũng",
+      "departmentKey": "unlocated-obstetrics",
+      "isDoctor": true,
+      "titles": [
+        "BS"
+      ],
+      "specialtyIds": [
+        "30ad8a3e-4ef1-5f17-a205-ca1afb297426"
+      ],
+      "clinicIds": [
+        "21dea0d1-6438-5312-baaa-c486c37512ad"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs Tạ Việt Dũng",
+          "sheet": "11.08-17.08",
+          "cell": "F180"
+        }
+      ]
+    },
+    {
+      "id": "109fa257-83ba-5e5c-8707-e70da23c61b7",
+      "name": "Lương Quang Thịnh",
+      "departmentKey": "unlocated-rehabilitation",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "892cde06-de47-5267-99bd-89fd0866ad69"
+      ],
+      "clinicIds": [
+        "60ad866c-36a0-5216-a584-dc054c1587ee"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs. Lương Quang Thịnh",
+          "sheet": "04.08-10.08",
+          "cell": "F96"
+        }
+      ]
+    },
+    {
+      "id": "5565a3cc-7be6-5db8-bd0c-0b36771d4b8f",
+      "name": "Nguyễn Yến Nhi",
+      "departmentKey": "unlocated-rehabilitation",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "d18b4c1e-9571-52ea-b4ae-700ebf4ecd0f"
+      ],
+      "clinicIds": [
+        "18eaca88-0875-583f-9cbf-e5eb419eca52"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs. Nguyễn Yến Nhi",
+          "sheet": "04.08-10.08",
+          "cell": "F100"
+        }
+      ]
+    },
+    {
+      "id": "2ab1703e-be47-530c-bb1a-fba0da54353a",
+      "name": "Trần Minh Sơn",
+      "departmentKey": "unlocated-rehabilitation",
+      "isDoctor": true,
+      "titles": [
+        "BS CKII."
+      ],
+      "specialtyIds": [
+        "892cde06-de47-5267-99bd-89fd0866ad69",
+        "d18b4c1e-9571-52ea-b4ae-700ebf4ecd0f"
+      ],
+      "clinicIds": [
+        "60ad866c-36a0-5216-a584-dc054c1587ee",
+        "18eaca88-0875-583f-9cbf-e5eb419eca52"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs CKII. Trần Minh Sơn",
+          "sheet": "04.08-10.08",
+          "cell": "F95"
+        }
+      ]
+    },
+    {
+      "id": "c7f1b07c-2f0c-5357-9dc2-f6eb3941829b",
+      "name": "Vương Đình Khoa",
+      "departmentKey": "unlocated-rehabilitation",
+      "isDoctor": true,
+      "titles": [
+        "BS."
+      ],
+      "specialtyIds": [
+        "892cde06-de47-5267-99bd-89fd0866ad69"
+      ],
+      "clinicIds": [
+        "60ad866c-36a0-5216-a584-dc054c1587ee"
+      ],
+      "sourceVariants": [
+        {
+          "text": "Bs. Vương Đình Khoa",
+          "sheet": "04.08-10.08",
+          "cell": "F96"
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    {
+      "kind": "similarNames",
+      "doctorIds": [
+        "22348595-7f18-58f3-becd-14a3000d5153",
+        "4b4a4e96-ac7f-52ac-96d2-d83de4fec242"
+      ],
+      "detail": "Lê Thúy Liểu / Lê Thúy Liều"
+    },
+    {
+      "kind": "similarNames",
+      "doctorIds": [
+        "28b6db4b-d83c-5071-9599-2c2dc3e609e2",
+        "4ad3c5e5-ea6d-528a-b9b8-3654aeb09295"
+      ],
+      "detail": "Hứa Thị Thanh Tuyền / Hứa Thị Thah Tuyền"
+    },
+    {
+      "kind": "similarNames",
+      "doctorIds": [
+        "750f6bb0-ce64-5c8b-92c7-04477a84800f",
+        "045b56c0-6b41-5429-8071-c5c76628bf72"
+      ],
+      "detail": "Bùi Nữ Kim Oanh / Bùi Nữ Kiều Oanh"
+    },
+    {
+      "kind": "sourceTitle",
+      "doctorIds": [
+        "bf3351c7-5058-5901-9737-f057f55ec1da"
+      ],
+      "detail": "Nguyễn Ngọc Uyên Phương: nguồn ghi BCSKI"
+    },
+    {
+      "kind": "dateMismatch",
+      "doctorIds": [],
+      "detail": "Tab 18.08-24.08: A4 ghi 18–24/08/2025 nhưng F7:L7 chứa 25–31/08/2025. Không dùng để suy ra lịch hiện tại."
+    },
+    {
+      "kind": "departmentAmbiguous",
+      "doctorIds": [],
+      "detail": "Khoa Sản trong Excel chưa phân biệt Sản B / Sản C. Giữ thành mục cần xác nhận."
+    }
+  ]
+}

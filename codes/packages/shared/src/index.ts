@@ -1,4 +1,6 @@
 export * from "./types";
+export * from "./directory";
 export * from "./api";
 export * from "./i18n";
 export * from "./hospitalMap";
+export * from "./hospitalDepartments";

@@ -556,20 +556,6 @@ main {
   margin: 0 auto;
   padding: 26px 38px 15px;
 }
-.demo-label {
-  font-size: 0.6rem;
-  color: #8c784f;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 25px;
-}
-.demo-label span {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #b99752;
-}
 .section-title {
   display: flex;
   align-items: center;

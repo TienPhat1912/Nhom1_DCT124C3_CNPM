@@ -150,7 +150,7 @@ public static class IdentityEndpoints
     {
         Check.Text(password, "password", 1, 128);
         var user = await db.Users.SingleOrDefaultAsync(u => u.Email == Email(email));
-        Check.That(user is { Active: true } && new PasswordHasher<UserAccount>().VerifyHashedPassword(user, user.PasswordHash, password) != PasswordVerificationResult.Failed,
+        Check.That(user is { Active: true } && !string.IsNullOrEmpty(user.PasswordHash) && new PasswordHasher<UserAccount>().VerifyHashedPassword(user, user.PasswordHash, password) != PasswordVerificationResult.Failed,
             "invalidCredentials", "Email or password is incorrect.", 401);
         return user!;
     }
