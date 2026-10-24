@@ -29,7 +29,8 @@ export function PatientReception({
   onVisit: (id: string) => void;
 }) {
   const { t, locale, session } = useRuntime();
-  const requests = useResource<RequestSummary[]>("/api/requests", true);
+  const [offset, setOffset] = useState(0);
+  const requests = useResource<RequestSummary[]>(`/api/requests?offset=${offset}`, true);
   const profile = useResource<Profile>("/api/auth/profile");
   const [selected, setSelected] = useState<string | null>(null);
   const [mode, setMode] = useState<"list" | "new" | "appointments">("list");
@@ -80,11 +81,36 @@ export function PatientReception({
               <Status value={r.status} />
             </button>
           ))}
+          <div className="actions">
+            <Button
+              variant="quiet"
+              disabled={offset === 0 || requests.loading}
+              onClick={() => {
+                setSelected(null);
+                setMode("list");
+                setOffset(Math.max(0, offset - 100));
+              }}
+            >
+              {t("previousPage")}
+            </Button>
+            <Button
+              variant="quiet"
+              disabled={requests.data?.length !== 100 || requests.loading}
+              onClick={() => {
+                setSelected(null);
+                setMode("list");
+                setOffset(offset + 100);
+              }}
+            >
+              {t("nextPage")}
+            </Button>
+          </div>
         </aside>
         <div>
           {mode === "appointments" ? (
             <AppointmentPanel
               onPrepared={(id) => {
+                setOffset(0);
                 requests.refresh();
                 setSelected(id);
                 setMode("list");
@@ -117,6 +143,7 @@ export function PatientReception({
                   key="new"
                   profile={profile.data}
                   onSaved={(id) => {
+                    setOffset(0);
                     requests.refresh();
                     setSelected(id);
                     setMode("list");

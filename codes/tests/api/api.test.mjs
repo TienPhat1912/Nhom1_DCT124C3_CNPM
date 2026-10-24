@@ -379,4 +379,61 @@ for (const kind of ['guest', 'account']) {
   });
 }
 
+test('request pagination reaches older pending records with stable ordering and access filtering', async () => {
+  const owner = await account('request-pagination');
+  const outsider = await account('request-pagination-outsider');
+  const ids = [];
+  for (let index = 0; index < 101; index++) {
+    const request = await prepare(owner);
+    ids.push(request.id);
+  }
+  const foreign = await prepare(outsider);
+  const outOfScope = await prepare(outsider);
+  const otherDepartment = config.departments.find(d => d.code === 'OTHER');
+  // Equal timestamps exercise the Id tie-breaker; the foreign department is newer than every allowed row.
+  fixtureSql(`SET QUOTED_IDENTIFIER ON; UPDATE Requests SET CreatedAt='2026-01-01T00:00:00' WHERE PatientId='${owner.patientId}'; UPDATE Requests SET DepartmentId='${otherDepartment.id}', CreatedAt='2099-01-01T00:00:00' WHERE Id='${outOfScope.id}'`);
+  const orderedIds = where => (fixtureSql(`SET NOCOUNT ON; SELECT CONVERT(varchar(36), Id) FROM Requests WHERE ${where} ORDER BY CreatedAt DESC, Id ASC`).match(/[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}/gi) ?? []).map(id => id.toLowerCase());
+  const expected = orderedIds(`PatientId='${owner.patientId}'`);
+  assert.equal(expected.length, ids.length);
+  const first = await call(owner.token, '/api/requests');
+  const second = await call(owner.token, '/api/requests?offset=100&limit=100');
+  assert.equal(first.length, 100);
+  assert.equal(second.length, 1);
+  assert.equal(second[0].status, 'Submitted');
+  assert.deepEqual([...first, ...second].map(r => r.id), expected);
+  assert.deepEqual(await call(owner.token, '/api/requests?offset=101'), []);
+  assert.deepEqual((await call(owner.token, '/api/requests?offset=0&limit=100')).map(r => r.id), first.map(r => r.id));
+  assert.deepEqual((await call(owner.token, '/api/requests?offset=37&limit=1')).map(r => r.id), expected.slice(37, 38));
+  assert.ok(!first.some(r => r.id === foreign.id || r.id === outOfScope.id));
+
+  const receptionAccount = await call(staff.admin, '/api/admin/staff', {
+    id: null, version: 0, email: `${prefix}-paginated-reception@example.test`, name: 'Pagination reception',
+    role: 'Reception', departmentIds: [department.id], active: true, password,
+  });
+  assert.ok(receptionAccount.id);
+  const scoped = await call(null, '/api/auth/login', { email: `${prefix}-paginated-reception@example.test`, password });
+  const expectedScoped = orderedIds(`DepartmentId='${department.id}'`);
+  const seen = [];
+  for (let offset = 0; offset < expectedScoped.length; offset += 37) {
+    const page = await call(scoped.token, `/api/requests?offset=${offset}&limit=37`);
+    assert.deepEqual(page.map(r => r.id), expectedScoped.slice(offset, offset + 37));
+    assert.ok(page.every(r => r.departmentId === department.id));
+    seen.push(...page.map(r => r.id));
+  }
+  assert.equal(new Set(seen).size, seen.length);
+  assert.ok(seen.includes(foreign.id));
+  assert.ok(ids.every(id => seen.includes(id)));
+  assert.ok(!seen.includes(outOfScope.id));
+
+  const guestSession = await guest();
+  const guestRequest = await prepare(guestSession);
+  assert.deepEqual((await call(guestSession.token, '/api/requests?limit=1')).map(r => r.id), [guestRequest.id]);
+  assert.deepEqual(await call(guestSession.token, '/api/requests?offset=100'), []);
+  for (const query of ['offset=-1', 'limit=0', 'limit=-1', 'limit=101']) {
+    await call(owner.token, `/api/requests?${query}`, undefined, 'GET', randomUUID(), 422);
+  }
+  await call(null, '/api/requests?offset=100', undefined, 'GET', randomUUID(), 401);
+  await call(staff.doctor, '/api/requests?offset=100', undefined, 'GET', randomUUID(), 403);
+});
+
 test('test run notes', () => { assert.deepEqual(failures, [], failures.join('; ')); });

@@ -186,3 +186,62 @@ test('reception replaces the displayed ticket QR after every reissue', async ({ 
   await expect(page.locator('.qr-panel')).toHaveCount(1);
   await expect(page.locator('.qr-panel code')).toHaveText(ticket.code);
 });
+
+test('reception and patient can page back to requests older than the newest 100', async ({ page, context }) => {
+  const email = `request-pages-${randomUUID()}@example.test`;
+  const patient = await api<Session>('/api/auth/register', null, { email, password, name: 'Pagination patient', contact: 'pagination-contact', language: 'en' });
+  const config = await api<Configuration>('/api/config');
+  const department = config.departments.find(d => d.code === 'CONSULT')!;
+  const marker = randomUUID();
+  let oldestId = '';
+  for (let index = 0; index < 101; index++) {
+    const request = await api<{ id: string }>('/api/requests', patient.token, {
+      name: `Pagination ${marker} ${index}`, contact: 'pagination-contact', description: '', requests: '', departmentId: department.id,
+    });
+    if (index === 0) oldestId = request.id;
+  }
+  const oldestName = `Pagination ${marker} 0`;
+  const oldest = await api<ReceptionRequest>(`/api/requests/${oldestId}`, patient.token);
+  await page.addInitScript(() => localStorage.setItem('hospital.language', 'en'));
+  for (const role of ['reception', 'patient']) {
+    await context.clearCookies();
+    await page.goto('/');
+    await page.getByLabel('Email', { exact: true }).fill(role === 'reception' ? 'reception@demo.local' : email);
+    await page.getByLabel('Password', { exact: true }).fill(password);
+    await page.getByRole('button', { name: 'Sign in', exact: true }).last().click();
+    if (role === 'patient') await page.getByRole('button', { name: 'Prepare for reception', exact: true }).click();
+    const previous = page.getByRole('button', { name: 'Previous page', exact: true });
+    const next = page.getByRole('button', { name: 'Next page', exact: true });
+    const oldestRow = page.locator('.record-row').filter({ hasText: oldestName });
+    await expect(page.locator('.record-row')).toHaveCount(100);
+    await expect(oldestRow).toHaveCount(0);
+    await expect(previous).toBeDisabled();
+    await next.click();
+    await expect(oldestRow).toBeVisible();
+    await expect(previous).toBeEnabled();
+    if (role === 'patient') {
+      await expect(page.locator('.record-row')).toHaveCount(1);
+      await expect(next).toBeDisabled();
+    }
+    await oldestRow.click();
+    if (role === 'reception') await expect(page.getByRole('heading', { name: oldestName, exact: true })).toBeVisible();
+    else {
+      await expect(page.getByRole('heading', { name: 'Reception QR', exact: true })).toBeVisible();
+      await expect(page.locator('.qr-panel code')).toHaveText(oldest.code);
+    }
+    await previous.click();
+    await expect(page.locator('.record-row')).toHaveCount(100);
+    await expect(oldestRow).toHaveCount(0);
+    await expect(previous).toBeDisabled();
+    if (role === 'patient') {
+      await next.click();
+      await expect(oldestRow).toBeVisible();
+      await page.getByRole('button', { name: 'Without an appointment', exact: true }).click();
+      const newName = `Newest ${marker}`;
+      await page.getByLabel('Full name', { exact: true }).fill(newName);
+      await page.getByRole('button', { name: 'Submit information', exact: true }).click();
+      await expect(page.locator('.record-row').first()).toContainText(newName);
+      await expect(previous).toBeDisabled();
+    }
+  }
+});

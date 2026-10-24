@@ -28,7 +28,8 @@ import {
 } from "./runtime";
 export function Reception({ onVisit }: { onVisit: (id: string) => void }) {
   const { t, locale } = useNative();
-  const list = useLoad<RequestSummary[]>("/api/requests", true);
+  const [offset, setOffset] = useState(0);
+  const list = useLoad<RequestSummary[]>(`/api/requests?offset=${offset}`, true);
   const profile = useLoad<Profile>("/api/auth/profile");
   const [id, setId] = useState<string | null>(null);
   const [mode, setMode] = useState("list");
@@ -66,11 +67,34 @@ export function Reception({ onVisit }: { onVisit: (id: string) => void }) {
         />
       ))}
       {list.data?.length === 0 && <Txt tone="muted">{t("noRequests")}</Txt>}
+      <Btn
+        secondary
+        disabled={offset === 0 || list.loading}
+        onPress={() => {
+          setId(null);
+          setMode("list");
+          setOffset(Math.max(0, offset - 100));
+        }}
+      >
+        {t("previousPage")}
+      </Btn>
+      <Btn
+        secondary
+        disabled={list.data?.length !== 100 || list.loading}
+        onPress={() => {
+          setId(null);
+          setMode("list");
+          setOffset(offset + 100);
+        }}
+      >
+        {t("nextPage")}
+      </Btn>
       {mode === "new" && profile.data && (
         <Card>
           <WalkInForm
             profile={profile.data}
             onSaved={(rid) => {
+              setOffset(0);
               setId(rid);
               setMode("list");
               list.refresh();
@@ -81,6 +105,7 @@ export function Reception({ onVisit }: { onVisit: (id: string) => void }) {
       {mode === "appointments" && (
         <Appointments
           onPrepared={(rid) => {
+            setOffset(0);
             setId(rid);
             setMode("list");
             list.refresh();

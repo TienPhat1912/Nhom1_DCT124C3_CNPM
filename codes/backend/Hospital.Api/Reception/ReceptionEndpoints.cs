@@ -22,11 +22,12 @@ public static class ReceptionEndpoints
     {
         var g = app.MapGroup("/api").WithTags("Reception and QR");
         g.MapGet("/entry", () => new { purpose = "Hospital", languages = new[] { "vi", "en" }, createsVisit = false });
-        g.MapGet("/requests", async (Access access, HospitalDb db) => {
+        g.MapGet("/requests", async (int? offset, int? limit, Access access, HospitalDb db) => {
+            Check.That((offset ?? 0) >= 0 && (limit ?? 100) is >= 1 and <= 100, "validation", "Use non-negative offset and a page size from 1 to 100.");
             var s = await access.Current(); var q = db.Requests.AsQueryable();
             if (s.PatientId is {} p) q = q.Where(r => r.PatientId == p && (!s.IsGuest || r.SessionId == s.Id));
             else { var u = await access.Staff("Reception"); var deps = u.Scopes.Select(sc => sc.DepartmentId); q = q.Where(r => deps.Contains(r.DepartmentId)); }
-            return await q.OrderByDescending(r => r.CreatedAt).Take(100).Select(r => new { r.Id, r.Name, r.Status, r.Version, r.DepartmentId, r.AppointmentId, r.CreatedAt }).ToListAsync();
+            return await q.OrderByDescending(r => r.CreatedAt).ThenBy(r => r.Id).Skip(offset ?? 0).Take(limit ?? 100).Select(r => new { r.Id, r.Name, r.Status, r.Version, r.DepartmentId, r.AppointmentId, r.CreatedAt }).ToListAsync();
         });
         g.MapGet("/requests/{id:guid}", async (Guid id, Access access, HospitalDb db, QrService qr) => {
             var r = await access.Request(id); var code = await qr.Current("Reception", id);
