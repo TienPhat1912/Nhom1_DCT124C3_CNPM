@@ -24,26 +24,6 @@ const locations = source.clinics.map((c) => ({
   version: 1,
   createdAt,
 }));
-const directory = {
-  ...source,
-  departments,
-  specialties: source.specialties.map((s) => ({
-    ...s,
-    departmentId: s.departmentKey,
-  })),
-  clinics: source.clinics.map((c) => ({
-    ...c,
-    departmentId: c.departmentKey,
-    locationConfirmed: false,
-    building: "?",
-    floor: "?",
-  })),
-  clinicians: source.clinicians.map((d) => ({
-    ...d,
-    departmentId: d.departmentKey,
-    directoryOnly: true,
-  })),
-};
 const doctors = source.clinicians
   .filter((d) => d.isDoctor)
   .map((d) => ({
@@ -120,7 +100,6 @@ async function setup(page: Page, role: string) {
       },
       "/api/visits": [],
       "/api/notifications": [],
-      "/api/directory": directory,
       "/api/requests": [request],
       "/api/requests/request-1": request,
       "/api/reception/resources": {
@@ -151,88 +130,67 @@ async function setup(page: Page, role: string) {
   });
   await page.goto("/");
 }
-async function directoryNav(page: Page) {
-  const menu = page.getByRole("button", { name: "Menu", exact: true });
-  if (await menu.isVisible()) await menu.click();
-  await page
-    .getByRole("button", { name: "Khoa và bác sĩ", exact: true })
-    .click();
-}
-for (const role of ["Patient", "Admin", "Doctor", "Reception"]) {
+for (const role of [
+  "Patient",
+  "Admin",
+  "Doctor",
+  "Reception",
+  "Service",
+  "Cashier",
+]) {
   test(
-    role + " uses the same department and clinician directory",
-    async ({ page }, info) => {
+    role + " has no department and clinician directory navigation",
+    async ({ page }) => {
+      const directoryRequests: string[] = [];
+      page.on("request", (request) => {
+        if (new URL(request.url()).pathname === "/api/directory")
+          directoryRequests.push(request.url());
+      });
       await setup(page, role);
-      await directoryNav(page);
+      await expect(page.locator(".app-shell")).toBeVisible();
+      const menu = page.getByRole("button", { name: "Menu", exact: true });
+      if (await menu.isVisible()) await menu.click();
+      await expect(
+        page.getByRole("button", { name: "Khoa và bác sĩ", exact: true }),
+      ).toHaveCount(0);
       await expect(
         page.getByRole("heading", { name: "Khoa và bác sĩ", exact: true }),
-      ).toBeVisible();
+      ).toHaveCount(0);
+      if (await menu.isVisible()) await menu.click();
+      await page.getByLabel("Ngôn ngữ", { exact: true }).selectOption("en");
+      if (await menu.isVisible()) await menu.click();
       await expect(
-        page.getByLabel("Chọn khoa/phòng").locator("option"),
-      ).toHaveCount(51);
-      await page
-        .getByLabel("Tìm bác sĩ, chuyên khoa hoặc phòng khám")
-        .fill("kieu minh rin");
-      await expect(page.locator(".directory-card")).toHaveCount(1);
-      await expect(page.locator(".directory-card")).toContainText(
-        "Kiều Minh Rin",
-      );
-      await page.getByLabel("Tìm bác sĩ, chuyên khoa hoặc phòng khám").fill("");
-      await page.getByLabel("Chọn khoa/phòng").selectOption("C-neurosurgery");
-      await expect(page.locator(".directory-card")).toHaveCount(3);
-      await expect(
-        page.getByTestId("directory-department-location"),
-      ).toContainText("Tầng 4");
-      await expect(page.locator(".directory-card").first()).toContainText(
-        "Cần xác nhận vị trí phòng khám",
-      );
-      await page.screenshot({
-        path: "artifacts/" + info.project.name + "-directory-" + role + ".png",
-        fullPage: true,
-      });
-      await page.getByLabel("Chọn khoa/phòng").selectOption("C-psychiatry");
-      await expect(page.locator(".directory-card")).toHaveCount(5);
-      await expect(
-        page
-          .locator(".directory-card")
-          .filter({ hasText: "Chuyên viên (CN.)" }),
-      ).toHaveCount(3);
-      await page.getByLabel("Chọn khoa/phòng").selectOption("E-pathology");
-      await expect(page.locator(".directory-card")).toHaveCount(0);
-      await expect(
-        page.getByTestId("directory-department-location"),
-      ).toContainText("cần xác nhận");
-      await expect
-        .poll(() =>
-          page.evaluate(
-            () => document.documentElement.scrollWidth <= innerWidth + 1,
-          ),
-        )
-        .toBe(true);
+        page.getByRole("button", {
+          name: "Departments and doctors",
+          exact: true,
+        }),
+      ).toHaveCount(0);
+      expect(directoryRequests).toEqual([]);
     },
   );
 }
-test("reception filters department, specialty and compatible doctor together", async ({
+
+test("reception submits the selected department and clinic without choosing a doctor", async ({
   page,
 }) => {
   await setup(page, "Reception");
   await page.getByRole("button", { name: /Bệnh nhân kiểm thử/ }).click();
+  await expect(
+    page.getByLabel("Bác sĩ phụ trách", { exact: true }),
+  ).toHaveCount(0);
   await page
     .getByLabel("Khoa / bộ phận", { exact: true })
     .selectOption("D-paediatrics");
   const loc = page.getByLabel("Địa điểm", { exact: true });
-  const doctor = page.getByLabel("Bác sĩ phụ trách", { exact: true });
+  const confirm = page.getByRole("button", {
+    name: "Xác nhận tiếp nhận & cấp phiếu",
+    exact: true,
+  });
   for (const clinic of source.clinics.filter(
     (c) => c.departmentKey === "D-paediatrics",
   )) {
     await loc.selectOption(clinic.id);
-    const expected = doctors.filter(
-      (d) =>
-        d.departments.includes("D-paediatrics") &&
-        d.clinicIds.includes(clinic.id),
-    );
-    await expect(doctor.locator("option")).toHaveCount(expected.length);
-    expect(expected.map((d) => d.id)).toContain(await doctor.inputValue());
+    await expect(confirm).toBeEnabled();
   }
   await page
     .getByLabel("Khoa / bộ phận", { exact: true })
@@ -246,12 +204,30 @@ test("reception filters department, specialty and compatible doctor together", a
       source.specialties.find((s) => s.id === c.specialtyId)?.name === "Hô hấp",
   );
   await expect(loc.locator("option")).toHaveCount(expected.length);
-  await expect(
-    page.getByText("Excel chưa có tòa/tầng của phòng khám này.", {
-      exact: false,
-    }),
-  ).toBeVisible();
+  const selectedLocation = await loc.inputValue();
+  let confirmation: Record<string, unknown> | undefined;
+  await page.route("**/api/requests/request-1/confirm", async (route) => {
+    confirmation = route.request().postDataJSON();
+    await route.fulfill({ json: { visitId: "new-visit" } });
+  });
+  await page
+    .getByLabel("Ghi nhận xác minh", { exact: true })
+    .fill("Verified test attendee");
+  await page
+    .getByLabel("Đã kiểm tra trực tiếp người đến khám", { exact: true })
+    .check();
+  await confirm.click();
+  await expect
+    .poll(() => confirmation)
+    .toEqual({
+      version: 1,
+      departmentId: "B-internal",
+      locationId: selectedLocation,
+      attendeeVerified: true,
+      verificationNote: "Verified test attendee",
+    });
 });
+
 test("admin searches imported profiles and sees specialties and disabled login", async ({
   page,
 }) => {

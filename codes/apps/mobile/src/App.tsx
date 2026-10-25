@@ -47,7 +47,6 @@ import {
 } from "./ui";
 import { Auth } from "./Auth";
 import { Reception } from "./Reception";
-import { HospitalDirectory } from "./HospitalDirectory";
 import { DirectionsScreen, Journey, ScanTicket } from "./Journey";
 import {
   Help,
@@ -57,7 +56,6 @@ import {
   Results,
 } from "./Records";
 type Page =
-  | "directory"
   | "home"
   | "reception"
   | "journey"
@@ -346,7 +344,6 @@ function PatientApp({
               </Btn>
             </Card>
             <Card>
-              <Btn secondary onPress={() => setPage("directory")}>{t("directory")}</Btn>
               <Btn secondary onPress={() => setPage("notifications")}>
                 {t("notifications")}
               </Btn>
@@ -375,7 +372,6 @@ function PatientApp({
             </Card>
           </>
         )}
-        {page === "directory" && <HospitalDirectory />}
         {page === "reception" && <Reception onVisit={choose} />}
         {page === "journey" && (
           <Journey

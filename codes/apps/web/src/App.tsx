@@ -56,10 +56,8 @@ import StaffReception from "./StaffReception";
 import StaffClinical from "./StaffClinical";
 import StaffSupport from "./StaffSupport";
 import Admin from "./Admin";
-import HospitalDirectory from "./HospitalDirectory";
 import { HospitalEntry } from "./HospitalEntry";
 type Page =
-  | "directory"
   | "home"
   | "reception"
   | "journey"
@@ -201,7 +199,6 @@ function Workspace() {
     ? ([
         ["home", House],
         ["reception", ClipboardList],
-        ["directory", UserRound],
         ["journey", Route],
         ["results", FileText],
         ["history", History],
@@ -210,7 +207,6 @@ function Workspace() {
       ] as const)
     : ([
         ["workspace", session.role === "Admin" ? Settings2 : ClipboardList],
-        ["directory", UserRound],
         ...(["Reception", "Service"].includes(session.role)
           ? [["assistance", MessageCircle] as const]
           : []),
@@ -367,7 +363,7 @@ function Workspace() {
               </div>
             </Notice>
           )}
-          {page === "directory" ? <HospitalDirectory /> : patient ? (
+          {patient ? (
             <>
               {["journey", "results", "history"].includes(page) &&
                 visits.data &&
