@@ -39,6 +39,14 @@ Khoảng 7/30 ngày chỉ áp dụng cho biểu đồ `daily`; các số liệu 
 
 Xem OpenAPI để lấy verb, parameter và tên trường chính xác. API không chứa endpoint tính phí, thanh toán thật, chẩn đoán tự động hay xác nhận cấp phát thuốc.
 
+`POST /api/requests/{id}/confirm` nhận `version`, `departmentId`, `locationId`,
+`attendeeVerified`, `verificationNote`. API tự chọn bác sĩ Doctor đang hoạt động có quyền
+tại khoa, phù hợp phòng khám theo dữ liệu cấu hình (hồ sơ ngoài nguồn nhập xét theo quyền khoa).
+Ưu tiên thời điểm tạo hồ sơ, sau đó ID. Client không chọn hoặc ghi đè `doctorId`;
+trường này vẫn có trong phản hồi Visit để hiển thị và kiểm soát quyền bác sĩ.
+Không có ứng viên phù hợp trả 422 `doctorUnavailable` và giữ hồ sơ chưa xác nhận.
+Xác nhận lại hồ sơ đã tiếp nhận trả Visit cũ, không phân công lại.
+
 ## Ngôn ngữ khi đọc dữ liệu
 
 `language` trong query hoặc `X-Hospital-Language` chọn `vi`, `en`, `zh`, `ko`, `ja`, `ru`. API giữ nguyên tên người, mã và bản gốc; dịch các trường nội dung bệnh viện sau kiểm tra quyền. Dữ liệu lưu SQL là nguồn Việt, bản dịch chỉ được cache trong RAM. Tên hiển thị dùng `name`/`departmentName`, bản gốc dùng `nameVi`/`departmentNameVi`.

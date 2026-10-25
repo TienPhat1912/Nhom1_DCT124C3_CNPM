@@ -170,20 +170,7 @@ function ReviewForm({
       (l) => l.departmentId === r.departmentId && l.room !== "R01",
     )?.id ?? "",
   );
-  const [doctor, setDoctor] = useState(
-    compatibleDoctors(
-      resources.doctors,
-      r.departmentId,
-      config.locations.find(
-        (l) => l.departmentId === r.departmentId && l.room !== "R01",
-      )?.id ?? "",
-    )[0]?.id ?? "",
-  );
   const [specialty, setSpecialty] = useState("");
-  const chooseLocation = (id: string, dep = department) => {
-    setLocation(id);
-    setDoctor(compatibleDoctors(resources.doctors, dep, id)[0]?.id ?? "");
-  };
   const clinicSpecialty = (id: string) =>
     resources.clinics?.find((c) => c.id === id)?.specialty;
   const availableLocations = config.locations.filter(
@@ -273,7 +260,6 @@ function ReviewForm({
                   version: r.version,
                   departmentId: department,
                   locationId: location,
-                  doctorId: doctor,
                   attendeeVerified: verified,
                   verificationNote: note,
                 })
@@ -288,12 +274,11 @@ function ReviewForm({
                   onChange={(e) => {
                     setDepartment(e.target.value);
                     setSpecialty("");
-                    chooseLocation(
+                    setLocation(
                       config.locations.find(
                         (l) =>
                           l.departmentId === e.target.value && l.room !== "R01",
                       )?.id ?? "",
-                      e.target.value,
                     );
                   }}
                 >
@@ -318,7 +303,7 @@ function ReviewForm({
                   onChange={(e) => {
                     const next = e.target.value;
                     setSpecialty(next);
-                    chooseLocation(
+                    setLocation(
                       config.locations.find(
                         (l) =>
                           l.departmentId === department &&
@@ -342,7 +327,7 @@ function ReviewForm({
                 <select
                   required
                   value={location}
-                  onChange={(e) => chooseLocation(e.target.value)}
+                  onChange={(e) => setLocation(e.target.value)}
                 >
                   {availableLocations.map((l) => (
                     <option key={l.id} value={l.id}>
@@ -355,19 +340,6 @@ function ReviewForm({
                 </select>
               </Field>
             </div>
-            <Field label={t("doctor")}>
-              <select
-                required
-                value={doctor}
-                onChange={(e) => setDoctor(e.target.value)}
-              >
-                {availableDoctors.map((d) => (
-                  <option key={d.id} value={d.id}>
-                    {d.name}
-                  </option>
-                ))}
-              </select>
-            </Field>
             {selectedLocation &&
               (selectedLocation.building === "?" ||
                 selectedLocation.floor === "?") && (
@@ -378,14 +350,6 @@ function ReviewForm({
                   )}
                 </Notice>
               )}
-            {!!resources.doctors.find((d) => d.id === doctor)?.specialties
-              ?.length && (
-              <p>
-                {resources.doctors
-                  .find((d) => d.id === doctor)
-                  ?.specialties?.join(" · ")}
-              </p>
-            )}
             {!availableDoctors.length && (
               <Notice>
                 {localizeText(
@@ -418,7 +382,7 @@ function ReviewForm({
               disabled={
                 r.status !== "Submitted" ||
                 !location ||
-                !availableDoctors.some((d) => d.id === doctor)
+                !availableDoctors.length
               }
             >
               {t("confirmReception")}

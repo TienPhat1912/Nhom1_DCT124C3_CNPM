@@ -1,6 +1,6 @@
 {
   "menu": "Меню",
-  "directory": "Отделения и врачи",
+  "doctorUnavailable": "Для выбранного отделения и кабинета нет доступного врача.",
   "adminWorkspace": "Управление больницей",
   "dashboard": "Обзор",
   "dashboardTitle": "Обзор работы",

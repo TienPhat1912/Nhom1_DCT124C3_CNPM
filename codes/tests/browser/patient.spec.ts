@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
-import type { Configuration, ReceptionResources, ReceptionRequest, Session, Ticket, Visit, Content } from '@hospital/shared';
+import type { Configuration, ReceptionRequest, Session, Ticket, Visit, Content } from '@hospital/shared';
 const password = process.env.DEMO_PASSWORD ?? readFileSync('.env', 'utf8').split(/\r?\n/).find(l => l.startsWith('DEMO_PASSWORD='))!.split('=').slice(1).join('=');
 const apiUrl = process.env.API_URL ?? 'http://127.0.0.1:5280';
 async function api<T>(path: string, token?: string | null, body?: unknown, method = body === undefined ? 'GET' : 'POST'): Promise<T> {
@@ -13,7 +13,7 @@ test('guest reception, pharmacy, readable fallback, assistance and same-record a
   const staff = await api<Session>('/api/auth/login', null, { email: 'reception@demo.local', password, language: 'en' });
   const doctor = await api<Session>('/api/auth/login', null, { email: 'doctor@demo.local', password, language: 'en' });
   const cashier = await api<Session>('/api/auth/login', null, { email: 'cashier@demo.local', password, language: 'en' });
-  const config = await api<Configuration>('/api/config'); const resources = await api<ReceptionResources>('/api/reception/resources', staff.token);
+  const config = await api<Configuration>('/api/config');
   await page.goto('/');
   await expect(page.getByRole('button', { name: 'Tiếp tục với tư cách khách', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Tiếp tục với tư cách khách', exact: true }).click();
@@ -27,7 +27,7 @@ test('guest reception, pharmacy, readable fallback, assistance and same-record a
   const request = (await api<ReceptionRequest[]>('/api/requests', staff.token)).find(r => r.name === name)!;
   const detail = await api<ReceptionRequest>(`/api/requests/${request.id}`, staff.token);
   const department = config.departments.find(d => d.code === 'CONSULT')!;
-  const confirmed = await api<{ visitId: string }>(`/api/requests/${request.id}/confirm`, staff.token, { version: detail.version, departmentId: department.id, locationId: config.locations.find(l => l.room === 'A101')!.id, doctorId: resources.doctors.find(d => d.departments.includes(department.id))!.id, attendeeVerified: true, verificationNote: 'Browser acceptance verified' });
+  const confirmed = await api<{ visitId: string }>(`/api/requests/${request.id}/confirm`, staff.token, { version: detail.version, departmentId: department.id, locationId: config.locations.find(l => l.room === 'A101')!.id, attendeeVerified: true, verificationNote: 'Browser acceptance verified' });
   await page.getByRole('button', { name: 'Xem phiếu khám', exact: true }).click();
   await expect(page.getByText('Phiếu đã được cấp. Mở QR trên phiếu để kích hoạt hoặc tiếp tục đúng hành trình.')).toBeVisible();
   await page.getByRole('button', { name: 'Mở hành trình', exact: true }).click();
@@ -38,7 +38,7 @@ test('guest reception, pharmacy, readable fallback, assistance and same-record a
   await page.getByRole('button', { name: 'Đóng', exact: true }).click();
   await page.getByRole('button', { name: 'Cần hỗ trợ', exact: true }).click();
   await page.getByRole('button', { name: 'Gửi yêu cầu hỗ trợ', exact: true }).click();
-  await expect(page.getByText('Máy chủ đã xác nhận thao tác.')).toBeVisible();
+  await expect(page.getByRole('dialog').getByText('Máy chủ đã xác nhận thao tác.', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Đóng', exact: true }).click();
   // Browser unavailable audio must leave the authorized text readable.
   await page.evaluate(() => Object.defineProperty(window, 'speechSynthesis', { value: { cancel() {}, getVoices() { return []; }, speak() { throw new Error('Audio unavailable'); } }, configurable: true }));
@@ -74,10 +74,10 @@ test('guest reception, pharmacy, readable fallback, assistance and same-record a
 
 test('doctor interface saves a private draft, publishes after review and patient sees approved text', async ({ page }, info) => {
   const guest = await api<Session>('/api/auth/guest', null, { language: 'en' }); const reception = await api<Session>('/api/auth/login', null, { email: 'reception@demo.local', password, language: 'en' });
-  const config = await api<Configuration>('/api/config'); const resources = await api<ReceptionResources>('/api/reception/resources', reception.token); const dep = config.departments.find(d => d.code === 'CONSULT')!;
+  const config = await api<Configuration>('/api/config'); const dep = config.departments.find(d => d.code === 'CONSULT')!;
   const req = await api<{ id: string }>('/api/requests', guest.token, { name: `Doctor UI ${Date.now()}`, contact: 'ui-fixture', description: '', requests: '', departmentId: dep.id });
   const r = await api<ReceptionRequest>(`/api/requests/${req.id}`, reception.token);
-  const { visitId } = await api<{ visitId: string }>(`/api/requests/${req.id}/confirm`, reception.token, { version: r.version, departmentId: dep.id, locationId: config.locations.find(l => l.room === 'A101')!.id, doctorId: resources.doctors.find(d => d.departments.includes(dep.id))!.id, attendeeVerified: true, verificationNote: 'Doctor UI fixture' });
+  const { visitId } = await api<{ visitId: string }>(`/api/requests/${req.id}/confirm`, reception.token, { version: r.version, departmentId: dep.id, locationId: config.locations.find(l => l.room === 'A101')!.id, attendeeVerified: true, verificationNote: 'Doctor UI fixture' });
   const ticket = await api<Ticket>(`/api/visits/${visitId}/ticket`, guest.token);
   await page.goto('/'); await page.getByLabel('Ngôn ngữ', { exact: true }).selectOption('en');
   await page.getByLabel('Email', { exact: true }).fill('doctor@demo.local'); await page.getByLabel('Password', { exact: true }).fill(password);
@@ -131,13 +131,11 @@ test('reception replaces the displayed ticket QR after every reissue', async ({ 
   const guest = await api<Session>('/api/auth/guest', null, { language: 'en' });
   const reception = await api<Session>('/api/auth/login', null, { email: 'reception@demo.local', password });
   const config = await api<Configuration>('/api/config');
-  const resources = await api<ReceptionResources>('/api/reception/resources', reception.token);
   const dep = config.departments.find(d => d.code === 'CONSULT')!;
   const name = `Reissue UI ${randomUUID()}`;
   const request = await api<{ id: string }>('/api/requests', guest.token, { name, contact: 'ui-fixture', description: '', requests: '', departmentId: dep.id });
   const { visitId } = await api<{ visitId: string }>(`/api/requests/${request.id}/confirm`, reception.token, {
     version: 1, departmentId: dep.id, locationId: config.locations.find(l => l.room === 'A101')!.id,
-    doctorId: resources.doctors.find(d => d.departments.includes(dep.id))!.id,
     attendeeVerified: true, verificationNote: 'Repeated reissue UI fixture',
   });
   let ticket = await api<Ticket>(`/api/visits/${visitId}/ticket`, guest.token);

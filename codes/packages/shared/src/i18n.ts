@@ -17,7 +17,8 @@ export const messages = {
     guestLabel: "Khách",
     or: "hoặc",
 
-    directory: "Khoa và bác sĩ",
+    doctorUnavailable:
+      "Chưa có bác sĩ đang hoạt động phù hợp với khoa và phòng khám đã chọn.",
     adminWorkspace: "Quản trị bệnh viện",
     dashboard: "Tổng quan",
     dashboardTitle: "Tổng quan hoạt động",
@@ -396,7 +397,8 @@ export const messages = {
     guestLabel: "Guest",
     or: "or",
 
-    directory: "Departments and doctors",
+    doctorUnavailable:
+      "No active doctor is available for the selected department and clinic.",
     adminWorkspace: "Hospital administration",
     dashboard: "Overview",
     dashboardTitle: "Operations overview",

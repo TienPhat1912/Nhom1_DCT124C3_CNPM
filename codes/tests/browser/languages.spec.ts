@@ -8,7 +8,7 @@ import {
 for (const language of languages.filter((l) =>
   ["zh", "ko", "ja", "ru"].includes(l.code),
 )) {
-  test(`language ${language.code}: labels, persistence, API preference and localized directory`, async ({
+  test(`language ${language.code}: labels, persistence, API preference and reception`, async ({
     page,
   }) => {
     let signedIn = false;
@@ -69,16 +69,6 @@ for (const language of languages.filter((l) =>
           guestHours: 24,
           pollSeconds: 5,
         };
-      else if (url.pathname === "/api/directory")
-        body = {
-          version: "test",
-          source: {},
-          departments: [department],
-          specialties: [],
-          clinics: [],
-          clinicians: [],
-          warnings: [],
-        };
       await route.fulfill({
         status,
         contentType: "application/json",
@@ -100,15 +90,12 @@ for (const language of languages.filter((l) =>
     const menu = page.getByRole("button", { name: t("menu"), exact: true });
     if (await menu.isVisible()) await menu.click();
     await page
-      .getByRole("button", { name: t("directory"), exact: true })
-      .first()
+      .getByRole("button", { name: t("reception"), exact: true })
       .click();
     await expect(
-      page.getByRole("option", {
-        name: localizeText("Xét nghiệm", language.code),
-        exact: true,
-      }),
-    ).toBeAttached();
+      page.getByRole("heading", { name: t("prepare"), exact: true }),
+    ).toBeVisible();
+    await expect(page.getByText(t("noRequests"), { exact: true })).toBeVisible();
     expect(requests).toContain(language.code);
     const width = await page.evaluate(() => ({
       content: document.documentElement.scrollWidth,

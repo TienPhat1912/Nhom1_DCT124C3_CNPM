@@ -9,7 +9,7 @@ let password = process.env.DEMO_PASSWORD;
 if (!password) password = (await readFile(new URL('../../.env', import.meta.url), 'utf8')).split(/\r?\n/).find(s => s.startsWith('DEMO_PASSWORD=')).slice('DEMO_PASSWORD='.length);
 const prefix = `test-${Date.now()}`;
 const staff = {};
-let config, department, consultLocation, doctorId, resources;
+let config, department, consultLocation, resources;
 const failures = [];
 
 async function call(token, path, body, method = body === undefined ? 'GET' : 'POST', key = randomUUID(), expected = 200) {
@@ -25,7 +25,7 @@ async function prepare(session) {
 }
 async function confirm(requestId) {
   const r = await call(staff.reception, `/api/requests/${requestId}`);
-  return call(staff.reception, `/api/requests/${requestId}/confirm`, { version: r.version, departmentId: department.id, locationId: consultLocation.id, doctorId, attendeeVerified: true, verificationNote: 'Verified in acceptance test' });
+  return call(staff.reception, `/api/requests/${requestId}/confirm`, { version: r.version, departmentId: department.id, locationId: consultLocation.id, attendeeVerified: true, verificationNote: 'Verified in acceptance test' });
 }
 async function attendance(session) { const r = await prepare(session); const v = await confirm(r.id); return { requestId: r.id, visitId: v.visitId }; }
 async function visit(token, id) { return call(token, `/api/visits/${id}?language=en`); }
@@ -44,7 +44,7 @@ before(async () => {
   assert.equal((await call(null, '/health')).database, 'SqlServer');
   config = await call(null, '/api/config'); department = config.departments.find(d => d.code === 'CONSULT'); consultLocation = config.locations.find(l => l.room === 'A101');
   for (const role of ['reception', 'doctor', 'service', 'cashier', 'admin', 'otherdoctor']) staff[role] = (await call(null, '/api/auth/login', { email: `${role}@demo.local`, password, language: 'en' })).token;
-  resources = await call(staff.reception, '/api/reception/resources'); doctorId = resources.doctors.find(d => d.departments.includes(department.id)).id;
+  resources = await call(staff.reception, '/api/reception/resources');
 });
 
 test('walk-in: preparation, supplement, concurrent reception and QR ownership', async () => {
@@ -61,7 +61,7 @@ test('walk-in: preparation, supplement, concurrent reception and QR ownership', 
   r = await call(s.token, `/api/requests/${r.id}`); assert.equal(r.status, 'NeedsInformation');
   await call(s.token, `/api/requests/${r.id}`, { information: { ...input, version: r.version }, messageId: r.messages[0].id, response: 'Provided information' }, 'PUT');
   r = await call(s.token, `/api/requests/${r.id}`); assert.equal(r.status, 'Submitted'); assert.equal(r.messages[0].response, 'Provided information');
-  const confirmInput = { version: r.version, departmentId: department.id, locationId: consultLocation.id, doctorId, attendeeVerified: true, verificationNote: 'Verified in concurrent test' };
+  const confirmInput = { version: r.version, departmentId: department.id, locationId: consultLocation.id, attendeeVerified: true, verificationNote: 'Verified in concurrent test' };
   const results = await Promise.all(Array.from({ length: 8 }, () => call(staff.reception, `/api/requests/${r.id}/confirm`, confirmInput)));
   assert.equal(new Set(results.map(v => v.visitId)).size, 1);
   const id = results[0].visitId; let v = await visit(s.token, id); assert.equal(v.journeyStatus, 'PendingActivation');

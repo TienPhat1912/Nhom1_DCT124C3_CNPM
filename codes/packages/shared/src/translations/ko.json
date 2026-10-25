@@ -1,6 +1,6 @@
 {
   "menu": "메뉴",
-  "directory": "진료과 및 의료진",
+  "doctorUnavailable": "선택한 진료과와 진료실에 배정할 수 있는 의사가 없습니다.",
   "adminWorkspace": "병원 관리",
   "dashboard": "개요",
   "dashboardTitle": "운영 현황",

@@ -17,14 +17,20 @@ Chỉ đọc file Excel; các hướng dẫn dành cho người nhập lịch tr
 ## Giao diện
 
 - Admin: khoa, địa điểm, nhân viên, quyền và dashboard dùng dữ liệu đã đồng bộ. Có tìm kiếm nhân viên theo tên/khoa/chuyên khoa.
-- Doctor: tra cứu khoa, chuyên khoa và phòng khám trong mục Khoa và bác sĩ; chỉ xem lượt khám giao cho tài khoản đó. Không hiển thị khung hồ sơ nhân viên ở đầu trang.
-- Reception: chọn khoa → chuyên khoa/nhóm phòng → phòng khám → bác sĩ phù hợp. API kiểm tra quan hệ bác sĩ/phòng. Nhân viên xác nhận phân công thực tế vì nguồn là tháng 08/2025.
-- Bệnh nhân web/Android: mục Khoa và bác sĩ tìm không dấu và lọc; hành trình/phiếu hiển thị khoa, bác sĩ phụ trách. Tái khám và hỗ trợ đọc cùng danh mục.
+- Không hiển thị mục Khoa và bác sĩ cho bất kỳ vai trò nào trên web hoặc Android.
+- Doctor: chỉ xem lượt khám giao cho tài khoản đó. Không hiển thị khung hồ sơ nhân viên ở đầu trang.
+- Reception: chọn khoa → chuyên khoa/nhóm phòng → phòng khám. Khi xác nhận, API tự gán bác sĩ đang hoạt động có quyền tại khoa và phù hợp phòng khám; không có trường chọn bác sĩ. Nếu không có bác sĩ phù hợp, không tạo lượt khám và báo lỗi.
+- Bệnh nhân web/Android: hành trình/phiếu vẫn hiển thị khoa, bác sĩ đã được phân công. Tái khám và hỗ trợ dùng dữ liệu khoa hiện có.
 - Bản đồ: dùng chung mã khoa, lấy tên theo cấu hình admin, không tìm đường đến khoa ngừng hoạt động. Khu/tầng/tọa độ vẫn theo giới hạn bản đồ mẫu.
 
 Hồ sơ Excel chưa có mật khẩu đăng nhập. Để cấp tài khoản, admin mở đúng hồ sơ,
 xác minh nhân sự, đặt email và mật khẩu riêng. Không có mật khẩu mặc định.
 Ba mục CN không được tạo thành tài khoản Doctor.
+
+Quy tắc tự phân công dùng dữ liệu cấu hình hiện có, không suy ra ca trực từ lịch tháng 08/2025.
+Bác sĩ thuộc dữ liệu Excel phải có phòng khám trong danh sách được nhập; tài khoản bác sĩ
+không thuộc nguồn Excel được xét theo quyền khoa. Trong các bác sĩ phù hợp, API chọn
+theo thời điểm tạo hồ sơ rồi ID để kết quả ổn định. Xác nhận lại cùng hồ sơ không đổi bác sĩ.
 
 ## Cách đồng bộ
 
@@ -53,8 +59,11 @@ import; chạy lại script không tự cập nhật lịch hiện tại. Không
     npm run test:map
     .\tests\catalog\run.ps1
 
-Browser test mở Vite 5189, dùng API giả lập, chạy desktop và viewport điện thoại.
+Browser test mở Vite 5189, dùng API giả lập, chạy desktop và viewport điện thoại:
+kiểm tra bỏ mục danh mục ở cả sáu vai trò và tiếp nhận gửi khoa/phòng mà không gửi bác sĩ.
 API test tạo database HospitalAcceptance_<timestamp> trên SQL Docker, kiểm tra nhập
 trên dữ liệu cũ, giữ cấu hình, không nhập trùng, quyền tiếp nhận, quan hệ phòng/bác sĩ,
-CN, đăng nhập hồ sơ chưa cấp tài khoản, cấp tài khoản thử và thông tin trên phiếu.
+CN, đăng nhập hồ sơ chưa cấp tài khoản, cấp tài khoản thử, thông tin trên phiếu và tự
+phân công bác sĩ. Kiểm tra không chọn bác sĩ ngừng hoạt động/sai phòng, không tạo lượt
+khám khi thiếu bác sĩ và không phân công lại khi xác nhận lặp.
 Database kiểm thử được giữ riêng; tiến trình API kiểm thử tự dừng.

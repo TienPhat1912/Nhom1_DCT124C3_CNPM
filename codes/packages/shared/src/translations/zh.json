@@ -1,6 +1,6 @@
 {
   "menu": "菜单",
-  "directory": "科室与医生",
+  "doctorUnavailable": "所选科室和诊室暂无可用医生。",
   "adminWorkspace": "医院管理",
   "dashboard": "概览",
   "dashboardTitle": "运营概览",

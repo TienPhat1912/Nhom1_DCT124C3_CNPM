@@ -1,6 +1,6 @@
 {
   "menu": "メニュー",
-  "directory": "診療科・医師",
+  "doctorUnavailable": "選択した診療科と診察室に割り当て可能な医師がいません。",
   "adminWorkspace": "病院管理",
   "dashboard": "概要",
   "dashboardTitle": "運営状況",

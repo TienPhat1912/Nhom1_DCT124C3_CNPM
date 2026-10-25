@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Hospital.Api.Reception;
 public record RequestInput(string Name, string Contact, string Description, string Requests, Guid DepartmentId, int Version = 0);
 public record CodeInput(string Code);
-public record ConfirmInput(int Version, Guid DepartmentId, Guid LocationId, Guid DoctorId, bool AttendeeVerified, string VerificationNote);
+public record ConfirmInput(int Version, Guid DepartmentId, Guid LocationId, bool AttendeeVerified, string VerificationNote);
 public record MessageInput(Guid TemplateId, int Version);
 public record SupplementInput(RequestInput Information, Guid? MessageId, string Response);
 public record VerifyInput(string Reference, string Proof);
@@ -93,13 +93,13 @@ public static class ReceptionEndpoints
                 Check.That(await db.Set<Department>().AnyAsync(d => d.Id == input.DepartmentId && d.Active), "departmentInvalid", "Select an active department.");
                 var loc = await db.Set<Location>().SingleOrDefaultAsync(l => l.Id == input.LocationId && l.DepartmentId == input.DepartmentId && l.Active);
                 Check.That(loc is not null, "destinationInvalid", "Select an active destination in this department.");
-                var doctor = await db.Users.Include(x => x.Scopes).SingleOrDefaultAsync(x => x.Id == input.DoctorId && x.Role == "Doctor" && x.Active);
-                Check.That(doctor is not null && doctor.Scopes.Any(sc => sc.DepartmentId == input.DepartmentId), "doctorInvalid", "Choose an assigned doctor.");
+                var doctors = await db.Users.Where(x => x.Role == "Doctor" && x.Active && x.Scopes.Any(sc => sc.DepartmentId == input.DepartmentId))
+                    .OrderBy(x => x.CreatedAt).ThenBy(x => x.Id).ToListAsync();
+                var doctor = doctors.FirstOrDefault(x => HospitalCatalog.Clinician(x.Id) is not {} profile || profile.ClinicIds.Contains(input.LocationId));
+                Check.That(doctor is not null, "doctorUnavailable", "No active doctor is assigned to the selected department and clinic.");
                 if (r.Appointment is not null) Check.That(r.Appointment.PatientId == r.PatientId && r.Appointment.Status == "Confirmed", "bookingInvalid", "Booking is no longer valid.");
                 var rec = new ReceptionRecord { RegistrationRequestId = r.Id, PatientId = r.PatientId, ConfirmedBy = u.Id, VerificationNote = Check.Text(input.VerificationNote, "verificationNote", 3, 500) };
-                var profile = HospitalCatalog.Clinician(input.DoctorId);
-                Check.That(profile is null || profile.ClinicIds.Contains(input.LocationId), "doctorInvalid", "This doctor is not listed for the selected clinic in the imported directory.");
-                var v = new Visit { PatientId = r.PatientId, ReceptionRecordId = rec.Id, AppointmentId = r.AppointmentId, DepartmentId = input.DepartmentId, DoctorId = input.DoctorId };
+                var v = new Visit { PatientId = r.PatientId, ReceptionRecordId = rec.Id, AppointmentId = r.AppointmentId, DepartmentId = input.DepartmentId, DoctorId = doctor!.Id };
                 v.Journey = new PatientJourney { VisitId = v.Id }; v.Ticket = new ExaminationTicket { VisitId = v.Id, Number = "H-" + v.Id.ToString("N")[..8].ToUpperInvariant() };
                 var consult = workflow.MakeStep(v.Journey, loc!, "Consultation", "Doctor", "consultation", 10); consult.QueueNumber = v.Ticket.Number;
                 var cashier = await workflow.DefaultDestination("CASHIER");
