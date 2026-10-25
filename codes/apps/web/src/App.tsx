@@ -84,6 +84,7 @@ export default function App() {
   const config = useResource<Configuration>(
     `/api/config?language=${locale}`,
     true,
+    true,
   );
   const t = useMemo(() => translator(locale), [locale]);
   useEffect(() => {

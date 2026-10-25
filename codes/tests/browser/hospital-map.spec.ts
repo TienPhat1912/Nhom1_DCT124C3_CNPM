@@ -167,6 +167,29 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
     dialog.getByRole("button", { name: "Dừng đọc", exact: true }),
   ).toBeVisible();
 
+  // Translating configuration and Visit data must not unmount the map.
+  // Keep its selected origin, calculated route, displayed floor and zoom.
+  await dialog.getByLabel("Phóng to", { exact: true }).click();
+  await dialog.getByLabel("Tầng đang xem", { exact: true }).selectOption("1");
+  await page.getByLabel("Ngôn ngữ", { exact: true }).selectOption("en");
+  await expect(dialog).toBeVisible();
+  await expect(
+    dialog.getByLabel("1. Your location", { exact: true }),
+  ).toHaveValue("outside");
+  await expect(
+    dialog.getByLabel("Nearest checkpoint", { exact: true }),
+  ).toHaveValue("gate-1");
+  await expect(
+    dialog.getByLabel("Displayed floor", { exact: true }),
+  ).toHaveValue("1");
+  await expect(dialog.getByLabel("Fit map", { exact: true })).toHaveText("150%");
+  await expect(dialog.getByTestId("map-status")).toHaveText("Shortest route");
+  await expect(dialog.getByTestId("map-node-room-A101")).toHaveClass(/is-target/);
+  await page.getByLabel("Language", { exact: true }).selectOption("vi");
+  await expect(dialog.getByTestId("map-status")).toHaveText("Đường đi ngắn nhất");
+  await dialog.getByLabel("Vừa khung", { exact: true }).click();
+  await dialog.getByLabel("Tầng đang xem", { exact: true }).selectOption("0");
+
   // Changing building/floor clears the route and stops stale narration.
   await dialog
     .getByLabel("1. Vị trí của bạn", { exact: true })

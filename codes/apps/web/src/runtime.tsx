@@ -45,7 +45,11 @@ export function useRuntime() {
   if (!value) throw new Error("Runtime context missing");
   return value;
 }
-export function useResource<T>(path: string | null, poll = false) {
+export function useResource<T>(
+  path: string | null,
+  poll = false,
+  keepPreviousOnLanguageChange = false,
+) {
   const locale = useContext(RuntimeContext)?.locale;
   if (path && locale && !/[?&]language=/.test(path))
     path += `${path.includes("?") ? "&" : "?"}language=${locale}`;
@@ -102,9 +106,22 @@ export function useResource<T>(path: string | null, poll = false) {
       window.removeEventListener("focus", load);
     };
   }, [path, poll, tick]);
+  // Keep mounted screens while translating the same resource. Other query
+  // changes (including pagination) and different records still clear old data.
+  const resourceIdentity = (value: string) => {
+    const url = new URL(value, "http://hospital.local");
+    url.searchParams.delete("language");
+    return url.href;
+  };
+  const visible =
+    state &&
+    path &&
+    (state.path === path ||
+      (keepPreviousOnLanguageChange &&
+        resourceIdentity(state.path) === resourceIdentity(path)));
   return {
-    data: state?.path === path ? state.data : null,
-    updated: state?.path === path ? state.updated : null,
+    data: visible ? state.data : null,
+    updated: visible ? state.updated : null,
     error,
     loading,
     refresh,

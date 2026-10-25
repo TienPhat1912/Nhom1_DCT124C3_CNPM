@@ -41,6 +41,7 @@ export function PatientJourney({
   const resource = useResource<Visit>(
     id ? `/api/visits/${id}?language=${locale}` : null,
     true,
+    true,
   );
   const mutation = useMutation();
   const [modal, setModal] = useState<
