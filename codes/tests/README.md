@@ -38,6 +38,6 @@ Windows tự dùng Chrome/Edge có sẵn; máy chưa có trình duyệt phù h�
 ## Danh mục khoa và bác sĩ
 
 Chạy npm run test:directory:unit để kiểm tra dữ liệu Excel và liên kết bản đồ.
-Chạy npm run test:directory để kiểm tra giao diện bốn vai trò với Vite riêng (5189).
+Chạy npm run test:directory để kiểm tra bỏ mục Khoa và bác sĩ ở cả sáu vai trò và bỏ chọn bác sĩ khi tiếp nhận, với Vite riêng (5189).
 Chạy .\tests\catalog\run.ps1 với database SQL riêng để kiểm tra nhập bổ sung,
 phân công phòng/bác sĩ, giữ dữ liệu cũ và không nhập trùng. Cần build API trước.

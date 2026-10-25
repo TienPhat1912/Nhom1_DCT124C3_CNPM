@@ -39,6 +39,14 @@ Khoảng 7/30 ngày chỉ áp dụng cho biểu đồ `daily`; các số liệu 
 
 Xem OpenAPI để lấy verb, parameter và tên trường chính xác. API không chứa endpoint tính phí, thanh toán thật, chẩn đoán tự động hay xác nhận cấp phát thuốc.
 
+`POST /api/requests/{id}/confirm` nhận `version`, `departmentId`, `locationId`,
+`attendeeVerified`, `verificationNote`. API tự chọn bác sĩ Doctor đang hoạt động có quyền
+tại khoa, phù hợp phòng khám theo dữ liệu cấu hình (hồ sơ ngoài nguồn nhập xét theo quyền khoa).
+Ưu tiên thời điểm tạo hồ sơ, sau đó ID. Client không chọn hoặc ghi đè `doctorId`;
+trường này vẫn có trong phản hồi Visit để hiển thị và kiểm soát quyền bác sĩ.
+Không có ứng viên phù hợp trả 422 `doctorUnavailable` và giữ hồ sơ chưa xác nhận.
+Xác nhận lại hồ sơ đã tiếp nhận trả Visit cũ, không phân công lại.
+
 ## State machine
 
 `Visit: Active → Closed`. Guard: mọi Consultation/ReturnConsultation/Service/IntermediatePayment được giải quyết và FinalSettlementRevision bằng WorkRevision. Chỉ định mới/sửa/hủy tăng WorkRevision. Quyết toán Intermediate không là Final. NoPaymentRequired cũng phải qua guard chuyên môn.

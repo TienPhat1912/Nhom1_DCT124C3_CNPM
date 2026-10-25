@@ -3346,7 +3346,6 @@
           "version",
           "departmentId",
           "locationId",
-          "doctorId",
           "attendeeVerified",
           "verificationNote"
         ],
@@ -3365,10 +3364,6 @@
             "format": "uuid"
           },
           "locationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "doctorId": {
             "type": "string",
             "format": "uuid"
           },

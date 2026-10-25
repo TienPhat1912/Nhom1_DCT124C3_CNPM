@@ -37,18 +37,20 @@ for(const d of source.clinicians.filter(d=>d.isDoctor)) {
   assert.ok(management.staff.some(x=>x.id===d.id && x.directoryOnly));
 }
 assert.ok(source.clinicians.filter(d=>!d.isDoctor).every(d=>!resources.doctors.some(x=>x.id===d.id)));
-const doctor=source.clinicians.find(d=>d.departmentKey==="C-neurosurgery");
+let doctor=source.clinicians.find(d=>d.departmentKey==="C-neurosurgery");
 const dep=directory.departments.find(d=>d.mapKey===doctor.departmentKey);
-const storedDoctor=management.staff.find(d=>d.id===doctor.id);
+let storedDoctor=management.staff.find(d=>d.id===doctor.id);
 await call("/api/auth/login",{email:storedDoctor.email,password:process.env.DEMO_PASSWORD},undefined,401);
 const guest=await call("/api/auth/guest",{language:"vi"});
 const request=await call("/api/requests",{name:"Catalog isolated test",contact:"test-contact",description:"",requests:"",departmentId:config.departments.find(d=>d.code==="CONSULT").id},guest.token);
-const input={version:1,departmentId:dep.id,locationId:doctor.clinicIds[0],doctorId:doctor.id,attendeeVerified:true,verificationNote:"Verified in isolated catalog test"};
+const input={version:1,departmentId:dep.id,locationId:doctor.clinicIds[0],attendeeVerified:true,verificationNote:"Verified in isolated catalog test"};
 const foreignClinic=source.clinics.find(c=>c.departmentKey==="D-paediatrics");
 await call("/api/requests/"+request.id+"/confirm",{...input,locationId:foreignClinic.id},reception,422);
 const created=await call("/api/requests/"+request.id+"/confirm",input,reception);
 const visit=await call("/api/visits/"+created.visitId,undefined,reception);
-assert.equal(visit.doctorId,doctor.id);
+doctor=source.clinicians.find(d=>d.id===visit.doctorId);
+assert.ok(doctor?.isDoctor && doctor.departmentKey===dep.mapKey && doctor.clinicIds.includes(input.locationId));
+storedDoctor=management.staff.find(d=>d.id===doctor.id);
 assert.equal(visit.departmentId,dep.id);
 assert.equal(visit.steps[0].destination.building,"?");
 assert.equal(visit.steps[0].destination.floor,"?");
@@ -79,13 +81,35 @@ assert.equal(correctedClinic.locationConfirmed,true);
 const historicalVisit=await call("/api/visits/"+created.visitId,undefined,reception);
 assert.equal(historicalVisit.steps[0].destination.building,"?");
 assert.equal(historicalVisit.steps[0].destination.room,clinicLocation.room);
-// Same department, different clinic: enforce membership on the server too.
-const paired=source.clinicians.find(d=>d.isDoctor && source.clinics.some(c=>c.departmentKey===d.departmentKey&&!d.clinicIds.includes(c.id)));
+// An active doctor in the same department but a different clinic is not eligible.
+const paired=source.clinicians.find(d=>d.isDoctor && d.departmentKey==="B-internal" && source.clinics.some(c=>c.departmentKey===d.departmentKey&&!d.clinicIds.includes(c.id)));
 const pairedDep=directory.departments.find(d=>d.mapKey===paired.departmentKey);
 const wrong=source.clinics.find(c=>c.departmentKey===paired.departmentKey&&!paired.clinicIds.includes(c.id));
 const guest2=await call("/api/auth/guest",{language:"vi"});
 const request2=await call("/api/requests",{name:"Wrong clinic test",contact:"test-contact",description:"",requests:"",departmentId:config.departments.find(d=>d.code==="CONSULT").id},guest2.token);
-await call("/api/requests/"+request2.id+"/confirm",{...input,departmentId:pairedDep.id,doctorId:paired.id,locationId:wrong.id},reception,422);
+const eligible=source.clinicians.filter(d=>d.isDoctor && d.departmentKey===paired.departmentKey && d.clinicIds.includes(wrong.id));
+assert.ok(eligible.length);
+const eligibleIds=eligible.map(d=>"'"+d.id+"'").join(",");
+fixtureSql(`SET QUOTED_IDENTIFIER ON; UPDATE Users SET Active=0 WHERE Id IN (${eligibleIds}); UPDATE Users SET CreatedAt='2000-01-01' WHERE Id='${paired.id}';`);
+try {
+  const automaticInput={...input,departmentId:pairedDep.id,locationId:wrong.id};
+  const unavailable=await call("/api/requests/"+request2.id+"/confirm",automaticInput,reception,422);
+  assert.equal(unavailable.title,"doctorUnavailable");
+  const pending=await call("/api/requests/"+request2.id,undefined,reception);
+  assert.equal(pending.status,"Submitted");
+  assert.equal(pending.visitId,null);
+  // Restore one eligible doctor. An old client cannot force a different assignment.
+  fixtureSql(`SET QUOTED_IDENTIFIER ON; UPDATE Users SET Active=1 WHERE Id='${eligible[0].id}';`);
+  const second=await call("/api/requests/"+request2.id+"/confirm",{...automaticInput,doctorId:paired.id},reception);
+  const assignedVisit=await call("/api/visits/"+second.visitId,undefined,reception);
+  assert.equal(assignedVisit.doctorId,eligible[0].id);
+  assert.equal(assignedVisit.departmentId,pairedDep.id);
+  assert.equal(assignedVisit.steps[0].destination.id,wrong.id);
+  const repeated=await call("/api/requests/"+request2.id+"/confirm",automaticInput,reception);
+  assert.equal(repeated.visitId,second.visitId);
+} finally {
+  fixtureSql(`SET QUOTED_IDENTIFIER ON; UPDATE Users SET Active=1 WHERE Id IN (${eligibleIds});`);
+}
 const marker=fixtureSql("SET NOCOUNT ON; SELECT COUNT(*) FROM AuditEvent WHERE Source='Catalog';").trim();
 assert.equal(Number(marker.split(/\r?\n/).find(line => /^\s*\d+\s*$/.test(line))),1);
-console.log("PASS catalog import into existing DB, source counts, preserved configuration/login, reception scope, CN separation, no generated login, correct assignment and wrong clinic rejection");
+console.log("PASS catalog import, preserved configuration/login, automatic doctor assignment, inactive/wrong clinic exclusion, unavailable rollback and repeated confirmation");
