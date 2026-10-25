@@ -12,6 +12,8 @@ API acceptance cần SQL chạy trước; script dùng database riêng `Hospital
 
 `npm run test:narration:unit` kiểm tra hook đọc hướng dẫn Android với React/Expo Speech giả lập: dừng khi đang tải giọng, đổi màn hình/ngôn ngữ, request và callback đến muộn. Không cần API, SQL hoặc giả lập Android; kiểm thử này cũng chạy trong CI, không thay thế kiểm chứng âm thanh trên thiết bị thật.
 
+`npm run test:languages:unit` kiểm tra đủ bộ nhãn sáu ngôn ngữ, hướng dẫn bản đồ và chọn giọng đọc. `npm run test:translation` kiểm tra provider dịch giả lập, cache, quyền truy cập và nội dung phát khớp nội dung hiển thị. `powershell -ExecutionPolicy Bypass -File tests/translation/run-migration.ps1` kiểm tra nâng cấp schema cũ và rollback khi thiếu bản gốc Việt, dùng database `HospitalAcceptanceMigration_*` mới. `npx playwright test --config playwright.languages.config.ts` kiểm tra bốn ngôn ngữ mới trên desktop/mobile web, ghi nhớ lựa chọn và bố cục. Xem [hướng dẫn ngôn ngữ](../docs/guides/LANGUAGES.md).
+
 ```powershell
 # Chỉ kiểm tra dashboard
 npx playwright test tests/browser/admin.spec.ts

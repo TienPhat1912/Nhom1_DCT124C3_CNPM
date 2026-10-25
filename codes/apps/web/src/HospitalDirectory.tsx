@@ -1,3 +1,4 @@
+import { localizeText } from "@hospital/shared";
 import { useState } from "react";
 import {
   directoryCopy,
@@ -94,7 +95,7 @@ export default function HospitalDirectory() {
               <p data-testid="directory-department-location">
                 <strong>{displayName(chosen, locale)}</strong> ·{" "}
                 {chosen.locationConfirmed
-                  ? (locale === "vi" ? "Khu " : "Building ") +
+                  ? localizeText("Khu ", locale) +
                     chosen.building +
                     " · " +
                     chosen.floors.map((f) => floorLabel(f, locale)).join(", ")

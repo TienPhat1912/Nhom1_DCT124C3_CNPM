@@ -1,3 +1,4 @@
+import { speechLocale, voiceMatches } from "@hospital/shared";
 import { useEffect, useRef, useState } from "react";
 import type { Locale } from "@hospital/shared";
 
@@ -31,9 +32,9 @@ export function useRouteSpeech(
     try {
       if (!text || !window.speechSynthesis) throw new Error("unavailable");
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = locale === "vi" ? "vi-VN" : "en-US";
+      utterance.lang = speechLocale(locale);
       const voices = window.speechSynthesis.getVoices();
-      const voice = voices.find((v) => v.lang.toLowerCase().startsWith(locale));
+      const voice = voices.find((v) => voiceMatches(v.lang, locale));
       if (voices.length && !voice) throw new Error("unavailable");
       if (voice) utterance.voice = voice;
       utterance.rate = 0.9;

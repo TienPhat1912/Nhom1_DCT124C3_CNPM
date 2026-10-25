@@ -22,6 +22,7 @@ start_api() {
 }
 start_api
 node --test --test-concurrency=1 tests/api/api.test.mjs | tee artifacts/api-acceptance.log
+dotnet run --project tests/translation/Translation.Tests.csproj -- --migration
 node tests/api/performance.mjs
 (cd apps/web && exec node ../../node_modules/vite/bin/vite.js --host 127.0.0.1) > artifacts/web-server.log 2>&1 & web_pid=$!
 for i in $(seq 1 30); do if curl -fsS http://localhost:5180 > /dev/null 2>&1; then break; fi; sleep 1; done

@@ -20,7 +20,10 @@ try {
   if (nodes().some(byLabel('Overview'))) { await tap('Overview'); await tap('Sign out'); }
   else if (nodes().some(byLabel('Tổng quan'))) { await tap('Tổng quan'); await tap('Đăng xuất'); }
   await locate(n => ['Continue as guest', 'Tiếp tục với tư cách khách'].some(label => byLabel(label)(n)), { scroll: true });
-  if (nodes().some(byLabel('English'))) await tap('English');
+  if (nodes().some(byLabel('Tiếng Việt'))) {
+    await tap('Tiếng Việt');
+    await tap('English');
+  }
   await tap('Continue as guest');
   await locate('No confirmed hospital Visits yet.');
   passed('Release APK reaches real API over emulator loopback; guest initially has no Visit');

@@ -1,3 +1,4 @@
+import { localizeText } from "@hospital/shared";
 import { useState } from "react";
 import { ArrowRight, CalendarDays, ClipboardList, QrCode } from "lucide-react";
 import {
@@ -30,7 +31,10 @@ export function PatientReception({
 }) {
   const { t, locale, session } = useRuntime();
   const [offset, setOffset] = useState(0);
-  const requests = useResource<RequestSummary[]>(`/api/requests?offset=${offset}`, true);
+  const requests = useResource<RequestSummary[]>(
+    `/api/requests?offset=${offset}`,
+    true,
+  );
   const profile = useResource<Profile>("/api/auth/profile");
   const [selected, setSelected] = useState<string | null>(null);
   const [mode, setMode] = useState<"list" | "new" | "appointments">("list");
@@ -312,6 +316,13 @@ function RequestDetail({
                 onPlay={() =>
                   void speech.play(
                     `/api/requests/${id}/messages/${m.id}/narration`,
+                    {
+                      kind: "Message",
+                      section: "",
+                      sourceRevision: 1,
+                      language: locale,
+                      contentKey: m.contentKey,
+                    },
                   )
                 }
               />
@@ -391,9 +402,10 @@ function AppointmentPanel({
       <div className="panel">
         <h3>{t("appointment")}</h3>
         <p>
-          {locale === "vi"
-            ? "Bạn có thể tạo yêu cầu không hẹn trước, sau đó đưa mã lịch hẹn cho nhân viên tiếp nhận xác minh. Nhân viên sẽ gắn lịch hẹn với chính yêu cầu đó."
-            : "Prepare a reception request, then give your booking reference to reception. Staff can verify and attach it to the same request."}
+          {localizeText(
+            "Bạn có thể tạo yêu cầu không hẹn trước, sau đó đưa mã lịch hẹn cho nhân viên tiếp nhận xác minh. Nhân viên sẽ gắn lịch hẹn với chính yêu cầu đó.",
+            locale,
+          )}
         </p>
       </div>
     );
@@ -403,9 +415,10 @@ function AppointmentPanel({
       {config.demo && (
         <Notice>
           {t("demo")}.{" "}
-          {locale === "vi"
-            ? "Dữ liệu kiểm thử: DEMO-001 / SIM-VERIFY-DEMO-001. Mỗi định danh chỉ liên kết một bệnh nhân."
-            : "Test identity: DEMO-001 / SIM-VERIFY-DEMO-001. Each identity links to one patient."}
+          {localizeText(
+            "Dữ liệu kiểm thử: DEMO-001 / SIM-VERIFY-DEMO-001. Mỗi định danh chỉ liên kết một bệnh nhân.",
+            locale,
+          )}
         </Notice>
       )}
       <Form

@@ -1,3 +1,4 @@
+import { localizeText } from "@hospital/shared";
 import type { ReactNode } from "react";
 import {
   ActivityIndicator,
@@ -152,11 +153,7 @@ export function Feedback({
     </View>
   ) : ok ? (
     <View accessibilityLiveRegion="polite" style={styles.success}>
-      <Txt>
-        {locale === "vi"
-          ? "Máy chủ đã xác nhận thao tác."
-          : "The server confirmed your action."}
-      </Txt>
+      <Txt>{localizeText("Máy chủ đã xác nhận thao tác.", locale)}</Txt>
     </View>
   ) : null;
 }

@@ -1,3 +1,4 @@
+using Hospital.Api.Content;
 using Hospital.Api.Domain;
 using Hospital.Api.Identity;
 using Hospital.Api.Infrastructure;
@@ -20,7 +21,7 @@ public static class ReceptionEndpoints
 {
     public static void MapReception(this WebApplication app)
     {
-        var g = app.MapGroup("/api").WithTags("Reception and QR");
+        var g = app.MapGroup("/api").AddEndpointFilter<LocalizedResponseFilter>().WithTags("Reception and QR");
         g.MapGet("/entry", () => new { purpose = "Hospital", languages = new[] { "vi", "en" }, createsVisit = false });
         g.MapGet("/requests", async (int? offset, int? limit, Access access, HospitalDb db) => {
             Check.That((offset ?? 0) >= 0 && (limit ?? 100) is >= 1 and <= 100, "validation", "Use non-negative offset and a page size from 1 to 100.");
@@ -76,7 +77,7 @@ public static class ReceptionEndpoints
                 var selected = await db.Set<GuidanceTemplate>().SingleOrDefaultAsync(t => t.Id == input.TemplateId && t.Category == "Reception" && t.Published);
                 Check.That(selected is not null, "templateUnavailable", "An approved reception template is required.");
                 var variants = await db.Set<GuidanceTemplate>().Where(t => t.Key == selected!.Key && t.Published).OrderByDescending(t => t.Revision).ToListAsync();
-                var template = variants.FirstOrDefault(t => t.Language == r.Patient.Language) ?? variants.FirstOrDefault(t => t.Language == "en") ?? variants.FirstOrDefault(t => t.Language == "vi") ?? selected!;
+                var template = variants.FirstOrDefault(t => t.Language == "vi") ?? selected!;
                 r.Messages.Add(new ReceptionMessage { TemplateId = template.Id, Text = template.Text, Language = template.Language, ActorId = u.Id }); r.Status = "NeedsInformation";
                 bus.Notify(r.PatientId, null, "receptionMessage"); bus.Audit(u.Id, "ReceptionMessage", detail: r.Id.ToString()); return new { r.Id };
             });
@@ -116,7 +117,7 @@ public static class ReceptionEndpoints
             Check.That(s.PatientId is not null || s.UserAccount?.Role == "Reception", "forbidden", "Ticket access requires patient or reception authority.", 403);
             var doctor = await db.Users.FindAsync(v.DoctorId);
             var department = await db.Set<Department>().FindAsync(v.DepartmentId);
-            var code = await qr.Current("Ticket", v.Ticket.Id); return new { doctorName = doctor?.Name, departmentNameVi = department?.NameVi, departmentNameEn = department?.NameEn, v.Ticket.Id, v.Ticket.Number, visitId = v.Id, journeyId = v.Journey.Id, code = qr.Reveal(code), code.ExpiresAt };
+            var code = await qr.Current("Ticket", v.Ticket.Id); return new { doctorName = doctor?.Name, departmentNameVi = department?.NameVi, departmentNameEn = department?.NameVi, v.Ticket.Id, v.Ticket.Number, visitId = v.Id, journeyId = v.Journey.Id, code = qr.Reveal(code), code.ExpiresAt };
         });
         g.MapPost("/tickets/redeem", async (CodeInput input, Access access, HospitalDb db, QrService qr, CommandBus bus) => {
             var s = await access.Patient(); return await bus.Run($"{s.Id}:redeem", input, async () => {

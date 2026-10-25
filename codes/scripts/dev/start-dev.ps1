@@ -9,13 +9,16 @@ foreach ($port in @($settings.API_PORT, $settings.WEB_PORT)) {
   if (Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue) { throw "Port $port is in use. Stop the previous source demo or Compose api/web before starting." }
 }
 $saved = @{}
-foreach ($name in @('ConnectionStrings__Hospital', 'Demo__Enabled', 'Demo__Password', 'ASPNETCORE_ENVIRONMENT', 'ASPNETCORE_URLS', 'Web__Origin', 'Web__AdditionalOrigins__0')) {
+foreach ($name in @('Translation__Provider', 'Translation__Key', 'Translation__Region', 'Translation__Endpoint', 'ConnectionStrings__Hospital', 'Demo__Enabled', 'Demo__Password', 'ASPNETCORE_ENVIRONMENT', 'ASPNETCORE_URLS', 'Web__Origin', 'Web__AdditionalOrigins__0')) {
   $saved[$name] = [Environment]::GetEnvironmentVariable($name, 'Process')
 }
 try {
   dotnet build backend/Hospital.Api --no-restore
   if ($LASTEXITCODE -ne 0) { throw 'Backend build failed.' }
   $env:ConnectionStrings__Hospital = "Server=127.0.0.1,$($settings.SQL_PORT);Database=$database;User Id=sa;Password=$($settings.SQL_PASSWORD);TrustServerCertificate=true"
+  foreach ($item in @{ Provider='TRANSLATION_PROVIDER'; Key='TRANSLATION_KEY'; Region='TRANSLATION_REGION'; Endpoint='TRANSLATION_ENDPOINT' }.GetEnumerator()) {
+    if ($settings.ContainsKey($item.Value)) { [Environment]::SetEnvironmentVariable('Translation__' + $item.Key, $settings[$item.Value], 'Process') }
+  }
   $env:Demo__Enabled = 'true'
   $env:Demo__Password = $settings.DEMO_PASSWORD
   $env:ASPNETCORE_ENVIRONMENT = 'Development'

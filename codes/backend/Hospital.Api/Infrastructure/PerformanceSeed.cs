@@ -48,7 +48,7 @@ public static class PerformanceSeed
                 foreach (var item in visit.Journey.Steps.Where(s => s.Kind == "Service")) final.Dependencies.Add(new StepDependency { JourneyStepId = final.Id, PrerequisiteStepId = item.Id });
                 visit.Journey.Steps.Add(final);
                 db.AddRange(request, reception, visit);
-                db.Add(new SummaryVersion { VisitId = visit.Id, Revision = 1, Status = "Published", Language = "en", Diagnosis = "Synthetic load-test text, not a clinical record", Instructions = "Synthetic instruction", AuthorId = doctor.Id, AuthorName = doctor.Name, PublishedAt = DateTime.UtcNow });
+                db.Add(new SummaryVersion { VisitId = visit.Id, Revision = 1, Status = "Published", Language = "vi", Diagnosis = "Dữ liệu kiểm thử tải, không phải hồ sơ khám bệnh", Instructions = "Hướng dẫn kiểm thử", AuthorId = doctor.Id, AuthorName = doctor.Name, PublishedAt = DateTime.UtcNow });
             }
             await db.SaveChangesAsync();
             db.ChangeTracker.Clear();

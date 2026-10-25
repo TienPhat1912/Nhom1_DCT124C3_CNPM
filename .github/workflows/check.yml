@@ -23,7 +23,8 @@ jobs:
         run: ./tests/setup/bootstrap.ps1
       - run: npm ci
       - run: npm run typecheck && npm run lint && npm run build
-      - run: npm run test:narration:unit
+      - run: npm run test:narration:unit && npm run test:languages:unit
+      - run: npm run test:translation
       - run: dotnet restore --locked-mode && dotnet build -c Release --no-restore
       - run: npx playwright install --with-deps chromium
       - name: SQL, API, browser and provider acceptance

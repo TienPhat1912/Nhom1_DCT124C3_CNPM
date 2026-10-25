@@ -33,11 +33,17 @@ Khoảng 7/30 ngày chỉ áp dụng cho biểu đồ `daily`; các số liệu 
 | Reception | `/api/requests`, `/{id}`, `/{id}/message`, `/{id}/confirm`, `/api/reception/scan`, `/api/reception/resources` | Chủ request/reception theo khoa |
 | Ticket | `/api/visits/{id}/ticket`, `/reissue`, `/recovery`, `/api/tickets/redeem` | Chủ hồ sơ/guest grant hoặc reception |
 | Journey | `/api/visits`, `/{id}`, `/{id}/orders`, `/orders/{orderId}`, `/steps/{stepId}/progress`, `/queue`, `/settlement`, `/pharmacy`, `/complete-guidance` | Vai trò + khoa/phân công; bệnh nhân chỉ bước hướng dẫn cuối |
-| Doctor content | `/api/visits/{id}/drafts`, `/drafts/{draftId}/publish`, `/summaries/{summaryId}/translations`, `/content`, `/follow-ups`, `/narration` | Bác sĩ phụ trách viết/duyệt; chủ hồ sơ đọc nội dung đã công bố |
+| Doctor content | `/api/visits/{id}/drafts`, `/drafts/{draftId}/publish`, `/content`, `/follow-ups`, `/narration` | Bác sĩ phụ trách viết/duyệt nguồn Việt; chủ hồ sơ đọc bản gốc hoặc bản dịch khi truy xuất |
 | Support | `/api/visits/{id}/navigation`, `/api/notifications`, `/api/assistance` | Quyền hồ sơ; Reception/Service xử lý hỗ trợ theo khoa |
 | Administration | `/api/admin/configuration`, `/departments`, `/locations`, `/services`, `/mappings`, `/templates`, `/routes`, `/staff` | Admin; không tự cấp quyền bác sĩ công bố |
 
 Xem OpenAPI để lấy verb, parameter và tên trường chính xác. API không chứa endpoint tính phí, thanh toán thật, chẩn đoán tự động hay xác nhận cấp phát thuốc.
+
+## Ngôn ngữ khi đọc dữ liệu
+
+`language` trong query hoặc `X-Hospital-Language` chọn `vi`, `en`, `zh`, `ko`, `ja`, `ru`. API giữ nguyên tên người, mã và bản gốc; dịch các trường nội dung bệnh viện sau kiểm tra quyền. Dữ liệu lưu SQL là nguồn Việt, bản dịch chỉ được cache trong RAM. Tên hiển thị dùng `name`/`departmentName`, bản gốc dùng `nameVi`/`departmentNameVi`.
+
+Phản hồi nội dung có ngôn ngữ thực tế, `requestedLanguage`, `fallback`, `translationStatus` và `contentKey`. Narration gửi `language`, `sourceRevision`, `contentKey` để bảo đảm phát đúng bản đang hiển thị. Lỗi dịch trả nội dung Việt với `fallback=true`; bản dịch thay đổi trả `409 sourceChanged` khi phát bản cũ. Endpoint nhập bản dịch riêng `/summaries/{summaryId}/translations` đã được loại bỏ. Chi tiết và migration: [LANGUAGES.md](../guides/LANGUAGES.md).
 
 ## State machine
 

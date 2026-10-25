@@ -1,3 +1,4 @@
+import { localizeText } from "@hospital/shared";
 import { useState } from "react";
 import {
   Flag,
@@ -25,6 +26,8 @@ import {
   mapFloors,
   mapLabel,
   routeInstructions,
+  routeLanguage,
+  translator,
   shortestPath,
   startNodes,
   type Destination,
@@ -50,32 +53,22 @@ export function HospitalMap({ destination }: { destination: Destination }) {
     <>
       <details className="map-directory">
         <summary>
-          {locale === "vi" ? "Tra cứu khoa/phòng" : "Department directory"} (
-          {mapDepartments.length})
+          {localizeText("Tra cứu khoa/phòng", locale)} ({mapDepartments.length})
         </summary>
         <p>
-          {locale === "vi"
-            ? "Có thể chọn một khoa làm điểm đến để tra cứu; thông tin trên phiếu không thay đổi."
-            : "Choose a department to explore directions. This does not change your ticket."}
+          {localizeText(
+            "Có thể chọn một khoa làm điểm đến để tra cứu; thông tin trên phiếu không thay đổi.",
+            locale,
+          )}
         </p>
-        <Field
-          label={locale === "vi" ? "Tìm khoa/phòng" : "Search departments"}
-        >
+        <Field label={localizeText("Tìm khoa/phòng", locale)}>
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={
-              locale === "vi"
-                ? "Tên khoa hoặc khu A–G"
-                : "Department name or building A–G"
-            }
+            placeholder={localizeText("Tên khoa hoặc khu A–G", locale)}
           />
         </Field>
-        <Field
-          label={
-            locale === "vi" ? "Khoa/phòng cần đến" : "Destination department"
-          }
-        >
+        <Field label={localizeText("Khoa/phòng cần đến", locale)}>
           <select
             value={departmentId}
             onChange={(e) => {
@@ -85,9 +78,7 @@ export function HospitalMap({ destination }: { destination: Destination }) {
             }}
           >
             <option value="">
-              {locale === "vi"
-                ? "Dùng phòng trên phiếu"
-                : "Use ticket destination"}
+              {localizeText("Dùng phòng trên phiếu", locale)}
             </option>
             {department && !results.includes(department) && (
               <option value={department.id}>
@@ -103,15 +94,13 @@ export function HospitalMap({ destination }: { destination: Destination }) {
           </select>
         </Field>
         {department && department.floors.length > 1 && (
-          <Field label={locale === "vi" ? "Tầng cần đến" : "Destination floor"}>
+          <Field label={localizeText("Tầng cần đến", locale)}>
             <select
               value={departmentFloor}
               onChange={(e) => setDepartmentFloor(e.target.value)}
             >
               <option value="">
-                {locale === "vi"
-                  ? "Chọn tầng cần đến"
-                  : "Choose destination floor"}
+                {localizeText("Chọn tầng cần đến", locale)}
               </option>
               {department.floors.map((f) => (
                 <option key={f} value={f}>
@@ -122,11 +111,7 @@ export function HospitalMap({ destination }: { destination: Destination }) {
           </Field>
         )}
         {!results.length && (
-          <p>
-            {locale === "vi"
-              ? "Không tìm thấy khoa phù hợp."
-              : "No matching department."}
-          </p>
+          <p>{localizeText("Không tìm thấy khoa phù hợp.", locale)}</p>
         )}
       </details>
       <MapPanel
@@ -171,12 +156,13 @@ function MapPanel({
     target && routeStart
       ? shortestPath(hospitalMap, routeStart, target.id)
       : null;
+  const contentLocale = routeLanguage(route, locale);
   const instructions = route
-    ? routeInstructions(route, locale, !department)
+    ? routeInstructions(route, contentLocale, !department)
     : [];
   const speech = useRouteSpeech(
-    route ? c.narrationIntro + instructions.join(" ") : "",
-    locale,
+    route ? mapCopy[contentLocale].narrationIntro + instructions.join(" ") : "",
+    contentLocale,
     c.audioError,
   );
   const choices = startNodes(area, level, hospitalMap);
@@ -332,6 +318,9 @@ function MapPanel({
         )}
       </div>
       {speech.error && <Notice kind="error">{speech.error}</Notice>}
+      {contentLocale !== locale && (
+        <Notice>{translator(locale)("fallback")}</Notice>
+      )}
       <div
         className="map-route-status"
         role="status"

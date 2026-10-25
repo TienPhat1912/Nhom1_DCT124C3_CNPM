@@ -1,3 +1,4 @@
+import { localizeText } from "./localizedText.ts";
 import departmentData from "../data/hospital-departments.json" with { type: "json" };
 import type { Department, Locale } from "./types";
 
@@ -7,6 +8,8 @@ export type MapDepartment = {
   active?: boolean;
   building: string | null;
   floors: string[];
+  name?: string;
+  fallback?: boolean;
   nameVi: string;
   nameEn: string;
   marker: string;
@@ -23,6 +26,8 @@ export function configuredMapDepartments(
     const current = departments.find((p) => p.code === d.code);
     return {
       ...d,
+      name: current?.name,
+      fallback: current?.fallback,
       nameVi: current?.nameVi ?? d.nameVi,
       nameEn: current?.nameEn ?? d.nameEn,
       active: current ? current.active : !authoritative,
@@ -31,19 +36,15 @@ export function configuredMapDepartments(
 }
 export const floorLabel = (floor: string, locale: Locale) =>
   floor === "-1"
-    ? locale === "vi"
-      ? "Tầng hầm"
-      : "Basement"
+    ? localizeText("Tầng hầm", locale)
     : floor === "0"
-      ? locale === "vi"
-        ? "Tầng trệt"
-        : "Ground floor"
-      : `${locale === "vi" ? "Tầng" : "Floor"} ${floor}`;
+      ? localizeText("Tầng trệt", locale)
+      : `${localizeText("Tầng", locale)} ${floor}`;
 export const departmentLabel = (d: MapDepartment, locale: Locale) =>
-  locale === "vi" ? d.nameVi : d.nameEn;
+  locale === "vi" ? d.nameVi : (d.name ?? localizeText(d.nameVi, locale));
 export function departmentLocation(d: MapDepartment, locale: Locale) {
-  const unknown = locale === "vi" ? "Cần xác nhận" : "Needs confirmation";
-  return `${d.building ? (locale === "vi" ? "Khu " : "Building ") + d.building : unknown} · ${d.floors.length ? d.floors.map((f) => floorLabel(f, locale)).join(", ") : unknown}`;
+  const unknown = localizeText("Cần xác nhận", locale);
+  return `${d.building ? localizeText("Khu", locale) + " " + d.building : unknown} · ${d.floors.length ? d.floors.map((f) => floorLabel(f, locale)).join(", ") : unknown}`;
 }
 export const departmentNodeId = (id: string, floor: string) =>
   `department-${id}-${floor}`;

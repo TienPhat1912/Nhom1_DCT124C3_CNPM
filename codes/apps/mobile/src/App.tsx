@@ -1,3 +1,7 @@
+import { localizeText } from "@hospital/shared";
+import { setApiLocale } from "./runtime";
+import { isLocale } from "@hospital/shared";
+import { LanguagePicker } from "./LanguagePicker";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -73,17 +77,31 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [locale, setLanguage] = useState<Locale>("vi");
   const localeOverride = useRef<Locale | null>(null);
+  const configGeneration = useRef(0);
   const [config, setConfig] = useState<Configuration | null>(null);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [pending, setPending] = useState<string | null>(null);
   const [continuation, setContinuation] = useState<string | null>(null);
   const t = useMemo(() => translator(locale), [locale]);
+  const loadConfig = async (language: Locale) => {
+    const generation = ++configGeneration.current;
+    const value = await nativeApi<Configuration>(
+      `/api/config?language=${language}`,
+    );
+    if (generation === configGeneration.current) setConfig(value);
+  };
   useEffect(() => {
-    if (!session) return;
-    const timer = setInterval(() => { void nativeApi<Configuration>("/api/config").then(setConfig).catch(() => {}); }, 15000);
-    return () => clearInterval(timer);
-  }, [session]);
+    const reload = () => {
+      void loadConfig(locale).catch(setError);
+    };
+    reload();
+    const timer = setInterval(reload, 15000);
+    return () => {
+      configGeneration.current++;
+      clearInterval(timer);
+    };
+  }, [locale]);
   const updateSession = useCallback(async (s: Session | null) => {
     await saveSession(s);
     setSession(s);
@@ -91,6 +109,9 @@ export default function App() {
   }, []);
   const setLocale = (language: Locale) => {
     localeOverride.current = language;
+    setApiLocale(language);
+    configGeneration.current++;
+    if (language !== locale) setConfig(null);
     setLanguage(language);
     void SecureStore.setItemAsync("hospital.language", language);
   };
@@ -98,9 +119,13 @@ export default function App() {
     setError(null);
     try {
       const language = await SecureStore.getItemAsync("hospital.language");
-      if (localeOverride.current === null && (language === "vi" || language === "en"))
+      if (localeOverride.current === null && isLocale(language)) {
+        setApiLocale(language);
         setLanguage(language);
-      setConfig(await nativeApi<Configuration>("/api/config"));
+      }
+      await loadConfig(
+        localeOverride.current ?? (isLocale(language) ? language : "vi"),
+      );
       setSession(await restoreSession());
     } catch (e) {
       setError(e);
@@ -114,7 +139,7 @@ export default function App() {
       try {
         const u = new URL(url);
         const requestedLanguage = u.searchParams.get("language");
-        if (requestedLanguage === "vi" || requestedLanguage === "en") setLocale(requestedLanguage);
+        if (isLocale(requestedLanguage)) setLocale(requestedLanguage);
         const code =
           new URLSearchParams(u.hash.slice(1)).get("ticket") ??
           u.searchParams.get("ticket");
@@ -232,7 +257,9 @@ function PatientApp({
   const [step, setStep] = useState<Step | null>(null);
   const [helpStep, setHelpStep] = useState<string | undefined>();
   const [offset, setOffset] = useState(0);
-  const historyPage = useLoad<VisitSummary[]>(page === "history" ? `/api/visits?offset=${offset}` : null);
+  const historyPage = useLoad<VisitSummary[]>(
+    page === "history" ? `/api/visits?offset=${offset}` : null,
+  );
   const visits = useLoad<VisitSummary[]>(
     session.role === "Patient" ? "/api/visits" : null,
     true,
@@ -263,9 +290,10 @@ function PatientApp({
     return (
       <View style={styles.content}>
         <Txt>
-          {locale === "vi"
-            ? "Ứng dụng này dành cho bệnh nhân. Nhân viên sử dụng giao diện web."
-            : "This mobile app is for patients. Staff use the web workspace."}
+          {localizeText(
+            "Ứng dụng này dành cho bệnh nhân. Nhân viên sử dụng giao diện web.",
+            locale,
+          )}
         </Txt>
         <Btn
           onPress={async () => {
@@ -281,16 +309,7 @@ function PatientApp({
       <View style={styles.header}>
         <View style={[styles.row, { justifyContent: "space-between" }]}>
           <Txt tone="heading">✚ {t("brand")}</Txt>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t("language")}
-            onPress={() => setLocale(locale === "vi" ? "en" : "vi")}
-            style={{ minHeight: 44, padding: 10 }}
-          >
-            <Txt style={{ color: colors.green }}>
-              {locale === "vi" ? "English" : "Tiếng Việt"}
-            </Txt>
-          </Pressable>
+          <LanguagePicker locale={locale} onChange={setLocale} />
         </View>
       </View>
       <ScrollView
@@ -346,7 +365,9 @@ function PatientApp({
               </Btn>
             </Card>
             <Card>
-              <Btn secondary onPress={() => setPage("directory")}>{t("directory")}</Btn>
+              <Btn secondary onPress={() => setPage("directory")}>
+                {t("directory")}
+              </Btn>
               <Btn secondary onPress={() => setPage("notifications")}>
                 {t("notifications")}
               </Btn>
@@ -436,8 +457,20 @@ function PatientApp({
                 </Btn>
               </Card>
             ))}
-            <Btn secondary disabled={offset === 0 || historyPage.loading} onPress={() => setOffset(Math.max(0, offset - 100))}>{t("previousPage")}</Btn>
-            <Btn secondary disabled={historyPage.data?.length !== 100 || historyPage.loading} onPress={() => setOffset(offset + 100)}>{t("nextPage")}</Btn>
+            <Btn
+              secondary
+              disabled={offset === 0 || historyPage.loading}
+              onPress={() => setOffset(Math.max(0, offset - 100))}
+            >
+              {t("previousPage")}
+            </Btn>
+            <Btn
+              secondary
+              disabled={historyPage.data?.length !== 100 || historyPage.loading}
+              onPress={() => setOffset(offset + 100)}
+            >
+              {t("nextPage")}
+            </Btn>
           </>
         )}
         {page === "link" && (

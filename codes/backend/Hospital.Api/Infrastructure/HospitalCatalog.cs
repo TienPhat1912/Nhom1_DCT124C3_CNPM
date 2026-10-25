@@ -33,7 +33,7 @@ public static class HospitalCatalog
             Roster.Source, Roster.Version, Roster.Warnings,
             departments = Departments.Where(d => DepartmentId(d.Id) is not null).Select(d => new {
                 id = DepartmentId(d.Id), mapKey = d.Id, d.Code, nameVi = deps.Single(x => x.Id == DepartmentId(d.Id)).NameVi,
-                nameEn = deps.Single(x => x.Id == DepartmentId(d.Id)).NameEn, d.Building, d.Floors,
+                nameEn = deps.Single(x => x.Id == DepartmentId(d.Id)).NameVi, d.Building, d.Floors,
                 locationConfirmed = d.Building is not null && d.Floors.Length > 0
             }),
             specialties = Roster.Specialties.Where(s => DepartmentId(s.DepartmentKey) is not null).Select(s => new { s.Id, departmentId = DepartmentId(s.DepartmentKey), s.Name }),
@@ -66,10 +66,9 @@ public static class HospitalCatalog
         var changed = 0;
         foreach (var location in locations) {
             var vi = ClinicLabel(location.NameVi);
-            var en = ClinicLabel(location.NameEn);
-            if (vi == location.NameVi && en == location.NameEn) continue;
+
+            if (vi == location.NameVi) continue;
             location.NameVi = vi;
-            location.NameEn = en;
             changed++;
         }
         if (changed == 0) return;
@@ -89,17 +88,17 @@ public static class HospitalCatalog
         foreach (var source in Departments) {
             var d = departments.SingleOrDefault(d => d.Code == source.Code);
             if (d is null) {
-                d = new Department { Code = source.Code, NameVi = source.NameVi, NameEn = source.NameEn };
+                d = new Department { Code = source.Code, NameVi = source.NameVi };
                 db.Add(d); departments.Add(d);
             } else if ((d.Code == "CONSULT" && d.NameVi == "Khám tổng quát") || (d.Code == "IMAGING" && d.NameVi == "Chẩn đoán hình ảnh")) {
-                d.NameVi = source.NameVi; d.NameEn = source.NameEn;
+                d.NameVi = source.NameVi;
             }
             byKey.Add(source.Id, d);
         }
         var locationIds = (await db.Set<Location>().Select(l => l.Id).ToListAsync()).ToHashSet();
         foreach (var clinic in Roster.Clinics.Where(c => !locationIds.Contains(c.Id))) {
             db.Add(new Location { Id = clinic.Id, DepartmentId = byKey[clinic.DepartmentKey].Id,
-                NameVi = clinic.Name, NameEn = clinic.Name, Room = clinic.Room ?? "?", Building = "?", Floor = "?" });
+                NameVi = clinic.Name, Room = clinic.Room ?? "?", Building = "?", Floor = "?" });
         }
         var users = await db.Users.Include(u => u.Scopes).ToListAsync();
         foreach (var doctor in Roster.Clinicians.Where(d => d.IsDoctor)) {

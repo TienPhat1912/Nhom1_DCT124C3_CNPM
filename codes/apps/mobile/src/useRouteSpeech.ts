@@ -1,3 +1,4 @@
+import { speechLocale, voiceMatches } from "@hospital/shared";
 import { useEffect, useRef, useState } from "react";
 import * as Speech from "expo-speech";
 import type { Locale } from "@hospital/shared";
@@ -33,13 +34,11 @@ export function useRouteSpeech(
       if (seq !== generation.current || !text) return;
       const voices = await Speech.getAvailableVoicesAsync();
       if (seq !== generation.current) return;
-      const voice = voices.find((v) =>
-        v.language.toLowerCase().startsWith(locale),
-      );
+      const voice = voices.find((v) => voiceMatches(v.language, locale));
       if (!voice) throw new Error("unavailable");
       setPlaying(true);
       Speech.speak(text, {
-        language: locale === "vi" ? "vi-VN" : "en-US",
+        language: speechLocale(locale),
         voice: voice.identifier,
         rate: 0.9,
         onDone: () => {

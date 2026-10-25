@@ -1,3 +1,4 @@
+import { normalizeLocale } from "@hospital/shared";
 import {
   createContext,
   useCallback,
@@ -15,7 +16,12 @@ import {
   type Session,
 } from "@hospital/shared";
 
-const client = createApi("");
+const client = createApi(
+  "",
+  () => null,
+  false,
+  () => normalizeLocale(localStorage.getItem("hospital.language")),
+);
 export const api: typeof client = async (...args) => {
   try {
     return await client(...args);
@@ -40,6 +46,9 @@ export function useRuntime() {
   return value;
 }
 export function useResource<T>(path: string | null, poll = false) {
+  const locale = useContext(RuntimeContext)?.locale;
+  if (path && locale && !/[?&]language=/.test(path))
+    path += `${path.includes("?") ? "&" : "?"}language=${locale}`;
   const [state, setState] = useState<{
     path: string;
     data: T;

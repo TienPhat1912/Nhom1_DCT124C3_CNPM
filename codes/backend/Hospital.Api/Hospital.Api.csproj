@@ -7,6 +7,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="../../packages/shared/data/translations.json" LogicalName="Hospital.Translations.json" />
     <EmbeddedResource Include="../../packages/shared/data/hospital-departments.json" LogicalName="Hospital.Departments.json" />
     <EmbeddedResource Include="../../packages/shared/data/hospital-roster.json" LogicalName="Hospital.Roster.json" />
   </ItemGroup>

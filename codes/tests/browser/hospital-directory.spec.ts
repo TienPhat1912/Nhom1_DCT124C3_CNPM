@@ -152,7 +152,7 @@ async function setup(page: Page, role: string) {
   await page.goto("/");
 }
 async function directoryNav(page: Page) {
-  const menu = page.getByRole("button", { name: "Menu", exact: true });
+  const menu = page.getByRole("button", { name: "Danh mục", exact: true });
   if (await menu.isVisible()) await menu.click();
   await page
     .getByRole("button", { name: "Khoa và bác sĩ", exact: true })

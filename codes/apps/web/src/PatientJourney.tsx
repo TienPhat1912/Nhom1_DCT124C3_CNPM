@@ -79,8 +79,8 @@ export function PatientJourney({
           <div className="visit-meta">
             {v.doctorName && (
               <span>
-                {locale === "vi" ? v.departmentNameVi : v.departmentNameEn} ·{" "}
-                {t("doctor")}: <strong>{v.doctorName}</strong>
+                {v.departmentName ?? v.departmentNameVi} · {t("doctor")}:{" "}
+                <strong>{v.doctorName}</strong>
               </span>
             )}
             <span>
@@ -161,6 +161,7 @@ export function PatientJourney({
                           section: "Instruction",
                           stepId: step.id,
                           sourceRevision: step.templateVersion,
+                          contentKey: step.contentKey,
                           language: locale,
                         })
                       }
@@ -286,7 +287,7 @@ function TimelineStep({
   number: number;
   current: boolean;
 }) {
-  const { t, locale } = useRuntime();
+  const { t } = useRuntime();
   return (
     <div
       className={`timeline-step ${current ? "current" : ""} ${step.status === "Completed" ? "done" : ""}`}
@@ -297,8 +298,8 @@ function TimelineStep({
       <div>
         <strong>{t(step.kind)}</strong>
         <p>
-          {locale === "vi" ? step.destination.nameVi : step.destination.nameEn}{" "}
-          · {t("room")} {step.destination.room}
+          {step.destination.name ?? step.destination.nameVi} · {t("room")}{" "}
+          {step.destination.room}
         </p>
       </div>
       <Status value={step.status} />
@@ -306,7 +307,7 @@ function TimelineStep({
   );
 }
 export function TicketPanel({ id }: { id: string }) {
-  const { t, locale } = useRuntime();
+  const { t } = useRuntime();
   const r = useResource<Ticket>(`/api/visits/${id}/ticket`);
   return (
     <>
@@ -315,10 +316,8 @@ export function TicketPanel({ id }: { id: string }) {
         <>
           {r.data.doctorName && (
             <p>
-              {locale === "vi"
-                ? r.data.departmentNameVi
-                : r.data.departmentNameEn}{" "}
-              · {t("doctor")}: <strong>{r.data.doctorName}</strong>
+              {r.data.departmentName ?? r.data.departmentNameVi} · {t("doctor")}
+              : <strong>{r.data.doctorName}</strong>
             </p>
           )}
           <QrPanel

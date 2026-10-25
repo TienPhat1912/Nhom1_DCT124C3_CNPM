@@ -24,6 +24,8 @@ builder.Services.AddSingleton<IAppointmentAdapter>(s => s.GetRequiredService<Sim
 builder.Services.AddSingleton<IOperationalAdapter>(s => s.GetRequiredService<SimulationAdapters>());
 builder.Services.AddSingleton<ISettlementAdapter>(s => s.GetRequiredService<SimulationAdapters>());
 builder.Services.AddSingleton<INarrationAdapter>(s => s.GetRequiredService<SimulationAdapters>());
+builder.Services.AddHttpClient("translation");
+builder.Services.AddSingleton<ITranslationService, TranslationService>();
 builder.Services.AddOpenApi();
 var webOrigins = new[] { builder.Configuration["Web:Origin"] ?? "http://localhost:5180" }
     .Concat(builder.Configuration.GetSection("Web:AdditionalOrigins").Get<string[]>() ?? [])

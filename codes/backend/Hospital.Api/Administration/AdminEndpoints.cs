@@ -1,3 +1,4 @@
+using Hospital.Api.Content;
 using System.Text.Json;
 using Hospital.Api.Domain;
 using Hospital.Api.Identity;
@@ -7,9 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hospital.Api.Administration;
-public record DepartmentInput(Guid? Id, int Version, string Code, string NameVi, string NameEn, bool Active);
-public record LocationInput(Guid? Id, int Version, Guid DepartmentId, string NameVi, string NameEn, string Building, string Floor, string Room, bool Active);
-public record ServiceInput(Guid? Id, int Version, string Code, string NameVi, string NameEn, Guid DepartmentId, Guid LocationId, bool Active, bool ReturnRequired);
+public record DepartmentInput(Guid? Id, int Version, string Code, string NameVi, bool Active);
+public record LocationInput(Guid? Id, int Version, Guid DepartmentId, string NameVi, string Building, string Floor, string Room, bool Active);
+public record ServiceInput(Guid? Id, int Version, string Code, string NameVi, Guid DepartmentId, Guid LocationId, bool Active, bool ReturnRequired);
 public record MappingInput(Guid ServiceId, MappingNode[] Steps, bool Publish);
 public record TemplateInput(string Key, string Language, string Text, string Category, bool Publish);
 public record RouteInput(Guid? Id, int Version, Guid FromLocationId, Guid ToLocationId, string Language, string Instructions, bool Active);
@@ -26,8 +27,8 @@ public static class AdminEndpoints
                 departments = await db.Set<Department>().Where(d => ids.Contains(d.Id)).ToListAsync(),
                 specialties = HospitalCatalog.Specialties(u.Id),
                 clinics = await db.Set<Location>().Where(l => clinicIds.Contains(l.Id) && l.Active).ToListAsync() };
-        }).WithTags("Configuration");
-        app.MapGet("/api/directory", (HospitalDb db) => HospitalCatalog.Directory(db)).WithTags("Configuration");
+        }).AddEndpointFilter<LocalizedResponseFilter>().WithTags("Configuration");
+        app.MapGet("/api/directory", (HospitalDb db) => HospitalCatalog.Directory(db)).AddEndpointFilter<LocalizedResponseFilter>().WithTags("Configuration");
         app.MapGet("/api/config", async (HospitalDb db, IConfiguration config) => new {
             name = "An Tâm · Hospital Guide", catalogVersion = HospitalCatalog.Roster.Version, demo = config.GetValue<bool>("Demo:Enabled"),
             departments = await db.Set<Department>().Where(d => d.Active).ToListAsync(), locations = await db.Set<Location>().Where(l => l.Active).ToListAsync(),
@@ -36,7 +37,7 @@ public static class AdminEndpoints
             guestHours = config.GetValue<int>("Access:GuestHours", 24), pollSeconds = 5,
             emergencyVi = "Nếu cần trợ giúp khẩn cấp, hãy đến ngay quầy tiếp nhận hoặc báo nhân viên bệnh viện.",
             emergencyEn = "For urgent help, go directly to reception or alert hospital staff."
-        }).WithTags("Configuration");
+        }).AddEndpointFilter<LocalizedResponseFilter>().WithTags("Configuration");
         app.MapGet("/api/reception/resources", async (Access access, HospitalDb db) => {
             var u = await access.Staff("Reception"); var deps = u.Scopes.Select(s => s.DepartmentId).ToArray();
             var doctors = await db.Users.Include(x => x.Scopes).Where(x => x.Role == "Doctor" && x.Active && x.Scopes.Any(s => deps.Contains(s.DepartmentId))).OrderBy(x => x.CreatedAt).ToListAsync();
@@ -60,7 +61,7 @@ public static class AdminEndpoints
                 var d = await GetOrNew<Department>(input.Id, input.Version, db);
                 Check.That(input.Id is null || d.Code == input.Code || (d.Code is not ("CONSULT" or "CASHIER" or "PHARMACY") && !HospitalCatalog.Departments.Any(c => c.Code == d.Code)), "configurationInUse", "Operational department codes are stable identifiers; edit their display names and destinations instead.", 409);
                 if (!input.Active) Check.That(!await db.Visits.AnyAsync(v => v.DepartmentId == d.Id && v.Status == "Active") && !await db.Requests.AnyAsync(r => r.DepartmentId == d.Id && r.Status != "Confirmed" && r.Status != "Withdrawn"), "activeReferences", "Department has active reception or Visits.", 409);
-                d.Code = Check.Text(input.Code, "code", 2, 40).ToUpperInvariant(); d.NameVi = Check.Text(input.NameVi, "nameVi", 2, 120); d.NameEn = Check.Text(input.NameEn, "nameEn", 2, 120); d.Active = input.Active;
+                d.Code = Check.Text(input.Code, "code", 2, 40).ToUpperInvariant(); d.NameVi = Check.Text(input.NameVi, "nameVi", 2, 120); d.Active = input.Active;
                 bus.Audit(u.Id, "DepartmentConfigured", detail: d.Id.ToString(), source: "Admin"); return new { d.Id };
             });
         });
@@ -69,7 +70,7 @@ public static class AdminEndpoints
                 var l = await GetOrNew<Location>(input.Id, input.Version, db);
                 Check.That(await db.Set<Department>().AnyAsync(d => d.Id == input.DepartmentId && d.Active), "departmentInvalid", "Active department required.");
                 if (!input.Active || (input.Id is not null && l.DepartmentId != input.DepartmentId)) Check.That(!await db.Set<JourneyStep>().AnyAsync(s => s.LocationId == l.Id && s.Status != "Completed" && s.Status != "Cancelled" && s.Status != "Skipped"), "activeReferences", "Location is referenced by unfinished steps.", 409);
-                l.DepartmentId = input.DepartmentId; l.NameVi = Check.Text(input.NameVi, "nameVi", 2, 120); l.NameEn = Check.Text(input.NameEn, "nameEn", 2, 120); l.Building = Check.Text(input.Building, "building", 1, 30);
+                l.DepartmentId = input.DepartmentId; l.NameVi = Check.Text(input.NameVi, "nameVi", 2, 120); l.Building = Check.Text(input.Building, "building", 1, 30);
                 l.Floor = Check.Text(input.Floor, "floor", 1, 30); l.Room = Check.Text(input.Room, "room", 1, 30); l.Active = input.Active;
                 bus.Audit(u.Id, "LocationConfigured", detail: l.Id.ToString(), source: "Admin"); return new { l.Id };
             });
@@ -78,7 +79,7 @@ public static class AdminEndpoints
             var u = await access.Staff("Admin"); return await bus.Run($"{u.Id}:service", input, async () => {
                 var s = await GetOrNew<HospitalService>(input.Id, input.Version, db);
                 Check.That(await db.Set<Location>().AnyAsync(l => l.Id == input.LocationId && l.Active && l.DepartmentId == input.DepartmentId), "destinationInvalid", "Location must belong to the selected department.");
-                s.Code = Check.Text(input.Code, "code", 2, 40).ToUpperInvariant(); s.NameVi = Check.Text(input.NameVi, "nameVi", 2, 120); s.NameEn = Check.Text(input.NameEn, "nameEn", 2, 120);
+                s.Code = Check.Text(input.Code, "code", 2, 40).ToUpperInvariant(); s.NameVi = Check.Text(input.NameVi, "nameVi", 2, 120);
                 s.DepartmentId = input.DepartmentId; s.LocationId = input.LocationId; s.Active = input.Active; s.ReturnRequired = input.ReturnRequired;
                 bus.Audit(u.Id, "ServiceConfigured", detail: s.Id.ToString(), source: "Admin"); return new { s.Id };
             });
@@ -94,7 +95,7 @@ public static class AdminEndpoints
         g.MapPost("/templates", async (TemplateInput input, Access access, HospitalDb db, CommandBus bus) => {
             var u = await access.Staff("Admin"); return await bus.Run($"{u.Id}:template", input, async () => {
                 Check.That(input.Category is "Guidance" or "Reception", "validation", "Only operational templates can be administered here.");
-                var key = Check.Text(input.Key, "key", 2, 100); var language = Check.Language(input.Language);
+                var key = Check.Text(input.Key, "key", 2, 100); var language = Languages.Source(input.Language);
                 var t = new GuidanceTemplate { Key = key, Language = language, Category = input.Category, Text = Check.Text(input.Text, "text", 2, 4000), Published = input.Publish, ApprovedBy = input.Publish ? u.Id : null,
                     Revision = (await db.Set<GuidanceTemplate>().Where(t => t.Key == key && t.Language == language).MaxAsync(t => (int?)t.Revision) ?? 0) + 1 };
                 db.Add(t); bus.Audit(u.Id, "TemplateConfigured", detail: t.Id.ToString(), source: "Admin"); return new { t.Id, t.Revision };
@@ -104,7 +105,7 @@ public static class AdminEndpoints
             var u = await access.Staff("Admin"); return await bus.Run($"{u.Id}:route", input, async () => {
                 Check.That(input.FromLocationId != input.ToLocationId && await db.Set<Location>().CountAsync(l => (l.Id == input.FromLocationId || l.Id == input.ToLocationId) && l.Active) == 2, "destinationInvalid", "Choose two active locations.");
                 var r = await GetOrNew<HospitalRoute>(input.Id, input.Version, db); r.FromLocationId = input.FromLocationId; r.ToLocationId = input.ToLocationId;
-                r.Language = Check.Language(input.Language); r.Instructions = Check.Text(input.Instructions, "instructions", 3, 4000); r.Active = input.Active;
+                r.Language = Languages.Source(input.Language); r.Instructions = Check.Text(input.Instructions, "instructions", 3, 4000); r.Active = input.Active;
                 bus.Audit(u.Id, "RouteConfigured", detail: r.Id.ToString(), source: "Admin"); return new { r.Id };
             });
         });

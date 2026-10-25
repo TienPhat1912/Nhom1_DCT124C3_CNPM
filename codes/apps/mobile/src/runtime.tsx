@@ -1,3 +1,4 @@
+import { normalizeLocale, speechLocale, voiceMatches } from "@hospital/shared";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
 import * as SecureStore from "expo-secure-store";
@@ -18,7 +19,16 @@ export const API_URL =
 export const WEB_URL =
   process.env.EXPO_PUBLIC_WEB_URL ?? "http://localhost:5180";
 let currentToken: string | null = null;
-export const nativeApi = createApi(API_URL, () => currentToken, true);
+let currentLocale = "vi";
+export const setApiLocale = (language: string) => {
+  currentLocale = normalizeLocale(language);
+};
+export const nativeApi = createApi(
+  API_URL,
+  () => currentToken,
+  true,
+  () => currentLocale,
+);
 export async function saveSession(s: Session | null) {
   currentToken = s?.token ?? null;
   if (currentToken)
@@ -54,7 +64,9 @@ export function useNative() {
   return c;
 }
 export function useLoad<T>(path: string | null, poll = false) {
-  const { api } = useNative();
+  const { api, locale } = useNative();
+  if (path && !/[?&]language=/.test(path))
+    path += `${path.includes("?") ? "&" : "?"}language=${locale}`;
   const [snapshot, setSnapshot] = useState<{
     path: string;
     data: T;
@@ -199,16 +211,14 @@ export function useNarration(context: string) {
       if (seq.current !== generation) return;
       const voices = await Speech.getAvailableVoicesAsync();
       if (seq.current !== generation) return;
-      const voice = voices.find((v) =>
-        v.language.toLowerCase().startsWith(n.language),
-      );
+      const voice = voices.find((v) => voiceMatches(v.language, n.language));
       if (!voice) {
         setError(t("audioError"));
         return;
       }
       setPlaying(true);
       Speech.speak(n.text, {
-        language: n.language,
+        language: speechLocale(n.language),
         voice: voice.identifier,
         onDone: () => {
           if (seq.current === generation) setPlaying(false);

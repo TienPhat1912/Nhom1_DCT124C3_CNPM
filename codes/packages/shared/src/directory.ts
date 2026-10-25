@@ -1,10 +1,12 @@
-import type { Locale, ReceptionResources } from "./types";
+import { localizedCopy } from "./localizedText.ts";
+import type { ReceptionResources } from "./types";
 export type DirectoryDepartment = {
   id: string;
   mapKey: string;
   code: string;
   nameVi: string;
   nameEn: string;
+  name?: string;
   building: string | null;
   floors: string[];
   locationConfirmed: boolean;
@@ -59,6 +61,7 @@ export function directoryResults(
         [
           d.name,
           data.departments.find((x) => x.id === d.departmentId)?.nameVi ?? "",
+          data.departments.find((x) => x.id === d.departmentId)?.name ?? "",
           ...data.specialties
             .filter((s) => d.specialtyIds.includes(s.id))
             .map((s) => s.name),
@@ -80,7 +83,7 @@ export function compatibleDoctors(
       (!d.clinicIds?.length || d.clinicIds.includes(location)),
   );
 }
-export const directoryCopy = {
+const basedirectoryCopy = {
   vi: {
     title: "Khoa và bác sĩ",
     search: "Tìm bác sĩ, chuyên khoa hoặc phòng khám",
@@ -123,4 +126,12 @@ export const directoryCopy = {
     notes: "Source items requiring confirmation",
     room: "Room",
   },
-} satisfies Record<Locale, Record<string, string>>;
+};
+
+export const directoryCopy = {
+  ...basedirectoryCopy,
+  zh: localizedCopy(basedirectoryCopy.vi, "zh"),
+  ko: localizedCopy(basedirectoryCopy.vi, "ko"),
+  ja: localizedCopy(basedirectoryCopy.vi, "ja"),
+  ru: localizedCopy(basedirectoryCopy.vi, "ru"),
+};

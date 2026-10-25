@@ -25,7 +25,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.AccessGrant", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -57,7 +56,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.Appointment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -106,7 +104,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.AssistanceRequest", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Category")
@@ -180,7 +177,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.AuditEvent", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ActorId")
@@ -229,7 +225,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.CommandReceipt", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -269,7 +264,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.Department", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Active")
@@ -282,11 +276,6 @@ namespace Hospital.Api.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("NameEn")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("NameVi")
                         .IsRequired()
@@ -308,7 +297,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.DoctorOrder", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -354,7 +342,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.ExaminationTicket", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -383,7 +370,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.ExternalIdentity", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -419,7 +405,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.FollowUpRecommendation", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AuthorId")
@@ -464,13 +449,15 @@ namespace Hospital.Api.Migrations
 
                     b.HasIndex("VisitId");
 
-                    b.ToTable("FollowUpRecommendation");
+                    b.ToTable("FollowUpRecommendation", t =>
+                        {
+                            t.HasCheckConstraint("CK_FollowUp_Source", "[Language] = 'vi'");
+                        });
                 });
 
             modelBuilder.Entity("Hospital.Api.Domain.GuidanceTemplate", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("ApprovedBy")
@@ -514,13 +501,15 @@ namespace Hospital.Api.Migrations
                     b.HasIndex("Key", "Language", "Revision")
                         .IsUnique();
 
-                    b.ToTable("GuidanceTemplate");
+                    b.ToTable("GuidanceTemplate", t =>
+                        {
+                            t.HasCheckConstraint("CK_Template_Source", "[Language] = 'vi'");
+                        });
                 });
 
             modelBuilder.Entity("Hospital.Api.Domain.HospitalRoute", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Active")
@@ -555,13 +544,15 @@ namespace Hospital.Api.Migrations
 
                     b.HasIndex("ToLocationId");
 
-                    b.ToTable("HospitalRoute");
+                    b.ToTable("HospitalRoute", t =>
+                        {
+                            t.HasCheckConstraint("CK_Route_Source", "[Language] = 'vi'");
+                        });
                 });
 
             modelBuilder.Entity("Hospital.Api.Domain.HospitalService", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Active")
@@ -580,11 +571,6 @@ namespace Hospital.Api.Migrations
 
                     b.Property<Guid>("LocationId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("NameEn")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("NameVi")
                         .IsRequired()
@@ -613,7 +599,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.JourneyStep", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Authority")
@@ -711,7 +696,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.LinkClaim", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Consumed")
@@ -750,7 +734,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.Location", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Active")
@@ -768,11 +751,6 @@ namespace Hospital.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Floor")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("NameEn")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -801,7 +779,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.Notification", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -837,7 +814,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.Patient", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Contact")
@@ -870,7 +846,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.PatientJourney", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("ActivatedAt")
@@ -912,7 +887,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.QrCode", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -969,7 +943,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.ReceptionMessage", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ActorId")
@@ -1009,13 +982,15 @@ namespace Hospital.Api.Migrations
 
                     b.HasIndex("TemplateId");
 
-                    b.ToTable("ReceptionMessage");
+                    b.ToTable("ReceptionMessage", t =>
+                        {
+                            t.HasCheckConstraint("CK_Message_Source", "[Language] = 'vi'");
+                        });
                 });
 
             modelBuilder.Entity("Hospital.Api.Domain.ReceptionRecord", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ConfirmedBy")
@@ -1054,7 +1029,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.RecoveryClaim", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Consumed")
@@ -1093,7 +1067,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.RegistrationRequest", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("AppointmentId")
@@ -1158,7 +1131,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.Session", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -1203,7 +1175,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.StaffScope", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -1232,7 +1203,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.StepDependency", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -1258,65 +1228,9 @@ namespace Hospital.Api.Migrations
                     b.ToTable("StepDependency");
                 });
 
-            modelBuilder.Entity("Hospital.Api.Domain.SummaryTranslation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Approved")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("ApprovedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ApprovedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Diagnosis")
-                        .IsRequired()
-                        .HasMaxLength(12000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Explanation")
-                        .IsRequired()
-                        .HasMaxLength(12000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Instructions")
-                        .IsRequired()
-                        .HasMaxLength(12000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Language")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<Guid>("SummaryVersionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Version")
-                        .IsConcurrencyToken()
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApprovedBy");
-
-                    b.HasIndex("SummaryVersionId", "Language")
-                        .IsUnique();
-
-                    b.ToTable("SummaryTranslation");
-                });
-
             modelBuilder.Entity("Hospital.Api.Domain.SummaryVersion", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AuthorId")
@@ -1385,13 +1299,15 @@ namespace Hospital.Api.Migrations
                     b.HasIndex("VisitId", "Revision")
                         .IsUnique();
 
-                    b.ToTable("SummaryVersion");
+                    b.ToTable("SummaryVersion", t =>
+                        {
+                            t.HasCheckConstraint("CK_Summary_Source", "[Language] = 'vi'");
+                        });
                 });
 
             modelBuilder.Entity("Hospital.Api.Domain.UserAccount", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Active")
@@ -1442,7 +1358,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.Visit", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("AppointmentId")
@@ -1507,7 +1422,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.WorkflowMapping", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -1919,21 +1833,6 @@ namespace Hospital.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Hospital.Api.Domain.SummaryTranslation", b =>
-                {
-                    b.HasOne("Hospital.Api.Domain.UserAccount", null)
-                        .WithMany()
-                        .HasForeignKey("ApprovedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Hospital.Api.Domain.SummaryVersion", null)
-                        .WithMany("Translations")
-                        .HasForeignKey("SummaryVersionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Hospital.Api.Domain.SummaryVersion", b =>
                 {
                     b.HasOne("Hospital.Api.Domain.UserAccount", null)
@@ -2013,11 +1912,6 @@ namespace Hospital.Api.Migrations
             modelBuilder.Entity("Hospital.Api.Domain.RegistrationRequest", b =>
                 {
                     b.Navigation("Messages");
-                });
-
-            modelBuilder.Entity("Hospital.Api.Domain.SummaryVersion", b =>
-                {
-                    b.Navigation("Translations");
                 });
 
             modelBuilder.Entity("Hospital.Api.Domain.UserAccount", b =>

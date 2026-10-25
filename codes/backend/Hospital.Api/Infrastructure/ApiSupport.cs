@@ -24,7 +24,7 @@ public static class Check
         return value;
     }
     public static void Version(Entity value, int expected) => That(value.Version == expected, "conflict", "The record changed. Refresh and retry.", 409);
-    public static string Language(string value) => Text(value, "language", 2, 10).ToLowerInvariant();
+    public static string Language(string value) => Hospital.Api.Content.Languages.Normalize(value);
 }
 public static class Crypto
 {

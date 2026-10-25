@@ -12,22 +12,22 @@ public static class Seed
         var password = config["Demo:Password"];
         if (string.IsNullOrWhiteSpace(password) || password.Length < 12) throw new InvalidOperationException("Set Demo__Password using local environment configuration.");
         var departments = new[] {
-            new Department { Code = "CONSULT", NameVi = "Khám tổng quát", NameEn = "General consultation" },
-            new Department { Code = "LAB", NameVi = "Xét nghiệm", NameEn = "Laboratory" },
-            new Department { Code = "IMAGING", NameVi = "Chẩn đoán hình ảnh", NameEn = "Imaging" },
-            new Department { Code = "CASHIER", NameVi = "Thu ngân", NameEn = "Settlement desk" },
-            new Department { Code = "PHARMACY", NameVi = "Nhà thuốc", NameEn = "Pharmacy" },
-            new Department { Code = "OTHER", NameVi = "Khoa khác", NameEn = "Other department" }
+            new Department { Code = "CONSULT", NameVi = "Khám tổng quát" },
+            new Department { Code = "LAB", NameVi = "Xét nghiệm" },
+            new Department { Code = "IMAGING", NameVi = "Chẩn đoán hình ảnh" },
+            new Department { Code = "CASHIER", NameVi = "Thu ngân" },
+            new Department { Code = "PHARMACY", NameVi = "Nhà thuốc" },
+            new Department { Code = "OTHER", NameVi = "Khoa khác" }
         };
         db.AddRange(departments);
         var locations = new[] {
-            new Location { DepartmentId = departments[0].Id, NameVi = "Phòng khám tổng quát", NameEn = "Consultation room", Floor = "1", Room = "A101" },
-            new Location { DepartmentId = departments[1].Id, NameVi = "Phòng lấy mẫu", NameEn = "Sample collection", Floor = "2", Building = "B", Room = "B201" },
-            new Location { DepartmentId = departments[2].Id, NameVi = "Phòng chẩn đoán hình ảnh", NameEn = "Imaging room", Floor = "2", Building = "B", Room = "B202" },
-            new Location { DepartmentId = departments[3].Id, NameVi = "Quầy thu ngân", NameEn = "Settlement desk", Floor = "1", Building = "C", Room = "C01" },
-            new Location { DepartmentId = departments[4].Id, NameVi = "Quầy nhà thuốc", NameEn = "Pharmacy counter", Floor = "1", Room = "P01" },
-            new Location { DepartmentId = departments[0].Id, NameVi = "Quầy tiếp nhận", NameEn = "Reception desk", Floor = "1", Room = "R01" },
-            new Location { DepartmentId = departments[5].Id, NameVi = "Phòng khoa khác", NameEn = "Other clinic", Floor = "3", Building = "D", Room = "D301" }
+            new Location { DepartmentId = departments[0].Id, NameVi = "Phòng khám tổng quát", Floor = "1", Room = "A101" },
+            new Location { DepartmentId = departments[1].Id, NameVi = "Phòng lấy mẫu", Floor = "2", Building = "B", Room = "B201" },
+            new Location { DepartmentId = departments[2].Id, NameVi = "Phòng chẩn đoán hình ảnh", Floor = "2", Building = "B", Room = "B202" },
+            new Location { DepartmentId = departments[3].Id, NameVi = "Quầy thu ngân", Floor = "1", Building = "C", Room = "C01" },
+            new Location { DepartmentId = departments[4].Id, NameVi = "Quầy nhà thuốc", Floor = "1", Room = "P01" },
+            new Location { DepartmentId = departments[0].Id, NameVi = "Quầy tiếp nhận", Floor = "1", Room = "R01" },
+            new Location { DepartmentId = departments[5].Id, NameVi = "Phòng khoa khác", Floor = "3", Building = "D", Room = "D301" }
         };
         db.AddRange(locations);
         var patient = new Patient { Name = "Người dùng Demo", Contact = "demo-contact", Language = "vi" }; db.Add(patient);
@@ -55,16 +55,15 @@ public static class Seed
             ("contact", "Vui lòng bổ sung thông tin liên hệ tại biểu mẫu và gửi lại để tiếp nhận kiểm tra.", "Please update your contact information in the form and resubmit it for reception review."),
             ("documents", "Vui lòng chuẩn bị giấy tờ cần thiết và trao đổi trực tiếp với nhân viên tiếp nhận.", "Please prepare the required documents and speak with reception staff.")
         };
-        foreach (var (key, vi, en) in texts) foreach (var (lang, text) in new[] { ("vi", vi), ("en", en) })
-            db.Add(new GuidanceTemplate { Key = key, Language = lang, Text = text, Published = true, Category = key is "contact" or "documents" ? "Reception" : "Guidance" });
-        foreach (var (code, vi, en, idx, template) in new[] { ("LAB", "Xét nghiệm theo chỉ định", "Ordered laboratory service", 1, "laboratory"), ("IMG", "Chẩn đoán hình ảnh theo chỉ định", "Ordered imaging service", 2, "imaging") }) {
-            var service = new HospitalService { Code = code, NameVi = vi, NameEn = en, DepartmentId = departments[idx].Id, LocationId = locations[idx].Id };
+        foreach (var (key, vi, _) in texts)
+            db.Add(new GuidanceTemplate { Key = key, Language = "vi", Text = vi, Published = true, Category = key is "contact" or "documents" ? "Reception" : "Guidance" });
+        foreach (var (code, vi, _, idx, template) in new[] { ("LAB", "Xét nghiệm theo chỉ định", "Ordered laboratory service", 1, "laboratory"), ("IMG", "Chẩn đoán hình ảnh theo chỉ định", "Ordered imaging service", 2, "imaging") }) {
+            var service = new HospitalService { Code = code, NameVi = vi, DepartmentId = departments[idx].Id, LocationId = locations[idx].Id };
             db.Add(service); db.Add(new WorkflowMapping { HospitalServiceId = service.Id, Published = true,
                 StepsJson = JsonSerializer.Serialize(new[] { new MappingNode("service", locations[idx].Id, template, "Service", []) }, CommandBus.Json) });
         }
         foreach (var target in locations.Where(l => l.Id != locations[5].Id)) {
             db.Add(new HospitalRoute { FromLocationId = locations[5].Id, ToLocationId = target.Id, Language = "vi", Instructions = $"Từ quầy tiếp nhận, theo biển chỉ dẫn đến tòa {target.Building}, tầng {target.Floor}, phòng {target.Room}. Nếu chưa rõ đường, hãy yêu cầu nhân viên hỗ trợ." });
-            db.Add(new HospitalRoute { FromLocationId = locations[5].Id, ToLocationId = target.Id, Language = "en", Instructions = $"From reception, follow signs to building {target.Building}, floor {target.Floor}, room {target.Room}. Ask staff for help if needed." });
         }
         await db.SaveChangesAsync();
     }

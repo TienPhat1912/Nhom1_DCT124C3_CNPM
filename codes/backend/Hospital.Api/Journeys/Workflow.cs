@@ -19,7 +19,7 @@ public class Workflow(HospitalDb db, CommandBus bus)
     public JourneyStep MakeStep(PatientJourney journey, Location location, string kind, string authority, string template, int sequence, DoctorOrder? order = null, int mapping = 0)
     {
         var s = new JourneyStep { PatientJourneyId = journey.Id, LocationId = location.Id, DepartmentId = location.DepartmentId,
-            DestinationSnapshot = JsonSerializer.Serialize(new { location.Id, location.NameVi, location.NameEn, location.Building, location.Floor, location.Room }, CommandBus.Json),
+            DestinationSnapshot = JsonSerializer.Serialize(new { location.Id, location.NameVi, location.Building, location.Floor, location.Room }, CommandBus.Json),
             Kind = kind, Authority = authority, TemplateKey = template, Sequence = sequence, DoctorOrderId = order?.Id,
             HospitalServiceId = order?.HospitalServiceId, MappingVersion = mapping };
         journey.Steps.Add(s); return s;

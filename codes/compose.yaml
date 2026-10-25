@@ -19,6 +19,10 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
       ConnectionStrings__Hospital: Server=sql;Database=${DATABASE_NAME:-HospitalGuidance};User Id=sa;Password=${SQL_PASSWORD};TrustServerCertificate=true
+      Translation__Provider: ${TRANSLATION_PROVIDER:-Dictionary}
+      Translation__Key: ${TRANSLATION_KEY:-}
+      Translation__Region: ${TRANSLATION_REGION:-}
+      Translation__Endpoint: ${TRANSLATION_ENDPOINT:-https://api.cognitive.microsofttranslator.com}
       Demo__Enabled: 'true'
       Demo__Password: ${DEMO_PASSWORD:?Run scripts/setup/bootstrap.ps1 or bash scripts/setup/bootstrap.sh}
       Web__Origin: http://localhost:${WEB_PORT:-5180}

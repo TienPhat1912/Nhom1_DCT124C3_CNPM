@@ -15,3 +15,5 @@
 `guides/` dành cho người chạy demo; `architecture/` dành cho người phát triển; `requirements/` đối chiếu yêu cầu. Kết quả chạy mới được lưu trong `artifacts/` ở gốc. Báo cáo và ảnh của các lần bàn giao trước nằm trong `archive/docs/`, chỉ giữ cục bộ; không phải bằng chứng kiểm thử trên máy mới.
 
 Các lệnh trong tài liệu được chạy từ thư mục gốc dự án, trừ khi có chỉ dẫn khác. Xem [README chính](../README.md) để cài đặt và tìm mã nguồn.
+
+- [Sáu ngôn ngữ, nguồn tiếng Việt và cấu hình Azure Translator](guides/LANGUAGES.md).

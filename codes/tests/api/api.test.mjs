@@ -115,20 +115,54 @@ test('closure preserves Pending Activation for pharmacy; patient cannot finish e
   await activate(s, id); assert.equal((await visit(s.token, id)).journeyStatus, 'Active');
 });
 
-test('draft privacy, immediate publication, translation binding, correction and stale narration', async () => {
+test('six languages translate source reads and narration without storing foreign variants', async () => {
   const s = await guest(); const { visitId: id } = await attendance(s);
-  const draft = await call(staff.doctor, `/api/visits/${id}/drafts`, { diagnosis: 'Doctor-authored test summary', explanation: '', instructions: 'Approved test instruction', language: 'vi', documentReference: 'DEMO-DOC' });
+  for (const language of ['vi', 'en', 'zh', 'ko', 'ja', 'ru']) {
+    const preference = await call(null, '/api/auth/guest', { language });
+    assert.equal(preference.language, language);
+    const settings = await call(null, `/api/config?language=${language}`);
+    const lab = settings.departments.find(d => d.code === 'LAB');
+    assert.equal(lab.nameVi, 'Xét nghiệm');
+    assert.equal(lab.fallback, false);
+    if (language !== 'vi') assert.notEqual(lab.name, lab.nameVi);
+    const v = await call(s.token, `/api/visits/${id}?language=${language}`);
+    const step = v.steps.find(x => x.kind === 'Consultation');
+    assert.equal(step.contentLanguage, language);
+    assert.equal(step.fallback, false);
+    const audio = await call(s.token, `/api/visits/${id}/narration`, {
+      kind: 'Step', section: '', stepId: step.id, sourceRevision: step.templateVersion, language, contentKey: step.contentKey,
+    });
+    assert.equal(audio.text, step.text);
+    assert.equal(audio.language, language);
+    assert.equal(audio.contentKey, step.contentKey);
+    await call(preference.token, `/api/visits/${id}?language=${language}`, undefined, 'GET', randomUUID(), 403);
+  }
+  await call(null, '/api/auth/guest', { language: 'xx' }, 'POST', randomUUID(), 422);
+  await call(null, '/api/config?language=xx', undefined, 'GET', randomUUID(), 422);
+  await call(staff.admin, '/api/admin/templates', { key: 'foreign', language: 'en', text: 'English source', category: 'Guidance', publish: true }, 'POST', randomUUID(), 422);
+  await call(staff.doctor, `/api/visits/${id}/drafts`, { diagnosis: 'English source', explanation: '', instructions: 'English source', language: 'en', documentReference: '' }, 'POST', randomUUID(), 422);
+  assert.match(fixtureSql("SET NOCOUNT ON; SELECT COUNT(*) FROM GuidanceTemplate WHERE Language <> 'vi'"), /\b0\b/);
+  assert.match(fixtureSql("SET NOCOUNT ON; SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME='NameEn' AND TABLE_NAME IN ('Department','Location','HospitalService')"), /\b0\b/);
+  assert.match(fixtureSql("SET NOCOUNT ON; SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='SummaryTranslation'"), /\b0\b/);
+});
+
+test('draft privacy, Vietnamese source, translation fallback, correction and stale narration', async () => {
+  const s = await guest(); const { visitId: id } = await attendance(s);
+  const draft = await call(staff.doctor, `/api/visits/${id}/drafts`, { diagnosis: 'Tóm tắt kiểm thử do bác sĩ nhập', explanation: '', instructions: 'Hướng dẫn kiểm thử đã xác nhận', language: 'vi', documentReference: 'DEMO-DOC' });
   assert.equal((await call(s.token, `/api/visits/${id}/content`)).summary, null);
   await call(s.token, `/api/visits/${id}/drafts`, undefined, 'GET', randomUUID(), 403);
   let drafts = await call(staff.doctor, `/api/visits/${id}/drafts`);
   await call(staff.doctor, `/api/visits/${id}/drafts/${draft.id}/publish`, { version: drafts[0].version, reviewed: true });
   const published = (await call(s.token, `/api/visits/${id}/content?language=en`)).summary; assert.equal(published.fallback, true);
   assert.equal((await visit(s.token, id)).status, 'Active');
-  await call(staff.doctor, `/api/visits/${id}/summaries/${draft.id}/translations`, { language: 'en', diagnosis: 'Reviewed English summary', explanation: '', instructions: 'Reviewed English instructions', approved: true, sourceRevision: draft.revision });
-  assert.equal((await call(s.token, `/api/visits/${id}/content?language=en`)).summary.language, 'en');
-  const audio = await call(s.token, `/api/visits/${id}/narration`, { kind: 'Summary', section: 'Instructions', sourceRevision: 1, language: 'en' }); assert.equal(audio.text, 'Reviewed English instructions');
+  assert.equal(published.language, 'vi');
+  assert.equal(published.original.diagnosis, 'Tóm tắt kiểm thử do bác sĩ nhập');
+  const audio = await call(s.token, `/api/visits/${id}/narration`, { kind: 'Summary', section: 'Instructions', sourceRevision: 1, language: 'en', contentKey: published.contentKey });
+  assert.equal(audio.text, published.instructions);
+  assert.equal(audio.language, 'vi');
+  await call(s.token, `/api/visits/${id}/narration`, { kind: 'Summary', section: 'Instructions', sourceRevision: 1, language: 'en', contentKey: 'stale' }, 'POST', randomUUID(), 409);
   await progress(id, 'Consultation'); await settle(id);
-  const correction = await call(staff.doctor, `/api/visits/${id}/drafts`, { diagnosis: 'Corrected summary', explanation: '', instructions: 'Corrected instructions', language: 'vi', documentReference: '' });
+  const correction = await call(staff.doctor, `/api/visits/${id}/drafts`, { diagnosis: 'Tóm tắt kiểm thử đã sửa', explanation: '', instructions: 'Hướng dẫn kiểm thử đã sửa', language: 'vi', documentReference: '' });
   drafts = await call(staff.doctor, `/api/visits/${id}/drafts`); const d = drafts.find(d => d.id === correction.id);
   await call(staff.doctor, `/api/visits/${id}/drafts/${correction.id}/publish`, { version: d.version, reviewed: true });
   const current = (await call(s.token, `/api/visits/${id}/content?language=en`)).summary; assert.equal(current.revision, 2); assert.equal(current.language, 'vi');
@@ -205,7 +239,7 @@ test('booked preparation and confirmed later follow-up create independent attend
   const prepared = await call(s.token, '/api/appointments/prepare', { reference: bookings[0].reference, attendeeVerified: false, verificationNote: '' });
   assert.equal((await call(s.token, '/api/visits')).length, 0);
   const first = await confirm(prepared.id); await progress(first.visitId, 'Consultation'); await settle(first.visitId);
-  await call(staff.doctor, `/api/visits/${first.visitId}/follow-ups`, { departmentId: department.id, recommendedAt: new Date(Date.now() + 86400000 * 7).toISOString(), text: 'Reviewed follow-up recommendation', language: 'en', reviewed: true });
+  await call(staff.doctor, `/api/visits/${first.visitId}/follow-ups`, { departmentId: department.id, recommendedAt: new Date(Date.now() + 86400000 * 7).toISOString(), text: 'Khuyến nghị tái khám kiểm thử đã duyệt', language: 'vi', reviewed: true });
   const second = await attendance(s); assert.notEqual(first.visitId, second.visitId); assert.equal((await visit(s.token, first.visitId)).status, 'Closed');
   const pageOne = await call(s.token, '/api/visits?limit=1'); const pageTwo = await call(s.token, '/api/visits?limit=1&offset=1');
   assert.equal(pageOne.length, 1); assert.equal(pageTwo.length, 1); assert.notEqual(pageOne[0].id, pageTwo[0].id);

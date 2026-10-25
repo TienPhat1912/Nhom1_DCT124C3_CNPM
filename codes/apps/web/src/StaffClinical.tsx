@@ -30,7 +30,9 @@ export default function StaffClinical({ id }: { id: string | null }) {
             <strong>
               {v.patientName} · {v.ticketNumber}
             </strong>
-            <span>{locale === "vi" ? v.departmentNameVi : v.departmentNameEn} · {v.doctorName}</span>
+            <span>
+              {v.departmentName ?? v.departmentNameVi} · {v.doctorName}
+            </span>
             <span>
               {t("visitStatus")}: <Status value={v.status} />
             </span>
@@ -53,7 +55,11 @@ export default function StaffClinical({ id }: { id: string | null }) {
             </>
           )}
           {session.role === "Cashier" ? (
-            <Settlement key={`${v.id}-${v.version}`} visit={v} onChange={r.refresh} />
+            <Settlement
+              key={`${v.id}-${v.version}`}
+              visit={v}
+              onChange={r.refresh}
+            />
           ) : (
             <div className="panel">
               <SectionTitle title={t("allSteps")} />
@@ -69,7 +75,9 @@ export default function StaffClinical({ id }: { id: string | null }) {
                 ))}
             </div>
           )}
-          {session.role === "Doctor" && <DoctorContent key={v.id} visitId={v.id} />}
+          {session.role === "Doctor" && (
+            <DoctorContent key={v.id} visitId={v.id} />
+          )}
         </>
       )}
     </>

@@ -1,3 +1,4 @@
+import { LanguagePicker } from "./LanguagePicker";
 import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { translator, type Locale, type Session } from "@hospital/shared";
@@ -57,9 +58,7 @@ export function Auth({
     >
       <View style={styles.row}>
         <Txt tone="title">✚ {t("brand")}</Txt>
-        <Btn secondary onPress={() => setLocale(locale === "vi" ? "en" : "vi")}>
-          {locale === "vi" ? "English" : "Tiếng Việt"}
-        </Btn>
+        <LanguagePicker locale={locale} onChange={setLocale} />
       </View>
       <Txt tone="eyebrow">{t("hospital")}</Txt>
       <Txt tone="title">{t("welcome")}</Txt>
