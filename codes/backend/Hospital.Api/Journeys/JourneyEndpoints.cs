@@ -1,3 +1,4 @@
+using Hospital.Api.Content;
 using System.Text.Json;
 using Hospital.Api.Domain;
 using Hospital.Api.Identity;
@@ -25,7 +26,7 @@ public class JourneyReader(HospitalDb db, Access access)
         var doctor = await db.Users.FindAsync(v.DoctorId);
         var department = await db.Set<Department>().FindAsync(v.DepartmentId);
         return new {
-            doctorName = doctor?.Name, departmentNameVi = department?.NameVi, departmentNameEn = department?.NameEn,
+            doctorName = doctor?.Name, departmentNameVi = department?.NameVi, departmentNameEn = department?.NameVi,
             doctorSpecialties = HospitalCatalog.Specialties(v.DoctorId),
             v.Id, v.Version, v.Status, v.WorkRevision, v.FinalSettlementRevision, v.FinalSettlementOutcome, v.CreatedAt, v.ClosedAt,
             patientName = v.Patient.Name, v.DepartmentId, v.DoctorId,
@@ -33,7 +34,7 @@ public class JourneyReader(HospitalDb db, Access access)
             currentStepId = current?.Id, clinicallyReady = Workflow.ReadyForSettlement(v), updatedAt = DateTime.UtcNow,
             steps = v.Journey.Steps.OrderBy(s => s.Sequence).Select(s => {
                 var variants = templates.Where(t => t.Key == s.TemplateKey).ToList();
-                var t = variants.FirstOrDefault(t => t.Language == language) ?? variants.FirstOrDefault(t => t.Language == "en") ?? variants.FirstOrDefault(t => t.Language == "vi") ?? variants.FirstOrDefault();
+                var t = variants.FirstOrDefault(t => t.Language == "vi");
                 bool canProgress = v.Status == "Active" && (s.Status is "Ready" or "InProgress") && ((role == "Doctor" && s.Authority == "Doctor" && v.DoctorId == session.UserAccountId)
                     || (role == "Service" && s.Authority == "Service" && session.UserAccount!.Scopes.Any(sc => sc.DepartmentId == s.DepartmentId)));
                 return new { s.Id, s.Version, s.Kind, s.Status, s.Authority, s.DoctorOrderId, s.MappingVersion, s.Sequence, s.LocationId, s.DepartmentId,
@@ -49,7 +50,7 @@ public static class JourneyEndpoints
 {
     public static void MapJourneys(this WebApplication app)
     {
-        var g = app.MapGroup("/api").WithTags("Visits and Journey");
+        var g = app.MapGroup("/api").AddEndpointFilter<LocalizedResponseFilter>().WithTags("Visits and Journey");
         g.MapGet("/visits", async (int? offset, int? limit, Access access, HospitalDb db) => {
             Check.That((offset ?? 0) >= 0 && (limit ?? 100) is >= 1 and <= 100, "validation", "Use non-negative offset and a page size from 1 to 100.");
             var s = await access.Current(); var q = db.Visits.AsQueryable();

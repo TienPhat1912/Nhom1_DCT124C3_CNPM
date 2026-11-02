@@ -1,3 +1,4 @@
+import { localizeText } from "@hospital/shared";
 import { useState } from "react";
 import { LayoutDashboard, Plus, Settings2 } from "lucide-react";
 import {
@@ -92,11 +93,7 @@ export default function Admin() {
               <Plus size={16} />
               {t("create")}
             </Button>
-            <Field
-              label={
-                locale === "vi" ? "Tìm trong danh mục" : "Search configuration"
-              }
-            >
+            <Field label={localizeText("Tìm trong danh mục", locale)}>
               <input
                 type="search"
                 value={search}
@@ -300,6 +297,7 @@ function ConfigEditor({
     .map((l) => ({ id: l.id, label: `${displayName(l, locale)} · ${l.room}` }));
   return (
     <>
+      <Notice>{t("vietnameseSource")}</Notice>
       <h3>
         {t(tab)} · {t(record ? "edit" : "create")}
       </h3>
@@ -311,9 +309,10 @@ function ConfigEditor({
       )}
       {tab === "staff" && record?.directoryOnly && (
         <Notice>
-          {locale === "vi"
-            ? "Hồ sơ từ Excel, chưa có đăng nhập. Chỉ cấp tài khoản khi đã xác minh nhân sự: cập nhật email thật và mật khẩu mới."
-            : "Imported directory profile without login. Verify the staff member, then set a real email and new password to provision access."}
+          {localizeText(
+            "Hồ sơ từ Excel, chưa có đăng nhập. Chỉ cấp tài khoản khi đã xác minh nhân sự: cập nhật email thật và mật khẩu mới.",
+            locale,
+          )}
         </Notice>
       )}
       <Form
@@ -339,10 +338,7 @@ function ConfigEditor({
       >
         {(tab === "departments" || tab === "services") && text("code")}
         {["departments", "locations", "services"].includes(tab) && (
-          <div className="form-grid">
-            {text("nameVi")}
-            {text("nameEn")}
-          </div>
+          <div className="form-grid">{text("nameVi")}</div>
         )}
         {(tab === "locations" || tab === "services") &&
           select("departmentId", "department", depOptions)}
@@ -367,7 +363,6 @@ function ConfigEditor({
             {text("key", "templateKey")}
             {select("language", "language", [
               { id: "vi", label: "Tiếng Việt" },
-              { id: "en", label: "English" },
             ])}
             {select("category", "category", [
               { id: "Guidance", label: t("journey") },
@@ -383,7 +378,6 @@ function ConfigEditor({
             {select("toLocationId", "to", locOptions)}
             {select("language", "language", [
               { id: "vi", label: "Tiếng Việt" },
-              { id: "en", label: "English" },
             ])}
             {text("instructions", "instructions", true, true)}
           </>

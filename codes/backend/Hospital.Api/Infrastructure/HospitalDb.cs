@@ -19,7 +19,7 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
             e.HasKey(nameof(Entity.Id));
             e.Property(nameof(Entity.Id)).ValueGeneratedNever();
             e.Property(nameof(Entity.Version)).IsConcurrencyToken();
-            foreach (var p in type.GetProperties().Where(p => p.PropertyType == typeof(string)))
+            foreach (var p in type.GetProperties().Where(p => p.PropertyType == typeof(string) && !Attribute.IsDefined(p, typeof(System.ComponentModel.DataAnnotations.Schema.NotMappedAttribute))))
                 e.Property(p.Name).HasMaxLength(p.Name is "Text" or "Instructions" or "Diagnosis" or "Explanation" or "Description" or "Requests" or "StepsJson" or "ResponseJson" or "DestinationSnapshot" or "Detail" ? 12000 : 500);
         }
         m.Entity<UserAccount>().HasIndex(x => x.Email).IsUnique();
@@ -57,7 +57,11 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
         m.Entity<GuidanceTemplate>().Property(x => x.Language).HasMaxLength(10);
         m.Entity<GuidanceTemplate>().HasIndex(x => new { x.Key, x.Language, x.Revision }).IsUnique();
         m.Entity<SummaryVersion>().HasIndex(x => new { x.VisitId, x.Revision }).IsUnique();
-        m.Entity<SummaryTranslation>().HasIndex(x => new { x.SummaryVersionId, x.Language }).IsUnique();
+        m.Entity<SummaryVersion>().ToTable(t => t.HasCheckConstraint("CK_Summary_Source", "[Language] = 'vi'"));
+        m.Entity<FollowUpRecommendation>().ToTable(t => t.HasCheckConstraint("CK_FollowUp_Source", "[Language] = 'vi'"));
+        m.Entity<GuidanceTemplate>().ToTable(t => t.HasCheckConstraint("CK_Template_Source", "[Language] = 'vi'"));
+        m.Entity<HospitalRoute>().ToTable(t => t.HasCheckConstraint("CK_Route_Source", "[Language] = 'vi'"));
+        m.Entity<ReceptionMessage>().ToTable(t => t.HasCheckConstraint("CK_Message_Source", "[Language] = 'vi'"));
         m.Entity<AuditEvent>().Property(x => x.Source).HasMaxLength(100);
         m.Entity<AuditEvent>().Property(x => x.SourceEventId).HasMaxLength(200);
         m.Entity<AuditEvent>().HasIndex(x => new { x.Source, x.SourceEventId }).IsUnique();
@@ -92,7 +96,6 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
         Fk<WorkflowMapping, HospitalService>(m, "HospitalServiceId");
         Fk<HospitalRoute, Location>(m, "FromLocationId"); Fk<HospitalRoute, Location>(m, "ToLocationId");
         Fk<SummaryVersion, Visit>(m, "VisitId"); Fk<SummaryVersion, UserAccount>(m, "AuthorId");
-        Fk<SummaryTranslation, UserAccount>(m, "ApprovedBy");
         Fk<FollowUpRecommendation, Visit>(m, "VisitId"); Fk<FollowUpRecommendation, Department>(m, "DepartmentId"); Fk<FollowUpRecommendation, UserAccount>(m, "AuthorId");
         Fk<AssistanceRequest, Patient>(m, "PatientId"); Fk<AssistanceRequest, Session>(m, "SessionId");
         Fk<AssistanceRequest, Visit>(m, "VisitId"); Fk<AssistanceRequest, RegistrationRequest>(m, "RegistrationRequestId");

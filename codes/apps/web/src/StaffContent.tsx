@@ -65,13 +65,7 @@ export function DoctorContent({ visitId }: { visitId: string }) {
                 <p className="preserve-text">{draft.explanation}</p>
                 <h4>{t("instructions")}</h4>
                 <p className="preserve-text">{draft.instructions}</p>
-                {draft.status === "Published" && (
-                  <TranslationForm
-                    key={draft.id}
-                    draft={draft}
-                    onChange={r.refresh}
-                  />
-                )}
+                <Notice>{t("vietnameseSource")}</Notice>
               </>
             ) : (
               <DraftForm
@@ -113,7 +107,7 @@ function DraftForm({
   const [documentReference, setDocument] = useState(
     source?.documentReference ?? "",
   );
-  const [language, setLanguage] = useState(source?.language ?? locale);
+  const language = "vi";
   const [reviewed, setReviewed] = useState(false);
   const mutation = useMutation();
   const unchanged =
@@ -144,15 +138,7 @@ function DraftForm({
           if (r) onChange(r.id);
         }}
       >
-        <Field label={t("actualLanguage")}>
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-          >
-            <option value="vi">Tiếng Việt</option>
-            <option value="en">English</option>
-          </select>
-        </Field>
+        <Notice>{t("vietnameseSource")}</Notice>
         <Field label={t("diagnosis")}>
           <textarea
             value={diagnosis}
@@ -225,100 +211,6 @@ function DraftForm({
     </>
   );
 }
-function TranslationForm({
-  draft,
-  onChange,
-}: {
-  draft: Draft;
-  onChange: () => void;
-}) {
-  const { t, locale } = useRuntime();
-  const [language, setLanguage] = useState(
-    draft.language === "vi" ? "en" : "vi",
-  );
-  const [diagnosis, setDiagnosis] = useState("");
-  const [explanation, setExplanation] = useState("");
-  const [instructions, setInstructions] = useState("");
-  const [approved, setApproved] = useState(false);
-  const mutation = useMutation();
-  return (
-    <details className="sub-panel">
-      <summary>{t("translation")}</summary>
-      {draft.translations.map((tr) => (
-        <div className="message-box" key={tr.id}>
-          <strong>{tr.language}</strong>
-          <p>{tr.diagnosis}</p>
-          <p>{tr.instructions}</p>
-        </div>
-      ))}
-      <Form
-        busy={mutation.busy}
-        onSubmit={async () => {
-          if (
-            await mutation.run(
-              `/api/visits/${draft.visitId}/summaries/${draft.id}/translations`,
-              {
-                language,
-                diagnosis,
-                explanation,
-                instructions,
-                approved,
-                sourceRevision: draft.revision,
-              },
-            )
-          )
-            onChange();
-        }}
-      >
-        <Field label={t("language")}>
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-          >
-            <option value="vi">Tiếng Việt</option>
-            <option value="en">English</option>
-          </select>
-        </Field>
-        <Field label={t("diagnosis")}>
-          <textarea
-            value={diagnosis}
-            required
-            maxLength={4000}
-            onChange={(e) => setDiagnosis(e.target.value)}
-          />
-        </Field>
-        <Field label={t("explanation")}>
-          <textarea
-            value={explanation}
-            maxLength={4000}
-            onChange={(e) => setExplanation(e.target.value)}
-          />
-        </Field>
-        <Field label={t("instructions")}>
-          <textarea
-            value={instructions}
-            required
-            maxLength={6000}
-            onChange={(e) => setInstructions(e.target.value)}
-          />
-        </Field>
-        <label className="check-field">
-          <input
-            type="checkbox"
-            checked={approved}
-            required
-            onChange={(e) => setApproved(e.target.checked)}
-          />
-          {t("reviewed")}
-        </label>
-        <Button type="submit" busy={mutation.busy}>
-          {t("approveTranslation")}
-        </Button>
-      </Form>
-      <Feedback error={mutation.error} ok={mutation.ok} locale={locale} />
-    </details>
-  );
-}
 function FollowUpForm({ visitId }: { visitId: string }) {
   const { t, locale, config } = useRuntime();
   const [department, setDepartment] = useState(config.departments[0]?.id ?? "");
@@ -337,7 +229,7 @@ function FollowUpForm({ visitId }: { visitId: string }) {
             departmentId: department,
             recommendedAt: new Date(date + "T09:00:00+07:00").toISOString(),
             text,
-            language: locale,
+            language: "vi",
             reviewed,
           });
         }}

@@ -1,3 +1,4 @@
+import { languages, normalizeLocale } from "@hospital/shared";
 import { useEffect, useMemo, useState } from "react";
 import {
   Bell,
@@ -68,13 +69,21 @@ type Page =
   | "notifications"
   | "workspace";
 export default function App() {
-  const [locale, setLocale] = useState<Locale>(() =>
-    localStorage.getItem("hospital.language") === "en" ? "en" : "vi",
+  const [locale, updateLocale] = useState<Locale>(() =>
+    normalizeLocale(localStorage.getItem("hospital.language")),
   );
+  const setLocale = (language: Locale) => {
+    localStorage.setItem("hospital.language", language);
+    updateLocale(language);
+  };
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
   const [expired, setExpired] = useState(false);
-  const config = useResource<Configuration>("/api/config", true);
+  const config = useResource<Configuration>(
+    `/api/config?language=${locale}`,
+    true,
+    true,
+  );
   const t = useMemo(() => translator(locale), [locale]);
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -166,9 +175,13 @@ function Workspace() {
     new URLSearchParams(location.hash.slice(1)).get("ticket"),
   );
   const [offset, setOffset] = useState(0);
-  const historyPage = useResource<VisitSummary[]>(page === "history" ? `/api/visits?offset=${offset}` : null);
+  const historyPage = useResource<VisitSummary[]>(
+    page === "history" ? `/api/visits?offset=${offset}` : null,
+  );
   const visits = useResource<VisitSummary[]>(
-    session.role !== "Admin" ? `/api/visits?offset=${patient ? 0 : offset}` : null,
+    session.role !== "Admin"
+      ? `/api/visits?offset=${patient ? 0 : offset}`
+      : null,
     true,
   );
   const mutation = useMutation();
@@ -254,9 +267,7 @@ function Workspace() {
             <ShieldCheck size={18} />
             <span>
               {t(session.role)}
-              {session.isGuest
-                ? ` · ${locale === "vi" ? "Khách" : "Guest"}`
-                : ""}
+              {session.isGuest ? ` · ${t("guestLabel")}` : ""}
             </span>
           </div>
           <button
@@ -286,7 +297,7 @@ function Workspace() {
         <header className="topbar">
           <button
             className="icon-button mobile-menu"
-            aria-label={menu ? t("close") : "Menu"}
+            aria-label={menu ? t("close") : t("menu")}
             onClick={() => setMenu((s) => !s)}
           >
             {menu ? <X /> : <Menu />}
@@ -302,10 +313,13 @@ function Workspace() {
               <select
                 aria-label={t("language")}
                 value={locale}
-                onChange={(e) => setLocale(e.target.value as Locale)}
+                onChange={(e) => setLocale(normalizeLocale(e.target.value))}
               >
-                <option value="vi">Tiếng Việt</option>
-                <option value="en">English</option>
+                {languages.map((l) => (
+                  <option key={l.code} value={l.code}>
+                    {l.label}
+                  </option>
+                ))}
               </select>
             </label>
             <button
@@ -423,8 +437,22 @@ function Workspace() {
                     </div>
                   )}
                   <div className="actions">
-                    <Button variant="quiet" disabled={offset === 0 || historyPage.loading} onClick={() => setOffset(Math.max(0, offset - 100))}>{t("previousPage")}</Button>
-                    <Button variant="quiet" disabled={historyPage.data?.length !== 100 || historyPage.loading} onClick={() => setOffset(offset + 100)}>{t("nextPage")}</Button>
+                    <Button
+                      variant="quiet"
+                      disabled={offset === 0 || historyPage.loading}
+                      onClick={() => setOffset(Math.max(0, offset - 100))}
+                    >
+                      {t("previousPage")}
+                    </Button>
+                    <Button
+                      variant="quiet"
+                      disabled={
+                        historyPage.data?.length !== 100 || historyPage.loading
+                      }
+                      onClick={() => setOffset(offset + 100)}
+                    >
+                      {t("nextPage")}
+                    </Button>
                   </div>
                 </>
               )}
@@ -469,8 +497,26 @@ function Workspace() {
               )}
               <ResourceState resource={visits} />
               <div className="actions">
-                <Button variant="quiet" disabled={offset === 0 || visits.loading} onClick={() => { setSelected(null); setOffset(Math.max(0, offset - 100)); }}>{t("previousPage")}</Button>
-                <Button variant="quiet" disabled={visits.data?.length !== 100 || visits.loading} onClick={() => { setSelected(null); setOffset(offset + 100); }}>{t("nextPage")}</Button>
+                <Button
+                  variant="quiet"
+                  disabled={offset === 0 || visits.loading}
+                  onClick={() => {
+                    setSelected(null);
+                    setOffset(Math.max(0, offset - 100));
+                  }}
+                >
+                  {t("previousPage")}
+                </Button>
+                <Button
+                  variant="quiet"
+                  disabled={visits.data?.length !== 100 || visits.loading}
+                  onClick={() => {
+                    setSelected(null);
+                    setOffset(offset + 100);
+                  }}
+                >
+                  {t("nextPage")}
+                </Button>
               </div>
               <StaffClinical id={visitId} />
             </>

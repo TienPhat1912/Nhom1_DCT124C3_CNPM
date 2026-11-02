@@ -1,3 +1,4 @@
+import { speechLocale } from "@hospital/shared";
 import { useState } from "react";
 import {
   Activity,
@@ -34,11 +35,10 @@ export default function AdminDashboard({
     true,
   );
   const data = resource.data;
-  const number = (value: number) =>
-    value.toLocaleString(locale === "vi" ? "vi-VN" : "en-US");
+  const number = (value: number) => value.toLocaleString(speechLocale(locale));
   const formatDate = (date: string) =>
     new Date(`${date}T00:00:00+07:00`).toLocaleDateString(
-      locale === "vi" ? "vi-VN" : "en-GB",
+      speechLocale(locale),
       { day: "2-digit", month: "2-digit", timeZone: "Asia/Ho_Chi_Minh" },
     );
   const normalize = (value: string) =>
@@ -87,7 +87,7 @@ export default function AdminDashboard({
           <time dateTime={data.generatedAt}>
             {t("dashboardUpdated")}{" "}
             {new Date(data.generatedAt).toLocaleTimeString(
-              locale === "vi" ? "vi-VN" : "en-GB",
+              speechLocale(locale),
               { timeZone: data.timeZone },
             )}
           </time>

@@ -1,0 +1,1437 @@
+{
+  "Khoa và bác sĩ": {
+    "en": "Departments and doctors",
+    "zh": "科室与医生",
+    "ko": "진료과 및 의료진",
+    "ja": "診療科・医師",
+    "ru": "Отделения и врачи"
+  },
+  "Máy chủ đã xác nhận thao tác.": {
+    "en": "The server confirmed your action.",
+    "zh": "服务器已确认操作。",
+    "ko": "서버가 작업을 확인했습니다.",
+    "ja": "サーバーが操作を確認しました。",
+    "ru": "Сервер подтвердил действие."
+  },
+  "Bác sĩ": {
+    "en": "Doctor",
+    "zh": "医生",
+    "ko": "의사",
+    "ja": "医師",
+    "ru": "Врач"
+  },
+  "Thu ngân": {
+    "en": "Cashier",
+    "zh": "收费处",
+    "ko": "수납",
+    "ja": "会計",
+    "ru": "Касса"
+  },
+  "Dừng đọc": {
+    "en": "Stop playback",
+    "zh": "停止播放",
+    "ko": "재생 중지",
+    "ja": "再生を停止",
+    "ru": "Остановить воспроизведение"
+  },
+  "Tòa": {
+    "en": "Building",
+    "zh": "楼栋",
+    "ko": "건물",
+    "ja": "棟",
+    "ru": "Корпус"
+  },
+  "Tầng": {
+    "en": "Floor",
+    "zh": "楼层",
+    "ko": "층",
+    "ja": "階",
+    "ru": "Этаж"
+  },
+  "Phòng": {
+    "en": "Room",
+    "zh": "房间",
+    "ko": "방",
+    "ja": "部屋",
+    "ru": "Кабинет"
+  },
+  "Tìm đường": {
+    "en": "Find route",
+    "zh": "查找路线",
+    "ko": "경로 찾기",
+    "ja": "経路を検索",
+    "ru": "Найти маршрут"
+  },
+  "Bản đồ bệnh viện": {
+    "en": "Hospital map",
+    "zh": "医院地图",
+    "ko": "병원 지도",
+    "ja": "病院マップ",
+    "ru": "Карта больницы"
+  },
+  "Cần xác nhận vị trí: ảnh chưa ghi đủ khu hoặc tầng. Chưa thể tìm đường tới khoa này.": {
+    "en": "Needs confirmation: the source does not specify the building or floor. A route is not available yet.",
+    "zh": "位置待确认：来源未标明楼栋或楼层，暂时无法导航至此科室。",
+    "ko": "위치 확인 필요: 건물이나 층 정보가 없어 경로를 안내할 수 없습니다.",
+    "ja": "場所の確認が必要です。棟や階の情報がなく、経路を案内できません。",
+    "ru": "Нужно уточнить место: не указан корпус или этаж. Маршрут пока недоступен."
+  },
+  "Chọn tầng cần đến của khoa trước khi tìm đường.": {
+    "en": "Choose the department destination floor before finding a route.",
+    "zh": "请先选择科室所在楼层。",
+    "ko": "먼저 목적지 진료과의 층을 선택하세요.",
+    "ja": "まず目的の診療科の階を選んでください。",
+    "ru": "Сначала выберите этаж отделения."
+  },
+  "Khoa/phòng đã chọn": {
+    "en": "Selected department",
+    "zh": "所选科室",
+    "ko": "선택한 진료과",
+    "ja": "選択した診療科",
+    "ru": "Выбранное отделение"
+  },
+  "Bạn đã đến điểm đã chọn.": {
+    "en": "You have reached your selected destination.",
+    "zh": "您已到达所选目的地。",
+    "ko": "선택한 목적지에 도착했습니다.",
+    "ja": "選択した目的地に到着しました。",
+    "ru": "Вы достигли выбранного места."
+  },
+  "Các khoa tại tầng đang xem": {
+    "en": "Departments on the displayed floor",
+    "zh": "当前楼层的科室",
+    "ko": "현재 층의 진료과",
+    "ja": "表示中の階の診療科",
+    "ru": "Отделения на отображаемом этаже"
+  },
+  "Bản đồ mẫu": {
+    "en": "Sample map",
+    "zh": "示意地图",
+    "ko": "예시 지도",
+    "ja": "サンプルマップ",
+    "ru": "Пример карты"
+  },
+  "Khu và tầng của các khoa theo ảnh bạn cung cấp; tọa độ điểm vào khoa, phòng mẫu và lối đi là minh họa. Cần đối chiếu thực tế trước khi dùng để dẫn đường.": {
+    "en": "Department buildings and floors follow the supplied directory; entry points, sample rooms and paths are illustrative. Verify them on site before using this map for navigation.",
+    "zh": "科室楼栋和楼层来自提供的目录；入口、示例房间和通道仅供示意，导航前请现场核实。",
+    "ko": "진료과 건물과 층은 제공된 목록 기준이며 입구, 예시 진료실과 통로는 설명용입니다. 이동 전 현장에서 확인하세요.",
+    "ja": "診療科の棟・階は提供資料に基づきますが、入口・部屋・通路は例示です。移動前に現地で確認してください。",
+    "ru": "Корпуса и этажи взяты из справочника; входы, кабинеты и пути условные. Перед использованием уточните их на месте."
+  },
+  "Trong tòa nhà: chọn tòa → lầu → checkpoint gần nhất. Ngoài tòa nhà: chọn checkpoint gần bạn trên bản đồ.": {
+    "en": "Inside: choose building → floor → nearest checkpoint. Outside: select a nearby checkpoint on the map.",
+    "zh": "室内：选择楼栋→楼层→最近定位点。室外：在地图上选择附近定位点。",
+    "ko": "실내: 건물 → 층 → 가장 가까운 지점. 실외: 지도에서 가까운 지점을 선택하세요.",
+    "ja": "屋内：棟→階→最寄りの地点。屋外：地図上で近くの地点を選びます。",
+    "ru": "Внутри: корпус → этаж → ближайшая точка. Снаружи выберите ближайшую точку на карте."
+  },
+  "1. Vị trí của bạn": {
+    "en": "1. Your location",
+    "zh": "1. 您的位置",
+    "ko": "1. 현재 위치",
+    "ja": "1. 現在地",
+    "ru": "1. Ваше местоположение"
+  },
+  "Ngoài tòa nhà": {
+    "en": "Outside buildings",
+    "zh": "楼外",
+    "ko": "건물 밖",
+    "ja": "屋外",
+    "ru": "Снаружи зданий"
+  },
+  "Chọn tòa nhà hoặc ngoài trời": {
+    "en": "Choose a building or outside",
+    "zh": "选择楼栋或室外",
+    "ko": "건물 또는 실외 선택",
+    "ja": "棟または屋外を選択",
+    "ru": "Выберите корпус или улицу"
+  },
+  "2. Lầu đang đứng": {
+    "en": "2. Your floor",
+    "zh": "2. 您所在的楼层",
+    "ko": "2. 현재 층",
+    "ja": "2. 現在の階",
+    "ru": "2. Ваш этаж"
+  },
+  "Chọn lầu": {
+    "en": "Choose a floor",
+    "zh": "选择楼层",
+    "ko": "층 선택",
+    "ja": "階を選択",
+    "ru": "Выберите этаж"
+  },
+  "Checkpoint gần nhất": {
+    "en": "Nearest checkpoint",
+    "zh": "最近定位点",
+    "ko": "가장 가까운 지점",
+    "ja": "最寄りの地点",
+    "ru": "Ближайшая точка"
+  },
+  "Chọn checkpoint / phòng": {
+    "en": "Choose a checkpoint / room",
+    "zh": "选择定位点／房间",
+    "ko": "지점 / 방 선택",
+    "ja": "地点・部屋を選択",
+    "ru": "Выберите точку / кабинет"
+  },
+  "Đích trên phiếu": {
+    "en": "Ticket destination",
+    "zh": "就诊单上的目的地",
+    "ko": "진료표 목적지",
+    "ja": "受診票の目的地",
+    "ru": "Место по талону"
+  },
+  "Bạn đang ở đây": {
+    "en": "You are here",
+    "zh": "您在这里",
+    "ko": "현재 위치",
+    "ja": "現在地",
+    "ru": "Вы здесь"
+  },
+  "Điểm cần đến": {
+    "en": "Destination",
+    "zh": "目的地",
+    "ko": "목적지",
+    "ja": "目的地",
+    "ru": "Пункт назначения"
+  },
+  "Checkpoint cố định": {
+    "en": "Fixed checkpoint",
+    "zh": "固定定位点",
+    "ko": "고정 지점",
+    "ja": "固定地点",
+    "ru": "Фиксированная точка"
+  },
+  "Đường đi ngắn nhất": {
+    "en": "Shortest route",
+    "zh": "最短路线",
+    "ko": "최단 경로",
+    "ja": "最短経路",
+    "ru": "Кратчайший маршрут"
+  },
+  "Hướng dẫn từng chặng": {
+    "en": "Step-by-step directions",
+    "zh": "分步路线指引",
+    "ko": "단계별 길 안내",
+    "ja": "順を追った道案内",
+    "ru": "Пошаговые инструкции"
+  },
+  "Chọn vị trí hiện tại, sau đó bấm Tìm đường.": {
+    "en": "Choose your current location, then select Find route.",
+    "zh": "选择当前位置，然后点击查找路线。",
+    "ko": "현재 위치를 선택한 후 경로 찾기를 누르세요.",
+    "ja": "現在地を選び、「経路を検索」を押してください。",
+    "ru": "Выберите текущее место и нажмите «Найти маршрут»."
+  },
+  "Phòng trên phiếu chưa khớp khu, tầng và mã phòng trên bản đồ. Vui lòng liên hệ quầy tiếp nhận.": {
+    "en": "The ticket's building, floor and room do not match a mapped location. Please contact reception.",
+    "zh": "就诊单的楼栋、楼层或房间与地图不符，请联系接待处。",
+    "ko": "진료표의 건물, 층, 방이 지도와 일치하지 않습니다. 접수처에 문의하세요.",
+    "ja": "受診票の棟・階・部屋が地図と一致しません。受付にお問い合わせください。",
+    "ru": "Корпус, этаж или кабинет в талоне не совпадает с картой. Обратитесь в регистратуру."
+  },
+  "Chưa có lối đi kết nối tới phòng này. Vui lòng yêu cầu nhân viên hỗ trợ.": {
+    "en": "No connected route to this room. Please ask a staff member for help.",
+    "zh": "没有通往此房间的路线，请向工作人员求助。",
+    "ko": "이 방으로 연결되는 경로가 없습니다. 직원에게 도움을 요청하세요.",
+    "ja": "この部屋への経路がありません。職員にお尋ねください。",
+    "ru": "Нет пути к этому кабинету. Обратитесь к сотруднику."
+  },
+  "Bạn đã ở đúng phòng trên phiếu.": {
+    "en": "You are at the room on your ticket.",
+    "zh": "您已到达就诊单上的房间。",
+    "ko": "진료표에 적힌 방에 도착했습니다.",
+    "ja": "受診票に記載された部屋に到着しました。",
+    "ru": "Вы у кабинета, указанного в талоне."
+  },
+  "Chọn lại vị trí": {
+    "en": "Choose again",
+    "zh": "重新选择位置",
+    "ko": "위치 다시 선택",
+    "ja": "場所を選び直す",
+    "ru": "Выбрать место заново"
+  },
+  "Tầng đang xem": {
+    "en": "Displayed floor",
+    "zh": "当前显示楼层",
+    "ko": "표시 중인 층",
+    "ja": "表示中の階",
+    "ru": "Отображаемый этаж"
+  },
+  "Tuyến đi không qua tầng đang xem.": {
+    "en": "Your route does not pass through this floor.",
+    "zh": "路线不经过此楼层。",
+    "ko": "경로가 이 층을 지나지 않습니다.",
+    "ja": "経路はこの階を通りません。",
+    "ru": "Маршрут не проходит через этот этаж."
+  },
+  "Phóng to": {
+    "en": "Zoom in",
+    "zh": "放大",
+    "ko": "확대",
+    "ja": "拡大",
+    "ru": "Увеличить"
+  },
+  "Thu nhỏ": {
+    "en": "Zoom out",
+    "zh": "缩小",
+    "ko": "축소",
+    "ja": "縮小",
+    "ru": "Уменьшить"
+  },
+  "Vừa khung": {
+    "en": "Fit map",
+    "zh": "适应窗口",
+    "ko": "화면에 맞추기",
+    "ja": "全体を表示",
+    "ru": "Вписать карту"
+  },
+  "Vị trí do bạn chọn; hãy cập nhật khi di chuyển.": {
+    "en": "You selected this position; update it as you move.",
+    "zh": "这是您选择的位置，移动后请更新。",
+    "ko": "직접 선택한 위치입니다. 이동하면 갱신하세요.",
+    "ja": "選択した位置です。移動したら更新してください。",
+    "ru": "Вы выбрали это положение; обновляйте его при перемещении."
+  },
+  "Nghe chỉ đường": {
+    "en": "Listen to directions",
+    "zh": "收听路线指引",
+    "ko": "길 안내 듣기",
+    "ja": "道案内を聞く",
+    "ru": "Прослушать маршрут"
+  },
+  "Không phát được âm thanh. Bạn vẫn có thể đọc hướng dẫn bên dưới.": {
+    "en": "Audio is unavailable. You can still read the directions below.",
+    "zh": "无法播放音频，您仍可阅读下方指引。",
+    "ko": "음성을 재생할 수 없습니다. 아래 안내를 읽어 주세요.",
+    "ja": "音声を再生できません。下の案内をお読みください。",
+    "ru": "Аудио недоступно. Прочитайте инструкции ниже."
+  },
+  "Hướng dẫn trên bản đồ mẫu. ": {
+    "en": "Directions on the sample map. ",
+    "zh": "示意地图路线指引。",
+    "ko": "예시 지도의 길 안내입니다. ",
+    "ja": "サンプルマップの道案内です。",
+    "ru": "Маршрут на примерной карте. "
+  },
+  "Tôi đang ở đây": {
+    "en": "I am here",
+    "zh": "我在这里",
+    "ko": "여기에 있습니다",
+    "ja": "ここにいます",
+    "ru": "Я здесь"
+  },
+  "Tìm bác sĩ, chuyên khoa hoặc phòng khám": {
+    "en": "Search doctor, specialty or clinic",
+    "zh": "搜索医生、专科或诊室",
+    "ko": "의사, 전문과 또는 진료실 검색",
+    "ja": "医師・専門科・診察室を検索",
+    "ru": "Поиск врача, специальности или кабинета"
+  },
+  "Tất cả khoa/phòng": {
+    "en": "All departments",
+    "zh": "全部科室",
+    "ko": "모든 진료과",
+    "ja": "すべての診療科",
+    "ru": "Все отделения"
+  },
+  "Chuyên khoa / nhóm phòng khám": {
+    "en": "Specialty / clinic group",
+    "zh": "专科／诊室分组",
+    "ko": "전문과 / 진료실 그룹",
+    "ja": "専門科・診察室グループ",
+    "ru": "Специальность / группа кабинетов"
+  },
+  "Tất cả chuyên khoa": {
+    "en": "All specialties",
+    "zh": "全部专科",
+    "ko": "모든 전문과",
+    "ja": "すべての専門科",
+    "ru": "Все специальности"
+  },
+  "Danh mục từ lịch tháng 08/2025; không phải lịch khám hiện tại. Chuyên khoa được nhóm theo tên phòng khám trong bảng nguồn.": {
+    "en": "Directory from the August 2025 roster, not a current appointment schedule. Specialties are grouped by clinic names in the source.",
+    "zh": "目录来源于2025年8月排班表，并非当前门诊安排。专科按源表中的诊室名称分组。",
+    "ko": "2025년 8월 명부 기준이며 현재 진료 일정이 아닙니다. 전문과는 원본 진료실 이름으로 분류되었습니다.",
+    "ja": "2025年8月の名簿に基づく情報で、現在の診療予定ではありません。専門科は元資料の診察室名で分類されています。",
+    "ru": "Справочник составлен по списку за август 2025 года, а не по текущему расписанию. Специальности сгруппированы по кабинетам источника."
+  },
+  "Cần xác nhận vị trí phòng khám": {
+    "en": "Clinic location needs confirmation",
+    "zh": "诊室位置需要确认",
+    "ko": "진료실 위치 확인 필요",
+    "ja": "診察室の場所は要確認",
+    "ru": "Расположение кабинета нужно уточнить"
+  },
+  "Nguồn Excel chưa có bác sĩ phù hợp với lựa chọn này.": {
+    "en": "The source has no clinician matching this selection.",
+    "zh": "来源中没有符合所选条件的医生。",
+    "ko": "원본에 조건과 일치하는 의료진이 없습니다.",
+    "ja": "条件に合う医療者が元資料にありません。",
+    "ru": "В источнике нет подходящих специалистов."
+  },
+  "hồ sơ theo khoa": {
+    "en": "department records",
+    "zh": "科室记录",
+    "ko": "진료과 기록",
+    "ja": "診療科別の記録",
+    "ru": "записей по отделениям"
+  },
+  "Xem thêm": {
+    "en": "Show more",
+    "zh": "显示更多",
+    "ko": "더 보기",
+    "ja": "もっと見る",
+    "ru": "Показать ещё"
+  },
+  "Chuyên viên (CN.)": {
+    "en": "Practitioner (CN.)",
+    "zh": "专业人员（CN.）",
+    "ko": "전문인력 (CN.)",
+    "ja": "専門職（CN.）",
+    "ru": "Специалист (CN.)"
+  },
+  "Tên/danh xưng cần đối chiếu nguồn": {
+    "en": "Name/title needs source review",
+    "zh": "姓名／职称需核对原始资料",
+    "ko": "이름 / 직함 원본 확인 필요",
+    "ja": "氏名・肩書きは元資料の確認が必要",
+    "ru": "Имя / должность требуют проверки по источнику"
+  },
+  "Đối chiếu ô nguồn": {
+    "en": "Source cells",
+    "zh": "原始单元格",
+    "ko": "원본 셀",
+    "ja": "元のセル",
+    "ru": "Ячейки источника"
+  },
+  "Chọn khoa/phòng": {
+    "en": "Choose a department",
+    "zh": "选择科室",
+    "ko": "진료과 선택",
+    "ja": "診療科を選択",
+    "ru": "Выберите отделение"
+  },
+  "Vị trí khoa cần xác nhận": {
+    "en": "Department location needs confirmation",
+    "zh": "科室位置需要确认",
+    "ko": "진료과 위치 확인 필요",
+    "ja": "診療科の場所は要確認",
+    "ru": "Расположение отделения нужно уточнить"
+  },
+  "Các mục cần xác nhận trong nguồn": {
+    "en": "Source items requiring confirmation",
+    "zh": "来源中待确认的项目",
+    "ko": "원본에서 확인할 항목",
+    "ja": "元資料で確認が必要な項目",
+    "ru": "Что нужно уточнить в источнике"
+  },
+  "Khoa Dược": {
+    "en": "Pharmacy Department",
+    "zh": "药剂科",
+    "ko": "약제과",
+    "ja": "薬剤科",
+    "ru": "Аптечное отделение"
+  },
+  "Khoa Hồi sức tích cực chống độc": {
+    "en": "Intensive Care and Toxicology Department",
+    "zh": "重症监护与中毒救治科",
+    "ko": "중환자 및 중독 치료과",
+    "ja": "集中治療・中毒治療科",
+    "ru": "Отделение интенсивной терапии и токсикологии"
+  },
+  "Khoa Hồi sức tích cực Nhi – Sơ sinh": {
+    "en": "Paediatric and Neonatal Intensive Care",
+    "zh": "儿科及新生儿重症监护科",
+    "ko": "소아·신생아 중환자실",
+    "ja": "小児・新生児集中治療科",
+    "ru": "Детская и неонатальная реанимация"
+  },
+  "Khoa Phẫu thuật tạo hình thẩm mỹ": {
+    "en": "Plastic and Cosmetic Surgery",
+    "zh": "整形美容外科",
+    "ko": "성형외과",
+    "ja": "形成・美容外科",
+    "ru": "Пластическая и эстетическая хирургия"
+  },
+  "Khoa Sản C": {
+    "en": "Obstetrics C",
+    "zh": "产科C",
+    "ko": "산부인과 C",
+    "ja": "産科C",
+    "ru": "Акушерское отделение C"
+  },
+  "Khoa Ngoại lồng ngực mạch máu": {
+    "en": "Thoracic and Vascular Surgery",
+    "zh": "胸外与血管外科",
+    "ko": "흉부·혈관외과",
+    "ja": "胸部・血管外科",
+    "ru": "Торакальная и сосудистая хирургия"
+  },
+  "Khoa Mắt": {
+    "en": "Ophthalmology",
+    "zh": "眼科",
+    "ko": "안과",
+    "ja": "眼科",
+    "ru": "Офтальмология"
+  },
+  "Khu Phẫu thuật tim": {
+    "en": "Cardiac Surgery Area",
+    "zh": "心脏外科区",
+    "ko": "심장수술 구역",
+    "ja": "心臓手術エリア",
+    "ru": "Зона кардиохирургии"
+  },
+  "Khoa Hồi sức tim mạch": {
+    "en": "Cardiac Intensive Care",
+    "zh": "心脏重症监护科",
+    "ko": "심장 중환자실",
+    "ja": "心臓集中治療科",
+    "ru": "Кардиореанимация"
+  },
+  "Khu Cách ly": {
+    "en": "Isolation Area",
+    "zh": "隔离区",
+    "ko": "격리 구역",
+    "ja": "隔離エリア",
+    "ru": "Зона изоляции"
+  },
+  "Khoa Ngoại thần kinh": {
+    "en": "Neurosurgery",
+    "zh": "神经外科",
+    "ko": "신경외과",
+    "ja": "脳神経外科",
+    "ru": "Нейрохирургия"
+  },
+  "Khoa Tiết niệu – Nam khoa": {
+    "en": "Urology and Andrology",
+    "zh": "泌尿外科与男科",
+    "ko": "비뇨의학과·남성의학과",
+    "ja": "泌尿器科・男性科",
+    "ru": "Урология и андрология"
+  },
+  "Khoa Tai Mũi Họng": {
+    "en": "Otolaryngology",
+    "zh": "耳鼻喉科",
+    "ko": "이비인후과",
+    "ja": "耳鼻咽喉科",
+    "ru": "Оториноларингология"
+  },
+  "Khoa Nội tiết": {
+    "en": "Endocrinology",
+    "zh": "内分泌科",
+    "ko": "내분비내과",
+    "ja": "内分泌内科",
+    "ru": "Эндокринология"
+  },
+  "Khoa Răng Hàm Mặt": {
+    "en": "Dentistry and Maxillofacial Surgery",
+    "zh": "口腔颌面科",
+    "ko": "치과·구강악안면외과",
+    "ja": "歯科・口腔外科",
+    "ru": "Стоматология и челюстно-лицевая хирургия"
+  },
+  "Khoa Ngoại chấn thương chỉnh hình": {
+    "en": "Traumatology and Orthopaedics",
+    "zh": "创伤骨科",
+    "ko": "외상·정형외과",
+    "ja": "外傷・整形外科",
+    "ru": "Травматология и ортопедия"
+  },
+  "Khoa Tâm thể": {
+    "en": "Psychosomatic Medicine",
+    "zh": "心身医学科",
+    "ko": "심신의학과",
+    "ja": "心身医学科",
+    "ru": "Психосоматическая медицина"
+  },
+  "Phòng Công nghệ thông tin": {
+    "en": "Information Technology Department",
+    "zh": "信息技术室",
+    "ko": "정보기술실",
+    "ja": "情報技術室",
+    "ru": "Отдел информационных технологий"
+  },
+  "Hội trường": {
+    "en": "Hall",
+    "zh": "会议厅",
+    "ko": "강당",
+    "ja": "講堂",
+    "ru": "Актовый зал"
+  },
+  "Khoa Sản B": {
+    "en": "Obstetrics B",
+    "zh": "产科B",
+    "ko": "산부인과 B",
+    "ja": "産科B",
+    "ru": "Акушерское отделение B"
+  },
+  "Khoa Kiểm soát nhiễm khuẩn": {
+    "en": "Infection Control",
+    "zh": "感染控制科",
+    "ko": "감염관리과",
+    "ja": "感染管理科",
+    "ru": "Инфекционный контроль"
+  },
+  "Khoa Vi sinh": {
+    "en": "Microbiology",
+    "zh": "微生物科",
+    "ko": "미생물과",
+    "ja": "微生物科",
+    "ru": "Микробиология"
+  },
+  "Khoa Gây mê hồi sức": {
+    "en": "Anaesthesiology and Resuscitation",
+    "zh": "麻醉与复苏科",
+    "ko": "마취통증의학과",
+    "ja": "麻酔・蘇生科",
+    "ru": "Анестезиология и реанимация"
+  },
+  "Khoa Nhi": {
+    "en": "Paediatrics",
+    "zh": "儿科",
+    "ko": "소아청소년과",
+    "ja": "小児科",
+    "ru": "Педиатрия"
+  },
+  "Khu Hành chính": {
+    "en": "Administrative Area",
+    "zh": "行政区",
+    "ko": "행정 구역",
+    "ja": "管理エリア",
+    "ru": "Административная зона"
+  },
+  "Khoa Ngoại tổng hợp": {
+    "en": "General Surgery",
+    "zh": "普通外科",
+    "ko": "일반외과",
+    "ja": "一般外科",
+    "ru": "Общая хирургия"
+  },
+  "Khoa Ung bướu": {
+    "en": "Oncology",
+    "zh": "肿瘤科",
+    "ko": "종양과",
+    "ja": "腫瘍科",
+    "ru": "Онкология"
+  },
+  "Khoa Y học cổ truyền": {
+    "en": "Traditional Medicine",
+    "zh": "传统医学科",
+    "ko": "전통의학과",
+    "ja": "伝統医学科",
+    "ru": "Традиционная медицина"
+  },
+  "Khoa Nội thận – Thận nhân tạo": {
+    "en": "Nephrology and Dialysis",
+    "zh": "肾内科与透析科",
+    "ko": "신장내과·투석실",
+    "ja": "腎臓内科・透析科",
+    "ru": "Нефрология и диализ"
+  },
+  "Khoa Nội tim mạch – Lão học": {
+    "en": "Cardiology and Geriatrics",
+    "zh": "心内科与老年科",
+    "ko": "심장내과·노인의학과",
+    "ja": "循環器内科・老年科",
+    "ru": "Кардиология и гериатрия"
+  },
+  "Phòng Tiếp công dân": {
+    "en": "Public Reception Room",
+    "zh": "群众接待室",
+    "ko": "민원 접수실",
+    "ja": "市民対応室",
+    "ru": "Приёмная граждан"
+  },
+  "Khoa Da liễu": {
+    "en": "Dermatology",
+    "zh": "皮肤科",
+    "ko": "피부과",
+    "ja": "皮膚科",
+    "ru": "Дерматология"
+  },
+  "Khoa Vật lý trị liệu – Phục hồi chức năng": {
+    "en": "Physiotherapy and Rehabilitation",
+    "zh": "物理治疗与康复科",
+    "ko": "물리치료·재활의학과",
+    "ja": "理学療法・リハビリテーション科",
+    "ru": "Физиотерапия и реабилитация"
+  },
+  "Khu khám Bảo hiểm y tế": {
+    "en": "Health Insurance Outpatient Clinic",
+    "zh": "医保门诊区",
+    "ko": "건강보험 외래 진료 구역",
+    "ja": "医療保険外来エリア",
+    "ru": "Зона амбулаторного приёма по страховке"
+  },
+  "Khu khám chữa bệnh chất lượng cao": {
+    "en": "Premium Service Outpatient Clinic",
+    "zh": "优质医疗服务区",
+    "ko": "고품질 진료 서비스 구역",
+    "ja": "特別診療サービスエリア",
+    "ru": "Зона медицинских услуг повышенного комфорта"
+  },
+  "Khoa Cấp cứu": {
+    "en": "Emergency Department",
+    "zh": "急诊科",
+    "ko": "응급의학과",
+    "ja": "救急科",
+    "ru": "Отделение неотложной помощи"
+  },
+  "Khoa Khám bệnh": {
+    "en": "Outpatients Department",
+    "zh": "门诊部",
+    "ko": "외래 진료과",
+    "ja": "外来診療科",
+    "ru": "Амбулаторное отделение"
+  },
+  "Khoa Dịch vụ": {
+    "en": "Services Department",
+    "zh": "服务科",
+    "ko": "서비스과",
+    "ja": "サービス部門",
+    "ru": "Отдел услуг"
+  },
+  "Khoa Dinh dưỡng": {
+    "en": "Nutrition Department",
+    "zh": "营养科",
+    "ko": "영양과",
+    "ja": "栄養科",
+    "ru": "Отделение питания"
+  },
+  "Khoa Chẩn đoán hình ảnh": {
+    "en": "Diagnostic Imaging",
+    "zh": "影像诊断科",
+    "ko": "영상의학과",
+    "ja": "画像診断科",
+    "ru": "Лучевая диагностика"
+  },
+  "Khoa Thăm dò chức năng": {
+    "en": "Functional Diagnostics",
+    "zh": "功能检查科",
+    "ko": "기능검사과",
+    "ja": "機能検査科",
+    "ru": "Функциональная диагностика"
+  },
+  "Khoa Huyết học – Truyền máu": {
+    "en": "Haematology and Blood Transfusion",
+    "zh": "血液与输血科",
+    "ko": "혈액·수혈과",
+    "ja": "血液・輸血科",
+    "ru": "Гематология и переливание крови"
+  },
+  "Khoa Hóa sinh – Miễn dịch": {
+    "en": "Biochemistry and Immunology",
+    "zh": "生化与免疫科",
+    "ko": "생화학·면역과",
+    "ja": "生化学・免疫科",
+    "ru": "Биохимия и иммунология"
+  },
+  "Khoa Nội tổng hợp": {
+    "en": "Internal Medicine",
+    "zh": "综合内科",
+    "ko": "일반내과",
+    "ja": "総合内科",
+    "ru": "Общая терапия"
+  },
+  "Khám chữa bệnh chất lượng cao": {
+    "en": "Premium Medical Services",
+    "zh": "优质医疗服务",
+    "ko": "고품질 의료 서비스",
+    "ja": "特別診療サービス",
+    "ru": "Медицинские услуги повышенного комфорта"
+  },
+  "Khoa Giải phẫu bệnh": {
+    "en": "Anatomical Pathology",
+    "zh": "病理科",
+    "ko": "병리과",
+    "ja": "病理科",
+    "ru": "Патологическая анатомия"
+  },
+  "Khoa Nội thần kinh": {
+    "en": "Neurology",
+    "zh": "神经内科",
+    "ko": "신경과",
+    "ja": "脳神経内科",
+    "ru": "Неврология"
+  },
+  "Khoa Sản (chưa xác định B/C)": {
+    "en": "Obstetrics (B/C unconfirmed)",
+    "zh": "产科（B/C待确认）",
+    "ko": "산부인과 (B/C 미확인)",
+    "ja": "産科（B/C未確認）",
+    "ru": "Акушерство (B/C не уточнено)"
+  },
+  "Phòng khám Chuyên gia": {
+    "en": "Specialist Clinic",
+    "zh": "专家诊室",
+    "ko": "전문의 진료실",
+    "ja": "専門医診察室",
+    "ru": "Кабинет специалиста"
+  },
+  "Khám tổng quát": {
+    "en": "General consultation",
+    "zh": "全科诊疗",
+    "ko": "일반 진료",
+    "ja": "一般診療",
+    "ru": "Общая консультация"
+  },
+  "Xét nghiệm": {
+    "en": "Laboratory",
+    "zh": "检验",
+    "ko": "검사",
+    "ja": "検査",
+    "ru": "Лаборатория"
+  },
+  "Chẩn đoán hình ảnh": {
+    "en": "Imaging",
+    "zh": "影像诊断",
+    "ko": "영상 진단",
+    "ja": "画像診断",
+    "ru": "Лучевая диагностика"
+  },
+  "Nhà thuốc": {
+    "en": "Pharmacy",
+    "zh": "药房",
+    "ko": "약국",
+    "ja": "薬局",
+    "ru": "Аптека"
+  },
+  "Khoa khác": {
+    "en": "Other department",
+    "zh": "其他科室",
+    "ko": "기타 진료과",
+    "ja": "その他の診療科",
+    "ru": "Другое отделение"
+  },
+  "Phòng khám tổng quát": {
+    "en": "Consultation room",
+    "zh": "全科诊室",
+    "ko": "일반 진료실",
+    "ja": "一般診察室",
+    "ru": "Кабинет общей консультации"
+  },
+  "Phòng lấy mẫu": {
+    "en": "Sample collection",
+    "zh": "采样室",
+    "ko": "검체 채취실",
+    "ja": "検体採取室",
+    "ru": "Кабинет забора образцов"
+  },
+  "Phòng chẩn đoán hình ảnh": {
+    "en": "Imaging room",
+    "zh": "影像检查室",
+    "ko": "영상 검사실",
+    "ja": "画像検査室",
+    "ru": "Кабинет лучевой диагностики"
+  },
+  "Quầy thu ngân": {
+    "en": "Settlement desk",
+    "zh": "收费窗口",
+    "ko": "수납 창구",
+    "ja": "会計窓口",
+    "ru": "Касса"
+  },
+  "Quầy nhà thuốc": {
+    "en": "Pharmacy counter",
+    "zh": "药房窗口",
+    "ko": "약국 창구",
+    "ja": "薬局窓口",
+    "ru": "Окно аптеки"
+  },
+  "Quầy tiếp nhận": {
+    "en": "Reception desk",
+    "zh": "接待处",
+    "ko": "접수 창구",
+    "ja": "受付窓口",
+    "ru": "Регистратура"
+  },
+  "Phòng khoa khác": {
+    "en": "Other clinic",
+    "zh": "其他诊室",
+    "ko": "기타 진료실",
+    "ja": "その他の診察室",
+    "ru": "Другой кабинет"
+  },
+  "Xét nghiệm theo chỉ định": {
+    "en": "Ordered laboratory service",
+    "zh": "医嘱检验",
+    "ko": "처방된 검사",
+    "ja": "指示された検査",
+    "ru": "Назначенные анализы"
+  },
+  "Chẩn đoán hình ảnh theo chỉ định": {
+    "en": "Ordered imaging service",
+    "zh": "医嘱影像检查",
+    "ko": "처방된 영상 검사",
+    "ja": "指示された画像検査",
+    "ru": "Назначенная лучевая диагностика"
+  },
+  "Đến phòng khám được ghi trên phiếu. Theo dõi số thứ tự và chờ nhân viên gọi.": {
+    "en": "Go to the consultation room on your ticket. Check your queue number and wait to be called.",
+    "zh": "请前往就诊单上的诊室，留意排队号码并等待工作人员叫号。",
+    "ko": "진료표에 적힌 진료실로 가세요. 대기 번호를 확인하고 직원의 호출을 기다리세요.",
+    "ja": "受診票に記載された診察室へ進んでください。受付番号を確認し、職員の呼び出しをお待ちください。",
+    "ru": "Пройдите в кабинет, указанный в талоне. Следите за номером очереди и ждите вызова сотрудника."
+  },
+  "Quay lại phòng khám khi các dịch vụ đã hoàn tất. Chờ bác sĩ gọi để tiếp tục khám.": {
+    "en": "Return to the consultation room after the required services. Wait for the doctor to call you.",
+    "zh": "完成各项服务后返回诊室，等待医生叫号继续问诊。",
+    "ko": "필요한 서비스를 마친 후 진료실로 돌아가 의사의 호출을 기다리세요.",
+    "ja": "必要なサービスが終わったら診察室に戻り、医師の呼び出しをお待ちください。",
+    "ru": "После необходимых процедур вернитесь в кабинет и дождитесь вызова врача для продолжения приёма."
+  },
+  "Đến phòng lấy mẫu và xuất trình phiếu khám. Làm theo hướng dẫn của nhân viên xét nghiệm.": {
+    "en": "Go to sample collection and show your examination ticket. Follow the laboratory staff's instructions.",
+    "zh": "请前往采样室并出示就诊单，遵循检验人员的指示。",
+    "ko": "검체 채취실에서 진료표를 보여 주고 검사 직원의 안내를 따르세요.",
+    "ja": "検体採取室へ進み受診票を提示してください。検査職員の指示に従ってください。",
+    "ru": "Пройдите в кабинет забора образцов и покажите талон. Следуйте указаниям сотрудника лаборатории."
+  },
+  "Đến phòng chẩn đoán hình ảnh và xuất trình phiếu khám. Chờ nhân viên hướng dẫn.": {
+    "en": "Go to the imaging room and show your examination ticket. Wait for staff instructions.",
+    "zh": "请前往影像检查室并出示就诊单，等待工作人员指引。",
+    "ko": "영상 검사실에서 진료표를 보여 주고 직원의 안내를 기다리세요.",
+    "ja": "画像検査室で受診票を提示し、職員の案内をお待ちください。",
+    "ru": "Пройдите в кабинет лучевой диагностики и покажите талон. Дождитесь инструкций сотрудника."
+  },
+  "Đến quầy thu ngân để nhân viên xác nhận quyết toán cuối cùng hoặc xác nhận không cần thanh toán.": {
+    "en": "Go to the settlement desk for staff to confirm final settlement or that no payment is required.",
+    "zh": "请到收费窗口，由工作人员确认最终结算或无需缴费。",
+    "ko": "수납 창구에서 직원에게 최종 수납 또는 결제 불필요 여부를 확인받으세요.",
+    "ja": "会計窓口で最終会計または支払い不要の確認を受けてください。",
+    "ru": "Пройдите в кассу для подтверждения окончательного расчёта или отсутствия необходимости оплаты."
+  },
+  "Đến quầy nhà thuốc theo hướng dẫn đã được bác sĩ xác nhận. Hoàn thành hành trình chỉ ghi nhận bạn đã kết thúc hướng dẫn, không xác nhận thuốc đã được cấp phát.": {
+    "en": "Go to the pharmacy following the doctor's confirmed instructions. Completing guidance does not certify that medication has been dispensed.",
+    "zh": "请按医生确认的指示前往药房窗口。完成流程仅表示指引结束，不代表药品已发放。",
+    "ko": "의사가 확인한 안내에 따라 약국 창구로 가세요. 안내 완료는 약 수령을 확인하는 것이 아닙니다.",
+    "ja": "医師が確認した案内に従って薬局窓口へ進んでください。案内の完了は薬の受け取りを証明するものではありません。",
+    "ru": "Пройдите к окну аптеки по подтверждённым врачом указаниям. Завершение маршрута не подтверждает выдачу лекарств."
+  },
+  "Vui lòng bổ sung thông tin liên hệ tại biểu mẫu và gửi lại để tiếp nhận kiểm tra.": {
+    "en": "Please update your contact information in the form and resubmit it for reception review.",
+    "zh": "请在表单中补充联系方式并重新提交，供接待处核实。",
+    "ko": "양식의 연락처를 보완하고 접수처 확인을 위해 다시 제출하세요.",
+    "ja": "フォームの連絡先を更新し、受付で確認できるよう再送信してください。",
+    "ru": "Обновите контактные данные в форме и отправьте её повторно для проверки в регистратуре."
+  },
+  "Vui lòng chuẩn bị giấy tờ cần thiết và trao đổi trực tiếp với nhân viên tiếp nhận.": {
+    "en": "Please prepare the required documents and speak with reception staff.",
+    "zh": "请准备所需证件，并与接待人员直接沟通。",
+    "ko": "필요한 서류를 준비하고 접수 직원과 직접 상담하세요.",
+    "ja": "必要書類を準備し、受付職員に直接ご相談ください。",
+    "ru": "Подготовьте необходимые документы и обратитесь к сотруднику регистратуры."
+  },
+  "Nếu cần trợ giúp khẩn cấp, hãy đến ngay quầy tiếp nhận hoặc báo nhân viên bệnh viện.": {
+    "en": "For urgent help, go directly to reception or alert hospital staff.",
+    "zh": "如需紧急帮助，请立即前往接待处或告知医院工作人员。",
+    "ko": "긴급한 도움이 필요하면 즉시 접수처로 가거나 병원 직원에게 알리세요.",
+    "ja": "緊急の支援が必要な場合は、すぐに受付へ行くか病院職員に知らせてください。",
+    "ru": "Если нужна срочная помощь, немедленно обратитесь в регистратуру или к сотруднику больницы."
+  },
+  "Tầng hầm": {
+    "en": "Basement",
+    "zh": "地下层",
+    "ko": "지하층",
+    "ja": "地下階",
+    "ru": "Подвал"
+  },
+  "Tầng trệt": {
+    "en": "Ground floor",
+    "zh": "底层",
+    "ko": "지상층",
+    "ja": "地上階",
+    "ru": "Нижний наземный этаж"
+  },
+  "Khu": {
+    "en": "Building",
+    "zh": "楼栋",
+    "ko": "건물",
+    "ja": "棟",
+    "ru": "Корпус"
+  },
+  "Cần xác nhận": {
+    "en": "Needs confirmation",
+    "zh": "待确认",
+    "ko": "확인 필요",
+    "ja": "要確認",
+    "ru": "Нужно уточнить"
+  },
+  "Bắt đầu tại {place}.": {
+    "en": "Start at {place}.",
+    "zh": "从{place}出发。",
+    "ko": "{place}에서 출발하세요.",
+    "ja": "{place}から出発してください。",
+    "ru": "Начните от: {place}."
+  },
+  "Đi thang máy tòa {building} từ {from} đến {to}.": {
+    "en": "Take the lift in building {building} from {from} to {to}.",
+    "zh": "乘坐{building}栋电梯，从{from}前往{to}。",
+    "ko": "{building} 건물의 엘리베이터로 {from}에서 {to}까지 이동하세요.",
+    "ja": "{building}棟のエレベーターで{from}から{to}へ移動してください。",
+    "ru": "Воспользуйтесь лифтом корпуса {building}: с {from} до {to}."
+  },
+  "Đi đến {place}, vào tòa {building}, {floor}.": {
+    "en": "Go to {place}, enter building {building}, {floor}.",
+    "zh": "前往{place}，进入{building}栋，{floor}。",
+    "ko": "{place}로 이동하여 {building} 건물의 {floor}로 들어가세요.",
+    "ja": "{place}へ進み、{building}棟の{floor}に入ってください。",
+    "ru": "Пройдите к {place}, войдите в корпус {building}, {floor}."
+  },
+  "Ra khỏi tòa {building}, đi đến {place}.": {
+    "en": "Leave building {building} and go to {place}.",
+    "zh": "离开{building}栋，前往{place}。",
+    "ko": "{building} 건물에서 나와 {place}로 이동하세요.",
+    "ja": "{building}棟を出て{place}へ進んでください。",
+    "ru": "Выйдите из корпуса {building} и пройдите к {place}."
+  },
+  "Đi theo lối nối đến {place}.": {
+    "en": "Follow the connecting path to {place}.",
+    "zh": "沿连接通道前往{place}。",
+    "ko": "연결 통로를 따라 {place}로 이동하세요.",
+    "ja": "連絡通路を通って{place}へ進んでください。",
+    "ru": "Следуйте по переходу к {place}."
+  },
+  "Đây là điểm đến trên phiếu.": {
+    "en": "This is your ticket destination.",
+    "zh": "这里是就诊单上的目的地。",
+    "ko": "진료표에 적힌 목적지입니다.",
+    "ja": "受診票に記載された目的地です。",
+    "ru": "Это место, указанное в вашем талоне."
+  },
+  "Đây là khoa/phòng đã chọn.": {
+    "en": "This is your selected department.",
+    "zh": "这里是您选择的科室。",
+    "ko": "선택한 진료과입니다.",
+    "ja": "選択した診療科です。",
+    "ru": "Это выбранное вами отделение."
+  },
+  "Cổng {number}": {
+    "en": "Gate {number}",
+    "zh": "{number}号门",
+    "ko": "{number}번 출입구",
+    "ja": "ゲート{number}",
+    "ru": "Ворота {number}"
+  },
+  "Sảnh {building}": {
+    "en": "Lobby {building}",
+    "zh": "{building}大厅",
+    "ko": "{building} 로비",
+    "ja": "{building}ロビー",
+    "ru": "Холл {building}"
+  },
+  "Thang máy {building}": {
+    "en": "Lift {building}",
+    "zh": "{building}电梯",
+    "ko": "{building} 엘리베이터",
+    "ja": "{building}エレベーター",
+    "ru": "Лифт {building}"
+  },
+  "Lối vào {building}": {
+    "en": "Entrance {building}",
+    "zh": "{building}入口",
+    "ko": "{building} 입구",
+    "ja": "{building}入口",
+    "ru": "Вход {building}"
+  },
+  "Tìm trong danh mục": {
+    "en": "Search configuration",
+    "zh": "搜索配置",
+    "ko": "설정 검색",
+    "ja": "設定を検索",
+    "ru": "Поиск в настройках"
+  },
+  "Hồ sơ từ Excel, chưa có đăng nhập. Chỉ cấp tài khoản khi đã xác minh nhân sự: cập nhật email thật và mật khẩu mới.": {
+    "en": "Imported profile without login. Verify staff, then set a real email and new password.",
+    "zh": "导入的人员资料尚无登录权限。核实身份后，请设置真实邮箱和新密码。",
+    "ko": "가져온 직원 정보에는 로그인 권한이 없습니다. 본인 확인 후 실제 이메일과 새 비밀번호를 설정하세요.",
+    "ja": "取込済みの職員情報にはログイン権限がありません。本人確認後、メールアドレスと新しいパスワードを設定してください。",
+    "ru": "Импортированный профиль без входа. Проверьте сотрудника, затем задайте действующую почту и новый пароль."
+  },
+  "Khu ": {
+    "en": "Building ",
+    "zh": "楼栋 ",
+    "ko": "건물 ",
+    "ja": "棟 ",
+    "ru": "Корпус "
+  },
+  "Hướng dẫn khám bệnh": {
+    "en": "Hospital visit guidance",
+    "zh": "就诊指南",
+    "ko": "병원 진료 안내",
+    "ja": "受診ガイド",
+    "ru": "Руководство по посещению больницы"
+  },
+  "Chọn ứng dụng đã cài hoặc tiếp tục bằng trình duyệt. Bạn có thể sử dụng với tư cách khách.": {
+    "en": "Open the installed app or continue in your browser. Guest access is available.",
+    "zh": "打开已安装的应用或使用浏览器继续，也可使用访客模式。",
+    "ko": "설치된 앱을 열거나 브라우저에서 계속하세요. 게스트로 이용할 수 있습니다.",
+    "ja": "インストール済みアプリを開くかブラウザーで続行してください。ゲストとしても利用できます。",
+    "ru": "Откройте приложение или продолжите в браузере. Доступен гостевой режим."
+  },
+  "Mở ứng dụng": {
+    "en": "Open app",
+    "zh": "打开应用",
+    "ko": "앱 열기",
+    "ja": "アプリを開く",
+    "ru": "Открыть приложение"
+  },
+  "Tiếp tục trên web": {
+    "en": "Continue on web",
+    "zh": "在网页上继续",
+    "ko": "웹에서 계속",
+    "ja": "ウェブで続行",
+    "ru": "Продолжить в браузере"
+  },
+  "QR truy cập công khai bệnh viện": {
+    "en": "Public hospital entry QR",
+    "zh": "医院公共访问二维码",
+    "ko": "병원 공개 접속 QR",
+    "ja": "病院公開アクセスQR",
+    "ru": "Общедоступный QR больницы"
+  },
+  "Tra cứu khoa/phòng": {
+    "en": "Department directory",
+    "zh": "科室查询",
+    "ko": "진료과 찾기",
+    "ja": "診療科の検索",
+    "ru": "Справочник отделений"
+  },
+  "Có thể chọn một khoa làm điểm đến để tra cứu; thông tin trên phiếu không thay đổi.": {
+    "en": "Choose a department to explore directions. This does not change your ticket.",
+    "zh": "可选择科室查看路线，不会更改就诊单信息。",
+    "ko": "진료과를 선택하여 경로를 확인할 수 있습니다. 진료표는 변경되지 않습니다.",
+    "ja": "診療科を選んで経路を確認できます。受診票は変更されません。",
+    "ru": "Выберите отделение для просмотра маршрута. Талон не изменится."
+  },
+  "Tìm khoa/phòng": {
+    "en": "Search departments",
+    "zh": "搜索科室",
+    "ko": "진료과 검색",
+    "ja": "診療科を検索",
+    "ru": "Поиск отделений"
+  },
+  "Tên khoa hoặc khu A–G": {
+    "en": "Department name or building A–G",
+    "zh": "科室名称或A–G楼栋",
+    "ko": "진료과명 또는 A–G 건물",
+    "ja": "診療科名またはA～G棟",
+    "ru": "Название отделения или корпус A–G"
+  },
+  "Khoa/phòng cần đến": {
+    "en": "Destination department",
+    "zh": "目标科室",
+    "ko": "목적지 진료과",
+    "ja": "目的の診療科",
+    "ru": "Нужное отделение"
+  },
+  "Dùng phòng trên phiếu": {
+    "en": "Use ticket destination",
+    "zh": "使用就诊单上的地点",
+    "ko": "진료표 목적지 사용",
+    "ja": "受診票の目的地を使用",
+    "ru": "Использовать место из талона"
+  },
+  "Tầng cần đến": {
+    "en": "Destination floor",
+    "zh": "目标楼层",
+    "ko": "목적지 층",
+    "ja": "目的の階",
+    "ru": "Нужный этаж"
+  },
+  "Chọn tầng cần đến": {
+    "en": "Choose destination floor",
+    "zh": "选择目标楼层",
+    "ko": "목적지 층 선택",
+    "ja": "目的の階を選択",
+    "ru": "Выберите нужный этаж"
+  },
+  "Không tìm thấy khoa phù hợp.": {
+    "en": "No matching department.",
+    "zh": "没有符合条件的科室。",
+    "ko": "일치하는 진료과가 없습니다.",
+    "ja": "該当する診療科がありません。",
+    "ru": "Подходящее отделение не найдено."
+  },
+  "Bạn có thể tạo yêu cầu không hẹn trước, sau đó đưa mã lịch hẹn cho nhân viên tiếp nhận xác minh. Nhân viên sẽ gắn lịch hẹn với chính yêu cầu đó.": {
+    "en": "Prepare a reception request, then give your booking reference to reception. Staff can verify and attach it to the same request.",
+    "zh": "您可先提交接待申请，再向工作人员提供预约编号，核实后将预约关联到此申请。",
+    "ko": "접수 요청을 작성한 뒤 직원에게 예약 번호를 제시하세요. 직원이 확인 후 같은 요청에 연결합니다.",
+    "ja": "受付申請を作成後、職員に予約番号を提示してください。確認後、同じ申請に関連付けます。",
+    "ru": "Создайте запрос на приём и передайте номер записи сотруднику. Он проверит и привяжет запись к этому запросу."
+  },
+  "Dữ liệu kiểm thử: DEMO-001 / SIM-VERIFY-DEMO-001. Mỗi định danh chỉ liên kết một bệnh nhân.": {
+    "en": "Test identity: DEMO-001 / SIM-VERIFY-DEMO-001. Each identity links to one patient.",
+    "zh": "测试身份：DEMO-001 / SIM-VERIFY-DEMO-001。每个身份仅关联一名患者。",
+    "ko": "테스트 정보: DEMO-001 / SIM-VERIFY-DEMO-001. 각 식별자는 환자 한 명에게만 연결됩니다.",
+    "ja": "テスト情報：DEMO-001 / SIM-VERIFY-DEMO-001。各識別子は1人の患者にのみ関連付けられます。",
+    "ru": "Тестовые данные: DEMO-001 / SIM-VERIFY-DEMO-001. Каждый идентификатор связан с одним пациентом."
+  },
+  "bạn": {
+    "en": "there",
+    "zh": "您",
+    "ko": "방문자",
+    "ja": "ゲスト",
+    "ru": "гость"
+  },
+  "Chưa có số phòng": {
+    "en": "Room unconfirmed",
+    "zh": "房间号待确认",
+    "ko": "방 번호 미확인",
+    "ja": "部屋番号未確認",
+    "ru": "Номер кабинета не уточнён"
+  },
+  "Excel chưa có tòa/tầng của phòng khám này. Cần xác nhận vị trí trước khi hướng dẫn đường đi.": {
+    "en": "The roster does not specify this clinic's building/floor. Confirm its location before giving directions.",
+    "zh": "来源未标明此诊室的楼栋或楼层，导航前需确认位置。",
+    "ko": "이 진료실의 건물과 층 정보가 없습니다. 길 안내 전 위치를 확인하세요.",
+    "ja": "この診察室の棟・階情報がありません。道案内の前に場所を確認してください。",
+    "ru": "В списке не указаны корпус и этаж кабинета. Уточните место перед навигацией."
+  },
+  "Chưa có bác sĩ phù hợp với phòng khám đã chọn.": {
+    "en": "No doctor is listed for the selected clinic.",
+    "zh": "所选诊室暂无匹配医生。",
+    "ko": "선택한 진료실에 해당하는 의사가 없습니다.",
+    "ja": "選択した診察室に該当する医師がいません。",
+    "ru": "Для выбранного кабинета врач не указан."
+  },
+  "Ứng dụng này dành cho bệnh nhân. Nhân viên sử dụng giao diện web.": {
+    "en": "This mobile app is for patients. Staff use the web workspace.",
+    "zh": "此移动应用供患者使用，工作人员请使用网页端。",
+    "ko": "이 모바일 앱은 환자용입니다. 직원은 웹 화면을 사용하세요.",
+    "ja": "このアプリは患者向けです。職員はウェブ画面をご利用ください。",
+    "ru": "Это приложение для пациентов. Сотрудники используют веб-интерфейс."
+  },
+  "Chọn khoa để tra cứu đường đi; thông tin trên phiếu không thay đổi.": {
+    "en": "Select a department to explore directions. Your ticket is unchanged.",
+    "zh": "选择科室查看路线，就诊单信息不变。",
+    "ko": "진료과를 선택하여 경로를 확인하세요. 진료표는 변경되지 않습니다.",
+    "ja": "診療科を選んで経路を確認します。受診票は変更されません。",
+    "ru": "Выберите отделение для маршрута. Талон не изменится."
+  },
+  "Chuẩn bị yêu cầu tiếp nhận và đưa mã lịch hẹn cho nhân viên xác minh tại quầy.": {
+    "en": "Prepare a reception request and give your booking reference to reception for verification.",
+    "zh": "提交接待申请，并到接待处出示预约编号以供核实。",
+    "ko": "접수 요청을 작성하고 창구 직원에게 예약 번호를 제시하여 확인받으세요.",
+    "ja": "受付申請を作成し、窓口で予約番号を提示して確認を受けてください。",
+    "ru": "Подготовьте запрос и передайте номер записи в регистратуру для проверки."
+  },
+  "Hành lang nam A": {
+    "en": "South A corridor",
+    "zh": "A栋南侧走廊",
+    "ko": "A 남쪽 복도",
+    "ja": "A棟南廊下",
+    "ru": "Южный коридор A"
+  },
+  "Giao lối A – B": {
+    "en": "A–B junction",
+    "zh": "A–B交叉通道",
+    "ko": "A–B 연결 지점",
+    "ja": "A–B分岐点",
+    "ru": "Переход A–B"
+  },
+  "Lối đi phía tây A": {
+    "en": "West A walkway",
+    "zh": "A栋西侧通道",
+    "ko": "A 서쪽 통로",
+    "ja": "A棟西通路",
+    "ru": "Западный проход A"
+  },
+  "Lối vào phía tây": {
+    "en": "West entrance",
+    "zh": "西侧入口",
+    "ko": "서쪽 입구",
+    "ja": "西入口",
+    "ru": "Западный вход"
+  },
+  "Lối rẽ khu G": {
+    "en": "G junction",
+    "zh": "G区岔路口",
+    "ko": "G 구역 분기점",
+    "ja": "Gエリア分岐点",
+    "ru": "Развилка к зоне G"
+  },
+  "Giao lối phía tây": {
+    "en": "West junction",
+    "zh": "西侧岔路口",
+    "ko": "서쪽 분기점",
+    "ja": "西分岐点",
+    "ru": "Западная развилка"
+  },
+  "Lối đi tây nam A": {
+    "en": "Southwest A walkway",
+    "zh": "A栋西南通道",
+    "ko": "A 남서쪽 통로",
+    "ja": "A棟南西通路",
+    "ru": "Юго-западный проход A"
+  },
+  "Giao lối B – C": {
+    "en": "B–C junction",
+    "zh": "B–C交叉通道",
+    "ko": "B–C 연결 지점",
+    "ja": "B–C分岐点",
+    "ru": "Переход B–C"
+  },
+  "Lối vào phía đông C": {
+    "en": "East C entrance",
+    "zh": "C栋东侧入口",
+    "ko": "C 동쪽 입구",
+    "ja": "C棟東入口",
+    "ru": "Восточный вход C"
+  },
+  "Lối đi phía bắc C": {
+    "en": "North C walkway",
+    "zh": "C栋北侧通道",
+    "ko": "C 북쪽 통로",
+    "ja": "C棟北通路",
+    "ru": "Северный проход C"
+  },
+  "Lối rẽ vào B": {
+    "en": "B entrance junction",
+    "zh": "B栋入口岔路口",
+    "ko": "B 입구 분기점",
+    "ja": "B棟入口分岐点",
+    "ru": "Развилка ко входу B"
+  },
+  "Lối đi đông bắc B": {
+    "en": "Northeast B walkway",
+    "zh": "B栋东北通道",
+    "ko": "B 북동쪽 통로",
+    "ja": "B棟北東通路",
+    "ru": "Северо-восточный проход B"
+  },
+  "Lối đi phía bắc B": {
+    "en": "North B walkway",
+    "zh": "B栋北侧通道",
+    "ko": "B 북쪽 통로",
+    "ja": "B棟北通路",
+    "ru": "Северный проход B"
+  },
+  "Lối đi phía đông E": {
+    "en": "East E walkway",
+    "zh": "E栋东侧通道",
+    "ko": "E 동쪽 통로",
+    "ja": "E棟東通路",
+    "ru": "Восточный проход E"
+  },
+  "Hành lang {building}": {
+    "en": "Corridor {building}",
+    "zh": "{building}走廊",
+    "ko": "{building} 복도",
+    "ja": "{building}廊下",
+    "ru": "Коридор {building}"
+  },
+  "Sảnh A": {
+    "en": "Lobby A",
+    "zh": "A大厅",
+    "ko": "A 로비",
+    "ja": "Aロビー",
+    "ru": "Холл A"
+  },
+  "Sảnh B": {
+    "en": "Lobby B",
+    "zh": "B大厅",
+    "ko": "B 로비",
+    "ja": "Bロビー",
+    "ru": "Холл B"
+  },
+  "Sảnh C": {
+    "en": "Lobby C",
+    "zh": "C大厅",
+    "ko": "C 로비",
+    "ja": "Cロビー",
+    "ru": "Холл C"
+  },
+  "Sảnh D": {
+    "en": "Lobby D",
+    "zh": "D大厅",
+    "ko": "D 로비",
+    "ja": "Dロビー",
+    "ru": "Холл D"
+  },
+  "Sảnh E": {
+    "en": "Lobby E",
+    "zh": "E大厅",
+    "ko": "E 로비",
+    "ja": "Eロビー",
+    "ru": "Холл E"
+  },
+  "Sảnh F": {
+    "en": "Lobby F",
+    "zh": "F大厅",
+    "ko": "F 로비",
+    "ja": "Fロビー",
+    "ru": "Холл F"
+  },
+  "Sảnh G": {
+    "en": "Lobby G",
+    "zh": "G大厅",
+    "ko": "G 로비",
+    "ja": "Gロビー",
+    "ru": "Холл G"
+  },
+  "Cổng 1": {
+    "en": "Gate 1",
+    "zh": "1号门",
+    "ko": "1번 출입구",
+    "ja": "ゲート1",
+    "ru": "Ворота 1"
+  },
+  "Cổng 2": {
+    "en": "Gate 2",
+    "zh": "2号门",
+    "ko": "2번 출입구",
+    "ja": "ゲート2",
+    "ru": "Ворота 2"
+  },
+  "Cổng 3": {
+    "en": "Gate 3",
+    "zh": "3号门",
+    "ko": "3번 출입구",
+    "ja": "ゲート3",
+    "ru": "Ворота 3"
+  },
+  "Từ quầy tiếp nhận, theo biển chỉ dẫn đến tòa A, tầng 1, phòng A101. Nếu chưa rõ đường, hãy yêu cầu nhân viên hỗ trợ.": {
+    "en": "From reception, follow signs to building A, floor 1, room A101. Ask staff for help if needed.",
+    "zh": "从接待处沿指示牌前往A栋，楼层1，房间A101。如不清楚路线，请向工作人员求助。",
+    "ko": "접수처에서 표지판을 따라 A 건물, 1층, A101호로 가세요. 길을 모르면 직원에게 도움을 요청하세요.",
+    "ja": "受付から案内表示に従い、A棟、1階、A101号室へ進んでください。道がわからない場合は職員にお尋ねください。",
+    "ru": "От регистратуры следуйте указателям: корпус A, этаж 1, кабинет A101. При необходимости обратитесь к сотруднику."
+  },
+  "Từ quầy tiếp nhận, theo biển chỉ dẫn đến tòa B, tầng 2, phòng B201. Nếu chưa rõ đường, hãy yêu cầu nhân viên hỗ trợ.": {
+    "en": "From reception, follow signs to building B, floor 2, room B201. Ask staff for help if needed.",
+    "zh": "从接待处沿指示牌前往B栋，楼层2，房间B201。如不清楚路线，请向工作人员求助。",
+    "ko": "접수처에서 표지판을 따라 B 건물, 2층, B201호로 가세요. 길을 모르면 직원에게 도움을 요청하세요.",
+    "ja": "受付から案内表示に従い、B棟、2階、B201号室へ進んでください。道がわからない場合は職員にお尋ねください。",
+    "ru": "От регистратуры следуйте указателям: корпус B, этаж 2, кабинет B201. При необходимости обратитесь к сотруднику."
+  },
+  "Từ quầy tiếp nhận, theo biển chỉ dẫn đến tòa B, tầng 2, phòng B202. Nếu chưa rõ đường, hãy yêu cầu nhân viên hỗ trợ.": {
+    "en": "From reception, follow signs to building B, floor 2, room B202. Ask staff for help if needed.",
+    "zh": "从接待处沿指示牌前往B栋，楼层2，房间B202。如不清楚路线，请向工作人员求助。",
+    "ko": "접수처에서 표지판을 따라 B 건물, 2층, B202호로 가세요. 길을 모르면 직원에게 도움을 요청하세요.",
+    "ja": "受付から案内表示に従い、B棟、2階、B202号室へ進んでください。道がわからない場合は職員にお尋ねください。",
+    "ru": "От регистратуры следуйте указателям: корпус B, этаж 2, кабинет B202. При необходимости обратитесь к сотруднику."
+  },
+  "Từ quầy tiếp nhận, theo biển chỉ dẫn đến tòa C, tầng 1, phòng C01. Nếu chưa rõ đường, hãy yêu cầu nhân viên hỗ trợ.": {
+    "en": "From reception, follow signs to building C, floor 1, room C01. Ask staff for help if needed.",
+    "zh": "从接待处沿指示牌前往C栋，楼层1，房间C01。如不清楚路线，请向工作人员求助。",
+    "ko": "접수처에서 표지판을 따라 C 건물, 1층, C01호로 가세요. 길을 모르면 직원에게 도움을 요청하세요.",
+    "ja": "受付から案内表示に従い、C棟、1階、C01号室へ進んでください。道がわからない場合は職員にお尋ねください。",
+    "ru": "От регистратуры следуйте указателям: корпус C, этаж 1, кабинет C01. При необходимости обратитесь к сотруднику."
+  },
+  "Từ quầy tiếp nhận, theo biển chỉ dẫn đến tòa A, tầng 1, phòng P01. Nếu chưa rõ đường, hãy yêu cầu nhân viên hỗ trợ.": {
+    "en": "From reception, follow signs to building A, floor 1, room P01. Ask staff for help if needed.",
+    "zh": "从接待处沿指示牌前往A栋，楼层1，房间P01。如不清楚路线，请向工作人员求助。",
+    "ko": "접수처에서 표지판을 따라 A 건물, 1층, P01호로 가세요. 길을 모르면 직원에게 도움을 요청하세요.",
+    "ja": "受付から案内表示に従い、A棟、1階、P01号室へ進んでください。道がわからない場合は職員にお尋ねください。",
+    "ru": "От регистратуры следуйте указателям: корпус A, этаж 1, кабинет P01. При необходимости обратитесь к сотруднику."
+  },
+  "Từ quầy tiếp nhận, theo biển chỉ dẫn đến tòa D, tầng 3, phòng D301. Nếu chưa rõ đường, hãy yêu cầu nhân viên hỗ trợ.": {
+    "en": "From reception, follow signs to building D, floor 3, room D301. Ask staff for help if needed.",
+    "zh": "从接待处沿指示牌前往D栋，楼层3，房间D301。如不清楚路线，请向工作人员求助。",
+    "ko": "접수처에서 표지판을 따라 D 건물, 3층, D301호로 가세요. 길을 모르면 직원에게 도움을 요청하세요.",
+    "ja": "受付から案内表示に従い、D棟、3階、D301号室へ進んでください。道がわからない場合は職員にお尋ねください。",
+    "ru": "От регистратуры следуйте указателям: корпус D, этаж 3, кабинет D301. При необходимости обратитесь к сотруднику."
+  }
+}

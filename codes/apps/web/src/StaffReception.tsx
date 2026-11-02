@@ -1,3 +1,4 @@
+import { localizeText } from "@hospital/shared";
 import { useState } from "react";
 import { CheckCircle2, QrCode } from "lucide-react";
 import {
@@ -295,11 +296,7 @@ function ReviewForm({
                 </select>
               </Field>
               <Field
-                label={
-                  locale === "vi"
-                    ? "Chuyên khoa / nhóm phòng khám"
-                    : "Specialty / clinic group"
-                }
+                label={localizeText("Chuyên khoa / nhóm phòng khám", locale)}
               >
                 <select
                   value={specialty}
@@ -317,7 +314,7 @@ function ReviewForm({
                   }}
                 >
                   <option value="">
-                    {locale === "vi" ? "Tất cả chuyên khoa" : "All specialties"}
+                    {localizeText("Tất cả chuyên khoa", locale)}
                   </option>
                   {departmentSpecialties.map((s) => (
                     <option key={s} value={s}>
@@ -336,9 +333,7 @@ function ReviewForm({
                     <option key={l.id} value={l.id}>
                       {displayName(l, locale)} ·{" "}
                       {l.room === "?"
-                        ? locale === "vi"
-                          ? "Chưa có số phòng"
-                          : "Room unconfirmed"
+                        ? localizeText("Chưa có số phòng", locale)
                         : l.room}
                     </option>
                   ))}
@@ -349,16 +344,18 @@ function ReviewForm({
               (selectedLocation.building === "?" ||
                 selectedLocation.floor === "?") && (
                 <Notice>
-                  {locale === "vi"
-                    ? "Excel chưa có tòa/tầng của phòng khám này. Cần xác nhận vị trí trước khi hướng dẫn đường đi."
-                    : "The roster does not specify this clinic's building/floor. Confirm its location before giving directions."}
+                  {localizeText(
+                    "Excel chưa có tòa/tầng của phòng khám này. Cần xác nhận vị trí trước khi hướng dẫn đường đi.",
+                    locale,
+                  )}
                 </Notice>
               )}
             {!availableDoctors.length && (
               <Notice>
-                {locale === "vi"
-                  ? "Chưa có bác sĩ phù hợp với phòng khám đã chọn."
-                  : "No doctor is listed for the selected clinic."}
+                {localizeText(
+                  "Chưa có bác sĩ phù hợp với phòng khám đã chọn.",
+                  locale,
+                )}
               </Notice>
             )}
             <Field label={t("verificationNote")}>

@@ -1,5 +1,7 @@
 # Kiểm thử
 
+CI web/API hiện chạy trên Windows với SQL Server LocalDB, không dùng Docker. Sau `npm ci` và `dotnet restore --locked-mode`, chạy `scripts/deploy/publish-azure.ps1` rồi `scripts/test/ci-native.ps1` để kiểm thử trực tiếp bản phát hành Azure. Script tạo database riêng; không sử dụng database online. Chi tiết cấu hình và kiểm tra CD: [Azure CI/CD](../docs/guides/AZURE_CD.md).
+
 | Thư mục | Phạm vi | Cách chạy từ thư mục gốc |
 |---|---|---|
 | `api/` | Nghiệp vụ, quyền truy cập, provider, hiệu năng, smoke/TLS | `.\scripts\test\test-api.ps1` |
@@ -11,6 +13,8 @@
 API acceptance cần SQL chạy trước; script dùng database riêng `HospitalAcceptance_<timestamp>`. Browser cần web/API đã chạy; `WEB_URL` chọn localhost hoặc IP LAN. Các kiểm thử có tạo dữ liệu dùng thông tin tổng hợp. LAN tests không mở Docker hoặc thay firewall.
 
 `npm run test:narration:unit` kiểm tra hook đọc hướng dẫn Android với React/Expo Speech giả lập: dừng khi đang tải giọng, đổi màn hình/ngôn ngữ, request và callback đến muộn. Không cần API, SQL hoặc giả lập Android; kiểm thử này cũng chạy trong CI, không thay thế kiểm chứng âm thanh trên thiết bị thật.
+
+`npm run test:languages:unit` kiểm tra đủ bộ nhãn sáu ngôn ngữ, hướng dẫn bản đồ và chọn giọng đọc. `npm run test:translation` kiểm tra provider dịch giả lập, cache, quyền truy cập và nội dung phát khớp nội dung hiển thị. `powershell -ExecutionPolicy Bypass -File tests/translation/run-migration.ps1` kiểm tra nâng cấp schema cũ và rollback khi thiếu bản gốc Việt, dùng database `HospitalAcceptanceMigration_*` mới. `npx playwright test --config playwright.languages.config.ts` kiểm tra bốn ngôn ngữ mới trên desktop/mobile web, ghi nhớ lựa chọn và bố cục. Xem [hướng dẫn ngôn ngữ](../docs/guides/LANGUAGES.md).
 
 ```powershell
 # Chỉ kiểm tra dashboard

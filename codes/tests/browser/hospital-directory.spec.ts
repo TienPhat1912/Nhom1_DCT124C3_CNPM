@@ -148,7 +148,7 @@ for (const role of [
       });
       await setup(page, role);
       await expect(page.locator(".app-shell")).toBeVisible();
-      const menu = page.getByRole("button", { name: "Menu", exact: true });
+      const menu = page.getByRole("button", { name: /^(Danh mục|Menu)$/ });
       if (await menu.isVisible()) await menu.click();
       await expect(
         page.getByRole("button", { name: "Khoa và bác sĩ", exact: true }),

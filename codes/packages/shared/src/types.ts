@@ -1,6 +1,6 @@
 export type Role =
   "Patient" | "Reception" | "Doctor" | "Service" | "Cashier" | "Admin";
-export type Locale = "vi" | "en";
+export type Locale = "vi" | "en" | "zh" | "ko" | "ja" | "ru";
 export type Session = {
   sessionId: string;
   patientId: string | null;
@@ -14,12 +14,15 @@ export type Session = {
 export type Entity = { id: string; version: number; createdAt: string };
 export type Department = Entity & {
   code: string;
+  name?: string;
+  fallback?: boolean;
   nameVi: string;
   nameEn: string;
   active: boolean;
 };
 export type Location = Entity & {
   departmentId: string;
+  name?: string;
   nameVi: string;
   nameEn: string;
   building: string;
@@ -29,10 +32,11 @@ export type Location = Entity & {
 };
 export type Destination = Pick<
   Location,
-  "id" | "nameVi" | "nameEn" | "building" | "floor" | "room"
+  "id" | "name" | "nameVi" | "nameEn" | "building" | "floor" | "room"
 >;
 export type HospitalService = Entity & {
   code: string;
+  name?: string;
   nameVi: string;
   nameEn: string;
   departmentId: string;
@@ -49,6 +53,7 @@ export type Configuration = {
   services: HospitalService[];
   guestHours: number;
   pollSeconds: number;
+  emergency?: string;
   emergencyVi: string;
   emergencyEn: string;
   form: {
@@ -91,6 +96,7 @@ export type Step = Entity & {
   completedAt: string | null;
   prerequisites: string[];
   text: string | null;
+  contentKey?: string;
   contentLanguage: string | null;
   fallback: boolean;
   templateVersion: number | null;
@@ -105,6 +111,7 @@ export type Order = Entity & {
 };
 export type Visit = VisitSummary & {
   doctorName?: string;
+  departmentName?: string;
   departmentNameVi?: string;
   departmentNameEn?: string;
   doctorSpecialties?: string[];
@@ -123,6 +130,7 @@ export type Visit = VisitSummary & {
 };
 export type Ticket = {
   doctorName?: string;
+  departmentName?: string;
   departmentNameVi?: string;
   departmentNameEn?: string;
   id: string;
@@ -133,6 +141,7 @@ export type Ticket = {
   expiresAt: string;
 };
 export type ReceptionMessage = Entity & {
+  contentKey?: string;
   templateId: string;
   text: string;
   language: string;
@@ -159,6 +168,7 @@ export type Profile = Entity & {
   language: string;
 };
 export type Summary = {
+  contentKey?: string;
   id: string;
   revision: number;
   language: string;
@@ -176,14 +186,6 @@ export type Summary = {
     instructions: string;
   };
 };
-export type Translation = Entity & {
-  summaryVersionId: string;
-  language: string;
-  diagnosis: string;
-  explanation: string;
-  instructions: string;
-  approved: boolean;
-};
 export type Draft = Entity & {
   visitId: string;
   revision: number;
@@ -195,7 +197,6 @@ export type Draft = Entity & {
   documentReference: string;
   authorName: string;
   publishedAt: string | null;
-  translations: Translation[];
 };
 export type FollowUp = Entity & {
   departmentId: string;
@@ -210,6 +211,7 @@ export type Content = {
   bookingUrl: string | null;
 };
 export type Narration = {
+  contentKey?: string;
   text: string;
   language: string;
   revision: number;
@@ -328,6 +330,7 @@ export type AdminDashboardData = {
   daily: { date: string; admitted: number; closed: number }[];
   departments: {
     id: string;
+    name?: string;
     nameVi: string;
     nameEn: string;
     active: boolean;

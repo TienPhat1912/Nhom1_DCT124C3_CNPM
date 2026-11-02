@@ -9,6 +9,8 @@ const source = readFileSync(new URL("../../apps/mobile/src/runtime.tsx", import.
 const compiled = ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
 }).outputText;
+const localeExports = {};
+vm.runInNewContext(ts.transpileModule(readFileSync(new URL("../../packages/shared/src/locales.ts", import.meta.url), "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText, { exports: localeExports });
 const narration = { text: "Approved test instruction", language: "vi", revision: 1 };
 const voices = [{ language: "vi-VN", identifier: "test-voice" }];
 function deferred() {
@@ -53,6 +55,7 @@ function harness() {
     "expo-secure-store": {},
     "expo-speech": speech,
     "@hospital/shared": {
+      ...localeExports,
       createApi: () => async () => {},
       translator: () => key => key,
       ApiError: class extends Error {},

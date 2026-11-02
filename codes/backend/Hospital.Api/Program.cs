@@ -13,6 +13,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+// Written by the release build, so health checks identify the deployed artifact.
+builder.Configuration.AddJsonFile("release.json", optional: true, reloadOnChange: false);
 builder.Services.AddDbContext<HospitalDb>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("Hospital") ?? "Server=localhost,14339;Database=HospitalGuidance;Integrated Security=true;TrustServerCertificate=true"));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDataProtection().SetApplicationName("HospitalGuidance");
@@ -24,6 +26,8 @@ builder.Services.AddSingleton<IAppointmentAdapter>(s => s.GetRequiredService<Sim
 builder.Services.AddSingleton<IOperationalAdapter>(s => s.GetRequiredService<SimulationAdapters>());
 builder.Services.AddSingleton<ISettlementAdapter>(s => s.GetRequiredService<SimulationAdapters>());
 builder.Services.AddSingleton<INarrationAdapter>(s => s.GetRequiredService<SimulationAdapters>());
+builder.Services.AddHttpClient("translation");
+builder.Services.AddSingleton<ITranslationService, TranslationService>();
 builder.Services.AddOpenApi();
 var webOrigins = new[] { builder.Configuration["Web:Origin"] ?? "http://localhost:5180" }
     .Concat(builder.Configuration.GetSection("Web:AdditionalOrigins").Get<string[]>() ?? [])
@@ -56,7 +60,26 @@ app.Use(async (ctx, next) => {
 });
 if (!app.Environment.IsDevelopment()) { app.UseHsts(); app.UseHttpsRedirection(); }
 app.UseCors(); app.UseRateLimiter();
-app.MapGet("/health", async (HospitalDb db) => await db.Database.CanConnectAsync() ? Results.Ok(new { status = "ok", database = "SqlServer" }) : Results.StatusCode(503));
+// A published release includes the Vite build in wwwroot. Source development
+// still uses Vite; Azure App Service serves the web and API on the same origin.
+if (Directory.Exists(app.Environment.WebRootPath)) {
+    var staticFiles = new StaticFileOptions { OnPrepareResponse = ctx => {
+        ctx.Context.Response.Headers.CacheControl = "no-cache";
+        ctx.Context.Response.Headers["X-Frame-Options"] = "DENY";
+        ctx.Context.Response.Headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; media-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'";
+    }};
+    app.UseDefaultFiles();
+    app.UseStaticFiles(staticFiles);
+    // Unknown API/health routes and missing assets must never return SPA HTML.
+    app.MapFallback("/api/{**path}", () => Results.NotFound());
+    app.MapFallback("/openapi/{**path}", () => Results.NotFound());
+    app.MapFallback("/health/{**path}", () => Results.NotFound());
+    app.MapFallback("/assets/{**path:nonfile}", () => Results.NotFound());
+    app.MapFallbackToFile("index.html", staticFiles);
+}
+app.MapGet("/health", async (HospitalDb db) => await db.Database.CanConnectAsync() ? Results.Ok(new {
+    status = "ok", database = "SqlServer", version = app.Configuration["Release:Commit"] ?? "development"
+}) : Results.StatusCode(503));
 app.MapOpenApi();
 app.MapIdentity(); app.MapReception(); app.MapJourneys(); app.MapContent(); app.MapSupport(); app.MapAdmin();
 if (!args.Contains("--no-migrate")) {

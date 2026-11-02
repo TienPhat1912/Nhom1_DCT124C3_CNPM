@@ -83,15 +83,15 @@ test('doctor interface saves a private draft, publishes after review and patient
   await page.getByLabel('Email', { exact: true }).fill('doctor@demo.local'); await page.getByLabel('Password', { exact: true }).fill(password);
   await page.getByRole('button', { name: 'Sign in', exact: true }).last().click();
   await page.getByRole('combobox', { name: 'Assigned Visits', exact: true }).selectOption(visitId);
-  await page.getByLabel('Diagnosis summary', { exact: true }).fill('Reviewed browser acceptance summary');
-  await page.getByLabel('Care instructions', { exact: true }).fill('Reviewed browser acceptance instructions');
+  await page.getByLabel('Diagnosis summary', { exact: true }).fill('Tóm tắt kiểm thử trình duyệt đã duyệt');
+  await page.getByLabel('Care instructions', { exact: true }).fill('Hướng dẫn kiểm thử trình duyệt đã duyệt');
   await page.getByRole('button', { name: 'Save private draft', exact: true }).click();
   await expect(page.locator('.version-chip').filter({ hasText: 'Draft' })).toBeVisible();
   await expect(page.getByLabel('I have reviewed and take responsibility for the published content', { exact: true }).first()).toBeVisible();
   expect((await api<Content>(`/api/visits/${visitId}/content`, guest.token)).summary).toBeNull();
   await page.getByLabel('I have reviewed and take responsibility for the published content', { exact: true }).first().check();
   await page.getByRole('button', { name: 'Publish to patient', exact: true }).click();
-  await expect.poll(async () => (await api<Content>(`/api/visits/${visitId}/content`, guest.token)).summary?.diagnosis).toBe('Reviewed browser acceptance summary');
+  await expect.poll(async () => (await api<Content>(`/api/visits/${visitId}/content`, guest.token)).summary?.diagnosis).toBe('Tóm tắt kiểm thử trình duyệt đã duyệt');
   await expect(page.locator('.visit-meta').getByText(ticket.number, { exact: false })).toBeVisible();
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   await page.screenshot({ path: `artifacts/${info.project.name}-doctor.png`, fullPage: true });

@@ -69,7 +69,7 @@ function AssistanceCard({
       )}
       {a.status !== "Resolved" && (
         <>
-          <Field label={t("resolution")}>
+          <Field label={t("resolution")} hint={t("vietnameseSource")}>
             <textarea
               value={resolution}
               maxLength={500}

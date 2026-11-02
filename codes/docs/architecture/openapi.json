@@ -22,6 +22,42 @@
         }
       }
     },
+    "/api/staff/profile": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnonymousTypeOfGuidAndstringAndstringAndListOfDepartmentAndString[]AndListOfLocation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/directory": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/config": {
       "get": {
         "tags": [
@@ -33,7 +69,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnonymousTypeOfstringAndbooleanAndListOfDepartmentAndListOfLocationAndListOfHospitalServiceAndAnonymousTypeOfintAndintAndintAndintAndintAndintAndintAndstringAndstring"
+                  "$ref": "#/components/schemas/AnonymousTypeOfstringAndstringAndbooleanAndListOfDepartmentAndListOfLocationAndListOfHospitalServiceAndAnonymousTypeOfintAndintAndintAndintAndintAndintAndintAndstringAndstring"
                 }
               }
             }
@@ -52,7 +88,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnonymousTypeOfListOfAnonymousTypeOfGuidAndstringAndIEnumerableOfGuidAndListOfGuidanceTemplate"
+                  "$ref": "#/components/schemas/AnonymousTypeOfIEnumerableOfAnonymousTypeOfGuidAndstringAndIEnumerableOfGuidAndString[]AndGuid[]AndbooleanAndIEnumerableOfAnonymousTypeOfGuidAndstringAndListOfGuidanceTemplate"
                 }
               }
             }
@@ -671,7 +707,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnonymousTypeOfGuidAndstringAndGuidAndGuidAndstringAndDateTime"
+                  "$ref": "#/components/schemas/AnonymousTypeOfstringAndstringAndstringAndGuidAndstringAndGuidAndGuidAndstringAndDateTime"
                 }
               }
             }
@@ -1453,55 +1489,6 @@
         }
       }
     },
-    "/api/visits/{id}/summaries/{summaryId}/translations": {
-      "post": {
-        "tags": [
-          "Doctor content and narration"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "summaryId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TranslationInput"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AnonymousTypeOfGuid"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/visits/{id}/follow-ups": {
       "post": {
         "tags": [
@@ -1574,7 +1561,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnonymousTypeOfstringAndstringAndintAndstringAndbooleanAndstring"
+                  "$ref": "#/components/schemas/AnonymousTypeOfstringAndstringAndstringAndstringAndstringAndstringAndintAndstringAndbooleanAndstring"
                 }
               }
             }
@@ -1607,6 +1594,22 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/components/schemas/NarrationInput"
+                  }
+                ]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -1666,7 +1669,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnonymousTypeOfJsonElementAndstringAndstringAndbooleanAndListOfLocation"
+                  "$ref": "#/components/schemas/AnonymousTypeOfJsonNodeAndstringAndstringAndbooleanAndListOfLocation"
                 }
               }
             }
@@ -1852,7 +1855,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnonymousTypeOfListOfDepartmentAndListOfLocationAndListOfHospitalServiceAndListOfWorkflowMappingAndListOfGuidanceTemplateAndListOfHospitalRouteAndListOfAnonymousTypeOfGuidAndintAndstringAndstringAndstringAndbooleanAndIEnumerableOfGuid"
+                  "$ref": "#/components/schemas/AnonymousTypeOfListOfDepartmentAndListOfLocationAndListOfHospitalServiceAndListOfWorkflowMappingAndListOfGuidanceTemplateAndListOfHospitalRouteAndIEnumerableOfAnonymousTypeOfGuidAndintAndstringAndstringAndstringAndbooleanAndIEnumerableOfGuidAndString[]Andboolean"
                 }
               }
             }
@@ -2254,7 +2257,7 @@
           }
         }
       },
-      "AnonymousTypeOfGuidAndintAndstringAndstringAndstringAndbooleanAndIEnumerableOfGuid": {
+      "AnonymousTypeOfGuidAndintAndstringAndstringAndstringAndbooleanAndIEnumerableOfGuidAndString[]Andboolean": {
         "required": [
           "id",
           "version",
@@ -2262,7 +2265,9 @@
           "name",
           "role",
           "active",
-          "departmentIds"
+          "departmentIds",
+          "specialties",
+          "directoryOnly"
         ],
         "type": "object",
         "properties": {
@@ -2308,6 +2313,18 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          "specialties": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "directoryOnly": {
+            "type": "boolean"
           }
         }
       },
@@ -2412,31 +2429,8 @@
       },
       "AnonymousTypeOfGuidAndstring": {
         "required": [
-          "visitId",
-          "journeyStatus"
-        ],
-        "type": "object",
-        "properties": {
-          "visitId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "journeyStatus": {
-            "type": [
-              "null",
-              "string"
-            ]
-          }
-        }
-      },
-      "AnonymousTypeOfGuidAndstringAndGuidAndGuidAndstringAndDateTime": {
-        "required": [
           "id",
-          "number",
-          "visitId",
-          "journeyId",
-          "code",
-          "expiresAt"
+          "specialty"
         ],
         "type": "object",
         "properties": {
@@ -2444,37 +2438,22 @@
             "type": "string",
             "format": "uuid"
           },
-          "number": {
+          "specialty": {
             "type": [
               "null",
               "string"
             ]
-          },
-          "visitId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "journeyId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "code": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time"
           }
         }
       },
-      "AnonymousTypeOfGuidAndstringAndIEnumerableOfGuid": {
+      "AnonymousTypeOfGuidAndstringAndIEnumerableOfGuidAndString[]AndGuid[]Andboolean": {
         "required": [
           "id",
           "name",
-          "departments"
+          "departments",
+          "specialties",
+          "clinicIds",
+          "directoryOnly"
         ],
         "type": "object",
         "properties": {
@@ -2497,6 +2476,28 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          "specialties": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "clinicIds": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "directoryOnly": {
+            "type": "boolean"
           }
         }
       },
@@ -2579,6 +2580,99 @@
           }
         }
       },
+      "AnonymousTypeOfGuidAndstringAndstringAndListOfDepartmentAndString[]AndListOfLocation": {
+        "required": [
+          "id",
+          "name",
+          "role",
+          "departments",
+          "specialties",
+          "clinics"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "role": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "departments": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/Department"
+            }
+          },
+          "specialties": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "clinics": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/Location"
+            }
+          }
+        }
+      },
+      "AnonymousTypeOfIEnumerableOfAnonymousTypeOfGuidAndstringAndIEnumerableOfGuidAndString[]AndGuid[]AndbooleanAndIEnumerableOfAnonymousTypeOfGuidAndstringAndListOfGuidanceTemplate": {
+        "required": [
+          "doctors",
+          "clinics",
+          "templates"
+        ],
+        "type": "object",
+        "properties": {
+          "doctors": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/AnonymousTypeOfGuidAndstringAndIEnumerableOfGuidAndString[]AndGuid[]Andboolean"
+            }
+          },
+          "clinics": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/AnonymousTypeOfGuidAndstring"
+            }
+          },
+          "templates": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/GuidanceTemplate"
+            }
+          }
+        }
+      },
       "AnonymousTypeOfintAndintAndintAndintAndint": {
         "required": [
           "nameMin",
@@ -2631,7 +2725,7 @@
           }
         }
       },
-      "AnonymousTypeOfJsonElementAndstringAndstringAndbooleanAndListOfLocation": {
+      "AnonymousTypeOfJsonNodeAndstringAndstringAndbooleanAndListOfLocation": {
         "required": [
           "destination",
           "instructions",
@@ -2642,7 +2736,7 @@
         "type": "object",
         "properties": {
           "destination": {
-            "$ref": "#/components/schemas/JsonElement"
+            "$ref": "#/components/schemas/JsonNode"
           },
           "instructions": {
             "type": [
@@ -2670,34 +2764,7 @@
           }
         }
       },
-      "AnonymousTypeOfListOfAnonymousTypeOfGuidAndstringAndIEnumerableOfGuidAndListOfGuidanceTemplate": {
-        "required": [
-          "doctors",
-          "templates"
-        ],
-        "type": "object",
-        "properties": {
-          "doctors": {
-            "type": [
-              "null",
-              "array"
-            ],
-            "items": {
-              "$ref": "#/components/schemas/AnonymousTypeOfGuidAndstringAndIEnumerableOfGuid"
-            }
-          },
-          "templates": {
-            "type": [
-              "null",
-              "array"
-            ],
-            "items": {
-              "$ref": "#/components/schemas/GuidanceTemplate"
-            }
-          }
-        }
-      },
-      "AnonymousTypeOfListOfDepartmentAndListOfLocationAndListOfHospitalServiceAndListOfWorkflowMappingAndListOfGuidanceTemplateAndListOfHospitalRouteAndListOfAnonymousTypeOfGuidAndintAndstringAndstringAndstringAndbooleanAndIEnumerableOfGuid": {
+      "AnonymousTypeOfListOfDepartmentAndListOfLocationAndListOfHospitalServiceAndListOfWorkflowMappingAndListOfGuidanceTemplateAndListOfHospitalRouteAndIEnumerableOfAnonymousTypeOfGuidAndintAndstringAndstringAndstringAndbooleanAndIEnumerableOfGuidAndString[]Andboolean": {
         "required": [
           "departments",
           "locations",
@@ -2769,7 +2836,7 @@
               "array"
             ],
             "items": {
-              "$ref": "#/components/schemas/AnonymousTypeOfGuidAndintAndstringAndstringAndstringAndbooleanAndIEnumerableOfGuid"
+              "$ref": "#/components/schemas/AnonymousTypeOfGuidAndintAndstringAndstringAndstringAndbooleanAndIEnumerableOfGuidAndString[]Andboolean"
             }
           }
         }
@@ -2835,9 +2902,60 @@
           }
         }
       },
-      "AnonymousTypeOfstringAndbooleanAndListOfDepartmentAndListOfLocationAndListOfHospitalServiceAndAnonymousTypeOfintAndintAndintAndintAndintAndintAndintAndstringAndstring": {
+      "AnonymousTypeOfstringAndGuid": {
+        "required": [
+          "claim",
+          "returnVisitId"
+        ],
+        "type": "object",
+        "properties": {
+          "claim": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "returnVisitId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
+          }
+        }
+      },
+      "AnonymousTypeOfstringAndString[]Andboolean": {
+        "required": [
+          "purpose",
+          "languages",
+          "createsVisit"
+        ],
+        "type": "object",
+        "properties": {
+          "purpose": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "languages": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "createsVisit": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AnonymousTypeOfstringAndstringAndbooleanAndListOfDepartmentAndListOfLocationAndListOfHospitalServiceAndAnonymousTypeOfintAndintAndintAndintAndintAndintAndintAndstringAndstring": {
         "required": [
           "name",
+          "catalogVersion",
           "demo",
           "departments",
           "locations",
@@ -2851,6 +2969,12 @@
         "type": "object",
         "properties": {
           "name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "catalogVersion": {
             "type": [
               "null",
               "string"
@@ -2919,104 +3043,6 @@
           }
         }
       },
-      "AnonymousTypeOfstringAndGuid": {
-        "required": [
-          "claim",
-          "returnVisitId"
-        ],
-        "type": "object",
-        "properties": {
-          "claim": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "returnVisitId": {
-            "type": [
-              "null",
-              "string"
-            ],
-            "format": "uuid"
-          }
-        }
-      },
-      "AnonymousTypeOfstringAndString[]Andboolean": {
-        "required": [
-          "purpose",
-          "languages",
-          "createsVisit"
-        ],
-        "type": "object",
-        "properties": {
-          "purpose": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "languages": {
-            "type": [
-              "null",
-              "array"
-            ],
-            "items": {
-              "type": "string"
-            }
-          },
-          "createsVisit": {
-            "type": "boolean"
-          }
-        }
-      },
-      "AnonymousTypeOfstringAndstringAndintAndstringAndbooleanAndstring": {
-        "required": [
-          "text",
-          "language",
-          "revision",
-          "provider",
-          "fallback",
-          "cacheKey"
-        ],
-        "type": "object",
-        "properties": {
-          "text": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "language": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "revision": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          },
-          "provider": {
-            "type": [
-              "null",
-              "string"
-            ]
-          },
-          "fallback": {
-            "type": "boolean"
-          },
-          "cacheKey": {
-            "type": [
-              "null",
-              "string"
-            ]
-          }
-        }
-      },
       "AnonymousTypeOfstringAndstringAndintAndstringAndstring": {
         "required": [
           "text",
@@ -3052,6 +3078,144 @@
               "null",
               "string"
             ]
+          },
+          "cacheKey": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
+      "AnonymousTypeOfstringAndstringAndstringAndGuidAndstringAndGuidAndGuidAndstringAndDateTime": {
+        "required": [
+          "doctorName",
+          "departmentNameVi",
+          "departmentNameEn",
+          "id",
+          "number",
+          "visitId",
+          "journeyId",
+          "code",
+          "expiresAt"
+        ],
+        "type": "object",
+        "properties": {
+          "doctorName": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "departmentNameVi": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "departmentNameEn": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "number": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "visitId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "journeyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AnonymousTypeOfstringAndstringAndstringAndstringAndstringAndstringAndintAndstringAndbooleanAndstring": {
+        "required": [
+          "text",
+          "diagnosis",
+          "explanation",
+          "instructions",
+          "section",
+          "language",
+          "revision",
+          "provider",
+          "fallback",
+          "cacheKey"
+        ],
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "diagnosis": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "explanation": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "instructions": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "section": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "language": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "revision": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "provider": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "fallback": {
+            "type": "boolean"
           },
           "cacheKey": {
             "type": [
@@ -3427,7 +3591,10 @@
             "type": "string"
           },
           "nameEn": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "active": {
             "type": "boolean"
@@ -3456,7 +3623,6 @@
           "version",
           "code",
           "nameVi",
-          "nameEn",
           "active"
         ],
         "type": "object",
@@ -3480,9 +3646,6 @@
             "type": "string"
           },
           "nameVi": {
-            "type": "string"
-          },
-          "nameEn": {
             "type": "string"
           },
           "active": {
@@ -3768,7 +3931,10 @@
             "type": "string"
           },
           "nameEn": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "departmentId": {
             "type": "string",
@@ -3802,7 +3968,7 @@
           }
         }
       },
-      "JsonElement": {},
+      "JsonNode": {},
       "Location": {
         "type": "object",
         "properties": {
@@ -3814,7 +3980,10 @@
             "type": "string"
           },
           "nameEn": {
-            "type": "string"
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "building": {
             "type": "string"
@@ -3852,7 +4021,6 @@
           "version",
           "departmentId",
           "nameVi",
-          "nameEn",
           "building",
           "floor",
           "room",
@@ -3880,9 +4048,6 @@
             "format": "uuid"
           },
           "nameVi": {
-            "type": "string"
-          },
-          "nameEn": {
             "type": "string"
           },
           "building": {
@@ -4015,6 +4180,12 @@
           },
           "language": {
             "type": "string"
+          },
+          "contentKey": {
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -4478,7 +4649,6 @@
           "version",
           "code",
           "nameVi",
-          "nameEn",
           "departmentId",
           "locationId",
           "active",
@@ -4505,9 +4675,6 @@
             "type": "string"
           },
           "nameVi": {
-            "type": "string"
-          },
-          "nameEn": {
             "type": "string"
           },
           "departmentId": {
@@ -4662,54 +4829,6 @@
           }
         }
       },
-      "SummaryTranslation": {
-        "type": "object",
-        "properties": {
-          "summaryVersionId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "language": {
-            "type": "string"
-          },
-          "diagnosis": {
-            "type": "string"
-          },
-          "explanation": {
-            "type": "string"
-          },
-          "instructions": {
-            "type": "string"
-          },
-          "approved": {
-            "type": "boolean"
-          },
-          "approvedBy": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "approvedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "version": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
       "SummaryVersion": {
         "type": "object",
         "properties": {
@@ -4759,12 +4878,6 @@
               "string"
             ],
             "format": "date-time"
-          },
-          "translations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SummaryTranslation"
-            }
           },
           "id": {
             "type": "string",
@@ -4834,42 +4947,6 @@
           }
         }
       },
-      "TranslationInput": {
-        "required": [
-          "language",
-          "diagnosis",
-          "explanation",
-          "instructions",
-          "approved",
-          "sourceRevision"
-        ],
-        "type": "object",
-        "properties": {
-          "language": {
-            "type": "string"
-          },
-          "diagnosis": {
-            "type": "string"
-          },
-          "explanation": {
-            "type": "string"
-          },
-          "instructions": {
-            "type": "string"
-          },
-          "approved": {
-            "type": "boolean"
-          },
-          "sourceRevision": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          }
-        }
-      },
       "VerifyInput": {
         "required": [
           "reference",
@@ -4925,31 +5002,5 @@
         }
       }
     }
-  },
-  "tags": [
-    {
-      "name": "Hospital.Api"
-    },
-    {
-      "name": "Configuration"
-    },
-    {
-      "name": "Identity"
-    },
-    {
-      "name": "Reception and QR"
-    },
-    {
-      "name": "Visits and Journey"
-    },
-    {
-      "name": "Doctor content and narration"
-    },
-    {
-      "name": "Navigation, notifications and assistance"
-    },
-    {
-      "name": "Administration"
-    }
-  ]
+  }
 }

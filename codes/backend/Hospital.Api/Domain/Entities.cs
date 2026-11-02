@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 namespace Hospital.Api.Domain;
 
 public abstract class Entity
@@ -185,14 +186,14 @@ public class Department : Entity
 {
     public string Code { get; set; } = "";
     public string NameVi { get; set; } = "";
-    public string NameEn { get; set; } = "";
+    [NotMapped] public string NameEn => NameVi;
     public bool Active { get; set; } = true;
 }
 public class Location : Entity
 {
     public Guid DepartmentId { get; set; }
     public string NameVi { get; set; } = "";
-    public string NameEn { get; set; } = "";
+    [NotMapped] public string NameEn => NameVi;
     public string Building { get; set; } = "A";
     public string Floor { get; set; } = "1";
     public string Room { get; set; } = "";
@@ -202,7 +203,7 @@ public class HospitalService : Entity
 {
     public string Code { get; set; } = "";
     public string NameVi { get; set; } = "";
-    public string NameEn { get; set; } = "";
+    [NotMapped] public string NameEn => NameVi;
     public Guid DepartmentId { get; set; }
     public Guid LocationId { get; set; }
     public bool Active { get; set; } = true;
@@ -248,19 +249,8 @@ public class SummaryVersion : Entity
     public string AuthorName { get; set; } = "";
     public string Source { get; set; } = "Doctor";
     public DateTime? PublishedAt { get; set; }
-    public List<SummaryTranslation> Translations { get; set; } = [];
 }
-public class SummaryTranslation : Entity
-{
-    public Guid SummaryVersionId { get; set; }
-    public string Language { get; set; } = "en";
-    public string Diagnosis { get; set; } = "";
-    public string Explanation { get; set; } = "";
-    public string Instructions { get; set; } = "";
-    public bool Approved { get; set; }
-    public Guid ApprovedBy { get; set; }
-    public DateTime ApprovedAt { get; set; }
-}
+
 public class FollowUpRecommendation : Entity
 {
     public Guid VisitId { get; set; }

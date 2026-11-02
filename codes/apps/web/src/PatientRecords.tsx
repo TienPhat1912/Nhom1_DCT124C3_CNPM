@@ -1,3 +1,5 @@
+import { localizeText } from "@hospital/shared";
+import { languages, normalizeLocale } from "@hospital/shared";
 import { useState } from "react";
 import {
   ArrowRight,
@@ -48,7 +50,7 @@ export function Overview({
     <>
       <SectionTitle
         eyebrow={t("hospital")}
-        title={`${t("hello")}, ${session.name || (locale === "vi" ? "bạn" : "there")}`}
+        title={`${t("hello")}, ${session.name || localizeText("bạn", locale)}`}
       />
       <p className="page-intro">{t("overviewIntro")}</p>
       <div className="overview-hero">
@@ -175,6 +177,9 @@ export function ResultsPanel({ id }: { id: string | null }) {
                   {t("actualLanguage")}: {summary.language}
                 </span>
               </div>
+              {!summary.fallback && summary.language !== "vi" && (
+                <Notice>{t("machineTranslation")}</Notice>
+              )}
               {summary.fallback && (
                 <Notice>
                   {t("fallback")}: {summary.language}
@@ -198,6 +203,7 @@ export function ResultsPanel({ id }: { id: string | null }) {
                         kind: "Summary",
                         section: "Diagnosis",
                         sourceRevision: summary.revision,
+                        contentKey: summary.contentKey,
                         language: locale,
                       })
                     }
@@ -214,6 +220,7 @@ export function ResultsPanel({ id }: { id: string | null }) {
                         kind: "Summary",
                         section: "Instructions",
                         sourceRevision: summary.revision,
+                        contentKey: summary.contentKey,
                         language: locale,
                       })
                     }
@@ -305,9 +312,7 @@ export function HelpPanel({
   const [description, setDescription] = useState("");
   return (
     <>
-      <p className="muted">
-        {locale === "vi" ? config.emergencyVi : config.emergencyEn}
-      </p>
+      <p className="muted">{config.emergency ?? config.emergencyVi}</p>
       <Form
         busy={mutation.busy}
         onSubmit={async () => {
@@ -486,10 +491,13 @@ function ProfileForm({
         <Field label={t("language")}>
           <select
             value={locale}
-            onChange={(e) => setLocale(e.target.value as "vi" | "en")}
+            onChange={(e) => setLocale(normalizeLocale(e.target.value))}
           >
-            <option value="vi">Tiếng Việt</option>
-            <option value="en">English</option>
+            {languages.map((l) => (
+              <option key={l.code} value={l.code}>
+                {l.label}
+              </option>
+            ))}
           </select>
         </Field>
         <Feedback error={mutation.error} ok={mutation.ok} locale={locale} />

@@ -1,6 +1,22 @@
 import type { Locale } from "./types";
+import zh from "./translations/zh.json" with { type: "json" };
+import ko from "./translations/ko.json" with { type: "json" };
+import ja from "./translations/ja.json" with { type: "json" };
+import ru from "./translations/ru.json" with { type: "json" };
+
 export const messages = {
   vi: {
+    menu: "Danh mục",
+    sourceLanguageRequired:
+      "Nội dung bệnh viện phải được nhập bằng tiếng Việt.",
+    languageUnsupported: "Vui lòng chọn ngôn ngữ được hỗ trợ.",
+    machineTranslation:
+      "Nội dung được hệ thống dịch. Bạn có thể xem bản gốc tiếng Việt.",
+    vietnameseSource:
+      "Nhập nội dung bằng tiếng Việt. Hệ thống dịch theo ngôn ngữ bệnh nhân chọn.",
+    guestLabel: "Khách",
+    or: "hoặc",
+
     doctorUnavailable:
       "Chưa có bác sĩ đang hoạt động phù hợp với khoa và phòng khám đã chọn.",
     adminWorkspace: "Quản trị bệnh viện",
@@ -173,7 +189,7 @@ export const messages = {
     viewTicket: "Xem phiếu khám",
     allSteps: "Các bước trong hành trình",
     noCurrent: "Không còn bước hướng dẫn cần thực hiện.",
-    fallback: "Đang dùng ngôn ngữ dự phòng",
+    fallback: "Chưa dịch được nội dung, đang hiển thị bản gốc tiếng Việt",
     actualLanguage: "Ngôn ngữ nội dung",
     original: "Xem bản gốc",
     audioError:
@@ -371,6 +387,16 @@ export const messages = {
     appOpen: "Mở ứng dụng trên điện thoại",
   },
   en: {
+    menu: "Menu",
+    sourceLanguageRequired: "Enter hospital content in Vietnamese.",
+    languageUnsupported: "Choose a supported language.",
+    machineTranslation:
+      "Translated by the system. The Vietnamese original is available.",
+    vietnameseSource:
+      "Enter content in Vietnamese. The system translates into the patient’s selected language.",
+    guestLabel: "Guest",
+    or: "or",
+
     doctorUnavailable:
       "No active doctor is available for the selected department and clinic.",
     adminWorkspace: "Hospital administration",
@@ -542,7 +568,7 @@ export const messages = {
     viewTicket: "View ticket",
     allSteps: "Your journey steps",
     noCurrent: "There are no remaining guidance steps.",
-    fallback: "Using an approved fallback language",
+    fallback: "Translation unavailable; showing the Vietnamese original",
     actualLanguage: "Content language",
     original: "View original",
     audioError: "Audio is unavailable. Read the text or try again.",
@@ -738,6 +764,10 @@ export const messages = {
     staffEntry: "Staff sign in with an assigned hospital account.",
     appOpen: "Open the mobile app",
   },
+  zh,
+  ko,
+  ja,
+  ru,
 } as const;
 export type MessageKey = keyof typeof messages.vi;
 export function translator(locale: Locale) {

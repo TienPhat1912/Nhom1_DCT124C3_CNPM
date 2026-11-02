@@ -1,3 +1,4 @@
+import { localizeText } from "@hospital/shared";
 import { useState } from "react";
 import campusImage from "../assets/thu-duc-campus.jpg";
 import { Pressable, StyleSheet, View } from "react-native";
@@ -18,6 +19,8 @@ import {
   mapFloors,
   mapLabel,
   routeInstructions,
+  routeLanguage,
+  translator,
   shortestPath,
   startNodes,
   type Destination,
@@ -40,7 +43,7 @@ export function HospitalMap({ destination }: { destination: Destination }) {
   return (
     <View style={{ gap: 12 }}>
       <Btn secondary onPress={() => setDirectoryOpen(!directoryOpen)}>
-        {(locale === "vi" ? "Tra cứu khoa/phòng" : "Department directory") +
+        {localizeText("Tra cứu khoa/phòng", locale) +
           " (" +
           mapDepartments.length +
           ")"}
@@ -48,12 +51,13 @@ export function HospitalMap({ destination }: { destination: Destination }) {
       {directoryOpen && (
         <>
           <Txt tone="muted">
-            {locale === "vi"
-              ? "Chọn khoa để tra cứu đường đi; thông tin trên phiếu không thay đổi."
-              : "Select a department to explore directions. Your ticket is unchanged."}
+            {localizeText(
+              "Chọn khoa để tra cứu đường đi; thông tin trên phiếu không thay đổi.",
+              locale,
+            )}
           </Txt>
           <Input
-            label={locale === "vi" ? "Tìm khoa/phòng" : "Search departments"}
+            label={localizeText("Tìm khoa/phòng", locale)}
             value={query}
             onChangeText={setQuery}
           />
@@ -65,9 +69,7 @@ export function HospitalMap({ destination }: { destination: Destination }) {
               setDirectoryOpen(false);
             }}
           >
-            {locale === "vi"
-              ? "Dùng phòng trên phiếu"
-              : "Use ticket destination"}
+            {localizeText("Dùng phòng trên phiếu", locale)}
           </Btn>
           {searchDepartments(query, locale, mapDepartments).map((d) => (
             <Choice
@@ -89,9 +91,7 @@ export function HospitalMap({ destination }: { destination: Destination }) {
       )}
       {department && department.floors.length > 1 && (
         <>
-          <Txt tone="heading">
-            {locale === "vi" ? "Tầng cần đến" : "Destination floor"}
-          </Txt>
+          <Txt tone="heading">{localizeText("Tầng cần đến", locale)}</Txt>
           {department.floors.map((f) => (
             <Choice
               key={f}
@@ -144,12 +144,13 @@ function MapPanel({
     target && routeStart
       ? shortestPath(hospitalMap, routeStart, target.id)
       : null;
+  const contentLocale = routeLanguage(route, locale);
   const instructions = route
-    ? routeInstructions(route, locale, !department)
+    ? routeInstructions(route, contentLocale, !department)
     : [];
   const speech = useRouteSpeech(
-    route ? c.narrationIntro + instructions.join(" ") : "",
-    locale,
+    route ? mapCopy[contentLocale].narrationIntro + instructions.join(" ") : "",
+    contentLocale,
     c.audioError,
   );
   const highlighted = new Set(route?.edges);
@@ -297,6 +298,7 @@ function MapPanel({
           {c.stop}
         </Btn>
       )}
+      {contentLocale !== locale && <Txt>{translator(locale)("fallback")}</Txt>}
       {speech.error && (
         <Txt accessibilityRole="alert" style={s.warning}>
           {speech.error}

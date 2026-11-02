@@ -16,6 +16,8 @@ Sai Gon University, Ho Chi Minh City, VietNam · Software Engineering 2026–202
 
 **Mã nguồn chạy nằm trong `codes/`.** Các lệnh Docker, npm và .NET phải chạy tại thư mục này. Workflow GitHub Actions nằm ở [`.github/workflows/check.yml`](.github/workflows/check.yml).
 
+**Chạy online và tự cập nhật khi push vào `main`, không dùng Docker:** xem [hướng dẫn Azure CI/CD](codes/docs/guides/AZURE_CD.md). Các bước bên dưới dành cho demo Docker trên máy cá nhân.
+
 ## 1. Chuẩn bị máy
 
 - Cài Git và Docker Desktop, bật **Linux containers** và chờ Docker khởi động xong.

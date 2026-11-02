@@ -1,3 +1,4 @@
+import { LanguagePicker } from "./LanguagePicker";
 import { useState } from "react";
 import { Linking, View } from "react-native";
 import {
@@ -35,6 +36,7 @@ export function Results({ id }: { id: string | null }) {
       kind: "Summary",
       section,
       sourceRevision: s?.revision,
+      contentKey: s?.contentKey,
       language: locale,
     });
   return (
@@ -56,7 +58,11 @@ export function Results({ id }: { id: string | null }) {
                 </Txt>
                 <Txt tone="muted">
                   {t("actualLanguage")}: {s.language}
-                  {s.fallback ? ` · ${t("fallback")}` : ""}
+                  {s.fallback
+                    ? ` · ${t("fallback")}`
+                    : s.language !== "vi"
+                      ? ` · ${t("machineTranslation")}`
+                      : ""}
                 </Txt>
                 <Txt tone="heading">{t("diagnosis")}</Txt>
                 <Txt>{s.diagnosis}</Txt>
@@ -180,9 +186,7 @@ export function Help({
     <>
       <Txt tone="title">{t("assistance")}</Txt>
       <Card>
-        <Txt tone="muted">
-          {locale === "vi" ? config.emergencyVi : config.emergencyEn}
-        </Txt>
+        <Txt tone="muted">{config.emergency ?? config.emergencyVi}</Txt>
         <Txt tone="heading">{t("category")}</Txt>
         {["Navigation", "Language", "Reception", "Queue", "Other"].map((c) => (
           <Choice
@@ -319,16 +323,7 @@ function ProfileForm({
         onChangeText={setContact}
         maxLength={80}
       />
-      <Choice
-        label="Tiếng Việt"
-        selected={locale === "vi"}
-        onPress={() => setLocale("vi")}
-      />
-      <Choice
-        label="English"
-        selected={locale === "en"}
-        onPress={() => setLocale("en")}
-      />
+      <LanguagePicker locale={locale} onChange={setLocale} />
       <Btn
         busy={action.busy}
         disabled={name.trim().length < 2 || contact.trim().length < 5}

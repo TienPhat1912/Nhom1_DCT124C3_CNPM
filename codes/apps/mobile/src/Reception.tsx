@@ -1,3 +1,4 @@
+import { localizeText } from "@hospital/shared";
 import { useState } from "react";
 import { View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
@@ -29,7 +30,10 @@ import {
 export function Reception({ onVisit }: { onVisit: (id: string) => void }) {
   const { t, locale } = useNative();
   const [offset, setOffset] = useState(0);
-  const list = useLoad<RequestSummary[]>(`/api/requests?offset=${offset}`, true);
+  const list = useLoad<RequestSummary[]>(
+    `/api/requests?offset=${offset}`,
+    true,
+  );
   const profile = useLoad<Profile>("/api/auth/profile");
   const [id, setId] = useState<string | null>(null);
   const [mode, setMode] = useState("list");
@@ -271,6 +275,13 @@ function RequestDetails({
                 onPress={() =>
                   void speech.play(
                     `/api/requests/${id}/messages/${m.id}/narration`,
+                    {
+                      kind: "Message",
+                      section: "",
+                      sourceRevision: 1,
+                      language: locale,
+                      contentKey: m.contentKey,
+                    },
                   )
                 }
               >
@@ -351,9 +362,10 @@ function Appointments({ onPrepared }: { onPrepared: (id: string) => void }) {
     return (
       <Card>
         <Txt>
-          {locale === "vi"
-            ? "Chuẩn bị yêu cầu tiếp nhận và đưa mã lịch hẹn cho nhân viên xác minh tại quầy."
-            : "Prepare a reception request and give your booking reference to reception for verification."}
+          {localizeText(
+            "Chuẩn bị yêu cầu tiếp nhận và đưa mã lịch hẹn cho nhân viên xác minh tại quầy.",
+            locale,
+          )}
         </Txt>
       </Card>
     );

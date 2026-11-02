@@ -1,3 +1,5 @@
+import { localizeText } from "@hospital/shared";
+import { speechLocale, voiceMatches } from "@hospital/shared";
 import {
   useEffect,
   useId,
@@ -67,11 +69,17 @@ export function Field({
   return (
     <label className="field">
       <span id={`${id}-label`}>{label}</span>
-      {isValidElement<Record<string, unknown>>(children) ? cloneElement(children, {
-        "aria-labelledby": `${id}-label`,
-        "aria-describedby": error ? `${id}-error` : hint ? `${id}-hint` : undefined,
-        "aria-invalid": error ? true : undefined,
-      }) : children}
+      {isValidElement<Record<string, unknown>>(children)
+        ? cloneElement(children, {
+            "aria-labelledby": `${id}-label`,
+            "aria-describedby": error
+              ? `${id}-error`
+              : hint
+                ? `${id}-hint`
+                : undefined,
+            "aria-invalid": error ? true : undefined,
+          })
+        : children}
       {hint && <small id={`${id}-hint`}>{hint}</small>}
       {error && (
         <small id={`${id}-error`} className="field-error">
@@ -152,9 +160,7 @@ export function Feedback({
         </Notice>
       ) : ok ? (
         <Notice kind="success">
-          {locale === "vi"
-            ? "Máy chủ đã xác nhận thao tác."
-            : "The server confirmed your action."}
+          {localizeText("Máy chủ đã xác nhận thao tác.", locale)}
         </Notice>
       ) : null}
     </>
@@ -452,23 +458,19 @@ export function useSpeech(contextKey: string) {
         return;
       }
       const voices = window.speechSynthesis.getVoices();
-      const voice = voices.find((v) =>
-        v.lang.toLowerCase().startsWith(n.language),
-      );
+      const voice = voices.find((v) => voiceMatches(v.lang, n.language));
       if (voices.length && !voice) {
         setError(t("audioError"));
         return;
       }
       const utterance = new SpeechSynthesisUtterance(n.text);
-      utterance.lang =
-        n.language === "vi"
-          ? "vi-VN"
-          : n.language === "en"
-            ? "en-GB"
-            : n.language;
+      utterance.lang = speechLocale(n.language);
       if (voice) utterance.voice = voice;
-      utterance.onend = () => setPlaying(false);
+      utterance.onend = () => {
+        if (seq === generation.current) setPlaying(false);
+      };
       utterance.onerror = (e) => {
+        if (seq !== generation.current) return;
         setPlaying(false);
         if (e.error !== "canceled" && e.error !== "interrupted")
           setError(t("audioError"));
@@ -476,7 +478,10 @@ export function useSpeech(contextKey: string) {
       window.speechSynthesis.speak(utterance);
       setPlaying(true);
     } catch (e) {
-      if (seq === generation.current) setError(e instanceof ApiError ? errorText(e, locale) : t("audioError"));
+      if (seq === generation.current)
+        setError(
+          e instanceof ApiError ? errorText(e, locale) : t("audioError"),
+        );
     } finally {
       setLoading(false);
     }

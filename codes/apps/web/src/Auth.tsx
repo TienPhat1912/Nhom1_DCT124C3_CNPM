@@ -1,3 +1,4 @@
+import { languages, normalizeLocale } from "@hospital/shared";
 import { useState } from "react";
 import { ArrowRight, ShieldCheck, Languages, HeartPulse } from "lucide-react";
 import { translator, type Locale, type Session } from "@hospital/shared";
@@ -80,10 +81,13 @@ export default function Auth({
           <select
             aria-label={t("language")}
             value={locale}
-            onChange={(e) => setLocale(e.target.value as Locale)}
+            onChange={(e) => setLocale(normalizeLocale(e.target.value))}
           >
-            <option value="vi">Tiếng Việt</option>
-            <option value="en">English</option>
+            {languages.map((l) => (
+              <option key={l.code} value={l.code}>
+                {l.label}
+              </option>
+            ))}
           </select>
         </div>
         <div className="access-card">
@@ -205,7 +209,7 @@ export default function Auth({
             </Button>
           </Form>
           <div className="divider">
-            <span>{locale === "vi" ? "hoặc" : "or"}</span>
+            <span>{t("or")}</span>
           </div>
           <Button
             className="full"

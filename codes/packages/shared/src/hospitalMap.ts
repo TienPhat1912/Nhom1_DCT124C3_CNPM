@@ -1,3 +1,4 @@
+import { localizedCopy, localizeText } from "./localizedText.ts";
 import type { Department, Destination, Locale } from "./types";
 import {
   mapDepartments,
@@ -11,6 +12,8 @@ export type MapNode = {
   x: number;
   y: number;
   floor: string;
+  name?: string;
+  fallback?: boolean;
   nameVi: string;
   nameEn: string;
   kind: "room" | "department" | "gate" | "checkpoint" | "elevator";
@@ -283,6 +286,8 @@ export function configuredHospitalMap(
       return d
         ? {
             ...n,
+            name: d.name,
+            fallback: d.fallback,
             nameVi: d.nameVi,
             nameEn: d.nameEn,
             closed: n.closed || d.active === false,
@@ -307,9 +312,27 @@ export const startNodes = (area: string, floor: string, graph = hospitalMap) =>
         ? !n.building
         : n.building === area && n.floor === floor),
   );
-export const mapLabel = (n: MapNode, locale: Locale) =>
-  `${n.room ? n.room + " · " : ""}${locale === "vi" ? n.nameVi : n.nameEn}`;
+export const mapLabel = (n: MapNode, locale: Locale) => {
+  if (n.kind === "elevator" || n.id.startsWith("hall-")) {
+    const source =
+      n.kind === "elevator" ? "Thang máy {building}" : "Hành lang {building}";
+    return `${localizeText(source, locale).replace("{building}", n.building ?? "")} · ${floorLabel(n.floor, locale)}`;
+  }
+  return `${n.room ? n.room + " · " : ""}${locale === "vi" ? n.nameVi : (n.name ?? localizeText(n.nameVi, locale))}`;
+};
 const normalized = (s: string) => s.trim().toUpperCase();
+// Keep the entire spoken route in Vietnamese when a custom label is unavailable.
+export function routeLanguage(route: MapRoute | null, locale: Locale): Locale {
+  if (locale === "vi" || !route) return locale;
+  return route.nodes.some(
+    (n) =>
+      n.kind !== "elevator" &&
+      !n.id.startsWith("hall-") &&
+      (n.fallback || (!n.name && localizeText(n.nameVi, locale) === n.nameVi)),
+  )
+    ? "vi"
+    : locale;
+}
 export function destinationNode(destination: Destination, graph = hospitalMap) {
   return graph.nodes.find(
     (n) =>
@@ -394,51 +417,47 @@ export function routeInstructions(
   locale: Locale,
   ticket = true,
 ): string[] {
-  const vi = locale === "vi";
+  const format = (source: string, values: Record<string, string> = {}) =>
+    localizeText(source, locale).replace(
+      /\{(\w+)\}/g,
+      (_, key: string) => values[key] ?? "",
+    );
   if (route.nodes.length === 1)
     return [
-      vi
-        ? ticket
-          ? "Bạn đã ở đúng phòng trên phiếu."
-          : "Bạn đã đến điểm đã chọn."
-        : ticket
-          ? "You are at the room on your ticket."
-          : "You have reached your selected destination.",
+      format(
+        ticket ? "Bạn đã ở đúng phòng trên phiếu." : "Bạn đã đến điểm đã chọn.",
+      ),
     ];
   return route.nodes.map((n, i) => {
-    const label = mapLabel(n, locale);
-    if (!i) return vi ? `Bắt đầu tại ${label}.` : `Start at ${label}.`;
+    const place = mapLabel(n, locale);
+    if (!i) return format("Bắt đầu tại {place}.", { place });
     const previous = route.nodes[i - 1];
-    let text: string;
-    if (route.edges[i - 1].kind === "elevator") {
-      text = vi
-        ? `Đi thang máy tòa ${n.building} từ ${floorLabel(previous.floor, locale).toLowerCase()} đến ${floorLabel(n.floor, locale).toLowerCase()}.`
-        : `Take the lift in building ${n.building} from ${floorLabel(previous.floor, locale).toLowerCase()} to ${floorLabel(n.floor, locale).toLowerCase()}.`;
-    } else if (n.building !== previous.building) {
-      text = n.building
-        ? vi
-          ? `Đi đến ${label}, vào tòa ${n.building}, ${floorLabel(n.floor, locale).toLowerCase()}.`
-          : `Go to ${label}, enter building ${n.building}, ${floorLabel(n.floor, locale).toLowerCase()}.`
-        : vi
-          ? `Ra khỏi tòa ${previous.building}, đi đến ${label}.`
-          : `Leave building ${previous.building} and go to ${label}.`;
-    } else {
-      text = vi
-        ? `Đi theo lối nối đến ${label}.`
-        : `Follow the connecting path to ${label}.`;
-    }
+    const values = {
+      place,
+      building: n.building ?? previous.building ?? "",
+      from: floorLabel(previous.floor, locale).toLowerCase(),
+      to: floorLabel(n.floor, locale).toLowerCase(),
+      floor: floorLabel(n.floor, locale).toLowerCase(),
+    };
+    let text =
+      route.edges[i - 1].kind === "elevator"
+        ? format("Đi thang máy tòa {building} từ {from} đến {to}.", values)
+        : n.building !== previous.building
+          ? n.building
+            ? format("Đi đến {place}, vào tòa {building}, {floor}.", values)
+            : format("Ra khỏi tòa {building}, đi đến {place}.", values)
+          : format("Đi theo lối nối đến {place}.", values);
     if (i === route.nodes.length - 1)
-      text += vi
-        ? ticket
-          ? " Đây là điểm đến trên phiếu."
-          : " Đây là khoa/phòng đã chọn."
-        : ticket
-          ? " This is your ticket destination."
-          : " This is your selected department.";
+      text +=
+        " " +
+        format(
+          ticket ? "Đây là điểm đến trên phiếu." : "Đây là khoa/phòng đã chọn.",
+        );
     return text;
   });
 }
-export const mapCopy = {
+
+const basemapCopy = {
   vi: {
     title: "Bản đồ bệnh viện",
     unconfirmed:
@@ -537,3 +556,11 @@ export const mapCopy = {
     update: "I am here",
   },
 } as const;
+
+export const mapCopy = {
+  ...basemapCopy,
+  zh: localizedCopy(basemapCopy.vi, "zh"),
+  ko: localizedCopy(basemapCopy.vi, "ko"),
+  ja: localizedCopy(basemapCopy.vi, "ja"),
+  ru: localizedCopy(basemapCopy.vi, "ru"),
+};
