@@ -2,6 +2,8 @@
 
 Đây là thư mục mã nguồn ứng dụng: React web, React Native/Expo Android và ASP.NET Core API kết nối SQL Server. Bản demo dùng các tích hợp mô phỏng.
 
+**Deploy online không dùng Docker:** xem [Azure CI/CD](docs/guides/AZURE_CD.md). Pipeline kiểm thử với SQL Server LocalDB, đóng gói React + API và tự deploy lên Azure App Service sau khi cấu hình tài nguyên, OIDC và bật `AZURE_DEPLOY_ENABLED`.
+
 **Mọi lệnh bên dưới chạy từ `codes/`, trừ khối lệnh Git có ghi rõ chạy từ gốc repository.** Nếu vừa mở repository trong IDE, chạy `cd codes` trước. Hướng dẫn bắt đầu nhanh ở [README gốc](../README.md).
 
 ## 1. Yêu cầu máy

@@ -1,4 +1,4 @@
-name: Build and acceptance
+name: Build, acceptance and Azure deployment
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
@@ -7,7 +7,7 @@ defaults:
     working-directory: codes
 jobs:
   application:
-    runs-on: ubuntu-latest
+    runs-on: windows-2022
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -22,31 +22,106 @@ jobs:
         shell: pwsh
         run: ./tests/setup/bootstrap.ps1
       - run: npm ci
-      - run: npm run typecheck && npm run lint && npm run build
+      - run: npm run typecheck && npm run lint
       - run: npm run test:narration:unit && npm run test:languages:unit
-      - run: npm run test:translation
       - run: dotnet restore --locked-mode && dotnet build -c Release --no-restore
-      - run: npx playwright install --with-deps chromium
-      - name: SQL, API, browser and provider acceptance
-        shell: bash
-        run: bash scripts/test/ci-integration.sh
+      - run: npm run test:translation
+      - name: Publish web and API as one Azure release
+        shell: pwsh
+        run: ./scripts/deploy/publish-azure.ps1
+      - run: npx playwright install chromium
+      - name: Native LocalDB, API, browser and provider acceptance
+        shell: pwsh
+        run: ./scripts/test/ci-native.ps1
       - run: npm run export --workspace @hospital/mobile -- --output-dir ../../artifacts/mobile-android
-      - run: docker compose build api web
+      - uses: actions/upload-artifact@v4
+        with:
+          name: azure-web-${{ github.sha }}
+          path: codes/artifacts/azure-release.zip
+          if-no-files-found: error
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: acceptance-and-builds
           path: |
-            codes/artifacts/
-            codes/apps/web/dist/
-            codes/backend/Hospital.Api/bin/Release/net10.0/
+            codes/artifacts/*.log
+            codes/artifacts/*.json
+            codes/artifacts/playwright-report/
+            codes/artifacts/browser-results/
+            codes/artifacts/mobile-android/
           retention-days: 7
-      - name: Stop configured containers
-        if: always()
+  deploy:
+    needs: application
+    # Enable this repository variable only after provisioning the free Azure resources.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.AZURE_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.webapp-url }}
+    concurrency:
+      group: azure-production
+      cancel-in-progress: false
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+      - name: Skip an obsolete commit
+        id: current
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          if [[ -f .env ]]; then
-            docker compose down
+          latest=$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)
+          if [[ "$latest" == "$GITHUB_SHA" ]]; then
+            echo 'deploy=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'deploy=false' >> "$GITHUB_OUTPUT"
+            echo 'A newer main commit exists; this release will not replace it.' >> "$GITHUB_STEP_SUMMARY"
           fi
+      - name: Validate Azure configuration
+        if: steps.current.outputs.deploy == 'true'
+        env:
+          APP_NAME: ${{ vars.AZURE_WEBAPP_NAME }}
+          CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        run: |
+          for name in APP_NAME CLIENT_ID TENANT_ID SUBSCRIPTION_ID; do
+            if [[ -z "${!name}" ]]; then echo "Missing Azure configuration: $name"; exit 1; fi
+          done
+      - uses: actions/download-artifact@v4
+        if: steps.current.outputs.deploy == 'true'
+        with:
+          name: azure-web-${{ github.sha }}
+          path: release
+      - uses: azure/login@v2
+        if: steps.current.outputs.deploy == 'true'
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy the tested release
+        id: deploy
+        if: steps.current.outputs.deploy == 'true'
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
+          package: release/azure-release.zip
+      - uses: actions/setup-node@v4
+        if: steps.current.outputs.deploy == 'true'
+        with:
+          node-version: '22.19.0'
+      - name: Verify the live commit, database and web
+        if: steps.current.outputs.deploy == 'true'
+        env:
+          WEB_URL: ${{ steps.deploy.outputs.webapp-url }}
+          EXPECTED_COMMIT: ${{ github.sha }}
+        run: node codes/scripts/deploy/smoke.mjs
   android:
     runs-on: ubuntu-latest
     timeout-minutes: 45

@@ -2,6 +2,7 @@
 
 | Cần tìm | Tài liệu |
 |---|---|
+| Deploy online và tự cập nhật từ GitHub, không dùng Docker | [Azure CI/CD](guides/AZURE_CD.md) |
 | Bật/tắt demo, tự nhận IP LAN | [Hướng dẫn LAN](guides/LAN.md) |
 | Demo theo từng vai trò | [Kịch bản demo](guides/DEMO.md) |
 | Build, cài đặt, kiểm thử APK | [Android](guides/ANDROID.md) |

@@ -16,7 +16,10 @@ Chạy các lệnh dưới đây từ thư mục gốc. Hai file `Start-LAN.cmd`
 | `dev/` | [run-api.ps1](dev/run-api.ps1) | Chạy API ở terminal, hỗ trợ `-MigrateOnly` |
 | `build/` | [build-android.ps1](build/build-android.ps1) | Build APK Android |
 | `test/` | [test-api.ps1](test/test-api.ps1) | API acceptance trên database riêng; `-Performance` để đo tải |
-| `test/` | [ci-integration.sh](test/ci-integration.sh) | Kiểm thử tích hợp trong CI Linux |
+| `test/` | [ci-native.ps1](test/ci-native.ps1) | CI Windows: SQL LocalDB, API và browser trên bản publish, không Docker |
+| `test/` | [ci-integration.sh](test/ci-integration.sh) | Luồng kiểm thử Linux cũ dùng Docker SQL, có thể chạy thủ công |
+| `deploy/` | [publish-azure.ps1](deploy/publish-azure.ps1) | Đóng gói React + API thành ZIP cho App Service Windows |
+| `deploy/` | [smoke.mjs](deploy/smoke.mjs) | Kiểm tra bản online đúng commit, SQL health, web và route API |
 | `docs/` | [generate-traceability.py](docs/generate-traceability.py) | Sinh tài liệu trong `docs/requirements/` và sơ đồ trong `docs/diagrams/` |
 
 Ví dụ:

@@ -1,5 +1,7 @@
 # Kiểm thử
 
+CI web/API hiện chạy trên Windows với SQL Server LocalDB, không dùng Docker. Sau `npm ci` và `dotnet restore --locked-mode`, chạy `scripts/deploy/publish-azure.ps1` rồi `scripts/test/ci-native.ps1` để kiểm thử trực tiếp bản phát hành Azure. Script tạo database riêng; không sử dụng database online. Chi tiết cấu hình và kiểm tra CD: [Azure CI/CD](../docs/guides/AZURE_CD.md).
+
 | Thư mục | Phạm vi | Cách chạy từ thư mục gốc |
 |---|---|---|
 | `api/` | Nghiệp vụ, quyền truy cập, provider, hiệu năng, smoke/TLS | `.\scripts\test\test-api.ps1` |
