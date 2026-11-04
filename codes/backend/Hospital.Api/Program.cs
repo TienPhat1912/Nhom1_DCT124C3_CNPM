@@ -84,7 +84,18 @@ app.MapOpenApi();
 app.MapIdentity(); app.MapReception(); app.MapJourneys(); app.MapContent(); app.MapSupport(); app.MapAdmin();
 if (!args.Contains("--no-migrate")) {
     using var scope = app.Services.CreateScope(); var db = scope.ServiceProvider.GetRequiredService<HospitalDb>();
-    await db.Database.MigrateAsync(); await Seed.Run(db, app.Configuration);
+    // Azure SQL can return 40613 while resuming. Retry migrations on a separate
+    // context: request/catalog contexts use explicit transactions and must not
+    // inherit an execution strategy that retries individual commands.
+    var migrationOptions = new DbContextOptionsBuilder<HospitalDb>()
+        .UseSqlServer(db.Database.GetConnectionString(), sql => sql.EnableRetryOnFailure(
+            maxRetryCount: 6, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null))
+        .UseLoggerFactory(app.Services.GetRequiredService<ILoggerFactory>())
+        .Options;
+    await using (var migrationDb = new HospitalDb(migrationOptions)) {
+        await migrationDb.Database.MigrateAsync();
+    }
+    await Seed.Run(db, app.Configuration);
     await HospitalCatalog.Sync(db, app.Configuration);
     if (args.Contains("--seed-performance")) await PerformanceSeed.Run(db, app.Configuration);
 }
