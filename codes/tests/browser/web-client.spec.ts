@@ -95,10 +95,30 @@ test("registration creates a session that survives reload and can sign in again"
   await expect(page.getByRole("heading", { name: /Xin chào/ })).toBeVisible();
   if (await page.locator(".mobile-menu").isVisible())
     await page.locator(".mobile-menu").click();
-  await page.getByRole("button", { name: "Đăng xuất", exact: true }).click();
+  const [loggedOut] = await Promise.all([
+    page.waitForResponse((response) =>
+      response.url().endsWith("/api/auth/logout"),
+    ),
+    page.getByRole("button", { name: "Đăng xuất", exact: true }).click(),
+  ]);
+  expect(
+    loggedOut.status(),
+    `Logout response: ${await loggedOut.text()}`,
+  ).toBe(200);
+  await expect(
+    page.getByRole("heading", { name: "Đăng nhập", exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "Đăng nhập", exact: true }),
+  ).toBeVisible();
   await page.getByLabel("Email", { exact: true }).fill(email);
   await page.getByLabel("Mật khẩu", { exact: true }).fill(password);
-  await page.getByRole("button", { name: "Đăng nhập", exact: true }).last().click();
+  const [signedIn] = await Promise.all([
+    page.waitForResponse((response) => response.url().endsWith("/api/auth/login")),
+    page.getByRole("button", { name: "Đăng nhập", exact: true }).last().click(),
+  ]);
+  expect(signedIn.status()).toBe(200);
   await expect(page.getByRole("heading", { name: /Xin chào/ })).toBeVisible();
   expect(pageErrors).toEqual([]);
 });

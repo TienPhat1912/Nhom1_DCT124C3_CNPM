@@ -83,6 +83,11 @@ try {
     Invoke-Checked 'node' @('--test', '--test-concurrency=1', 'tests/api/api.test.mjs')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/translation/Translation.Tests.csproj', '--', '--migration')
     Invoke-Checked 'node' @('tests/api/performance.mjs')
+    # API/load checks and browsers share the loopback IP's 120/minute auth quota.
+    # Give browsers a fresh limiter while retaining the same release and database;
+    # otherwise fast CI runs can return 429 on logout or the following login.
+    Stop-TestApi
+    $apiProcess = Start-TestApi 'native-browser-api'
     Invoke-Checked 'npx.cmd' @('playwright', 'test')
     Stop-TestApi
     foreach ($mode in @('Timeout', 'Unavailable')) {
