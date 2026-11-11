@@ -9,6 +9,8 @@
 | Cách chia hệ thống, bảo mật và dữ liệu | [Quyết định thiết kế](architecture/DECISIONS.md) |
 | Endpoint, request và response | [API](architecture/API.md), [OpenAPI](architecture/openapi.json) |
 | Yêu cầu gốc và truy vết | [PRD](requirements/PRD-extracted.txt), [truy vết](requirements/TRACEABILITY.md), [CSV](requirements/TRACEABILITY.csv) |
+| Kế hoạch chỉnh sửa theo PRD mới | [Kế hoạch tổng thể](../../docs/prd_v2/PRD-REVISION-PLAN.md) |
+| Chọn task, nhận việc và mở PR | [Product backlog gồm 32 task](../../docs/prd_v2/backlog/README.md) |
 | Sơ đồ chỉnh sửa được bằng draw.io | [PRD](diagrams/PRD-diagrams.drawio), [triển khai](diagrams/implementation.drawio) |
 | Chạy lại kiểm thử, nơi lưu kết quả mới | [Kiểm thử](../tests/README.md) |
 | File và báo cáo cũ được chuyển đi | [Chỉ mục lưu trữ](../archive/README.md) |
