@@ -1,5 +1,7 @@
 # Hợp đồng API và bộ kết nối
 
+Các mục hiện có mô tả API legacy đang chạy. Phần [PB-001: hợp đồng PRD v2](#pb-001-hợp-đồng-prd-v2) cuối tài liệu là hợp đồng đích, chưa triển khai endpoint/migration và chưa có trong OpenAPI. Không dùng hành vi legacy để thay quy tắc v2.
+
 Tài liệu máy đọc: `/openapi/v1.json`, snapshot trong `docs/architecture/openapi.json`. C# request records nằm cạnh endpoint; DTO TypeScript dùng chung trong `packages/shared/src/types.ts`, API client trong `api.ts`. DTO phản hồi hiện được duy trì thủ công; acceptance kiểm tra các luồng sử dụng chúng. Không khẳng định có schema-codegen toàn bộ phản hồi anonymous C#.
 
 ## Quy ước
@@ -78,3 +80,121 @@ Lưu thông tin tối thiểu cho tiếp nhận, hướng dẫn, tóm tắt do b
 Demo giữ dữ liệu cho tới khi người vận hành chủ động quản lý. Thời hạn truy cập guest 24 giờ không đồng nghĩa xóa hồ sơ. Chính sách triển khai dự kiến: guest không liên kết 90 ngày, guidance tài khoản 365 ngày; cần chủ dữ liệu xác nhận theo bối cảnh thực tế trước production. Chưa có job purge tự động; mọi xóa dữ liệu phải qua quy trình được phê duyệt, giữ toàn vẹn audit và dữ liệu bệnh viện nguồn.
 
 DataProtection keys cần giữ bền vững cùng database để mở lại QR khi in. Compose lưu keys trong volume riêng. Backup cả SQL và key volume; không ghi private key/cookie/token vào artifacts dùng chia sẻ. API local dùng tài khoản SQL sa chỉ cho demo; production phải dùng tài khoản database riêng với quyền tối thiểu.
+
+## PB-001: hợp đồng PRD v2
+
+Nguồn: [kế hoạch mục 4/6/7](../../../prd_v2/PRD-REVISION-PLAN.md), [PRD chính thức](../../../prd_v2/document/prd%20chinh%20thuc.docx), [quyết định](DECISIONS.md#pb-001-đối-chiếu-prd-v2). DTO trong [types.ts](../../packages/shared/src/types.ts) dùng hậu tố V2, riêng `ExamStatus` là kiểu trạng thái khám. Không thay trường bắt buộc hoặc ý nghĩa của DTO legacy.
+
+### Máy trạng thái
+
+`ExamStatus`: Waiting / InConsultation / InService / Completed. Nhãn tương ứng: Chờ khám / Đang khám / Đang thực hiện dịch vụ / Hoàn tất khám. Visit chỉ có Active/Closed; Journey v2 chỉ có Active/Completed. Order có NotCompleted/Completed. Step có Waiting/Ready/InProgress/Completed, không đại diện cho trạng thái khám toàn Visit.
+
+| Lệnh | ExamStatus trước → sau | Visit / Journey sau commit | Thay đổi trong cùng giao dịch |
+|---|---|---|---|
+| Confirm reception | Chưa có → Waiting | Active / Active | Tạo Visit, Journey, phiếu, snapshot, grant Guest và Consultation Ready |
+| Accept consultation | Waiting → InConsultation | Active / Active | Consultation/ReturnConsultation InProgress; tăng consultationCount, ghi một sự kiện gọi |
+| Confirm order | InConsultation → InService | Active / Active | Hoàn tất vòng khám hiện tại, tạo đúng một order NotCompleted + Service Ready; nhả ca phòng |
+| Complete service | InService → Waiting | Active / Active | Order/Service Completed; ReturnConsultation Ready về phòng/bác sĩ cũ, tự vào hàng chờ |
+| Complete examination | InConsultation → Completed | Active / Active | Lưu/công bố kết quả, hoàn tất vòng khám, tạo Settlement Ready; nhả ca phòng |
+| Final settlement | Completed → Completed | Closed / Completed | Ghi quyết toán và đóng Visit/Journey, hoàn tất Settlement; bước hiện tại null |
+
+Ràng buộc: một Visit Active/Patient; một request Submitted/Patient; một ca InConsultation/phòng; một order NotCompleted/Visit. Doctor chọn bất kỳ người Waiting đủ điều kiện, không bắt buộc FIFO. Phòng bận vẫn nhận thêm người Waiting. A hoàn tất dịch vụ trở lại hàng chờ không được chiếm ca B đang khám. Bác sĩ phải nhận lại A trước chỉ định tiếp; cùng dịch vụ được chỉ định lại ở vòng sau. Không có nút bệnh nhân xác nhận đã về phòng, kích hoạt Journey hay lệnh chuyển bác sĩ.
+
+Final và NoPaymentRequired đều yêu cầu Visit Active, ExamStatus Completed, kết quả đã xác nhận/công bố, tất cả order Completed, không còn bước chuyên môn chưa giải quyết và workRevision khớp. Lưu finalSettlementRevision=workRevision, outcome, thời điểm đóng và hoàn tất Journey nguyên tử. Thanh toán riêng lẻ không đóng Visit/Journey; không có nhà thuốc sau đóng trong luồng mới. Hoàn tất một vòng Consultation để đi dịch vụ không đồng nghĩa Completed toàn bộ khám.
+
+### Quy ước DTO và quyền
+
+- VisitSummaryV2 có `contractVersion:"prd-v2"`, phòng/bác sĩ cố định, phiếu, ba trạng thái, số lần khám, thời điểm hoàn tất/đóng. VisitV2 thêm steps/orders, latestConsultationCall, currentStepId/currentStep và capabilities. Khi Active có đúng một bước hiện tại khớp ID trong steps; khi Closed cả hai trường hiện tại null. Không suy bước hiện tại bằng phần tử đầu Completed.
+- TicketNumberV2 duy nhất theo `(clinicLocationId, issuedOn, sequenceNumber)`; issuedOn là ngày Asia/Ho_Chi_Minh dạng YYYY-MM-DD, sequenceNumber tăng từ 1, number đệm tối thiểu 3 chữ số (001, 999, 1000). Bộ đếm được khóa/cập nhật cùng giao dịch cấp phiếu và có unique constraint; không dùng MAX+1 ngoài khóa. ID/ngày/số/snapshot không đổi khi in lại, qua ngày mới hoặc về từ dịch vụ. Phục hồi phải tra theo phòng/ngày/số, không chỉ 001.
+- ExaminationTicketV2 chứa snapshot bệnh nhân, phòng và bác sĩ tại tiếp nhận; đổi profile/danh mục không sửa lịch sử. Chỉ chủ hồ sơ/Guest có grant hoặc Reception đúng phạm vi được đọc/in phiếu. Danh sách Visit và event gọi chỉ chứa TicketNumberV2, không chứa liên hệ bệnh nhân. Dữ liệu legacy thiếu snapshot vẫn đọc bằng DTO cũ, không giả dữ liệu lịch sử.
+- ConsultationCallV2.id là event ID bền vững; consultationNumber bắt đầu 1 và tăng mỗi lần tiếp nhận thật. Retry giữ nguyên ID/số lần; lần khám tiếp có ID mới, vẫn cùng phiếu. contentRevision là phiên bản nội dung gọi, không phải Visit.version. Chỉ phát sau commit; PB-023 triển khai vận chuyển/chống phát lặp.
+- ClinicAssignmentV2.version thay đổi khi sửa thành viên/bác sĩ hoạt động của phòng. Bác sĩ được chọn phải có tài khoản Doctor dùng được, thuộc phòng và khoa hợp lệ. canChangeDoctor và activeVisitCount do server tính; không suy bác sĩ hoạt động từ roster hoặc cờ Active của tài khoản.
+- VisitCapabilitiesV2 do server tính theo người đọc, quyền và trạng thái hiện tại. Doctor phụ trách: accept/order/preview/complete; Service đúng khoa nơi thực hiện: completeService; Cashier đúng khoa Visit: settle; chủ hồ sơ/grant: xem kết quả đã công bố. Admin không có quyền đọc/công bố nội dung lâm sàng. canCompleteExamination là điều kiện tổng quát, confirm vẫn kiểm tra preview. Ẩn nút không thay kiểm tra backend.
+- RegistrationRequestV2.departmentId là phạm vi xử lý server định tuyến, preferredDepartmentId chỉ là nguyện vọng. Patient và tên lấy từ phiên/hồ sơ đã xác định. Description giữ nguyên văn; sourceLanguage gắn lúc gửi. Không gộp Account/Guest theo liên hệ. NeedsInformation legacy phải được xử lý khi chuyển đổi, không tạo mới trong v2.
+
+### Bảng lệnh
+
+Tất cả path trong bảng có tiền tố **`/api/v2`**, là hợp đồng cho task triển khai tiếp theo. Giữ xác thực cookie/token, kiểm tra Origin và X-Hospital-Client: 1. Thành công trả snapshot sau SaveChanges/commit, gồm version mới. `key` trong bảng là header Idempotency-Key (8–100 ký tự, khuyến nghị UUID).
+
+| Lệnh / task | HTTP; input → output | Quyền và guard | Version / key |
+|---|---|---|---|
+| Chọn bác sĩ / PB-005 | PUT `/admin/clinics/{id}/active-doctor`; SetActiveDoctorInputV2 → ClinicAssignmentV2, 200 | Admin; Doctor đúng phòng/khoa, dùng được; không thay phân công khi phòng/bác sĩ còn Visit Active | version phân công phòng; key bắt buộc |
+| Gửi yêu cầu / PB-006 | POST `/requests`; RegistrationRequestInputV2 → RegistrationRequestV2, 201 | Patient Account/Guest; chưa có request pending hoặc Visit Active | Chưa có version; key bắt buộc, khóa theo Patient |
+| Xác nhận tiếp nhận / PB-008 | POST `/requests/{id}/confirm`; ConfirmReceptionInputV2 → ConfirmReceptionResultV2, 200 | Reception đúng phạm vi request/phòng; đã xác minh; phòng/bác sĩ hợp lệ; Patient chưa có Visit Active | version request + clinicAssignmentVersion; key bắt buộc |
+| Tiếp nhận và gọi khám / PB-010 | POST `/visits/{id}/consultations/accept`; AcceptConsultationInputV2 → VisitV2, 200 | Doctor đúng Visit/phòng; Waiting; phòng không có ca InConsultation | version Visit; key bắt buộc; khóa cả phòng |
+| Xác nhận một chỉ định / PB-011 | POST `/visits/{id}/orders`; ConfirmOrderInputV2 → VisitV2, 200 | Doctor phụ trách; InConsultation; không còn order NotCompleted; một service đang dùng, có mapping/địa điểm hợp lệ | version Visit; key bắt buộc |
+| Hoàn tất dịch vụ / PB-012 | POST `/visits/{id}/orders/{orderId}/complete`; CompleteServiceInputV2 → VisitV2, 200 | Service đúng khoa order; order thuộc Visit/bước hiện tại; InService và NotCompleted | version Visit + orderVersion; key bắt buộc |
+| Xem trước / PB-014 | POST `/visits/{id}/examination/preview`; PreviewExaminationInputV2 → ExaminationPreviewV2, 200 | Doctor phụ trách; InConsultation; không còn order chưa xong; danh mục/mẫu đang dùng, ít nhất một chẩn đoán | version Visit + version mỗi lựa chọn/mẫu; không cần key, không thay trạng thái/publish |
+| Hoàn tất khám / PB-014 | POST `/visits/{id}/examination/complete`; CompleteExaminationInputV2 → CompleteExaminationResultV2, 200 | Guard như preview; preview khớp Visit/bác sĩ/lựa chọn/version danh mục/mẫu | version Visit + previewId; key bắt buộc |
+| Quyết toán / PB-015 | POST `/visits/{id}/settlement`; FinalSettlementInputV2 → VisitV2, 200 | Cashier đúng khoa; đủ điều kiện quyết toán; chỉ Final hoặc NoPaymentRequired | version Visit + workRevision; key bắt buộc |
+
+GET `/api/v2/visits` trả VisitSummaryV2[], GET `/api/v2/visits/{id}` trả VisitV2: lọc quyền theo chủ hồ sơ/grant hoặc vai trò/khoa/phân công trước phân trang. Service chỉ đọc Visit có order được giao; danh sách chờ của Doctor chỉ lấy Waiting đúng phòng/bác sĩ. GET `/api/v2/visits/{id}/ticket` trả ExaminationTicketV2; in lại bằng GET + in client, không cấp số mới. GET `/api/v2/requests/{id}` trả RegistrationRequestV2 cho chủ hồ sơ hoặc Reception đúng phạm vi. GET `/api/v2/admin/clinics/{id}/assignment` trả ClinicAssignmentV2 cho Admin. GET `/api/v2/visits/{id}/clinical-record` trả ClinicalRecordV2 hoặc null trước công bố, chỉ chủ hồ sơ/grant và Doctor phụ trách; Service/Cashier/Admin không đọc được. GET không cần key.
+
+Backend phải dùng danh sách trường input cho phép và từ chối trường lạ bằng 422 validation. Không nhận actorId, authorId/name, patientId, role, permissions/capabilities, source, status/examStatus, số phiếu, timestamps hoặc nội dung công bố từ client. doctorId chỉ có trong lệnh Admin chọn bác sĩ, không trong confirm reception. TypeScript không thay validation JSON tại backend. attendeeVerified/verificationNote là xác nhận của Reception đã xác thực, không tự cấp quyền.
+
+Preview riêng tư gắn Visit/version/bác sĩ/lựa chọn/version catalog/mẫu; chỉnh lựa chọn phải tạo preview mới, hủy không đổi nghiệp vụ. Confirm chỉ nhận previewId và version, server lấy nội dung đã kiểm chứng và kiểm tra lại catalog/mẫu. Không dùng text hoặc tác giả client gửi làm bản công bố. Snapshot ClinicalRecordV2 giữ lựa chọn, mẫu, nội dung Việt, tác giả thực tế và thời điểm xác nhận/công bố.
+
+### Version, idempotency và cạnh tranh
+
+1. Scope receipt = contract version + actor từ session + tên lệnh + ID tài nguyên (create request dùng Patient). Hash gồm payload đã validation và version. Receipt và nghiệp vụ commit nguyên tử; không lưu token/grant secret. Kiểm tra xác thực/quyền hiện hành trước replay để không rò dữ liệu khi quyền đã bị thu hồi.
+2. Kiểm tra receipt trước version/guard trạng thái: cùng key/payload trả nguyên status/body đã thành công, không tạo thêm phiếu/order/event/kết quả. Cùng key khác payload trả idempotencyConflict. Response replay có thể cũ, client refresh trước lệnh tiếp; capabilities trong đó không cấp quyền.
+3. Key mới + version cũ trả conflict. Visit.version bảo vệ aggregate: thay bước/order/trạng thái/lần gọi/kết quả/quyết toán đều tăng; Journey/order có version riêng khi thay đổi. workRevision khởi tạo 1, tăng khi xác nhận order hoặc hoàn tất khám thay tập công việc; tiếp nhận khám và tiến độ dịch vụ không tăng. Không dùng workRevision thay version.
+4. Giao dịch và unique constraints bảo vệ cả thao tác trên các ID khác nhau: hai bệnh nhân vào cùng phòng, hai request cùng Patient, hai cấp số cùng phòng/ngày, hai Admin đổi bác sĩ và confirm reception cạnh tranh đổi phân công. Có thể tái sử dụng application lock SQL hiện tại; guard phải kiểm tra lại trong transaction. Ánh xạ unique violation thành lỗi nghiệp vụ, không lộ SQL.
+5. Timeout/mất response: retry cùng key/body. Conflict/guard lỗi: GET lại, người dùng quyết định lại rồi dùng key mới/version mới; không tự retry vô hạn. Thứ tự kiểm tra: auth/scope → validation → receipt → versions → guard. CompleteService sau kiểm tra version nhận orderAlreadyCompleted trước kiểm tra ExamStatus nếu order đã hoàn tất.
+
+### Lỗi nghiệp vụ
+
+Giữ envelope ApiProblem `{title,status,detail,errors?,traceId?}`; **title là mã máy**. ApiProblemV2 thêm existingRequestId/existingVisitId (chỉ nếu được đọc) và currentVersion tùy trường hợp. Không tiết lộ bệnh nhân đang chiếm phòng trong lỗi clinicBusy.
+
+| HTTP | title | Tình huống |
+|---|---|---|
+| 401 / 403 / 404 | unauthorized / forbidden / notFound | Phiên không hợp lệ / sai quyền,khoa,bác sĩ / tài nguyên không tồn tại |
+| 422 | validation | Trường thiếu/lạ, version không nguyên dương, nhiều service, key sai độ dài; errors theo trường |
+| 409 | conflict / workRevisionConflict / idempotencyConflict | Entity version cũ / revision công việc khác / key trùng payload khác |
+| 409 | pendingRequestExists / activeVisitExists / requestNotPending | Gửi trùng trả ID request/Visit được phép đọc; confirm đã xong bằng key mới trả requestNotPending và existingVisitId nếu được phép |
+| 409 | clinicUnavailable / doctorUnavailable / clinicAssignmentChanged | Phòng ngừng dùng / chưa chọn hoặc khóa bác sĩ / cấu hình phòng khác phiên bản đã xem |
+| 422 | doctorNotInClinic | Admin chọn sai Doctor/phòng/khoa |
+| 409 | clinicHasActiveVisits / clinicBusy | Đổi phân công khi còn Visit Active / nhận ca thứ hai vào phòng |
+| 409 | visitNotActive / invalidExamStatus / unfinishedOrderExists | Visit đã đóng / sai trạng thái nguồn / thêm order hoặc hoàn tất khám khi còn order chưa xong |
+| 409 | orderAlreadyCompleted / orderImmutable / previewStale | Complete lại bằng key mới / sửa,hủy,bỏ qua chỉ định / preview sai hoặc cũ |
+| 409 | examinationNotCompleted / servicesNotCompleted | Quyết toán khi khám chưa xong / còn order hoặc bước chuyên môn chưa giải quyết |
+| 503 / 410 | workflowNotEnabled / legacyCommandDisabled | Luồng mới chưa bật / lệnh legacy đã bị ngừng trên dữ liệu v2 |
+
+Nếu nhiều guard sai, lỗi version có ưu tiên: hai complete cùng version/key khác thường nhận conflict; sau GET version mới, complete lại nhận orderAlreadyCompleted. Provider 503/504 và rate limit 429 vẫn dùng envelope ApiProblem, không ép vào union BusinessErrorCodeV2.
+
+### Ví dụ review API/UI
+
+IDs dưới đây là ký hiệu minh họa; triển khai nhận UUID hợp lệ. Mọi mutation có X-Hospital-Client: 1, Content-Type: application/json và Idempotency-Key mới cho từng lệnh; retry giữ nguyên key. Response dưới là **trích trường**, không phải toàn DTO.
+
+| Request | Body | Trích response |
+|---|---|---|
+| POST requests/r1/confirm | `{"version":3,"clinicLocationId":"room1","clinicAssignmentVersion":2,"attendeeVerified":true,"verificationNote":"Đã đối chiếu trực tiếp"}` | `visit:{contractVersion:prd-v2,version:1,status:Active,journeyStatus:Active,examStatus:Waiting,consultationCount:0}, ticket:{number:001,issuedOn:2026-11-11,sequenceNumber:1,clinicLocationId:room1}` |
+| POST visits/v1/consultations/accept | `{"version":1}` | `version:2, examStatus:InConsultation, consultationCount:1, latestConsultationCall:{id:call1,consultationNumber:1}` |
+| POST visits/v1/orders | `{"version":2,"serviceId":"service1","note":""}` | `version:3, examStatus:InService, workRevision:2, orders:[{id:o1,version:1,status:NotCompleted}]` |
+| POST visits/v1/orders/o1/complete | `{"version":3,"orderVersion":1}` | `version:4, examStatus:Waiting, currentStep:{kind:ReturnConsultation,destination:{id:room1}}, workRevision:2` |
+| POST visits/v1/consultations/accept | `{"version":4}` | `version:5, examStatus:InConsultation, consultationCount:2, latestConsultationCall.id:call2` |
+| POST visits/v1/examination/preview | `{"version":5,"symptomSelections":[],"signSelections":[],"diagnosisSelections":[{"id":"d1","version":1}],"template":{"id":"t1","version":2}}` | `previewId:p1, visitVersion:5, content:{language:vi,...}`; Visit không đổi |
+| POST visits/v1/examination/complete | `{"version":5,"previewId":"p1"}` | `visit:{version:6,examStatus:Completed,status:Active,workRevision:3}, record:{author:{id:doctor1},publishedAt:<server UTC>}` |
+| POST visits/v1/settlement | `{"version":6,"workRevision":3,"outcome":"NoPaymentRequired"}` | `version:7,status:Closed,journeyStatus:Completed,examStatus:Completed,finalSettlementRevision:3,currentStep:null,currentStepId:null` |
+
+Có thể khám không dịch vụ: accept → preview → complete → settlement. Phiếu vẫn 001 và ngày cấp cũ kể cả khám tiếp vào ngày hôm sau. Retry accept lần đầu bằng cùng key/body trả call1/version 2; không gọi số lần nữa. Các mẫu TypeScript hợp lệ/không hợp lệ được biên dịch trong `tests/contracts/prd-v2.typecheck.ts`.
+
+```json
+{"title":"activeVisitExists","status":409,"detail":"Bệnh nhân đã có lượt khám đang hoạt động.","existingVisitId":"v1","traceId":"trace1"}
+```
+
+```json
+{"title":"clinicBusy","status":409,"detail":"Phòng đang có bệnh nhân được khám.","traceId":"trace2"}
+```
+
+Ca review bắt buộc cho API/UI: hai tab nhận A/B chỉ một thành công; A đi dịch vụ nhả phòng; A về không chiếm ca B; nhận lại tạo call mới giữ phiếu; chưa nhận lại không chỉ định tiếp; stale preview không công bố; cả Final/NoPaymentRequired chặn quyết toán sớm; replay không tạo bản ghi trùng. PB-001 kiểm chứng hợp đồng bằng typecheck, không tuyên bố đã kiểm thử endpoint/race chưa tồn tại.
+
+### DTO bổ trợ và cách triển khai từng phần
+
+PB-017/018/019 dùng DescriptionTranslationV2: original/sourceLanguage/sourceVersion/targetLanguage luôn rõ; Translated có bản dịch, NotRequired cho vi→vi không giả bản dịch, Unavailable giữ bản gốc và fallback=true. Chỉ dịch khi Reception có quyền mở detail; không dịch submit/list. Cache phân biệt loại hồ sơ/ID/version hoặc hash/nguồn/đích, kiểm tra quyền trước cache. Nội dung lịch sử ko/ru vẫn đọc được, input mới dùng LocaleV2. Đường dịch nội dung bệnh viện Việt→ngôn ngữ bệnh nhân giữ hợp đồng riêng.
+
+PB-028/029: POST `/api/v2/presence/heartbeat` không body/version/key, lấy session và giờ server, trả PresenceHeartbeatV2; gọi lại chỉ cập nhật hiện diện, không qua khóa nghiệp vụ. GET `/api/v2/admin/presence` chỉ Admin, trả OnlinePresenceV2 để thêm vào Dashboard đang có. Mặc định heartbeat foreground 15 giây, TTL 60 giây, Dashboard 5 giây. Account tính theo UserAccountId qua nhiều phiên, Guest theo session; loại revoked/expired/logout/quá TTL, total=accounts+guests. Không nhận userId/role client, không suy online từ expiresAt hoặc gộp Guest/Account.
+
+PB-001 chỉ thêm type/tài liệu. Task tiếp theo dùng namespace `/api/v2`, cấu hình server dự kiến `Workflow:PrdV2Enabled=false`; route đã có nhưng chưa bật trả workflowNotEnabled, UI không hiện nửa luồng. Chỉ bật môi trường dùng chung sau PB-030/031 và API/web/mobile đồng bộ; các task trước đó kiểm thử trên database riêng. Discriminator prd-v2 không cho ép response legacy vào DTO mới.
+
+Trước cutover phải xử lý dữ liệu cũ, constraints và chặn đường legacy phá quy tắc v2: progress/queue tổng quát, sửa/hủy/skip order, publish độc lập, quyết toán sớm, pharmacy/complete-guidance trả legacyCommandDisabled hoặc đi qua đúng guard mới. Deep link/redeem cũ chỉ mở hồ sơ sau kiểm tra quyền, không kích hoạt/chuyển trạng thái. Link-claim/convert ngừng theo PB-003, giữ Guest recovery. Không xóa lịch sử, đổi số phiếu cũ hoặc suy Completed từ SummaryVersion/bước khám cũ. OpenAPI cập nhật khi endpoint thật được triển khai.
