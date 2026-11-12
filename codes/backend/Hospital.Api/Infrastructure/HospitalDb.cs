@@ -53,6 +53,16 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
         m.Entity<AssistanceRequest>().Property(x => x.SourceLanguage).HasMaxLength(10);
         m.Entity<RegistrationRequest>().ToTable(t => t.HasCheckConstraint("CK_Request_SourceLanguage", "[SourceLanguage] IS NULL OR [SourceLanguage] IN ('vi','en','zh','ja')"));
         m.Entity<AssistanceRequest>().ToTable(t => t.HasCheckConstraint("CK_Assistance_SourceLanguage", "[SourceLanguage] IS NULL OR [SourceLanguage] IN ('vi','en','zh','ja')"));
+        m.Entity<TicketDailyCounter>().ToTable("TicketDailyCounters", t =>
+            t.HasCheckConstraint("CK_TicketDailyCounter_LastNumber", "[LastNumber] > 0"));
+        m.Entity<TicketDailyCounter>().HasIndex(x => new { x.ClinicLocationId, x.IssuedOn }).IsUnique();
+        Fk<TicketDailyCounter, Location>(m, "ClinicLocationId");
+        Fk<ExaminationTicket, Location>(m, "ClinicLocationId");
+        m.Entity<ExaminationTicket>().HasIndex(x => new { x.ClinicLocationId, x.IssuedOn, x.SequenceNumber })
+            .IsUnique().HasDatabaseName("UX_Ticket_ClinicDateSequence")
+            .HasFilter("[ClinicLocationId] IS NOT NULL AND [IssuedOn] IS NOT NULL AND [SequenceNumber] IS NOT NULL");
+        m.Entity<ExaminationTicket>().ToTable(t => t.HasCheckConstraint("CK_Ticket_NumberFields",
+            "([ClinicLocationId] IS NULL AND [IssuedOn] IS NULL AND [SequenceNumber] IS NULL) OR ([ClinicLocationId] IS NOT NULL AND [IssuedOn] IS NOT NULL AND [SequenceNumber] IS NOT NULL AND [SequenceNumber] > 0)"));
         m.Entity<ExaminationTicket>().Property(x => x.SnapshotSource).HasMaxLength(20).HasDefaultValue("LegacyMissing");
         foreach (var property in new[] { "PatientSnapshot", "ClinicSnapshot", "DoctorSnapshot" })
             m.Entity<ExaminationTicket>().Property<string?>(property).HasColumnType("nvarchar(max)").Metadata.SetMaxLength(null);

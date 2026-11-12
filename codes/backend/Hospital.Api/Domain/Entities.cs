@@ -152,12 +152,22 @@ public class PatientJourney : Entity
 }
 public class ExaminationTicket : Entity
 {
+    // Null together for historical tickets; never infer numbers from legacy H- IDs.
+    public Guid? ClinicLocationId { get; set; }
+    public DateOnly? IssuedOn { get; set; }
+    public int? SequenceNumber { get; set; }
     public string SnapshotSource { get; set; } = "LegacyMissing";
     public string? PatientSnapshot { get; set; }
     public string? ClinicSnapshot { get; set; }
     public string? DoctorSnapshot { get; set; }
     public Guid VisitId { get; set; }
     public string Number { get; set; } = "";
+}
+public class TicketDailyCounter : Entity
+{
+    public Guid ClinicLocationId { get; set; }
+    public DateOnly IssuedOn { get; set; }
+    public int LastNumber { get; set; }
 }
 public class QrCode : Entity
 {

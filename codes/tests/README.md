@@ -1,5 +1,10 @@
 # Kiểm thử
 
+PB-007: đặt `PB007_SQL_CONNECTION` tới SQL local rồi chạy
+`dotnet run --project tests/ticket-number/TicketNumber.Tests.csproj -c Release`.
+Bộ test tự tạo database mới, kiểm tra concurrent/room/day/retry và migration;
+xem [hướng dẫn cấp số phiếu](../docs/requirements/PB-007-TICKET-NUMBER.md).
+
 PB-006 có [API, browser và migration tests riêng](../docs/requirements/PB-006-REGISTRATION.md#kiểm-thử).
 Luồng V2 mặc định tắt; dùng database riêng và config `playwright.registration.config.ts`
 để kiểm thử khi bật. Migration test tạo fixture mới, không dùng database demo.

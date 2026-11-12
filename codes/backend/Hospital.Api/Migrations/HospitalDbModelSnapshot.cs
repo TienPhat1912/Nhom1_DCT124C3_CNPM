@@ -405,6 +405,9 @@ namespace Hospital.Api.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ClinicLocationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ClinicSnapshot")
                         .HasColumnType("nvarchar(max)");
 
@@ -414,6 +417,9 @@ namespace Hospital.Api.Migrations
                     b.Property<string>("DoctorSnapshot")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateOnly?>("IssuedOn")
+                        .HasColumnType("date");
+
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -421,6 +427,9 @@ namespace Hospital.Api.Migrations
 
                     b.Property<string>("PatientSnapshot")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SequenceNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("SnapshotSource")
                         .IsRequired()
@@ -441,8 +450,15 @@ namespace Hospital.Api.Migrations
                     b.HasIndex("VisitId")
                         .IsUnique();
 
+                    b.HasIndex("ClinicLocationId", "IssuedOn", "SequenceNumber")
+                        .IsUnique()
+                        .HasDatabaseName("UX_Ticket_ClinicDateSequence")
+                        .HasFilter("[ClinicLocationId] IS NOT NULL AND [IssuedOn] IS NOT NULL AND [SequenceNumber] IS NOT NULL");
+
                     b.ToTable("ExaminationTicket", t =>
                         {
+                            t.HasCheckConstraint("CK_Ticket_NumberFields", "([ClinicLocationId] IS NULL AND [IssuedOn] IS NULL AND [SequenceNumber] IS NULL) OR ([ClinicLocationId] IS NOT NULL AND [IssuedOn] IS NOT NULL AND [SequenceNumber] IS NOT NULL AND [SequenceNumber] > 0)");
+
                             t.HasCheckConstraint("CK_Ticket_SnapshotSource", "[SnapshotSource] IN ('LegacyMissing','Captured')");
 
                             t.HasCheckConstraint("CK_Ticket_Snapshots", "([SnapshotSource] = 'LegacyMissing' AND [PatientSnapshot] IS NULL AND [ClinicSnapshot] IS NULL AND [DoctorSnapshot] IS NULL) OR ([SnapshotSource] = 'Captured' AND [PatientSnapshot] IS NOT NULL AND [ClinicSnapshot] IS NOT NULL AND [DoctorSnapshot] IS NOT NULL AND ISJSON([PatientSnapshot]) = 1 AND LEFT(LTRIM(REPLACE(REPLACE(REPLACE([PatientSnapshot], CHAR(9), ''), CHAR(10), ''), CHAR(13), '')), 1) = '{' AND ISJSON([ClinicSnapshot]) = 1 AND LEFT(LTRIM(REPLACE(REPLACE(REPLACE([ClinicSnapshot], CHAR(9), ''), CHAR(10), ''), CHAR(13), '')), 1) = '{' AND ISJSON([DoctorSnapshot]) = 1 AND LEFT(LTRIM(REPLACE(REPLACE(REPLACE([DoctorSnapshot], CHAR(9), ''), CHAR(10), ''), CHAR(13), '')), 1) = '{')");
@@ -1404,6 +1420,38 @@ namespace Hospital.Api.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Hospital.Api.Domain.TicketDailyCounter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClinicLocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateOnly>("IssuedOn")
+                        .HasColumnType("date");
+
+                    b.Property<int>("LastNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicLocationId", "IssuedOn")
+                        .IsUnique();
+
+                    b.ToTable("TicketDailyCounters", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_TicketDailyCounter_LastNumber", "[LastNumber] > 0");
+                        });
+                });
+
             modelBuilder.Entity("Hospital.Api.Domain.UserAccount", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1705,6 +1753,11 @@ namespace Hospital.Api.Migrations
 
             modelBuilder.Entity("Hospital.Api.Domain.ExaminationTicket", b =>
                 {
+                    b.HasOne("Hospital.Api.Domain.Location", null)
+                        .WithMany()
+                        .HasForeignKey("ClinicLocationId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Hospital.Api.Domain.Visit", null)
                         .WithOne("Ticket")
                         .HasForeignKey("Hospital.Api.Domain.ExaminationTicket", "VisitId")
@@ -2004,6 +2057,15 @@ namespace Hospital.Api.Migrations
                     b.HasOne("Hospital.Api.Domain.Visit", null)
                         .WithMany()
                         .HasForeignKey("VisitId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Hospital.Api.Domain.TicketDailyCounter", b =>
+                {
+                    b.HasOne("Hospital.Api.Domain.Location", null)
+                        .WithMany()
+                        .HasForeignKey("ClinicLocationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
