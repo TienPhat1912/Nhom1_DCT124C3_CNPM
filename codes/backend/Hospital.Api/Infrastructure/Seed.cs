@@ -44,6 +44,12 @@ public static class Seed
             var u = new UserAccount { Email = key + "@demo.local", Role = role, Name = name, PatientId = role == "Patient" ? patient.Id : null };
             u.PasswordHash = new PasswordHasher<UserAccount>().HashPassword(u, password);
             foreach (var dep in scopes) u.Scopes.Add(new StaffScope { UserAccountId = u.Id, DepartmentId = dep }); db.Add(u);
+            // Explicit demo-only assignment, never a roster-derived production backfill.
+            if (role == "Doctor") {
+                var location = key == "doctor" ? locations[0] : locations[6];
+                db.Add(new ClinicDoctor { DoctorId = u.Id, ClinicLocationId = location.Id });
+                db.Add(new ClinicRoom { ClinicLocationId = location.Id, ActiveDoctorId = u.Id });
+            }
         }
         var texts = new (string Key, string Vi, string En)[] {
             ("consultation", "Đến phòng khám được ghi trên phiếu. Theo dõi số thứ tự và chờ nhân viên gọi.", "Go to the consultation room on your ticket. Check your queue number and wait to be called."),

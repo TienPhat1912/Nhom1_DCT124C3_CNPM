@@ -23,7 +23,7 @@ function Find-SqlTool([string]$Name) {
 }
 $names = @('ACCEPTANCE_DB', 'ConnectionStrings__Hospital', 'DEMO_PASSWORD', 'Demo__Enabled', 'Demo__Password',
     'ASPNETCORE_ENVIRONMENT', 'ASPNETCORE_URLS', 'Web__Origin', 'API_URL', 'WEB_URL', 'SQL_TEST_SERVER', 'SQLCMD_PATH',
-    'Providers__FailureMode', 'Providers__TimeoutSeconds', 'PROVIDER_FAILURE', 'EXPECTED_COMMIT')
+    'Providers__FailureMode', 'Providers__TimeoutSeconds', 'PROVIDER_FAILURE', 'EXPECTED_COMMIT', 'PB004_SQL_SERVER')
 $previous = @{}
 foreach ($name in $names) { $previous[$name] = [Environment]::GetEnvironmentVariable($name, 'Process') }
 $apiProcess = $null
@@ -38,6 +38,7 @@ try {
         $SqlServer = "(localdb)\$instance"
     }
     $env:SQL_TEST_SERVER = $SqlServer
+    $env:PB004_SQL_SERVER = $SqlServer
     $env:ACCEPTANCE_DB = 'HospitalAcceptance_' + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
     $env:ConnectionStrings__Hospital = "Server=$SqlServer;Database=$($env:ACCEPTANCE_DB);Integrated Security=true;TrustServerCertificate=true"
     $env:DEMO_PASSWORD = 'Demo' + [Guid]::NewGuid().ToString('N') + 'A1'
@@ -82,6 +83,7 @@ try {
     Invoke-Checked 'node' @('scripts/deploy/smoke.mjs')
     Invoke-Checked 'node' @('--test', '--test-concurrency=1', 'tests/api/api.test.mjs')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/translation/Translation.Tests.csproj', '--', '--migration')
+    Invoke-Checked 'dotnet' @('run', '--project', 'tests/core-schema/CoreSchema.Tests.csproj', '--configuration', 'Release')
     Invoke-Checked 'node' @('tests/api/performance.mjs')
     # API/load checks and browsers share the loopback IP's 120/minute auth quota.
     # Give browsers a fresh limiter while retaining the same release and database;

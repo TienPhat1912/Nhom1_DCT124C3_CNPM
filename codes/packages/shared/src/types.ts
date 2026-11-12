@@ -357,6 +357,14 @@ export type ApiProblem = {
 // PB-001 target wire contracts. Existing DTOs above remain the legacy format.
 // No endpoint or workflow is enabled by these types; see docs/architecture/API.md.
 export type ExamStatus = "Waiting" | "InConsultation" | "InService" | "Completed";
+/** PB-004 storage/readiness only; not a replacement for the non-null PRD-v2 wire DTO. */
+export type CoreVisitMigrationState = {
+  clinicLocationId: string | null;
+  examStatus: ExamStatus | null;
+  consultationCount: number | null;
+  examinationCompletedAt: string | null;
+};
+export type TicketSnapshotSource = "LegacyMissing" | "Captured";
 export type LocaleV2 = "vi" | "en" | "zh" | "ja";
 export type DoctorSnapshotV2 = { id: string; name: string };
 export type ClinicSnapshotV2 = Destination & { departmentId: string };
