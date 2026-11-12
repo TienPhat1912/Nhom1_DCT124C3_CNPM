@@ -69,7 +69,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnonymousTypeOfstringAndstringAndbooleanAndListOfDepartmentAndListOfLocationAndListOfHospitalServiceAndAnonymousTypeOfintAndintAndintAndintAndintAndintAndintAndstringAndstring"
+                  "$ref": "#/components/schemas/AnonymousTypeOfbooleanAndstringAndstringAndbooleanAndListOfDepartmentAndListOfLocationAndListOfHospitalServiceAndAnonymousTypeOfintAndintAndintAndintAndintAndintAndintAndstringAndstring"
                 }
               }
             }
@@ -394,7 +394,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AnonymousTypeOfGuidAndstringAndstringAndintAndGuidAndGuidAndDateTime"
+                    "$ref": "#/components/schemas/AnonymousTypeOfGuidAndstringAndstringAndintAndGuidAndGuidAndDateTimeAndstring"
                   }
                 }
               }
@@ -2063,6 +2063,141 @@
                   "items": {
                     "$ref": "#/components/schemas/AuditEvent"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/requests": {
+      "get": {
+        "tags": [
+          "Registration v2"
+        ],
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RegistrationViewV2"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Registration v2"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationViewV2"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/requests/{id}": {
+      "get": {
+        "tags": [
+          "Registration v2"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationViewV2"
                 }
               }
             }
@@ -4982,7 +5117,238 @@
             ]
           }
         }
-      }
+      },
+      "AnonymousTypeOfbooleanAndstringAndstringAndbooleanAndListOfDepartmentAndListOfLocationAndListOfHospitalServiceAndAnonymousTypeOfintAndintAndintAndintAndintAndintAndintAndstringAndstring": {
+        "required": [
+          "prdV2Enabled",
+          "name",
+          "catalogVersion",
+          "demo",
+          "departments",
+          "locations",
+          "services",
+          "form",
+          "guestHours",
+          "pollSeconds",
+          "emergencyVi",
+          "emergencyEn"
+        ],
+        "type": "object",
+        "properties": {
+          "prdV2Enabled": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "catalogVersion": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "demo": {
+            "type": "boolean"
+          },
+          "departments": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/Department"
+            }
+          },
+          "locations": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/Location"
+            }
+          },
+          "services": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/HospitalService"
+            }
+          },
+          "form": {
+            "$ref": "#/components/schemas/AnonymousTypeOfintAndintAndintAndintAndint"
+          },
+          "guestHours": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "pollSeconds": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "emergencyVi": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "emergencyEn": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
+      "AnonymousTypeOfGuidAndstringAndstringAndintAndGuidAndGuidAndDateTimeAndstring": {
+        "required": [
+          "id",
+          "name",
+          "status",
+          "version",
+          "departmentId",
+          "appointmentId",
+          "createdAt",
+          "sourceLanguage"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "version": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "departmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "appointmentId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sourceLanguage": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
+      "RegistrationViewV2": {
+        "required": [
+          "id",
+          "version",
+          "createdAt",
+          "contractVersion",
+          "patientName",
+          "contact",
+          "preferredDepartmentId",
+          "description",
+          "sourceLanguage",
+          "status",
+          "departmentId",
+          "visitId",
+          "canConfirm"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contractVersion": {
+            "type": "string"
+          },
+          "patientName": {
+            "type": "string"
+          },
+          "contact": {
+            "type": "string"
+          },
+          "preferredDepartmentId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
+          },
+          "description": {
+            "type": "string"
+          },
+          "sourceLanguage": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "departmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "visitId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
+          },
+          "canConfirm": {
+            "type": "boolean"
+          }
+        }
+      },
+      "JsonElement": {}
     }
   }
 }

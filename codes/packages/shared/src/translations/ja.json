@@ -337,5 +337,15 @@
   "machineTranslation": "システムによる翻訳です。ベトナム語の原文を確認できます。",
   "vietnameseSource": "ベトナム語で入力してください。患者が選んだ言語に翻訳されます。",
   "guestLabel": "ゲスト",
-  "or": "または"
+  "or": "または",
+  "preferredDepartment": "希望診療科（任意）",
+  "noPreference": "特に希望なし",
+  "descriptionLanguage": "説明の言語",
+  "legacyRecords": "以前の受付記録",
+  "continueRequest": "既存の申請を開く",
+  "continueVisit": "現在の受診を開く",
+  "receptionAwaitingConfirmation": "申請を送信しました。受付の確認をお待ちください。",
+  "pendingRequestExists": "受付待ちの申請があります。",
+  "activeVisitExists": "終了していない受診があります。",
+  "completeProfile": "申請前にプロフィールに氏名を入力してください。"
 }

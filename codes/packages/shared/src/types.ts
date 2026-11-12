@@ -45,6 +45,7 @@ export type HospitalService = Entity & {
   returnRequired: boolean;
 };
 export type Configuration = {
+  prdV2Enabled?: boolean;
   catalogVersion?: string;
   name: string;
   demo: boolean;
@@ -552,6 +553,7 @@ export type ApiProblemV2 = Omit<ApiProblem, "title"> & {
   title: BusinessErrorCodeV2;
   /** Include only IDs the authenticated reader may access. */
   existingRequestId?: string;
+  existingRequestContract?: "legacy" | "prd-v2";
   existingVisitId?: string;
   currentVersion?: number;
 };

@@ -8,8 +8,9 @@ export function fixtureSql(query) {
     // Never take this endpoint from the production connection string.
     const server = process.env.SQL_TEST_SERVER;
     assert.match(server, /^(\(localdb\)\\[\w-]+|\.\\[\w-]+)$/, 'Native fixtures require a local SQL instance');
-    return execFileSync(process.env.SQLCMD_PATH || 'sqlcmd', ['-S', server, '-E', '-C', '-d', database, '-Q', query, '-b', '-l', '15'], { encoding: 'utf8' });
+    return execFileSync(process.env.SQLCMD_PATH || 'sqlcmd', ['-I', '-S', server, '-E', '-C', '-d', database, '-Q', query, '-b', '-l', '15'], { encoding: 'utf8' });
   }
   const prefix = process.env.SQL_CONTAINER_NAME ? ['exec', '-i', process.env.SQL_CONTAINER_NAME] : ['compose', 'exec', '-T', 'sql'];
-  return execFileSync('docker', [...prefix, 'sh', '-c', 'exec /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -C -d "$1" -Q "$2" -b', 'fixture', database, query], { encoding: 'utf8' });
+  // Filtered indexes require QUOTED_IDENTIFIER ON even for fixture UPDATEs.
+  return execFileSync('docker', [...prefix, 'sh', '-c', 'exec /opt/mssql-tools18/bin/sqlcmd -I -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -C -d "$1" -Q "$2" -b', 'fixture', database, query], { encoding: 'utf8' });
 }

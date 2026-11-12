@@ -28,7 +28,7 @@ public static class ReceptionEndpoints
             var s = await access.Current(); var q = db.Requests.AsQueryable();
             if (s.PatientId is {} p) q = q.Where(r => r.PatientId == p && (!s.IsGuest || r.SessionId == s.Id));
             else { var u = await access.Staff("Reception"); var deps = u.Scopes.Select(sc => sc.DepartmentId); q = q.Where(r => deps.Contains(r.DepartmentId)); }
-            return await q.OrderByDescending(r => r.CreatedAt).ThenBy(r => r.Id).Skip(offset ?? 0).Take(limit ?? 100).Select(r => new { r.Id, r.Name, r.Status, r.Version, r.DepartmentId, r.AppointmentId, r.CreatedAt }).ToListAsync();
+            return await q.OrderByDescending(r => r.CreatedAt).ThenBy(r => r.Id).Skip(offset ?? 0).Take(limit ?? 100).Select(r => new { r.Id, r.Name, r.Status, r.Version, r.DepartmentId, r.AppointmentId, r.CreatedAt, r.SourceLanguage }).ToListAsync();
         });
         g.MapGet("/requests/{id:guid}", async (Guid id, Access access, HospitalDb db, QrService qr) => {
             var r = await access.Request(id); var code = await qr.Current("Reception", id);
@@ -40,6 +40,7 @@ public static class ReceptionEndpoints
         g.MapPost("/requests", async (RequestInput input, Access access, HospitalDb db, CommandBus bus, QrService qr) => {
             var s = await access.Patient();
             return await bus.Run($"{s.Id}:request", input, async () => {
+                await RegistrationV2Endpoints.BlockLegacyCreate(db, s);
                 if (s.IsGuest) Check.That(!await db.Requests.AnyAsync(r => r.SessionId == s.Id && r.Status != "Withdrawn"), "requestExists", "Resume the existing guest request.", 409);
                 var p = await db.Patients.SingleAsync(p => p.Id == s.PatientId);
                 var r = new RegistrationRequest { PatientId = p.Id, SessionId = s.Id };
@@ -52,6 +53,7 @@ public static class ReceptionEndpoints
             var s = await access.Patient();
             return await bus.Run($"{s.Id}:supplement:{id}", input, async () => {
                 var r = await access.Request(id); Check.Version(r, input.Information.Version);
+                Check.That(r.SourceLanguage == null, "legacyCommandDisabled", "Use the current reception workflow.", 410);
                 Check.That(r.Status is "Submitted" or "NeedsInformation", "requestLocked", "This request can no longer be edited.", 409);
                 await Apply(input.Information, r, db); r.Status = "Submitted";
                 if (input.MessageId is {} mid) { var message = r.Messages.SingleOrDefault(m => m.Id == mid); Check.That(message is not null, "validation", "Unknown message."); message!.Response = Check.Text(input.Response, "response"); }
@@ -74,6 +76,7 @@ public static class ReceptionEndpoints
         g.MapPost("/requests/{id:guid}/message", async (Guid id, MessageInput input, Access access, HospitalDb db, CommandBus bus) => {
             var u = await access.Staff("Reception"); return await bus.Run($"{u.Id}:message:{id}", input, async () => {
                 var r = await access.Request(id); Check.Version(r, input.Version); Check.That(r.Status != "Confirmed" && r.Status != "Withdrawn", "requestLocked", "Request is closed.", 409);
+                Check.That(r.SourceLanguage == null, "legacyCommandDisabled", "Supplement messages are not supported for this workflow.", 410);
                 var selected = await db.Set<GuidanceTemplate>().SingleOrDefaultAsync(t => t.Id == input.TemplateId && t.Category == "Reception" && t.Published);
                 Check.That(selected is not null, "templateUnavailable", "An approved reception template is required.");
                 var variants = await db.Set<GuidanceTemplate>().Where(t => t.Key == selected!.Key && t.Published).OrderByDescending(t => t.Revision).ToListAsync();
@@ -85,6 +88,7 @@ public static class ReceptionEndpoints
         g.MapPost("/requests/{id:guid}/confirm", async (Guid id, ConfirmInput input, Access access, HospitalDb db, CommandBus bus, QrService qr, Workflow workflow) => {
             var u = await access.Staff("Reception"); return await bus.Run($"{u.Id}:confirm:{id}", input, async () => {
                 var r = await access.Request(id);
+                Check.That(r.SourceLanguage == null, "legacyCommandDisabled", "V2 confirmation is not yet available.", 410);
                 var existing = await db.Set<ReceptionRecord>().SingleOrDefaultAsync(rec => rec.RegistrationRequestId == id);
                 if (existing is not null) return new { visitId = await db.Visits.Where(v => v.ReceptionRecordId == existing.Id).Select(v => v.Id).SingleAsync() };
                 Check.Version(r, input.Version); Check.That(r.Status == "Submitted", "notReady", "Resolve missing information before confirming reception.", 409);
@@ -176,6 +180,7 @@ public static class ReceptionEndpoints
             var u = await access.Staff("Reception"); VerifyAttendee(new(input.AttendeeVerified, input.VerificationNote)); var booking = await provider.Lookup(input.Reference, ct);
             return await bus.Run($"{u.Id}:verifyBooking:{id}", input, async () => {
                 var r = await access.Request(id); Check.That(r.Status != "Confirmed" && r.Status != "Withdrawn", "requestLocked", "Request is closed.", 409);
+                Check.That(r.SourceLanguage == null, "legacyCommandDisabled", "Booking is not supported for this workflow.", 410);
                 var old = await db.Set<Appointment>().SingleOrDefaultAsync(a => a.Reference == booking.Reference && a.Provider == "Simulation");
                 Check.That(old is null || old.PatientId == r.PatientId, "bookingMismatch", "Booking already belongs to another patient.", 409);
                 var linked = await db.Set<ExternalIdentity>().SingleOrDefaultAsync(e => e.Reference == booking.IdentityReference && e.Provider == "Simulation");
@@ -189,6 +194,7 @@ public static class ReceptionEndpoints
     }
     static async Task<object> PrepareBooking(HospitalDb db, QrService qr, Session s, Booking b)
     {
+        await RegistrationV2Endpoints.BlockLegacyCreate(db, s);
         Check.That(b.Status == "Confirmed", "bookingInvalid", "Booking is not confirmed.");
         var dep = await db.Set<Department>().SingleAsync(d => d.Code == b.DepartmentCode);
         var a = await db.Set<Appointment>().SingleOrDefaultAsync(a => a.Provider == "Simulation" && a.Reference == b.Reference);

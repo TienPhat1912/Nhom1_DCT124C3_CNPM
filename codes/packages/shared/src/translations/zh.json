@@ -337,5 +337,15 @@
   "machineTranslation": "此内容由系统翻译，可查看越南语原文。",
   "vietnameseSource": "请用越南语输入。系统将按患者所选语言翻译。",
   "guestLabel": "访客",
-  "or": "或"
+  "or": "或",
+  "preferredDepartment": "意向科室（可选）",
+  "noPreference": "无特定意向",
+  "descriptionLanguage": "描述语言",
+  "legacyRecords": "以往接诊记录",
+  "continueRequest": "打开现有申请",
+  "continueVisit": "打开现有就诊",
+  "receptionAwaitingConfirmation": "申请已提交，请等待接诊人员确认。",
+  "pendingRequestExists": "您已有待接诊申请。",
+  "activeVisitExists": "您已有未结束的就诊。",
+  "completeProfile": "提交申请前，请在个人资料中填写姓名。"
 }

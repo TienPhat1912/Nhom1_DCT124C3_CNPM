@@ -418,7 +418,7 @@ function Workspace() {
                 </>
               )}
               {page === "reception" && (
-                <PatientReception onVisit={selectVisit} />
+                <PatientReception onVisit={selectVisit} onProfile={() => setPage("profile")} />
               )}
               {page === "journey" && (
                 <PatientJourney

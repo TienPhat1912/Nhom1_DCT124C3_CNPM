@@ -6,6 +6,16 @@ import ru from "./translations/ru.json" with { type: "json" };
 
 export const messages = {
   vi: {
+    preferredDepartment: "Khoa mong muốn (không bắt buộc)",
+    noPreference: "Không có nguyện vọng cụ thể",
+    descriptionLanguage: "Ngôn ngữ của mô tả",
+    legacyRecords: "Hồ sơ tiếp nhận trước đây",
+    continueRequest: "Mở yêu cầu hiện có",
+    continueVisit: "Mở lượt khám hiện có",
+    receptionAwaitingConfirmation: "Đã gửi yêu cầu. Vui lòng chờ nhân viên tiếp nhận xác nhận.",
+    pendingRequestExists: "Bạn đang có yêu cầu chờ tiếp nhận.",
+    activeVisitExists: "Bạn đang có lượt khám chưa kết thúc.",
+    completeProfile: "Vui lòng bổ sung họ tên trong hồ sơ cá nhân trước khi gửi yêu cầu.",
     menu: "Danh mục",
     sourceLanguageRequired:
       "Nội dung bệnh viện phải được nhập bằng tiếng Việt.",
@@ -381,6 +391,16 @@ export const messages = {
     appOpen: "Mở ứng dụng trên điện thoại",
   },
   en: {
+    preferredDepartment: "Preferred department (optional)",
+    noPreference: "No specific preference",
+    descriptionLanguage: "Description language",
+    legacyRecords: "Previous reception records",
+    continueRequest: "Open existing request",
+    continueVisit: "Open existing Visit",
+    receptionAwaitingConfirmation: "Request submitted. Please wait for reception confirmation.",
+    pendingRequestExists: "You already have a pending reception request.",
+    activeVisitExists: "You already have an active Visit.",
+    completeProfile: "Please add your full name in your profile before submitting a request.",
     menu: "Menu",
     sourceLanguageRequired: "Enter hospital content in Vietnamese.",
     languageUnsupported: "Choose a supported language.",
