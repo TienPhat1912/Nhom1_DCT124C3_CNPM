@@ -43,13 +43,6 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
             t.HasCheckConstraint("CK_Visit_ExaminationCompletedAt", "[ExaminationCompletedAt] IS NULL OR ([ExamStatus] IS NOT NULL AND [ExamStatus] = 'Completed')");
         });
         m.Entity<RegistrationRequest>().Property(x => x.SourceLanguage).HasMaxLength(10);
-        // Legacy conflicts remain auditable; enforce uniqueness for the new workflow only.
-        m.Entity<RegistrationRequest>().HasIndex(x => x.PatientId).IsUnique()
-            .HasDatabaseName("UX_Requests_V2PendingPatient")
-            .HasFilter("[SourceLanguage] IS NOT NULL AND [Status] = 'Submitted'");
-        m.Entity<Visit>().HasIndex(x => x.PatientId).IsUnique()
-            .HasDatabaseName("UX_Visits_V2ActivePatient")
-            .HasFilter("[ExamStatus] IS NOT NULL AND [Status] = 'Active'");
         m.Entity<AssistanceRequest>().Property(x => x.SourceLanguage).HasMaxLength(10);
         m.Entity<RegistrationRequest>().ToTable(t => t.HasCheckConstraint("CK_Request_SourceLanguage", "[SourceLanguage] IS NULL OR [SourceLanguage] IN ('vi','en','zh','ja')"));
         m.Entity<AssistanceRequest>().ToTable(t => t.HasCheckConstraint("CK_Assistance_SourceLanguage", "[SourceLanguage] IS NULL OR [SourceLanguage] IN ('vi','en','zh','ja')"));

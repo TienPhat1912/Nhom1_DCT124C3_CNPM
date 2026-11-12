@@ -1,9 +1,5 @@
 # Kiểm thử
 
-PB-006 có [API, browser và migration tests riêng](../docs/requirements/PB-006-REGISTRATION.md#kiểm-thử).
-Luồng V2 mặc định tắt; dùng database riêng và config `playwright.registration.config.ts`
-để kiểm thử khi bật. Migration test tạo fixture mới, không dùng database demo.
-
 PB-004: `dotnet run --project tests/core-schema/CoreSchema.Tests.csproj -c Release`
 sau khi đặt `$env:PB004_SQL_SERVER='localhost'` (hoặc một instance LocalDB).
 Bộ test tạo database `HospitalPB004_*` mới, giữ lại để đối chiếu, không nhận database

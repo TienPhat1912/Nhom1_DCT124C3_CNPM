@@ -1,6 +1,6 @@
 # Hợp đồng API và bộ kết nối
 
-Các mục đầu mô tả API legacy đang chạy. Phần [PB-001: hợp đồng PRD v2](#pb-001-hợp-đồng-prd-v2) là hợp đồng đích; riêng nhóm yêu cầu tiếp nhận PB-006 đã có API/migration/OpenAPI và mặc định tắt. Các nhóm V2 khác chờ task tương ứng. Không dùng hành vi legacy để thay quy tắc v2.
+Các mục hiện có mô tả API legacy đang chạy. Phần [PB-001: hợp đồng PRD v2](#pb-001-hợp-đồng-prd-v2) cuối tài liệu là hợp đồng đích, chưa triển khai endpoint/migration và chưa có trong OpenAPI. Không dùng hành vi legacy để thay quy tắc v2.
 
 Tài liệu máy đọc: `/openapi/v1.json`, snapshot trong `docs/architecture/openapi.json`. C# request records nằm cạnh endpoint; DTO TypeScript dùng chung trong `packages/shared/src/types.ts`, API client trong `api.ts`. DTO phản hồi hiện được duy trì thủ công; acceptance kiểm tra các luồng sử dụng chúng. Không khẳng định có schema-codegen toàn bộ phản hồi anonymous C#.
 
@@ -89,10 +89,6 @@ Demo giữ dữ liệu cho tới khi người vận hành chủ động quản l
 DataProtection keys cần giữ bền vững cùng database để mở lại QR khi in. Compose lưu keys trong volume riêng. Backup cả SQL và key volume; không ghi private key/cookie/token vào artifacts dùng chia sẻ. API local dùng tài khoản SQL sa chỉ cho demo; production phải dùng tài khoản database riêng với quyền tối thiểu.
 
 ## PB-001: hợp đồng PRD v2
-
-PB-006 đã triển khai riêng nhóm yêu cầu tiếp nhận V2, mặc định tắt. Xem
-[phạm vi thực thi, lỗi, migration và kiểm thử PB-006](../requirements/PB-006-REGISTRATION.md).
-Các nhóm khám/xác nhận/quyết toán bên dưới vẫn là hợp đồng đích cho task tiếp theo.
 
 Nguồn: [kế hoạch mục 4/6/7](../../../prd_v2/PRD-REVISION-PLAN.md), [PRD chính thức](../../../prd_v2/document/prd%20chinh%20thuc.docx), [quyết định](DECISIONS.md#pb-001-đối-chiếu-prd-v2). DTO trong [types.ts](../../packages/shared/src/types.ts) dùng hậu tố V2, riêng `ExamStatus` là kiểu trạng thái khám. Không thay trường bắt buộc hoặc ý nghĩa của DTO legacy.
 
