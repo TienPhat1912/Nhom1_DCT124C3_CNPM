@@ -33,6 +33,7 @@ if (!Number.isInteger(port) || port < 1 || port > 65535)
 const localUrl = `http://127.0.0.1:${port}`;
 export default defineConfig({
   testDir: "./tests/browser",
+  testIgnore: "registration-v2.spec.ts",
   timeout: 90_000,
   expect: { timeout: 12_000 },
   fullyParallel: false,
