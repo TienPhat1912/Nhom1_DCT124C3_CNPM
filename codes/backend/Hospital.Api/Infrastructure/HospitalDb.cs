@@ -23,6 +23,36 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
                 e.Property(p.Name).HasMaxLength(p.Name is "Text" or "Instructions" or "Diagnosis" or "Explanation" or "Description" or "Requests" or "StepsJson" or "ResponseJson" or "DestinationSnapshot" or "Detail" ? 12000 : 500);
         }
         m.Entity<UserAccount>().HasIndex(x => x.Email).IsUnique();
+        // These uniqueness constraints apply only to NEW, initially empty tables.
+        m.Entity<ClinicDoctor>().HasIndex(x => x.DoctorId).IsUnique();
+        m.Entity<ClinicDoctor>().HasAlternateKey(x => new { x.ClinicLocationId, x.DoctorId });
+        m.Entity<ClinicRoom>().HasIndex(x => x.ClinicLocationId).IsUnique();
+        m.Entity<ClinicRoom>().HasOne<ClinicDoctor>().WithMany()
+            .HasForeignKey(x => new { x.ClinicLocationId, x.ActiveDoctorId })
+            .HasPrincipalKey(x => new { x.ClinicLocationId, x.DoctorId });
+        Fk<ClinicDoctor, UserAccount>(m, "DoctorId");
+        Fk<ClinicDoctor, Location>(m, "ClinicLocationId");
+        Fk<ClinicRoom, Location>(m, "ClinicLocationId");
+        Fk<Visit, Location>(m, "ClinicLocationId");
+        Fk<RegistrationRequest, Department>(m, "PreferredDepartmentId");
+        m.Entity<Visit>().Property(x => x.ExamStatus).HasMaxLength(20);
+        m.Entity<Visit>().HasIndex(x => new { x.ClinicLocationId, x.Status, x.ExamStatus });
+        m.Entity<Visit>().ToTable(t => {
+            t.HasCheckConstraint("CK_Visit_ExamStatus", "[ExamStatus] IS NULL OR [ExamStatus] IN ('Waiting','InConsultation','InService','Completed')");
+            t.HasCheckConstraint("CK_Visit_ConsultationCount", "[ConsultationCount] IS NULL OR [ConsultationCount] >= 0");
+            t.HasCheckConstraint("CK_Visit_ExaminationCompletedAt", "[ExaminationCompletedAt] IS NULL OR ([ExamStatus] IS NOT NULL AND [ExamStatus] = 'Completed')");
+        });
+        m.Entity<RegistrationRequest>().Property(x => x.SourceLanguage).HasMaxLength(10);
+        m.Entity<AssistanceRequest>().Property(x => x.SourceLanguage).HasMaxLength(10);
+        m.Entity<RegistrationRequest>().ToTable(t => t.HasCheckConstraint("CK_Request_SourceLanguage", "[SourceLanguage] IS NULL OR [SourceLanguage] IN ('vi','en','zh','ja')"));
+        m.Entity<AssistanceRequest>().ToTable(t => t.HasCheckConstraint("CK_Assistance_SourceLanguage", "[SourceLanguage] IS NULL OR [SourceLanguage] IN ('vi','en','zh','ja')"));
+        m.Entity<ExaminationTicket>().Property(x => x.SnapshotSource).HasMaxLength(20).HasDefaultValue("LegacyMissing");
+        foreach (var property in new[] { "PatientSnapshot", "ClinicSnapshot", "DoctorSnapshot" })
+            m.Entity<ExaminationTicket>().Property<string?>(property).HasColumnType("nvarchar(max)").Metadata.SetMaxLength(null);
+        m.Entity<ExaminationTicket>().ToTable(t => {
+            t.HasCheckConstraint("CK_Ticket_SnapshotSource", "[SnapshotSource] IN ('LegacyMissing','Captured')");
+            t.HasCheckConstraint("CK_Ticket_Snapshots", "([SnapshotSource] = 'LegacyMissing' AND [PatientSnapshot] IS NULL AND [ClinicSnapshot] IS NULL AND [DoctorSnapshot] IS NULL) OR ([SnapshotSource] = 'Captured' AND [PatientSnapshot] IS NOT NULL AND [ClinicSnapshot] IS NOT NULL AND [DoctorSnapshot] IS NOT NULL AND ISJSON([PatientSnapshot]) = 1 AND LEFT(LTRIM(REPLACE(REPLACE(REPLACE([PatientSnapshot], CHAR(9), ''), CHAR(10), ''), CHAR(13), '')), 1) = '{' AND ISJSON([ClinicSnapshot]) = 1 AND LEFT(LTRIM(REPLACE(REPLACE(REPLACE([ClinicSnapshot], CHAR(9), ''), CHAR(10), ''), CHAR(13), '')), 1) = '{' AND ISJSON([DoctorSnapshot]) = 1 AND LEFT(LTRIM(REPLACE(REPLACE(REPLACE([DoctorSnapshot], CHAR(9), ''), CHAR(10), ''), CHAR(13), '')), 1) = '{')");
+        });
         m.Entity<UserAccount>().Property(x => x.Email).HasMaxLength(254);
         m.Entity<UserAccount>().HasIndex(x => x.PatientId).IsUnique().HasFilter("[PatientId] IS NOT NULL");
         m.Entity<Session>().HasIndex(x => x.TokenHash).IsUnique();

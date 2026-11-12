@@ -28,6 +28,17 @@ public class StaffScope : Entity
     public Guid UserAccountId { get; set; }
     public Guid DepartmentId { get; set; }
 }
+// PB-004: new assignment tables start empty on legacy databases. Never infer duty from roster.
+public class ClinicDoctor : Entity
+{
+    public Guid DoctorId { get; set; }
+    public Guid ClinicLocationId { get; set; }
+}
+public class ClinicRoom : Entity
+{
+    public Guid ClinicLocationId { get; set; }
+    public Guid? ActiveDoctorId { get; set; }
+}
 public class Session : Entity
 {
     public string TokenHash { get; set; } = "";
@@ -77,6 +88,8 @@ public class Appointment : Entity
 }
 public class RegistrationRequest : Entity
 {
+    public string? SourceLanguage { get; set; }
+    public Guid? PreferredDepartmentId { get; set; }
     public Guid PatientId { get; set; }
     public Patient Patient { get; set; } = null!;
     public Guid SessionId { get; set; }
@@ -108,6 +121,11 @@ public class ReceptionRecord : Entity
 }
 public class Visit : Entity
 {
+    // Null means legacy/unverified, not Waiting or zero consultations.
+    public Guid? ClinicLocationId { get; set; }
+    public string? ExamStatus { get; set; }
+    public int? ConsultationCount { get; set; }
+    public DateTime? ExaminationCompletedAt { get; set; }
     public Guid PatientId { get; set; }
     public Patient Patient { get; set; } = null!;
     public Guid ReceptionRecordId { get; set; }
@@ -134,6 +152,10 @@ public class PatientJourney : Entity
 }
 public class ExaminationTicket : Entity
 {
+    public string SnapshotSource { get; set; } = "LegacyMissing";
+    public string? PatientSnapshot { get; set; }
+    public string? ClinicSnapshot { get; set; }
+    public string? DoctorSnapshot { get; set; }
     public Guid VisitId { get; set; }
     public string Number { get; set; } = "";
 }
@@ -263,6 +285,7 @@ public class FollowUpRecommendation : Entity
 }
 public class AssistanceRequest : Entity
 {
+    public string? SourceLanguage { get; set; }
     public Guid PatientId { get; set; }
     public Guid SessionId { get; set; }
     public Guid? RegistrationRequestId { get; set; }

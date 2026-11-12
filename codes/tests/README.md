@@ -1,5 +1,13 @@
 # Kiểm thử
 
+PB-004: `dotnet run --project tests/core-schema/CoreSchema.Tests.csproj -c Release`
+sau khi đặt `$env:PB004_SQL_SERVER='localhost'` (hoặc một instance LocalDB).
+Bộ test tạo database `HospitalPB004_*` mới, giữ lại để đối chiếu, không nhận database
+ứng dụng. Kiểm chứng schema mới/seed, nâng cấp fixture legacy trên schema thật,
+bảo toàn toàn bộ cột cũ bằng SHA-256, báo cáo chỉ đọc, FK/check constraints và
+downgrade có bảo vệ dữ liệu. Bộ test cũng chạy trong `scripts/test/ci-native.ps1`.
+Quy trình nâng cấp: [PB-004 core schema](../docs/requirements/PB-004-CORE-SCHEMA.md).
+
 CI web/API hiện chạy trên Windows với SQL Server LocalDB, không dùng Docker. Sau `npm ci` và `dotnet restore --locked-mode`, chạy `scripts/deploy/publish-azure.ps1` rồi `scripts/test/ci-native.ps1` để kiểm thử trực tiếp bản phát hành Azure. Script tạo database riêng; không sử dụng database online. Chi tiết cấu hình và kiểm tra CD: [Azure CI/CD](../docs/guides/AZURE_CD.md).
 
 | Thư mục | Phạm vi | Cách chạy từ thư mục gốc |
