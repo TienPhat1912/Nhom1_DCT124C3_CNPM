@@ -1,7 +1,7 @@
 import { test, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { fixtureSql } from './sql-fixture.mjs';
 
 const base = process.env.API_URL ?? 'http://127.0.0.1:5280';
@@ -170,28 +170,70 @@ test('draft privacy, Vietnamese source, translation fallback, correction and sta
   assert.equal((await visit(s.token, id)).status, 'Closed');
 });
 
-test('guest conversion failure/cancel/retry preserves identity and access; claim cannot replay', async () => {
-  const s = await guest(); const { visitId: id } = await attendance(s); const original = await visit(s.token, id);
-  const claim = await call(s.token, '/api/auth/link-claim', { returnVisitId: id });
-  await call(s.token, '/api/auth/convert', { claim: claim.claim, email: `${prefix}-linked@example.test`, password: 'short', register: true }, 'POST', randomUUID(), 422);
-  assert.equal((await visit(s.token, id)).journeyId, original.journeyId);
-  // Cancellation has no backend mutation; the same guest context remains valid.
-  const result = await call(s.token, '/api/auth/convert', { claim: claim.claim, email: `${prefix}-linked@example.test`, password, register: true });
-  assert.equal(result.session.patientId, s.patientId); assert.equal(result.returnVisitId, id);
-  assert.equal((await visit(result.session.token, id)).journeyId, original.journeyId);
-  await call(s.token, '/api/auth/convert', { claim: claim.claim, email: `${prefix}-linked@example.test`, password, register: false }, 'POST', randomUUID(), 401);
-  await call(s.token, `/api/visits/${id}`, undefined, 'GET', randomUUID(), 401);
+test('retired guest linking rejects old clients and live legacy claims without mutations', async () => {
+  const s = await guest(); const { visitId: id } = await attendance(s);
+  const existing = await account('link-disabled');
+  const claim = randomUUID(), hash = createHash('sha256').update(claim).digest('hex').toUpperCase();
+  fixtureSql(`INSERT INTO LinkClaim (Id,Version,CreatedAt,SessionId,Hash,ExpiresAt,Consumed,ReturnVisitId)
+    VALUES (NEWID(),1,SYSUTCDATETIME(),'${s.sessionId}','${hash}',DATEADD(minute,15,SYSUTCDATETIME()),0,'${id}');`);
+  const snapshot = () => fixtureSql('SET NOCOUNT ON; ' + ['LinkClaim', 'Users', 'Sessions', 'AccessGrant', 'Patients', 'AuditEvent', 'Visits']
+    .map(table => `SELECT COUNT_BIG(*),CHECKSUM_AGG(BINARY_CHECKSUM(*)) FROM ${table};`).join(' '));
+  const before = snapshot();
+  for (const token of [s.token, existing.token, null]) {
+    for (const body of [{ returnVisitId: id }, {}])
+      assert.equal((await call(token, '/api/auth/link-claim', body, 'POST', randomUUID(), 410)).title, 'guestLinkDisabled');
+    for (const register of [true, false]) {
+      const body = { claim, email: `${prefix}-link-disabled@example.test`, password, register };
+      assert.equal((await call(token, '/api/auth/convert', body, 'POST', randomUUID(), 410)).title, 'guestLinkDisabled');
+    }
+  }
+  assert.equal(snapshot(), before, 'Retired endpoints must not consume claims, create sessions, transfer grants or change ownership');
+  assert.equal((await call(s.token, '/api/auth/session')).patientId, s.patientId);
+  assert.equal((await visit(s.token, id)).id, id);
+  assert.deepEqual(await call(existing.token, '/api/visits'), []);
 });
 
-test('account linking refuses conflicting ownership and supports empty-account link', async () => {
-  const existing = await account('existing'); await attendance(existing);
-  const s = await guest(); const { visitId: id } = await attendance(s); const claim = await call(s.token, '/api/auth/link-claim', { returnVisitId: id });
-  await call(s.token, '/api/auth/convert', { claim: claim.claim, email: `${prefix}-existing@example.test`, password, register: false }, 'POST', randomUUID(), 409);
-  assert.ok(await visit(s.token, id));
-  const empty = await account('empty');
-  const linked = await call(s.token, '/api/auth/convert', { claim: claim.claim, email: `${prefix}-empty@example.test`, password, register: false });
-  assert.equal(linked.session.patientId, s.patientId);
-  await call(empty.token, '/api/visits', undefined, 'GET', randomUUID(), 401);
+test('registration and login remain independent of Guest records even with identical contact details', async () => {
+  const s = await guest(); const { visitId: id, requestId } = await attendance(s);
+  const original = await visit(s.token, id);
+  const email = `${prefix}-independent@example.test`;
+  const registered = await call(s.token, '/api/auth/register', { email, password, name: 'Acceptance Patient', contact: 'test-contact', language: 'en' });
+  assert.notEqual(registered.patientId, s.patientId);
+  assert.equal(registered.isGuest, false);
+  for (const session of [registered, await call(s.token, '/api/auth/login', { email, password, language: 'vi' })]) {
+    assert.equal(session.patientId, registered.patientId);
+    assert.deepEqual(await call(session.token, '/api/visits'), []);
+    assert.deepEqual(await call(session.token, '/api/requests'), []);
+    assert.deepEqual(await call(session.token, '/api/notifications'), []);
+    await call(session.token, `/api/visits/${id}`, undefined, 'GET', randomUUID(), 403);
+    await call(session.token, `/api/requests/${requestId}`, undefined, 'GET', randomUUID(), 403);
+  }
+  assert.equal((await visit(s.token, id)).journeyId, original.journeyId);
+  assert.equal((await call(s.token, '/api/auth/session')).isGuest, true);
+  const recovery = await call(staff.reception, `/api/visits/${id}/recovery`, { attendeeVerified: true, verificationNote: 'Independent Guest recovery fixture' });
+  const recovered = await call(null, '/api/auth/recover', { code: recovery.recoveryCode });
+  assert.equal(recovered.session.patientId, s.patientId);
+  assert.equal((await visit(recovered.session.token, id)).journeyId, original.journeyId);
+  assert.deepEqual(await call(registered.token, '/api/visits'), []);
+  await call(null, '/api/auth/recover', { code: recovery.recoveryCode }, 'POST', randomUUID(), 403);
+});
+
+test('historically linked account retains ownership and history after linking is retired', async () => {
+  const s = await guest(); const { visitId: id } = await attendance(s);
+  const original = await visit(s.token, id);
+  const existing = await account('historical-link');
+  // Arrange a pre-upgrade link in the isolated fixture, never via a removed API.
+  fixtureSql(`SET QUOTED_IDENTIFIER ON; UPDATE Users SET PatientId='${s.patientId}' WHERE PatientId='${existing.patientId}';
+    UPDATE Sessions SET Revoked=1 WHERE PatientId IN ('${s.patientId}','${existing.patientId}');
+    INSERT INTO LinkClaim (Id,Version,CreatedAt,SessionId,Hash,ExpiresAt,Consumed,ReturnVisitId)
+    VALUES (NEWID(),1,SYSUTCDATETIME(),'${s.sessionId}','${'A'.repeat(64)}',SYSUTCDATETIME(),1,'${id}');`);
+  const linked = await call(null, '/api/auth/login', { email: `${prefix}-historical-link@example.test`, password, language: 'en' });
+  assert.equal(linked.patientId, s.patientId);
+  assert.equal((await visit(linked.token, id)).journeyId, original.journeyId);
+  assert.deepEqual((await call(linked.token, '/api/visits')).map(v => v.id), [id]);
+  await call(linked.token, '/api/auth/convert', { claim: 'legacy-consumed', register: false }, 'POST', randomUUID(), 410);
+  assert.equal((await call(linked.token, '/api/auth/session')).patientId, s.patientId);
+  assert.equal((await visit(linked.token, id)).id, id);
 });
 
 test('mapping validation rejects cycles/missing mappings; order update/cancel keeps provenance', async () => {

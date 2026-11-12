@@ -8,7 +8,7 @@ async function api<T>(path: string, token?: string | null, body?: unknown, metho
   const r = await fetch(apiUrl + path, { method, headers: { 'Content-Type': 'application/json', 'X-Hospital-Client': '1', 'X-Client': 'native', 'Idempotency-Key': randomUUID(), ...(token ? { Authorization: `Bearer ${token}` } : {}) }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
   const result = await r.json(); expect(r.status, `${path}: ${result.title ?? ''}`).toBe(200); return result as T;
 }
-test('guest reception, pharmacy, readable fallback, assistance and same-record account conversion', async ({ page, context }, info) => {
+test('guest reception, pharmacy, readable fallback, assistance and independent account registration', async ({ page, context }, info) => {
   const name = `Browser ${info.project.name} ${Date.now()}`;
   const staff = await api<Session>('/api/auth/login', null, { email: 'reception@demo.local', password, language: 'en' });
   const doctor = await api<Session>('/api/auth/login', null, { email: 'doctor@demo.local', password, language: 'en' });
@@ -59,13 +59,40 @@ test('guest reception, pharmacy, readable fallback, assistance and same-record a
   await context.setOffline(false);
   await page.getByRole('button', { name: 'Hoàn thành hành trình', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Hành trình hướng dẫn đã hoàn thành', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Liên kết tài khoản', exact: true }).click();
-  await page.getByLabel('Email', { exact: true }).fill(`${randomUUID()}@example.test`);
+  await expect(page.getByRole('button', { name: 'Liên kết tài khoản', exact: true })).toHaveCount(0);
+  const navigate = async (label: string) => {
+    if (await page.locator('.mobile-menu').isVisible()) await page.locator('.mobile-menu').click();
+    await page.getByRole('button', { name: label, exact: true }).click();
+  };
+  await navigate('Hồ sơ cá nhân');
+  await expect(page.getByLabel('Họ và tên', { exact: true })).toHaveValue(name);
+  await expect(page.getByRole('button', { name: 'Liên kết tài khoản', exact: true })).toHaveCount(0);
+  await navigate('Đăng xuất');
+  await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
+  const email = `independent-${randomUUID()}@example.test`;
+  await page.getByRole('button', { name: 'Tạo tài khoản', exact: true }).click();
+  await page.getByLabel('Email', { exact: true }).fill(email);
   await page.getByLabel('Mật khẩu', { exact: true }).fill(password);
-  await page.getByRole('dialog').getByRole('button', { name: 'Liên kết tài khoản', exact: true }).click();
-  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await page.getByLabel('Họ và tên', { exact: true }).fill(name);
+  await page.getByLabel('Thông tin liên hệ', { exact: true }).fill('browser-fixture');
+  await page.getByRole('button', { name: 'Tạo tài khoản', exact: true }).last().click();
+  await expect(page.getByText('Chưa có lượt khám được tiếp nhận.', { exact: true })).toBeVisible();
+  await expect(page).not.toHaveURL(/#visit=/);
+  const account = await api<Session>('/api/auth/login', null, { email, password, language: 'vi' });
+  expect(await api<Visit[]>('/api/visits', account.token)).toEqual([]);
+  await navigate('Đăng xuất');
+  await expect(page.getByRole('heading', { name: 'Đăng nhập', exact: true })).toBeVisible();
+  const recovery = await api<{ recoveryCode: string }>(`/api/visits/${confirmed.visitId}/recovery`, staff.token, { attendeeVerified: true, verificationNote: 'Browser recovery after independent registration' });
+  await page.getByRole('button', { name: 'Khôi phục quyền truy cập', exact: true }).click();
+  await page.getByLabel('Mã khôi phục từ tiếp nhận', { exact: true }).fill(recovery.recoveryCode);
+  await page.getByRole('button', { name: 'Khôi phục quyền truy cập', exact: true }).first().click();
+  await expect(page.getByRole('heading', { name: /Xin chào/ })).toBeVisible();
+  await navigate('Hành trình');
   await expect(page.getByRole('heading', { name: 'Hành trình hướng dẫn đã hoàn thành', exact: true })).toBeVisible();
-  await expect(page).toHaveURL(new RegExp(`#visit=${confirmed.visitId}`));
+  await page.reload();
+  await expect(page.getByRole('heading', { name: /Xin chào/ })).toBeVisible();
+  await navigate('Hành trình');
+  await expect(page.getByRole('heading', { name: 'Hành trình hướng dẫn đã hoàn thành', exact: true })).toBeVisible();
   await page.getByLabel('Ngôn ngữ', { exact: true }).selectOption('en');
   await expect(page.getByRole('heading', { name: 'Your guidance journey is complete', exact: true })).toBeVisible();
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
@@ -242,4 +269,65 @@ test('reception and patient can page back to requests older than the newest 100'
       await expect(previous).toBeDisabled();
     }
   }
+});
+
+test('switching from Guest to an independent account discards old selection and delayed narration', async ({ page, context }, info) => {
+  const guest = await api<Session>('/api/auth/guest', null, { language: 'en' });
+  const reception = await api<Session>('/api/auth/login', null, { email: 'reception@demo.local', password, language: 'en' });
+  const config = await api<Configuration>('/api/config');
+  const department = config.departments.find(d => d.code === 'CONSULT')!;
+  const request = await api<{ id: string }>('/api/requests', guest.token, { name: 'Guest private fixture', contact: 'guest-private-contact', description: '', requests: '', departmentId: department.id });
+  const { visitId } = await api<{ visitId: string }>(`/api/requests/${request.id}/confirm`, reception.token, { version: 1, departmentId: department.id, locationId: config.locations.find(l => l.room === 'A101')!.id, attendeeVerified: true, verificationNote: 'Session boundary browser fixture' });
+  const ticket = await api<Ticket>(`/api/visits/${visitId}/ticket`, guest.token);
+  await api('/api/tickets/redeem', guest.token, { code: ticket.code });
+  await context.addCookies([{ name: 'hospital_session', value: guest.token!, url: info.project.use.baseURL ?? process.env.WEB_URL ?? 'http://127.0.0.1:5180', httpOnly: true, sameSite: 'Strict' }]);
+  await page.addInitScript(() => {
+    localStorage.setItem('hospital.language', 'en');
+    const calls = { spoken: 0, cancelled: 0 };
+    Object.defineProperty(window, 'pb003Speech', { value: calls });
+    Object.defineProperty(window, 'SpeechSynthesisUtterance', { value: class { constructor(public text: string) {} } });
+    Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: {
+      cancel: () => { calls.cancelled++; },
+      getVoices: () => [{ lang: 'en-US' }],
+      speak: () => { calls.spoken++; },
+    } });
+  });
+  let release: (() => void) | undefined;
+  await page.route(`**/api/visits/${visitId}/narration`, async route => {
+    const response = await route.fetch();
+    await new Promise<void>(resolve => { release = resolve; });
+    await route.fulfill({ response });
+  });
+  await page.goto(`/#visit=${visitId}`);
+  await expect(page.getByRole('heading', { name: 'Initial consultation', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Listen', exact: true }).click();
+  await expect.poll(() => !!release).toBe(true);
+  const navigate = async (label: string) => {
+    if (await page.locator('.mobile-menu').isVisible()) await page.locator('.mobile-menu').click();
+    await page.getByRole('button', { name: label, exact: true }).click();
+  };
+  await navigate('Sign out');
+  await expect(page.getByRole('heading', { name: 'Sign in', exact: true })).toBeVisible();
+  const email = `session-boundary-${randomUUID()}@example.test`;
+  await page.getByRole('button', { name: 'Create account', exact: true }).click();
+  await page.getByLabel('Email', { exact: true }).fill(email);
+  await page.getByLabel('Password', { exact: true }).fill(password);
+  await page.getByLabel('Full name', { exact: true }).fill('Independent account fixture');
+  await page.getByLabel('Contact information', { exact: true }).fill('independent-contact');
+  await page.getByRole('button', { name: 'Create account', exact: true }).last().click();
+  await expect(page.getByRole('heading', { name: 'Hello, Independent account fixture', exact: true })).toBeVisible();
+  await expect(page.getByText('No confirmed hospital Visits yet.', { exact: true })).toBeVisible();
+  const delayed = page.waitForResponse(response => response.url().endsWith(`/visits/${visitId}/narration`));
+  release!();
+  await delayed;
+  await expect.poll(() => page.evaluate(() => (window as unknown as { pb003Speech: { spoken: number } }).pb003Speech.spoken)).toBe(0);
+  expect(await page.evaluate(() => (window as unknown as { pb003Speech: { cancelled: number } }).pb003Speech.cancelled)).toBeGreaterThan(0);
+  await expect(page).not.toHaveURL(/#visit=/);
+  await navigate('My journey');
+  await expect(page.getByText('No confirmed hospital Visits yet.', { exact: true })).toBeVisible();
+  await expect(page.getByText(ticket.number, { exact: true })).toHaveCount(0);
+  await navigate('My profile');
+  await expect(page.getByLabel('Full name', { exact: true })).toHaveValue('Independent account fixture');
+  await expect(page.getByRole('button', { name: 'Link account', exact: true })).toHaveCount(0);
+  await page.screenshot({ path: `artifacts/${info.project.name}-pb003-independent-profile.png`, fullPage: true });
 });

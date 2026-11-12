@@ -54,7 +54,6 @@ import { Reception } from "./Reception";
 import { DirectionsScreen, Journey, ScanTicket } from "./Journey";
 import {
   Help,
-  LinkAccountScreen,
   Notifications,
   ProfileScreen,
   Results,
@@ -69,10 +68,10 @@ type Page =
   | "profile"
   | "notifications"
   | "scan"
-  | "directions"
-  | "link";
+  | "directions";
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
+  const sessionId = useRef<string | null>(null);
   const [locale, setLanguage] = useState<Locale>("vi");
   const localeOverride = useRef<Locale | null>(null);
   const configGeneration = useRef(0);
@@ -80,7 +79,6 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [pending, setPending] = useState<string | null>(null);
-  const [continuation, setContinuation] = useState<string | null>(null);
   const t = useMemo(() => translator(locale), [locale]);
   const loadConfig = async (language: Locale) => {
     const generation = ++configGeneration.current;
@@ -101,9 +99,15 @@ export default function App() {
     };
   }, [locale]);
   const updateSession = useCallback(async (s: Session | null) => {
+    if (sessionId.current !== (s?.sessionId ?? null)) {
+      if (sessionId.current) setPending(null);
+      sessionId.current = s?.sessionId ?? null;
+      // Unmount private screens before waiting on device storage/audio.
+      setSession(null);
+      await Speech.stop().catch(() => {});
+    }
     await saveSession(s);
     setSession(s);
-    if (!s) await Speech.stop();
   }, []);
   const setLocale = (language: Locale) => {
     localeOverride.current = language;
@@ -124,7 +128,9 @@ export default function App() {
       await loadConfig(
         localeOverride.current ?? (isLocale(language) ? language : "vi"),
       );
-      setSession(await restoreSession());
+      const restored = await restoreSession();
+      sessionId.current = restored?.sessionId ?? null;
+      setSession(restored);
     } catch (e) {
       setError(e);
     } finally {
@@ -216,8 +222,6 @@ export default function App() {
                 key={session.sessionId}
                 pending={pending}
                 clearPending={() => setPending(null)}
-                continuation={continuation}
-                setContinuation={setContinuation}
               />
             </NativeContext.Provider>
           ) : (
@@ -238,20 +242,16 @@ export default function App() {
 function PatientApp({
   pending,
   clearPending,
-  continuation,
-  setContinuation,
 }: {
   pending: string | null;
   clearPending: () => void;
-  continuation: string | null;
-  setContinuation: (id: string | null) => void;
 }) {
   const { t, locale, setLocale, session, config, api, updateSession } =
     useNative();
   const [page, setPage] = useState<Page>(
-    pending ? "scan" : continuation ? "journey" : "home",
+    pending ? "scan" : "home",
   );
-  const [selected, setSelected] = useState<string | null>(continuation);
+  const [selected, setSelected] = useState<string | null>(null);
   const [step, setStep] = useState<Step | null>(null);
   const [helpStep, setHelpStep] = useState<string | undefined>();
   const [offset, setOffset] = useState(0);
@@ -405,7 +405,6 @@ function PatientApp({
               setStep(step);
               setPage("directions");
             }}
-            onLink={() => setPage("link")}
           />
         )}
         {page === "results" && <Results id={id} />}
@@ -431,7 +430,7 @@ function PatientApp({
         {page === "notifications" && (
           <Notifications onVisit={(id) => choose(id, "results")} />
         )}
-        {page === "profile" && <ProfileScreen onLink={() => setPage("link")} />}
+        {page === "profile" && <ProfileScreen />}
         {page === "history" && (
           <>
             <Txt tone="title">{t("history")}</Txt>
@@ -466,18 +465,6 @@ function PatientApp({
               {t("nextPage")}
             </Btn>
           </>
-        )}
-        {page === "link" && (
-          <LinkAccountScreen
-            visitId={id}
-            onCancel={() => setPage("journey")}
-            onDone={async (s, target) => {
-              setContinuation(target);
-              if (target) setSelected(target);
-              setPage("journey");
-              await updateSession(s);
-            }}
-          />
         )}
       </ScrollView>
       <View style={styles.bottom}>

@@ -30,14 +30,12 @@ export function PatientJourney({
   id,
   onSelected,
   onResults,
-  onLink,
 }: {
   id: string | null;
   onSelected: (id: string) => void;
   onResults: () => void;
-  onLink: () => void;
 }) {
-  const { t, locale, session } = useRuntime();
+  const { t, locale } = useRuntime();
   const resource = useResource<Visit>(
     id ? `/api/visits/${id}?language=${locale}` : null,
     true,
@@ -117,18 +115,6 @@ export function PatientJourney({
                 {t("results")}
                 <ArrowRight size={17} />
               </Button>
-              {session.isGuest && (
-                <div className="account-invitation">
-                  <h3>{t("optionalAccount")}</h3>
-                  <p>{t("optionalAccountHint")}</p>
-                  <Button variant="secondary" onClick={onLink}>
-                    {t("linkAccount")}
-                  </Button>
-                  <Button variant="quiet" onClick={onResults}>
-                    {t("skip")}
-                  </Button>
-                </div>
-              )}
             </div>
           ) : step ? (
             <div className="journey-grid">

@@ -26,6 +26,7 @@
     "test:directory": "playwright test --config playwright.directory.config.ts",
     "test:directory:unit": "node --experimental-strip-types --test tests/unit/hospital-directory.test.mjs",
     "test:narration:unit": "node --test tests/unit/native-narration.test.mjs",
+    "test:session:unit": "node --test tests/unit/native-session.test.mjs",
     "test:languages:unit": "node --experimental-strip-types --test tests/unit/languages.test.mjs",
     "test:translation": "dotnet run --project tests/translation/Translation.Tests.csproj"
   },

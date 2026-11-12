@@ -1,5 +1,5 @@
 import { languages, normalizeLocale } from "@hospital/shared";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Bell,
   ChevronRight,
@@ -37,7 +37,6 @@ import {
   Button,
   Empty,
   Feedback,
-  Modal,
   Notice,
   ResourceState,
   SectionTitle,
@@ -46,7 +45,6 @@ import { PatientReception } from "./PatientReception";
 import { PatientJourney } from "./PatientJourney";
 import {
   HelpPanel,
-  LinkAccount,
   NotificationsPanel,
   Overview,
   ProfilePanel,
@@ -77,6 +75,17 @@ export default function App() {
     updateLocale(language);
   };
   const [session, setSession] = useState<Session | null>(null);
+  const sessionId = useRef<string | null>(null);
+  const updateSession = useCallback((next: Session | null) => {
+    if (sessionId.current !== (next?.sessionId ?? null)) {
+      window.speechSynthesis?.cancel();
+      // A previous patient's selection must not continue into another session.
+      if (sessionId.current)
+        history.replaceState(null, "", location.pathname + location.search);
+    }
+    sessionId.current = next?.sessionId ?? null;
+    setSession(next);
+  }, []);
   const [ready, setReady] = useState(false);
   const [expired, setExpired] = useState(false);
   const config = useResource<Configuration>(
@@ -91,17 +100,19 @@ export default function App() {
   }, [locale]);
   useEffect(() => {
     void api<Session>("/api/auth/session")
-      .then(setSession)
+      .then((s) => {
+        sessionId.current = s.sessionId;
+        setSession(s);
+      })
       .catch(() => {})
       .finally(() => setReady(true));
     const expire = () => {
-      setSession(null);
+      updateSession(null);
       setExpired(true);
-      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     };
     window.addEventListener("hospital:expired", expire);
     return () => window.removeEventListener("hospital:expired", expire);
-  }, []);
+  }, [updateSession]);
   useEffect(() => {
     if (!session) return;
     const remaining =
@@ -128,7 +139,7 @@ export default function App() {
         locale={locale}
         setLocale={setLocale}
         onSession={(s) => {
-          setSession(s);
+          updateSession(s);
           setExpired(false);
         }}
         expired={expired}
@@ -149,7 +160,7 @@ export default function App() {
     );
   return (
     <RuntimeContext.Provider
-      value={{ session, setSession, config: config.data, locale, setLocale, t }}
+      value={{ session, setSession: updateSession, config: config.data, locale, setLocale, t }}
     >
       <Workspace key={session.sessionId} />
     </RuntimeContext.Provider>
@@ -168,7 +179,6 @@ function Workspace() {
   const [selected, setSelected] = useState<string | null>(() =>
     new URLSearchParams(location.hash.slice(1)).get("visit"),
   );
-  const [link, setLink] = useState(false);
   const [menu, setMenu] = useState(false);
   const [font, setFont] = useState(1);
   const [pendingQr, setPendingQr] = useState(() =>
@@ -415,7 +425,6 @@ function Workspace() {
                   id={visitId}
                   onSelected={selectVisit}
                   onResults={() => setPage("results")}
-                  onLink={() => setLink(true)}
                 />
               )}
               {page === "results" && <ResultsPanel id={visitId} />}
@@ -462,9 +471,7 @@ function Workspace() {
                   <HelpPanel visitId={visitId} />
                 </div>
               )}
-              {page === "profile" && (
-                <ProfilePanel onLink={() => setLink(true)} />
-              )}
+              {page === "profile" && <ProfilePanel />}
               {page === "notifications" && (
                 <NotificationsPanel
                   onVisit={(id) => selectVisit(id, "results")}
@@ -526,26 +533,6 @@ function Workspace() {
           </footer>
         </main>
       </div>
-      {link && (
-        <Modal title={t("linkAccount")} onClose={() => setLink(false)}>
-          <LinkAccount
-            visitId={visitId}
-            onCancel={() => setLink(false)}
-            onDone={(s, id) => {
-              setLink(false);
-              if (id) {
-                setSelected(id);
-                history.replaceState(
-                  null,
-                  "",
-                  `${location.pathname}#visit=${id}`,
-                );
-              }
-              setSession(s);
-            }}
-          />
-        </Modal>
-      )}
     </div>
   );
 }

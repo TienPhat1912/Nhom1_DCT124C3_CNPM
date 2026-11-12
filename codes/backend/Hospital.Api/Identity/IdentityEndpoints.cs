@@ -10,8 +10,6 @@ public record Credentials(string Email, string Password, string Language = "vi")
 public record Registration(string Email, string Password, string Name, string Contact, string Language = "vi");
 public record GuestInput(string Language = "vi");
 public record ProfileInput(string Name, string Contact, string Language, int Version);
-public record ClaimInput(Guid? ReturnVisitId);
-public record ConvertInput(string Claim, string Email, string Password, bool Register);
 public record RecoveryInput(string Code);
 public record SessionView(Guid SessionId, Guid? PatientId, string Role, string Name, string Language, bool IsGuest, DateTime ExpiresAt, string? Token);
 
@@ -26,7 +24,7 @@ public class SessionIssuer(HospitalDb db, IConfiguration config, IHttpContextAcc
         await db.SaveChangesAsync();
         var http = accessor.HttpContext!;
         http.Response.OnStarting(() => {
-            // A failed conversion must not overwrite the still-valid guest cookie.
+            // Only a committed session command may replace the current cookie.
             if (http.Items["CommandCommitted"] is true && http.Response.StatusCode < 400)
                 http.Response.Cookies.Append("hospital_session", token, new CookieOptions { HttpOnly = true, Secure = http.Request.IsHttps || config.GetValue<bool>("Web:SecureCookies"),
                     SameSite = SameSiteMode.Strict, Expires = session.ExpiresAt, Path = "/" });
@@ -83,50 +81,11 @@ public static class IdentityEndpoints
                 return new { p.Id };
             });
         });
-        g.MapPost("/link-claim", async (ClaimInput input, Access access, HospitalDb db, CommandBus bus) => {
-            var s = await access.Patient(); Check.That(s.IsGuest, "guestRequired", "Guest context required.");
-            return await bus.Run($"{s.Id}:claim", input, async () => {
-                if (input.ReturnVisitId is {} v) await access.Visit(v);
-                var token = Crypto.Token(); db.Add(new LinkClaim { SessionId = s.Id, Hash = Crypto.Hash(token), ExpiresAt = DateTime.UtcNow.AddMinutes(15), ReturnVisitId = input.ReturnVisitId });
-                return new { claim = token, input.ReturnVisitId };
-            }, false);
-        });
-        g.MapPost("/convert", async (ConvertInput input, Access access, HospitalDb db, CommandBus bus, SessionIssuer issuer) => {
-            var guest = await access.Patient(); Check.That(guest.IsGuest, "guestRequired", "Guest context required.");
-            return await bus.Run($"{guest.Id}:convert", input, async () => {
-                var hash = Crypto.Hash(input.Claim);
-                var claim = await db.Set<LinkClaim>().SingleOrDefaultAsync(c => c.SessionId == guest.Id && c.Hash == hash);
-                Check.That(claim is not null && !claim.Consumed && claim.ExpiresAt > DateTime.UtcNow, "claimInvalid", "This link claim is invalid or expired.", 403);
-                var patient = await db.Patients.SingleAsync(p => p.Id == guest.PatientId);
-                var email = Email(input.Email); UserAccount user;
-                if (input.Register)
-                {
-                    Password(input.Password);
-                    Check.That(!await db.Users.AnyAsync(u => u.Email == email), "accountExists", "Account exists. Choose sign in to link.", 409);
-                    Check.Text(patient.Name, "name", 2, 120); Check.Text(patient.Contact, "contact", 5, 80);
-                    user = new UserAccount { Email = email, PatientId = patient.Id, Name = patient.Name };
-                    user.PasswordHash = new PasswordHasher<UserAccount>().HashPassword(user, input.Password); db.Add(user);
-                }
-                else
-                {
-                    user = await Authenticate(db, email, input.Password);
-                    Check.That(user.Role == "Patient", "identityConflict", "Only a patient account can receive guest access.", 409);
-                    if (user.PatientId != patient.Id)
-                    {
-                        var oldId = user.PatientId;
-                        Check.That(!await db.Visits.AnyAsync(v => v.PatientId == oldId) && !await db.Requests.AnyAsync(r => r.PatientId == oldId)
-                            && !await db.Set<ExternalIdentity>().AnyAsync(e => e.PatientId == oldId), "identityConflict", "This account already owns another patient record. Reception verification is required.", 409);
-                        user.PatientId = patient.Id;
-                        foreach (var oldSession in await db.Sessions.Where(s => s.UserAccountId == user.Id).ToListAsync()) oldSession.Revoked = true;
-                    }
-                }
-                claim!.Consumed = true;
-                foreach (var old in await db.Sessions.Where(s => s.IsGuest && s.PatientId == patient.Id).ToListAsync()) old.Revoked = true;
-                bus.Audit(user.Id, "GuestLinked", claim.ReturnVisitId, "Stable patient identity retained", "Identity");
-                var session = await issuer.Issue(patient, user, false);
-                return new { session, claim.ReturnVisitId };
-            }, false);
-        });
+        // Retired for all clients, including outstanding legacy link claims. No DB writes.
+        g.MapPost("/link-claim", GuestLinkDisabled).ProducesProblem(410, "application/json")
+            .WithSummary("Retired: Guest linking is no longer supported");
+        g.MapPost("/convert", GuestLinkDisabled).ProducesProblem(410, "application/json")
+            .WithSummary("Retired: Guest conversion is no longer supported");
         g.MapPost("/recover", (RecoveryInput input, HospitalDb db, CommandBus bus, SessionIssuer issuer) =>
             bus.Run("auth:recovery", input, async () => {
                 var hash = Crypto.Hash(input.Code);
@@ -140,6 +99,9 @@ public static class IdentityEndpoints
                 return new { session = result, visitId = claim.VisitId };
             }, false));
     }
+    static IResult GuestLinkDisabled() => throw new ApiException(410, "guestLinkDisabled",
+        "Guest linking is no longer supported. Register or sign in independently; use verified recovery for guest records.");
+
     public static string Email(string value)
     {
         value = Check.Text(value, "email", 5, 254).ToLowerInvariant();

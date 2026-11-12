@@ -8,7 +8,6 @@ import {
   type Content,
   type Notification,
   type Profile,
-  type Session,
 } from "@hospital/shared";
 import {
   Badge,
@@ -278,7 +277,7 @@ export function Notifications({ onVisit }: { onVisit: (id: string) => void }) {
     </>
   );
 }
-export function ProfileScreen({ onLink }: { onLink: () => void }) {
+export function ProfileScreen() {
   const { t } = useNative();
   const r = useLoad<Profile>("/api/auth/profile");
   return (
@@ -290,7 +289,6 @@ export function ProfileScreen({ onLink }: { onLink: () => void }) {
           key={r.data.version}
           profile={r.data}
           onSaved={r.refresh}
-          onLink={onLink}
         />
       )}
     </>
@@ -299,11 +297,9 @@ export function ProfileScreen({ onLink }: { onLink: () => void }) {
 function ProfileForm({
   profile,
   onSaved,
-  onLink,
 }: {
   profile: Profile;
   onSaved: () => void;
-  onLink: () => void;
 }) {
   const { t, locale, setLocale, api, session, updateSession } = useNative();
   const [name, setName] = useState(profile.name);
@@ -343,86 +339,6 @@ function ProfileForm({
         {t("save")}
       </Btn>
       <Feedback error={action.error} ok={action.ok} locale={locale} />
-      {session.isGuest && (
-        <>
-          <Txt>{t("optionalAccountHint")}</Txt>
-          <Btn secondary onPress={onLink}>
-            {t("linkAccount")}
-          </Btn>
-        </>
-      )}
-    </Card>
-  );
-}
-export function LinkAccountScreen({
-  visitId,
-  onDone,
-  onCancel,
-}: {
-  visitId: string | null;
-  onDone: (session: Session, id: string | null) => Promise<void>;
-  onCancel: () => void;
-}) {
-  const { t, locale, api } = useNative();
-  const [register, setRegister] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const action = useAction(api);
-  return (
-    <Card>
-      <Txt tone="title">{t("linkAccount")}</Txt>
-      <Txt>{t("optionalAccountHint")}</Txt>
-      <Choice
-        label={t("newAccount")}
-        selected={register}
-        onPress={() => setRegister(true)}
-      />
-      <Choice
-        label={t("existingAccount")}
-        selected={!register}
-        onPress={() => setRegister(false)}
-      />
-      <Input
-        label={t("email")}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <Input
-        label={t("password")}
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-        hint={register ? t("passwordHint") : undefined}
-      />
-      <Btn
-        busy={action.busy}
-        disabled={!email.includes("@") || password.length < (register ? 12 : 1)}
-        onPress={async () => {
-          const claim = await action.run<{ claim: string }>(
-            "/api/auth/link-claim",
-            { returnVisitId: visitId },
-          );
-          if (!claim) return;
-          const r = await action.run<{
-            session: Session;
-            returnVisitId: string | null;
-          }>("/api/auth/convert", {
-            claim: claim.claim,
-            email,
-            password,
-            register,
-          });
-          if (r) await onDone(r.session, r.returnVisitId);
-        }}
-      >
-        {t("linkAccount")}
-      </Btn>
-      <Btn secondary onPress={onCancel}>
-        {t("cancel")}
-      </Btn>
-      <Feedback error={action.error} locale={locale} />
     </Card>
   );
 }

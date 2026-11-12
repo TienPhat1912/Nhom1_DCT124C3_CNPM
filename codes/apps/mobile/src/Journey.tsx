@@ -35,16 +35,14 @@ export function Journey({
   onResults,
   onHelp,
   onDirections,
-  onLink,
 }: {
   id: string | null;
   onScan: () => void;
   onResults: () => void;
   onHelp: (step?: string) => void;
   onDirections: (step: Step) => void;
-  onLink: () => void;
 }) {
-  const { t, locale, session, api } = useNative();
+  const { t, locale, api } = useNative();
   const r = useLoad<Visit>(
     id ? `/api/visits/${id}?language=${locale}` : null,
     true,
@@ -128,17 +126,6 @@ export function Journey({
               <Txt tone="title">✓ {t("journeyDone")}</Txt>
               <Txt>{t("journeyDoneHint")}</Txt>
               <Btn onPress={onResults}>{t("results")}</Btn>
-              {session.isGuest && (
-                <>
-                  <Txt>{t("optionalAccountHint")}</Txt>
-                  <Btn secondary onPress={onLink}>
-                    {t("linkAccount")}
-                  </Btn>
-                  <Btn secondary onPress={onResults}>
-                    {t("skip")}
-                  </Btn>
-                </>
-              )}
             </Card>
           ) : step ? (
             <Card>
