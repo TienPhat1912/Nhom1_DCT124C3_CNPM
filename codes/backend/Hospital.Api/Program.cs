@@ -49,7 +49,6 @@ app.Use(async (ctx, next) => {
         }
         await next();
     }
-    catch (RegistrationConflict ex) { ctx.Response.StatusCode = ex.Status; await ctx.Response.WriteAsJsonAsync(new { type = "about:blank", title = ex.Code, status = ex.Status, detail = ex.Message, existingRequestId = ex.ExistingRequestId, existingVisitId = ex.ExistingVisitId, existingRequestContract = ex.ExistingRequestContract, traceId = ctx.TraceIdentifier }); }
     catch (ApiException ex) { ctx.Response.StatusCode = ex.Status; await ctx.Response.WriteAsJsonAsync(new { type = "about:blank", title = ex.Code, status = ex.Status, detail = ex.Message, errors = ex.Fields, traceId = ctx.TraceIdentifier }); }
     catch (DbUpdateConcurrencyException) { ctx.Response.StatusCode = 409; await ctx.Response.WriteAsJsonAsync(new { title = "conflict", status = 409, detail = "Record changed. Refresh and retry.", traceId = ctx.TraceIdentifier }); }
     catch (DbUpdateException ex) when (ex.InnerException is SqlException { Number: 2601 or 2627 }) { ctx.Response.StatusCode = 409; await ctx.Response.WriteAsJsonAsync(new { title = "duplicate", status = 409, detail = "A record with this unique identity already exists.", traceId = ctx.TraceIdentifier }); }
@@ -83,7 +82,6 @@ app.MapGet("/health", async (HospitalDb db) => await db.Database.CanConnectAsync
 }) : Results.StatusCode(503));
 app.MapOpenApi();
 app.MapIdentity(); app.MapReception(); app.MapJourneys(); app.MapContent(); app.MapSupport(); app.MapAdmin();
-app.MapRegistrationV2();
 if (!args.Contains("--no-migrate")) {
     using var scope = app.Services.CreateScope(); var db = scope.ServiceProvider.GetRequiredService<HospitalDb>();
     // Azure SQL can return 40613 while resuming. Retry migrations on a separate

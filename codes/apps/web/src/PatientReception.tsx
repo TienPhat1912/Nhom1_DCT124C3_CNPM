@@ -1,12 +1,5 @@
 import { localizeText } from "@hospital/shared";
 import { useState } from "react";
-import {
-  ApiError,
-  languages,
-  type ApiProblemV2,
-  type LocaleV2,
-  type RegistrationRequestV2,
-} from "@hospital/shared";
 import { ArrowRight, CalendarDays, ClipboardList, QrCode } from "lucide-react";
 import {
   dateText,
@@ -33,269 +26,9 @@ import { useMutation, useResource, useRuntime } from "./runtime";
 
 export function PatientReception({
   onVisit,
-  onProfile,
 }: {
   onVisit: (id: string) => void;
-  onProfile?: () => void;
 }) {
-  const { config } = useRuntime();
-  return config.prdV2Enabled ? (
-    <ReceptionV2 onVisit={onVisit} onProfile={onProfile} />
-  ) : (
-    <LegacyReception onVisit={onVisit} />
-  );
-}
-
-function ReceptionV2({
-  onVisit,
-  onProfile,
-}: {
-  onVisit: (id: string) => void;
-  onProfile?: (() => void) | undefined;
-}) {
-  const { config, t, locale } = useRuntime();
-  const profile = useResource<Profile>("/api/auth/profile");
-  const [offset, setOffset] = useState(0);
-  const rows = useResource<RegistrationRequestV2[]>(
-    `/api/v2/requests?offset=${offset}`,
-    true,
-  );
-  const [selected, setSelected] = useState<string | null>(null);
-  const detail = useResource<RegistrationRequestV2>(
-    selected ? `/api/v2/requests/${selected}` : null,
-    true,
-  );
-  const [historyOpen, setHistoryOpen] = useState(false);
-  const [legacyId, setLegacyId] = useState<string | null>(null);
-  const legacy = useResource<
-    (RequestSummary & { sourceLanguage?: string | null })[]
-  >(historyOpen ? `/api/requests?offset=${offset}` : null);
-  const mutation = useMutation();
-  const [contact, setContact] = useState<string | null>(null);
-  const [description, setDescription] = useState("");
-  const [sourceLanguage, setSourceLanguage] = useState<LocaleV2 | "">(
-    locale === "vi" || locale === "en" || locale === "zh" || locale === "ja"
-      ? locale
-      : "",
-  );
-  const [preferredDepartmentId, setPreferredDepartmentId] = useState("");
-  const problem =
-    mutation.error instanceof ApiError
-      ? (mutation.error.problem as ApiProblemV2)
-      : null;
-  const openExisting = () => {
-    if (problem?.existingVisitId) onVisit(problem.existingVisitId);
-    else if (problem?.existingRequestId) {
-      if (problem.existingRequestContract === "legacy") {
-        setHistoryOpen(true);
-        setLegacyId(problem.existingRequestId);
-      } else setSelected(problem.existingRequestId);
-      mutation.clear();
-    }
-  };
-  return (
-    <>
-      <SectionTitle title={t("prepare")} />
-      <ResourceState resource={profile} />
-      <div className="panel narrow">
-        <Form
-          busy={mutation.busy}
-          onSubmit={async () => {
-            const result = await mutation.run<RegistrationRequestV2>(
-              "/api/v2/requests",
-              {
-                contact: contact ?? profile.data?.contact ?? "",
-                preferredDepartmentId: preferredDepartmentId || null,
-                description,
-                sourceLanguage,
-              },
-            );
-            if (result) {
-              setSelected(result.id);
-              setOffset(0);
-              rows.refresh();
-            }
-          }}
-        >
-          <p>{profile.data?.name}</p>
-          {profile.data && profile.data.name.trim().length < 2 && (
-            <Notice>
-              {t("completeProfile")}
-              {onProfile && (
-                <Button type="button" onClick={onProfile}>
-                  {t("profile")}
-                </Button>
-              )}
-            </Notice>
-          )}
-          <Field label={t("contact")}>
-            <input
-              required
-              minLength={5}
-              maxLength={80}
-              autoComplete="tel"
-              value={contact ?? profile.data?.contact ?? ""}
-              onChange={(e) => setContact(e.target.value)}
-            />
-          </Field>
-          <Field label={t("preferredDepartment")}>
-            <select
-              value={preferredDepartmentId}
-              onChange={(e) => setPreferredDepartmentId(e.target.value)}
-            >
-              <option value="">{t("noPreference")}</option>
-              {config.departments
-                .filter((d) => d.active)
-                .map((d) => (
-                  <option key={d.id} value={d.id}>
-                    {d.name ?? d.nameVi}
-                  </option>
-                ))}
-            </select>
-          </Field>
-          <Field label={t("descriptionLanguage")}>
-            <select
-              required
-              value={sourceLanguage}
-              onChange={(e) => setSourceLanguage(e.target.value as LocaleV2)}
-            >
-              <option value="">{t("language")}</option>
-              {languages
-                .filter((l) => ["vi", "en", "zh", "ja"].includes(l.code))
-                .map((l) => (
-                  <option key={l.code} value={l.code}>
-                    {l.label}
-                  </option>
-                ))}
-            </select>
-          </Field>
-          <Field label={t("description")}>
-            <textarea
-              rows={4}
-              maxLength={2000}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Field>
-          <Feedback error={mutation.error} locale={locale} />
-          {(problem?.existingRequestId || problem?.existingVisitId) && (
-            <Button type="button" variant="secondary" onClick={openExisting}>
-              {t(problem.existingVisitId ? "continueVisit" : "continueRequest")}
-            </Button>
-          )}
-          <Button
-            type="submit"
-            busy={mutation.busy}
-            disabled={
-              !profile.data ||
-              profile.data.name.trim().length < 2 ||
-              !sourceLanguage
-            }
-          >
-            {t("sendRequest")}
-          </Button>
-        </Form>
-      </div>
-      <div className="panel">
-        <SectionTitle title={t("requestList")} />
-        <ResourceState resource={rows} />
-        {rows.data?.length === 0 && <Empty text={t("noRequests")} />}
-        {rows.data?.map((r) => (
-          <button
-            className="record-row"
-            key={r.id}
-            onClick={() => setSelected(r.id)}
-          >
-            <span>
-              {r.patientName} · {dateText(r.createdAt, locale)}
-            </span>
-            <Status value={r.status} />
-          </button>
-        ))}
-        <div className="actions">
-          <Button
-            variant="quiet"
-            disabled={offset === 0}
-            onClick={() => setOffset(Math.max(0, offset - 100))}
-          >
-            {t("previousPage")}
-          </Button>
-          <Button
-            variant="quiet"
-            disabled={rows.data?.length !== 100}
-            onClick={() => setOffset(offset + 100)}
-          >
-            {t("nextPage")}
-          </Button>
-        </div>
-        {selected && <ResourceState resource={detail} />}
-        {detail.data && (
-          <article>
-            <Status value={detail.data.status} />
-            <p>
-              {detail.data.contact} · {detail.data.sourceLanguage}
-            </p>
-            <p style={{ whiteSpace: "pre-wrap" }}>{detail.data.description}</p>
-            {detail.data.visitId ? (
-              <Button onClick={() => onVisit(detail.data!.visitId!)}>
-                {t("continueVisit")}
-              </Button>
-            ) : (
-              detail.data.status === "Submitted" && (
-                <Notice>{t("receptionAwaitingConfirmation")}</Notice>
-              )
-            )}
-          </article>
-        )}
-      </div>
-      <Button variant="quiet" onClick={() => setHistoryOpen((v) => !v)}>
-        {t("legacyRecords")}
-      </Button>
-      {historyOpen && (
-        <div className="panel">
-          <ResourceState resource={legacy} />
-          {legacy.data
-            ?.filter((r) => !r.sourceLanguage)
-            .map((r) => (
-              <button
-                className="record-row"
-                key={r.id}
-                onClick={() => setLegacyId(r.id)}
-              >
-                {r.name} · {dateText(r.createdAt, locale)}
-              </button>
-            ))}
-          <div className="actions">
-            <Button
-              variant="quiet"
-              disabled={offset === 0}
-              onClick={() => setOffset(Math.max(0, offset - 100))}
-            >
-              {t("previousPage")}
-            </Button>
-            <Button
-              variant="quiet"
-              disabled={legacy.data?.length !== 100}
-              onClick={() => setOffset(offset + 100)}
-            >
-              {t("nextPage")}
-            </Button>
-          </div>
-          {legacyId && (
-            <RequestDetail
-              id={legacyId}
-              onVisit={onVisit}
-              onChanged={legacy.refresh}
-              readOnly
-            />
-          )}
-        </div>
-      )}
-    </>
-  );
-}
-
-function LegacyReception({ onVisit }: { onVisit: (id: string) => void }) {
   const { t, locale, session } = useRuntime();
   const [offset, setOffset] = useState(0);
   const requests = useResource<RequestSummary[]>(
@@ -551,12 +284,10 @@ function RequestDetail({
   id,
   onVisit,
   onChanged,
-  readOnly = false,
 }: {
   id: string;
   onVisit: (id: string) => void;
   onChanged: () => void;
-  readOnly?: boolean;
 }) {
   const { t, locale } = useRuntime();
   const resource = useResource<ReceptionRequest>(`/api/requests/${id}`, true);
@@ -573,17 +304,6 @@ function RequestDetail({
             <Status value={r.status} />
           </SectionTitle>
           <QrPanel purpose="reception" code={r.code} expires={r.qrExpiresAt} />
-          {readOnly && (
-            <article>
-              <p>
-                {r.name} · {r.contact}
-              </p>
-              <p style={{ whiteSpace: "pre-wrap" }}>{r.description}</p>
-              {r.requests && (
-                <p style={{ whiteSpace: "pre-wrap" }}>{r.requests}</p>
-              )}
-            </article>
-          )}
           {r.messages.map((m) => (
             <div className="message-box" key={m.id}>
               <p>{m.text}</p>
@@ -615,7 +335,6 @@ function RequestDetail({
               <ArrowRight size={17} />
             </Button>
           ) : (
-            !readOnly &&
             r.status !== "Withdrawn" && (
               <>
                 <div className="actions">

@@ -23,8 +23,7 @@ function Find-SqlTool([string]$Name) {
 }
 $names = @('ACCEPTANCE_DB', 'ConnectionStrings__Hospital', 'DEMO_PASSWORD', 'Demo__Enabled', 'Demo__Password',
     'ASPNETCORE_ENVIRONMENT', 'ASPNETCORE_URLS', 'Web__Origin', 'API_URL', 'WEB_URL', 'SQL_TEST_SERVER', 'SQLCMD_PATH',
-    'Providers__FailureMode', 'Providers__TimeoutSeconds', 'PROVIDER_FAILURE', 'EXPECTED_COMMIT', 'PB004_SQL_SERVER',
-    'PB006_SQL_CONNECTION', 'Workflow__PrdV2Enabled')
+    'Providers__FailureMode', 'Providers__TimeoutSeconds', 'PROVIDER_FAILURE', 'EXPECTED_COMMIT', 'PB004_SQL_SERVER')
 $previous = @{}
 foreach ($name in $names) { $previous[$name] = [Environment]::GetEnvironmentVariable($name, 'Process') }
 $apiProcess = $null
@@ -40,10 +39,8 @@ try {
     }
     $env:SQL_TEST_SERVER = $SqlServer
     $env:PB004_SQL_SERVER = $SqlServer
-    $env:Workflow__PrdV2Enabled = 'false'
     $env:ACCEPTANCE_DB = 'HospitalAcceptance_' + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
     $env:ConnectionStrings__Hospital = "Server=$SqlServer;Database=$($env:ACCEPTANCE_DB);Integrated Security=true;TrustServerCertificate=true"
-    $env:PB006_SQL_CONNECTION = $env:ConnectionStrings__Hospital
     $env:DEMO_PASSWORD = 'Demo' + [Guid]::NewGuid().ToString('N') + 'A1'
     $env:Demo__Enabled = 'true'
     $env:Demo__Password = $env:DEMO_PASSWORD
@@ -87,7 +84,6 @@ try {
     Invoke-Checked 'node' @('--test', '--test-concurrency=1', 'tests/api/api.test.mjs')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/translation/Translation.Tests.csproj', '--', '--migration')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/core-schema/CoreSchema.Tests.csproj', '--configuration', 'Release')
-    Invoke-Checked 'dotnet' @('run', '--project', 'tests/registration/Registration.Tests.csproj', '--configuration', 'Release')
     Invoke-Checked 'node' @('tests/api/performance.mjs')
     # API/load checks and browsers share the loopback IP's 120/minute auth quota.
     # Give browsers a fresh limiter while retaining the same release and database;
@@ -96,15 +92,6 @@ try {
     $apiProcess = Start-TestApi 'native-browser-api'
     Invoke-Checked 'npx.cmd' @('playwright', 'test')
     Stop-TestApi
-    $apiProcess = Start-TestApi 'native-registration-disabled'
-    Invoke-Checked 'node' @('--test', '--test-name-pattern=disabled', 'tests/api/registration-v2.test.mjs')
-    Stop-TestApi
-    $env:Workflow__PrdV2Enabled = 'true'
-    $apiProcess = Start-TestApi 'native-registration-enabled'
-    Invoke-Checked 'node' @('--test', '--test-skip-pattern=disabled', 'tests/api/registration-v2.test.mjs')
-    Invoke-Checked 'npx.cmd' @('playwright', 'test', '--config', 'playwright.registration.config.ts')
-    Stop-TestApi
-    $env:Workflow__PrdV2Enabled = 'false'
     foreach ($mode in @('Timeout', 'Unavailable')) {
         $env:Providers__FailureMode = $mode
         $env:Providers__TimeoutSeconds = '1'

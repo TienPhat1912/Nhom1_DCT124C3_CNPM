@@ -337,15 +337,5 @@
   "machineTranslation": "Переведено системой. Доступен оригинал на вьетнамском.",
   "vietnameseSource": "Введите на вьетнамском. Система переведёт на язык пациента.",
   "guestLabel": "Гость",
-  "or": "или",
-  "preferredDepartment": "Желаемое отделение (необязательно)",
-  "noPreference": "Нет предпочтений",
-  "descriptionLanguage": "Язык описания",
-  "legacyRecords": "Предыдущие записи регистрации",
-  "continueRequest": "Открыть текущую заявку",
-  "continueVisit": "Открыть текущий визит",
-  "receptionAwaitingConfirmation": "Заявка отправлена. Дождитесь подтверждения регистрации.",
-  "pendingRequestExists": "У вас уже есть ожидающая заявка.",
-  "activeVisitExists": "У вас уже есть активный визит.",
-  "completeProfile": "Перед отправкой заявки укажите полное имя в профиле."
+  "or": "или"
 }
