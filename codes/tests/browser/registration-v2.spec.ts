@@ -64,7 +64,7 @@ test("minimal form preserves the original and opens an existing pending request 
   page,
   context,
   baseURL,
-}, info) => {
+}) => {
   await signInFixture(page, context, baseURL!);
   await expect(
     page.getByRole("button", { name: "With an appointment", exact: true }),
@@ -138,10 +138,6 @@ test("minimal form preserves the original and opens an existing pending request 
     .poll(() => page.locator("article p").last().textContent())
     .toBe(original);
   await expect(page.locator(".record-row")).toHaveCount(1);
-  await page.screenshot({
-    path: `artifacts/${info.project.name}-pb006-reception.png`,
-    fullPage: true,
-  });
 });
 
 test("active Visit conflict continues the authorized Visit", async ({
