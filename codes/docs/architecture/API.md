@@ -30,7 +30,7 @@ Khoảng 7/30 ngày chỉ áp dụng cho biểu đồ `daily`; các số liệu 
 | Nhóm | Đường dẫn chính | Quyền |
 |---|---|---|
 | Entry/config | GET `/api/entry`, `/api/config` | Công khai, không tạo Visit |
-| Identity | `/api/auth/register`, `login`, `guest`, `session`, `profile`, `logout`, `link-claim`, `convert`, `recover` | Subject/claim hợp lệ; public register luôn Patient |
+| Identity | `/api/auth/register`, `login`, `guest`, `session`, `profile`, `logout`, `recover` | Subject/recovery hợp lệ; register luôn tạo Patient độc lập |
 | External/booking | `/api/external/link`, `/api/appointments`, `/api/appointments/prepare`, `/api/requests/{id}/booking` | Chủ hồ sơ hoặc reception đã xác minh |
 | Reception | `/api/requests`, `/{id}`, `/{id}/message`, `/{id}/confirm`, `/api/reception/scan`, `/api/reception/resources` | Chủ request/reception theo khoa |
 | Ticket | `/api/visits/{id}/ticket`, `/reissue`, `/recovery`, `/api/tickets/redeem` | Chủ hồ sơ/guest grant hoặc reception |
@@ -40,6 +40,13 @@ Khoảng 7/30 ngày chỉ áp dụng cho biểu đồ `daily`; các số liệu 
 | Administration | `/api/admin/configuration`, `/departments`, `/locations`, `/services`, `/mappings`, `/templates`, `/routes`, `/staff` | Admin; không tự cấp quyền bác sĩ công bố |
 
 Xem OpenAPI để lấy verb, parameter và tên trường chính xác. API không chứa endpoint tính phí, thanh toán thật, chẩn đoán tự động hay xác nhận cấp phát thuốc.
+
+PB-003: `POST /api/auth/link-claim` và `POST /api/auth/convert` đã ngừng, luôn trả
+410 `guestLinkDisabled` (vẫn áp dụng kiểm tra Origin/client và rate limit chung).
+Không nhận/xác thực credential hay sử dụng claim cũ, không tạo phiên, đổi PatientId,
+chuyển grant hoặc ghi audit liên kết. Bảng LinkClaim và dữ liệu đã liên kết được giữ nguyên.
+Đăng ký/đăng nhập độc lập không nhận lịch sử Guest, kể cả trùng tên/liên hệ;
+Guest tiếp tục dùng quyền hiện có hoặc khôi phục bằng mã Reception đã xác minh.
 
 `POST /api/requests/{id}/confirm` nhận `version`, `departmentId`, `locationId`,
 `attendeeVerified`, `verificationNote`. API tự chọn bác sĩ Doctor đang hoạt động có quyền

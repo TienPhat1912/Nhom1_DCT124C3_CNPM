@@ -230,12 +230,6 @@ export const messages = {
       "Vui lòng liên hệ quầy tiếp nhận để được hướng dẫn đặt lịch.",
     recordHint:
       "Đây là hồ sơ hướng dẫn cho bệnh nhân, không thay thế bệnh án pháp lý của bệnh viện.",
-    optionalAccount: "Giữ quyền xem lại bằng tài khoản",
-    optionalAccountHint:
-      "Liên kết hồ sơ khách hiện tại với tài khoản của bạn. Hành trình và tiến độ được giữ nguyên.",
-    linkAccount: "Liên kết tài khoản",
-    existingAccount: "Tôi đã có tài khoản",
-    newAccount: "Tạo tài khoản và liên kết",
     skip: "Để sau",
     externalAccount: "Liên kết tài khoản lịch hẹn",
     externalReference: "Mã định danh bên ngoài",
@@ -608,12 +602,6 @@ export const messages = {
       "Contact reception for appointment booking instructions.",
     recordHint:
       "This is a patient guidance record, not the hospital’s legal medical record.",
-    optionalAccount: "Keep access with an account",
-    optionalAccountHint:
-      "Link your current guest records to an account. Your journey and progress stay the same.",
-    linkAccount: "Link account",
-    existingAccount: "I have an account",
-    newAccount: "Create and link account",
     skip: "Later",
     externalAccount: "Link an appointment account",
     externalReference: "External identity reference",

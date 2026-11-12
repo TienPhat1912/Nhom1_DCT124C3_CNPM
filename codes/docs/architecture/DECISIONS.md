@@ -1,12 +1,13 @@
 # Quyết định và giả định
 
-Các mục 1–18 mô tả legacy đang chạy. Phần PB-001 bên dưới quy định những nội dung được thay thế cho luồng PRD v2; chưa thay runtime trong task này.
+Các mục 1–18 ghi lại baseline đang chạy; riêng mục 5 đã cập nhật hành vi PB-003.
+Phần PB-001 bên dưới là hợp đồng đích cho luồng PRD v2, chưa triển khai toàn bộ runtime.
 
 1. Modular monolith ASP.NET Core .NET 10 LTS, EF Core SQL Server; một backend và một database thật. React/TypeScript web, Expo React Native mobile. Không dùng dịch vụ Sites hosting: yêu cầu chỉ chạy cục bộ.
 2. SQL Server dùng container riêng cnpm-guidance, cổng 14339; backend 5280, web 5180. Không đụng container đang có. Mật khẩu tạo ngẫu nhiên ngoài source. Database Developer chỉ dùng phát triển/demo.
 3. Bệnh viện demo duy nhất. Phân công bác sĩ theo Visit và khoa; nhân viên dịch vụ theo khoa của bước, thu ngân/tiếp nhận theo khoa Visit. Quản trị không có quyền xem nội dung bác sĩ hoặc công bố thay bác sĩ.
 4. Guest 24 giờ, tài khoản/nhân viên 8 giờ; cookie HttpOnly/SameSite Strict cho web, token lưu SecureStore native. QR hết hạn sau 24 giờ, không chứa dữ liệu cá nhân và không tự cấp quyền. Phục hồi guest cần tiếp nhận kiểm tra trực tiếp, mã phục hồi một lần 10 phút. Không đưa mã QR/token vào log.
-5. Chuyển guest giữ Patient ID. Tài khoản mới được gắn trực tiếp. Tài khoản có Patient ID khác chỉ được chuyển nếu hồ sơ đích chưa có request/Visit/liên kết ngoài; nếu đã có dữ liệu, báo xung đột cần nhân viên giải quyết, không tự hợp nhất. Đây là lựa chọn bảo toàn sở hữu theo PRD.
+5. PB-003 thay thế hành vi liên kết legacy: không tạo liên kết Guest/tài khoản mới; link-claim/convert trả 410 guestLinkDisabled. Đăng ký tạo Patient riêng, đăng nhập giữ chủ sở hữu hiện tại; không gộp theo tên/liên hệ. Lịch sử đã liên kết trước nâng cấp và bảng LinkClaim được giữ nguyên; Guest còn quyền dùng bình thường, recovery vẫn cần Reception xác minh.
 6. Trạng thái cập nhật bằng polling 5 giây, refresh sau mutation/reconnect; phản hồi cũ bị loại theo request sequence. Cache nhạy cảm chỉ trong RAM; xóa khi sign-out/đổi subject/hết hạn. Không có offline mutation queue.
 7. Mutation nghiệp vụ dùng Idempotency-Key và kiểm tra version khi cập nhật bản ghi. Giao dịch SQL + application lock bảo vệ thao tác nhiều bảng, unique indexes là hàng rào cuối. Khóa toàn cục cho lệnh ghi trong bản triển khai một bệnh viện; đo tải để xác định giới hạn. Đọc dùng isolation mặc định của SQL Server; bản đọc lỗi thời không được quyền ghi đè vì mutation kiểm tra version và điều kiện hiện hành.
 8. WorkRevision tăng khi thêm/sửa/hủy công việc; quyết toán cuối lưu revision tương ứng. Tiến độ không tăng WorkRevision. Quyết toán sớm chỉ đóng khi chuyên môn đủ điều kiện và revision còn khớp.

@@ -67,6 +67,6 @@ node tests/android/android-smoke.mjs
 node tests/android/android-account.mjs
 ```
 
-`android-smoke` tạo khách và hồ sơ tổng hợp mới, hoàn tất hành trình bằng UI native cùng hành động của nhân viên qua API thật. `android-account` tiếp tục đúng khách đó để kiểm tra hủy/liên kết tài khoản, khởi động lại, deep link VI và cỡ chữ 130%; luôn phục hồi cỡ chữ cũ sau test. Bộ test đặt kích thước giả lập 720×1280, density 240 và tắt animation; chỉ dùng AVD riêng vì các thiết lập này được giữ lại. Không xóa app data hoặc database. SHA-256 của APK đang cài được so với file bàn giao trước khi chạy và ghi cùng báo cáo; ảnh chụp nằm trong `artifacts/android`.
+`android-smoke` tạo khách và hồ sơ tổng hợp mới, hoàn tất hành trình bằng UI native cùng hành động của nhân viên qua API thật. `android-account` tiếp tục đúng khách đó để kiểm tra không còn UI liên kết, đăng ký tài khoản độc lập không nhận lịch sử Guest, khôi phục Guest đã xác minh, khởi động lại, deep link VI và cỡ chữ 130%; luôn phục hồi cỡ chữ cũ sau test. Bộ test đặt kích thước giả lập 720×1280, density 240 và tắt animation; chỉ dùng AVD riêng vì các thiết lập này được giữ lại. Chạy với API/database kiểm thử riêng; không xóa app data hoặc database. SHA-256 của APK đang cài được so với file bàn giao trước khi chạy và ghi cùng báo cáo; ảnh chụp nằm trong `artifacts/android`.
 
 Chạy native acceptance sau khi build/export đã kết thúc để giảm tranh chấp tài nguyên trên máy ít RAM. Các tích hợp ngoài bệnh viện vẫn là Simulation theo cấu hình demo.

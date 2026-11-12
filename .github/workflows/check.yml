@@ -23,7 +23,7 @@ jobs:
         run: ./tests/setup/bootstrap.ps1
       - run: npm ci
       - run: npm run typecheck && npm run lint
-      - run: npm run test:narration:unit && npm run test:languages:unit
+      - run: npm run test:narration:unit && npm run test:session:unit && npm run test:languages:unit
       - run: dotnet restore --locked-mode && dotnet build -c Release --no-restore
       - run: npm run test:translation
       - name: Publish web and API as one Azure release

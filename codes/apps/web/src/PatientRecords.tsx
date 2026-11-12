@@ -17,7 +17,6 @@ import {
   type Content,
   type Notification,
   type Profile,
-  type Session,
   type VisitSummary,
 } from "@hospital/shared";
 import {
@@ -422,7 +421,7 @@ export function NotificationsPanel({
     </>
   );
 }
-export function ProfilePanel({ onLink }: { onLink: () => void }) {
+export function ProfilePanel() {
   const { t } = useRuntime();
   const r = useResource<Profile>("/api/auth/profile");
   return (
@@ -434,7 +433,6 @@ export function ProfilePanel({ onLink }: { onLink: () => void }) {
           key={r.data.version}
           profile={r.data}
           onSaved={r.refresh}
-          onLink={onLink}
         />
       )}
     </>
@@ -443,11 +441,9 @@ export function ProfilePanel({ onLink }: { onLink: () => void }) {
 function ProfileForm({
   profile,
   onSaved,
-  onLink,
 }: {
   profile: Profile;
   onSaved: () => void;
-  onLink: () => void;
 }) {
   const { t, locale, setLocale, session, setSession } = useRuntime();
   const mutation = useMutation();
@@ -505,102 +501,6 @@ function ProfileForm({
           {t("save")}
         </Button>
       </Form>
-      {session.isGuest && (
-        <div className="account-invitation">
-          <h3>{t("optionalAccount")}</h3>
-          <p>{t("optionalAccountHint")}</p>
-          <Button variant="secondary" onClick={onLink}>
-            {t("linkAccount")}
-          </Button>
-        </div>
-      )}
     </div>
-  );
-}
-export function LinkAccount({
-  visitId,
-  onDone,
-  onCancel,
-}: {
-  visitId: string | null;
-  onDone: (s: Session, visitId: string | null) => void;
-  onCancel: () => void;
-}) {
-  const { t, locale } = useRuntime();
-  const mutation = useMutation();
-  const [register, setRegister] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  return (
-    <>
-      <p>{t("optionalAccountHint")}</p>
-      <div className="segmented">
-        <button
-          className={register ? "selected" : ""}
-          onClick={() => setRegister(true)}
-        >
-          {t("newAccount")}
-        </button>
-        <button
-          className={!register ? "selected" : ""}
-          onClick={() => setRegister(false)}
-        >
-          {t("existingAccount")}
-        </button>
-      </div>
-      <Form
-        busy={mutation.busy}
-        onSubmit={async () => {
-          const claim = await mutation.run<{ claim: string }>(
-            "/api/auth/link-claim",
-            { returnVisitId: visitId },
-          );
-          if (!claim) return;
-          const result = await mutation.run<{
-            session: Session;
-            returnVisitId: string | null;
-          }>("/api/auth/convert", {
-            claim: claim.claim,
-            email,
-            password,
-            register,
-          });
-          if (result) onDone(result.session, result.returnVisitId);
-        }}
-      >
-        <Field label={t("email")}>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="username"
-          />
-        </Field>
-        <Field
-          label={t("password")}
-          hint={register ? t("passwordHint") : undefined}
-        >
-          <input
-            type="password"
-            minLength={register ? 12 : 1}
-            maxLength={128}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete={register ? "new-password" : "current-password"}
-          />
-        </Field>
-        <Feedback error={mutation.error} locale={locale} />
-        <div className="actions">
-          <Button type="submit" busy={mutation.busy}>
-            {t("linkAccount")}
-          </Button>
-          <Button variant="quiet" type="button" onClick={onCancel}>
-            {t("cancel")}
-          </Button>
-        </div>
-      </Form>
-    </>
   );
 }
