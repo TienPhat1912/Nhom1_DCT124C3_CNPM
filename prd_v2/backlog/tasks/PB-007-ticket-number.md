@@ -87,6 +87,26 @@ chạy SQL thành công. Bổ sung bảo vệ Down/culture và phiếu đã lưu
 Chưa chạy toàn bộ workflow GitHub Actions hoặc LocalDB trên máy này; kết quả local
 không thay kết quả CI. Chưa có reviewer/PR/merge nên chưa đánh Done.
 
+### Sửa lỗi CI hồi quy PB-004 ngày 13/11/2026
+
+Log CI tại release `e3db3ca` cho thấy API 23/23 và translation đạt, sau đó
+PB-004 thất bại ở `Blocked downgrade preserves all data`. Test fingerprint schema
+latest nhưng EF đã gỡ PB-007 trước khi guard PB-004 chặn Down; đây là so sánh sai
+mốc schema, không phải allocator làm mất phiếu.
+
+- Hai kịch bản fresh/legacy hiện đưa schema về đúng migration PB-004 trước khi
+  kiểm tra Down bị chặn, so sánh đầy đủ fingerprint, rồi nâng latest và so sánh lại.
+- Thêm `PB004_SQL_CONNECTION` tùy chọn cho SQL auth local để tái hiện bộ test thật
+  trên Docker; luôn sinh database fixture mới. CI vẫn dùng LocalDB, xóa override
+  trong quá trình test và khôi phục biến môi trường sau khi kết thúc.
+- Đã tái hiện lỗi trước sửa (`.local/pb007-core-before.log`) và chạy đạt **79
+  assertions** sau sửa (`.local/pb007-core-after.log`) bằng
+  `dotnet run --project tests/core-schema/CoreSchema.Tests.csproj -c Release`.
+- Database fixture sau sửa: `HospitalPB004_fresh_2675bbe21c184cb7bdf74e1c2bd60d63`
+  và `HospitalPB004_legacy_9bcf2db5f6674912ac4aa4140ef816ee`.
+- Không đổi migration đã phát hành hoặc logic cấp số; cần push bản sửa và chạy
+  lại CI để xác nhận toàn bộ workflow.
+
 ### Nội dung PR đề xuất
 
 **Tiêu đề:** `[PB-007] Cấp số phiếu an toàn theo phòng và ngày Việt Nam`

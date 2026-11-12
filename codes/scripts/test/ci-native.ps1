@@ -23,7 +23,7 @@ function Find-SqlTool([string]$Name) {
 }
 $names = @('ACCEPTANCE_DB', 'ConnectionStrings__Hospital', 'DEMO_PASSWORD', 'Demo__Enabled', 'Demo__Password',
     'ASPNETCORE_ENVIRONMENT', 'ASPNETCORE_URLS', 'Web__Origin', 'API_URL', 'WEB_URL', 'SQL_TEST_SERVER', 'SQLCMD_PATH',
-    'Providers__FailureMode', 'Providers__TimeoutSeconds', 'PROVIDER_FAILURE', 'EXPECTED_COMMIT', 'PB004_SQL_SERVER',
+    'Providers__FailureMode', 'Providers__TimeoutSeconds', 'PROVIDER_FAILURE', 'EXPECTED_COMMIT', 'PB004_SQL_SERVER', 'PB004_SQL_CONNECTION',
     'PB006_SQL_CONNECTION', 'PB007_SQL_CONNECTION', 'Workflow__PrdV2Enabled')
 $previous = @{}
 foreach ($name in $names) { $previous[$name] = [Environment]::GetEnvironmentVariable($name, 'Process') }
@@ -40,6 +40,7 @@ try {
     }
     $env:SQL_TEST_SERVER = $SqlServer
     $env:PB004_SQL_SERVER = $SqlServer
+    $env:PB004_SQL_CONNECTION = $null
     $env:Workflow__PrdV2Enabled = 'false'
     $env:ACCEPTANCE_DB = 'HospitalAcceptance_' + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
     $env:ConnectionStrings__Hospital = "Server=$SqlServer;Database=$($env:ACCEPTANCE_DB);Integrated Security=true;TrustServerCertificate=true"
