@@ -46,6 +46,7 @@ async function enter(
     localStorage.setItem("hospital.language", "en"),
   );
   await page.goto("/");
+  await expect(page.locator(".sidebar")).toBeAttached();
 }
 test("Reception confirms once; patient enters active Journey without QR; reprint and reload preserve ticket", async ({
   page,
@@ -66,8 +67,11 @@ test("Reception confirms once; patient enters active Journey without QR; reprint
     password,
   });
   await enter(context, page, patient, baseURL!);
-  if (await page.locator(".mobile-menu").isVisible())
-    await page.locator(".mobile-menu").click();
+  const mobileMenu = page.locator(".mobile-menu");
+  if (await mobileMenu.isVisible()) {
+    await mobileMenu.click();
+    await expect(page.locator(".sidebar")).toHaveClass(/open/);
+  }
   await page.getByRole("button", { name: "Reception", exact: true }).click();
   await page
     .getByLabel("What you would like to tell staff", { exact: true })
