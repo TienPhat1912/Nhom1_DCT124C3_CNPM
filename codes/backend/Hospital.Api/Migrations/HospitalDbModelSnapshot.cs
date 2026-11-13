@@ -322,6 +322,54 @@ namespace Hospital.Api.Migrations
                     b.ToTable("CommandReceipt");
                 });
 
+            modelBuilder.Entity("Hospital.Api.Domain.ConsultationCall", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClinicLocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ConsultationNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContentRevision")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PayloadJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicLocationId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("VisitId", "ConsultationNumber")
+                        .IsUnique();
+
+                    b.ToTable("ConsultationCall", t =>
+                        {
+                            t.HasCheckConstraint("CK_ConsultationCall_Number", "[ConsultationNumber] > 0 AND [ContentRevision] > 0");
+
+                            t.HasCheckConstraint("CK_ConsultationCall_Payload", "ISJSON([PayloadJson]) = 1");
+                        });
+                });
+
             modelBuilder.Entity("Hospital.Api.Domain.Department", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1564,6 +1612,11 @@ namespace Hospital.Api.Migrations
 
                     b.HasIndex("AppointmentId");
 
+                    b.HasIndex("ClinicLocationId")
+                        .IsUnique()
+                        .HasDatabaseName("UX_Visits_OneConsultationPerClinic")
+                        .HasFilter("[ClinicLocationId] IS NOT NULL AND [Status] = 'Active' AND [ExamStatus] = 'InConsultation'");
+
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("PatientId")
@@ -1728,6 +1781,27 @@ namespace Hospital.Api.Migrations
                         .HasForeignKey("ClinicLocationId", "ActiveDoctorId")
                         .HasPrincipalKey("ClinicLocationId", "DoctorId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Hospital.Api.Domain.ConsultationCall", b =>
+                {
+                    b.HasOne("Hospital.Api.Domain.Location", null)
+                        .WithMany()
+                        .HasForeignKey("ClinicLocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Hospital.Api.Domain.UserAccount", null)
+                        .WithMany()
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Hospital.Api.Domain.Visit", null)
+                        .WithMany()
+                        .HasForeignKey("VisitId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hospital.Api.Domain.DoctorOrder", b =>

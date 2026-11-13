@@ -1,4 +1,7 @@
 {
+  "InConsultation": "就诊中",
+  "clinicBusy": "诊室已有患者正在就诊，请刷新候诊名单。",
+  "consultationCalled": "医生已接诊，请前往诊室。",
   "menu": "菜单",
   "doctorUnavailable": "所选科室和诊室暂无可用医生。",
   "adminWorkspace": "医院管理",

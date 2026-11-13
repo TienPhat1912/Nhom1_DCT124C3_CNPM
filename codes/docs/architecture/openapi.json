@@ -2204,6 +2204,133 @@
           }
         }
       }
+    },
+    "/api/v2/clinics/{clinicId}/queue": {
+      "get": {
+        "tags": [
+          "Doctor consultation"
+        ],
+        "parameters": [
+          {
+            "name": "clinicId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "pattern": "^-?(?:0|[1-9]\\d*)$",
+              "type": [
+                "integer",
+                "string"
+              ],
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnonymousTypeOfGuidAndGuidAndIEnumerableOfAnonymousTypeOfGuidAndintAndstringAndstringAndDateOnlyAndGuidAndstring"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/doctor/clinics": {
+      "get": {
+        "tags": [
+          "Doctor consultation"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/visits/{id}": {
+      "get": {
+        "tags": [
+          "Doctor consultation"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/visits/{id}/consultations/accept": {
+      "post": {
+        "tags": [
+          "Doctor consultation"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -5348,7 +5475,125 @@
           }
         }
       },
-      "JsonElement": {}
+      "JsonElement": {},
+      "AnonymousTypeOfGuidAndGuidAndAnonymousTypeOfGuidAndintAndstringAndstringAndDateOnlyAndGuidAndstring": {
+        "required": [
+          "clinicLocationId",
+          "currentVisitId",
+          "waiting"
+        ],
+        "type": "object",
+        "properties": {
+          "clinicLocationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentVisitId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
+          },
+          "waiting": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/AnonymousTypeOfGuidAndintAndstringAndstringAndDateOnlyAndGuidAndstring"
+            }
+          }
+        }
+      },
+      "AnonymousTypeOfGuidAndintAndstringAndstringAndDateOnlyAndGuidAndstring": {
+        "required": [
+          "id",
+          "version",
+          "patientName",
+          "number",
+          "issuedOn",
+          "clinicLocationId",
+          "examStatus"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "patientName": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "number": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "issuedOn": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date"
+          },
+          "clinicLocationId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
+          },
+          "examStatus": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
+      "AnonymousTypeOfGuidAndGuidAndIEnumerableOfAnonymousTypeOfGuidAndintAndstringAndstringAndDateOnlyAndGuidAndstring": {
+        "required": [
+          "clinicLocationId",
+          "currentVisitId",
+          "waiting"
+        ],
+        "type": "object",
+        "properties": {
+          "clinicLocationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentVisitId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
+          },
+          "waiting": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/AnonymousTypeOfGuidAndintAndstringAndstringAndDateOnlyAndGuidAndstring"
+            }
+          }
+        }
+      }
     }
   }
 }
