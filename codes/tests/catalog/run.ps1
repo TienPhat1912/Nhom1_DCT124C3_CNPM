@@ -1,20 +1,28 @@
-param([int]$Port=5291)
+param([int]$Port=5291, [string]$SqlServer, [ValidateSet('Debug','Release')][string]$Configuration='Debug')
 $ErrorActionPreference='Stop'
 $root=Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Set-Location $root
 if (Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue) { throw "Test port $Port is already in use." }
-. (Join-Path $root 'scripts/setup/env.ps1')
-$settings=Get-DemoSettings -Root $root
+if ($SqlServer) {
+  if ($SqlServer -notmatch '^(localhost|\.|\(localdb\)\\[\w-]+|\.\\[\w-]+)$') { throw 'Only a local SQL Server is allowed.' }
+  $env:SQL_TEST_SERVER=$SqlServer
+  $env:DEMO_PASSWORD='Fixture-'+[Guid]::NewGuid().ToString('N')
+} else {
+  . (Join-Path $root 'scripts/setup/env.ps1')
+  $settings=Get-DemoSettings -Root $root
+  $env:DEMO_PASSWORD=$settings.DEMO_PASSWORD
+}
 $database='HospitalAcceptance_'+[DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
 $env:ACCEPTANCE_DB=$database
 $env:API_URL="http://127.0.0.1:$Port"
-$env:DEMO_PASSWORD=$settings.DEMO_PASSWORD
-$env:ConnectionStrings__Hospital="Server=127.0.0.1,$($settings.SQL_PORT);Database=$database;User Id=sa;Password=$($settings.SQL_PASSWORD);TrustServerCertificate=true;Encrypt=true"
+$env:ConnectionStrings__Hospital=if ($SqlServer) { "Server=$SqlServer;Database=$database;Integrated Security=true;TrustServerCertificate=true" } else { "Server=127.0.0.1,$($settings.SQL_PORT);Database=$database;User Id=sa;Password=$($settings.SQL_PASSWORD);TrustServerCertificate=true;Encrypt=true" }
 $env:Demo__Enabled='true'
-$env:Demo__Password=$settings.DEMO_PASSWORD
+$env:Demo__Password=$env:DEMO_PASSWORD
+$env:Workflow__PrdV2Enabled='false'
 $env:ASPNETCORE_ENVIRONMENT='Development'
 $env:Catalog__Enabled='false'
-$assembly=Join-Path $root 'backend/Hospital.Api/bin/Debug/net10.0/Hospital.Api.dll'
+New-Item -ItemType Directory -Path (Join-Path $root '.local') -Force | Out-Null
+$assembly=Join-Path $root "backend/Hospital.Api/bin/$Configuration/net10.0/Hospital.Api.dll"
 dotnet $assembly --contentRoot (Join-Path $root "backend/Hospital.Api") --migrate-only *> (Join-Path $root '.local/catalog-test-seed.log')
 if ($LASTEXITCODE -ne 0) { throw 'Isolated seed failed. See .local/catalog-test-seed.log.' }
 node tests/api/catalog-prepare.mjs

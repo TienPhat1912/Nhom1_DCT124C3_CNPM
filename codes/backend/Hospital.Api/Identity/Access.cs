@@ -47,7 +47,13 @@ public class Access(HospitalDb db, IHttpContextAccessor context)
             var u = s.UserAccount!;
             Check.That(u.Role != "Admin", "forbidden", "Clinical records are not part of administrator access.", 403);
             if (content) Check.That(u.Role == "Doctor" && v.DoctorId == u.Id, "forbidden", "Only the responsible doctor can access clinical drafts.", 403);
-            if (u.Role == "Doctor") Check.That(v.DoctorId == u.Id, "outOfScope", "This Visit is not assigned to you.", 403);
+            if (u.Role == "Doctor") {
+                Check.That(v.DoctorId == u.Id, "outOfScope", "This Visit is not assigned to you.", 403);
+                if (v.Status == "Active" && v.ClinicLocationId is {} clinicId)
+                    Check.That(await db.Set<ClinicDoctor>().AnyAsync(a => a.DoctorId == u.Id && a.ClinicLocationId == clinicId)
+                        && await db.Set<ClinicRoom>().AnyAsync(r => r.ClinicLocationId == clinicId && r.ActiveDoctorId == u.Id),
+                        "outOfScope", "This clinic is outside your current assignment.", 403);
+            }
             if (u.Role == "Service") Check.That(v.Journey.Steps.Any(st => st.Authority == "Service" && u.Scopes.Any(sc => sc.DepartmentId == st.DepartmentId)), "outOfScope", "No assigned service in this Visit.", 403);
             else Scope(u, v.DepartmentId);
         }

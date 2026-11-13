@@ -25,6 +25,7 @@ public static class HospitalCatalog
         var deps = await db.Set<Department>().Where(d => d.Active).ToListAsync();
         var users = await db.Users.Where(d => d.Role == "Doctor" && d.Active).ToDictionaryAsync(d => d.Id);
         var locations = await db.Set<Location>().Where(l => l.Active).ToDictionaryAsync(l => l.Id);
+        var assignments = await db.Set<ClinicDoctor>().AsNoTracking().ToListAsync();
         Guid? DepartmentId(string key) {
             var code = Departments.Single(d => d.Id == key).Code;
             return deps.FirstOrDefault(d => d.Code == code)?.Id;
@@ -45,7 +46,7 @@ public static class HospitalCatalog
             }),
             clinicians = Roster.Clinicians.Where(d => DepartmentId(d.DepartmentKey) is not null && (!d.IsDoctor || users.ContainsKey(d.Id))).Select(d => new {
                 d.Id, name = users.GetValueOrDefault(d.Id)?.Name ?? d.Name, departmentId = DepartmentId(d.DepartmentKey),
-                d.IsDoctor, d.Titles, d.SpecialtyIds, d.ClinicIds, d.SourceVariants,
+                d.IsDoctor, d.Titles, d.SpecialtyIds, clinicIds = d.IsDoctor ? assignments.Where(a => a.DoctorId == d.Id).Select(a => a.ClinicLocationId).ToArray() : d.ClinicIds, d.SourceVariants,
                 directoryOnly = !d.IsDoctor || string.IsNullOrEmpty(users[d.Id].PasswordHash)
             })
         };

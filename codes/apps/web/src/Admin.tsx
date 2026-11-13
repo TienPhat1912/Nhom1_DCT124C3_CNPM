@@ -20,6 +20,7 @@ import {
 import { useMutation, useResource, useRuntime } from "./runtime";
 import { HospitalQr } from "./HospitalEntry";
 import AdminDashboard from "./AdminDashboard";
+import ClinicAssignments from "./ClinicAssignments";
 type Tab = keyof AdminConfig;
 const tabs: Tab[] = [
   "departments",
@@ -33,7 +34,7 @@ const tabs: Tab[] = [
 type Values = Record<string, string | number | boolean | string[] | null>;
 export default function Admin() {
   const { t, locale } = useRuntime();
-  const [tab, setTab] = useState<Tab | "dashboard">("dashboard");
+  const [tab, setTab] = useState<Tab | "dashboard" | "clinics">("dashboard");
   const resource = useResource<AdminConfig>(
     tab === "dashboard" ? null : "/api/admin/configuration",
   );
@@ -42,10 +43,10 @@ export default function Admin() {
   const [search, setSearch] = useState("");
   const data = resource.data;
   const record =
-    id && tab !== "dashboard"
+    id && tab !== "dashboard" && tab !== "clinics"
       ? data?.[tab].find((r) => r.id === id)
       : undefined;
-  const selectTab = (next: Tab | "dashboard") => {
+  const selectTab = (next: Tab | "dashboard" | "clinics") => {
     setTab(next);
     setSearch("");
     setId(null);
@@ -64,6 +65,13 @@ export default function Admin() {
         >
           <LayoutDashboard size={16} aria-hidden="true" /> {t("dashboard")}
         </button>
+        <button
+          className={tab === "clinics" ? "selected" : ""}
+          aria-current={tab === "clinics" ? "page" : undefined}
+          onClick={() => selectTab("clinics")}
+        >
+          {t("clinicAssignments")}
+        </button>
         {tabs.map((x) => (
           <button
             key={x}
@@ -80,7 +88,8 @@ export default function Admin() {
       ) : (
         <ResourceState resource={resource} />
       )}
-      {data && tab !== "dashboard" && (
+      {data && tab === "clinics" && <ClinicAssignments config={data} />}
+      {data && tab !== "dashboard" && tab !== "clinics" && (
         <div className="split-layout">
           <aside className="panel">
             <Button

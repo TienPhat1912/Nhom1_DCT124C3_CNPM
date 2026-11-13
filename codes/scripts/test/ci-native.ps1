@@ -7,7 +7,7 @@ $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $publish = Join-Path $root 'artifacts/azure-release'
 $dll = Join-Path $publish 'Hospital.Api.dll'
 if (-not (Test-Path -LiteralPath $dll)) { throw 'Run scripts/deploy/publish-azure.ps1 first.' }
-if ($SqlServer -and $SqlServer -notmatch '^(\(localdb\)\\[\w-]+|\.\\[\w-]+)$') { throw 'Tests require a local SQL instance.' }
+if ($SqlServer -and $SqlServer -notmatch '^(localhost|\.|\(localdb\)\\[\w-]+|\.\\[\w-]+)$') { throw 'Tests require a local SQL instance.' }
 
 function Invoke-Checked([string]$File, [string[]]$Arguments) {
     & $File @Arguments
@@ -110,6 +110,7 @@ try {
     Invoke-Checked 'npx.cmd' @('playwright', 'test', '--config', 'playwright.reception.config.ts')
     Stop-TestApi
     $env:Workflow__PrdV2Enabled = 'false'
+    Invoke-Checked 'powershell' @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', 'tests/catalog/pb005.ps1', '-SqlServer', $SqlServer, '-Port', '5295')
     foreach ($mode in @('Timeout', 'Unavailable')) {
         $env:Providers__FailureMode = $mode
         $env:Providers__TimeoutSeconds = '1'
