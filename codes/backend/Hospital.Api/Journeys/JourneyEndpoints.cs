@@ -65,7 +65,9 @@ public static class JourneyEndpoints
             else {
                 var u = await access.Staff("Reception", "Doctor", "Service", "Cashier"); var departments = u.Scopes.Select(sc => sc.DepartmentId).ToArray();
                 q = u.Role == "Service" ? q.Where(v => v.Journey.Steps.Any(st => st.Authority == "Service" && departments.Contains(st.DepartmentId))) : q.Where(v => departments.Contains(v.DepartmentId));
-                if (u.Role == "Doctor") q = q.Where(v => v.DoctorId == u.Id);
+                if (u.Role == "Doctor") q = q.Where(v => v.DoctorId == u.Id && (v.Status != "Active" || v.ClinicLocationId == null
+                    || (db.Set<ClinicDoctor>().Any(a => a.DoctorId == u.Id && a.ClinicLocationId == v.ClinicLocationId)
+                        && db.Set<ClinicRoom>().Any(r => r.ClinicLocationId == v.ClinicLocationId && r.ActiveDoctorId == u.Id))));
             }
             return await q.OrderByDescending(v => v.CreatedAt).ThenBy(v => v.Id).Skip(offset ?? 0).Take(limit ?? 100).Select(v => new { v.Id, v.Version, v.Status, v.CreatedAt, v.ClosedAt, patientName = v.Patient.Name, ticketNumber = v.Ticket.Number, journeyStatus = v.Journey.Status, v.WorkRevision }).ToListAsync();
         });

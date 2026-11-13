@@ -1,6 +1,6 @@
 # Hợp đồng API và bộ kết nối
 
-Các mục đầu mô tả API legacy đang chạy. Phần [PB-001: hợp đồng PRD v2](#pb-001-hợp-đồng-prd-v2) là hợp đồng đích; riêng nhóm yêu cầu tiếp nhận PB-006 đã có API/migration/OpenAPI và mặc định tắt. Các nhóm V2 khác chờ task tương ứng. Không dùng hành vi legacy để thay quy tắc v2.
+Các mục đầu mô tả API legacy đang chạy. Phần [PB-001: hợp đồng PRD v2](#pb-001-hợp-đồng-prd-v2) ghi hợp đồng đích. PB-005 đã có quản trị phân công phòng, PB-006/PB-008 đã có yêu cầu và xác nhận tiếp nhận V2 dưới cờ Workflow:PrdV2Enabled mặc định tắt. Các nhóm V2 còn lại chờ task tương ứng.
 
 Tài liệu máy đọc: `/openapi/v1.json`, snapshot trong `docs/architecture/openapi.json`. C# request records nằm cạnh endpoint; DTO TypeScript dùng chung trong `packages/shared/src/types.ts`, API client trong `api.ts`. DTO phản hồi hiện được duy trì thủ công; acceptance kiểm tra các luồng sử dụng chúng. Không khẳng định có schema-codegen toàn bộ phản hồi anonymous C#.
 
@@ -38,6 +38,7 @@ Khoảng 7/30 ngày chỉ áp dụng cho biểu đồ `daily`; các số liệu 
 | Doctor content | `/api/visits/{id}/drafts`, `/drafts/{draftId}/publish`, `/content`, `/follow-ups`, `/narration` | Bác sĩ phụ trách viết/duyệt nguồn Việt; chủ hồ sơ đọc bản gốc hoặc bản dịch khi truy xuất |
 | Support | `/api/visits/{id}/navigation`, `/api/notifications`, `/api/assistance` | Quyền hồ sơ; Reception/Service xử lý hỗ trợ theo khoa |
 | Administration | `/api/admin/configuration`, `/departments`, `/locations`, `/services`, `/mappings`, `/templates`, `/routes`, `/staff` | Admin; không tự cấp quyền bác sĩ công bố |
+| Clinic assignments | GET `/api/v2/admin/clinics`, `/{id}/assignment`; PUT `/{id}/doctors`, `/{id}/active-doctor` | Admin, version phòng và guard Visit Active |
 
 Xem OpenAPI để lấy verb, parameter và tên trường chính xác. API không chứa endpoint tính phí, thanh toán thật, chẩn đoán tự động hay xác nhận cấp phát thuốc.
 
@@ -90,9 +91,16 @@ DataProtection keys cần giữ bền vững cùng database để mở lại QR 
 
 ## PB-001: hợp đồng PRD v2
 
+PB-005 đã triển khai phân công thành viên và bác sĩ đang hoạt động. Version 0
+biểu thị Location chưa có ClinicRoom, doctorId=null bỏ lựa chọn khi đủ điều kiện.
+API dùng được để chuẩn bị cấu hình trước khi bật V2. Cả bốn trạng thái khám của
+Visit Active và Visit legacy liên quan đều khóa thay đổi. Khóa tài khoản bảo mật
+có hiệu lực ngay và giữ phân công hiện tại. Chi tiết triển khai và kiểm thử nằm
+trong [hướng dẫn phân công phòng PB-005](../requirements/PB-005-CLINIC-ASSIGNMENT.md).
+
 PB-006 đã triển khai riêng nhóm yêu cầu tiếp nhận V2, mặc định tắt. Xem
 [phạm vi thực thi, lỗi, migration và kiểm thử PB-006](../requirements/PB-006-REGISTRATION.md).
-Các nhóm khám/xác nhận/quyết toán bên dưới vẫn là hợp đồng đích cho task tiếp theo.
+PB-008 đã triển khai xác nhận tiếp nhận. Các nhóm khám/quyết toán bên dưới là hợp đồng đích cho task tiếp theo.
 
 Nguồn: [kế hoạch mục 4/6/7](../../../prd_v2/PRD-REVISION-PLAN.md), [PRD chính thức](../../../prd_v2/document/prd%20chinh%20thuc.docx), [quyết định](DECISIONS.md#pb-001-đối-chiếu-prd-v2). DTO trong [types.ts](../../packages/shared/src/types.ts) dùng hậu tố V2, riêng `ExamStatus` là kiểu trạng thái khám. Không thay trường bắt buộc hoặc ý nghĩa của DTO legacy.
 
@@ -130,6 +138,7 @@ Tất cả path trong bảng có tiền tố **`/api/v2`**, là hợp đồng ch
 | Lệnh / task | HTTP; input → output | Quyền và guard | Version / key |
 |---|---|---|---|
 | Chọn bác sĩ / PB-005 | PUT `/admin/clinics/{id}/active-doctor`; SetActiveDoctorInputV2 → ClinicAssignmentV2, 200 | Admin; Doctor đúng phòng/khoa, dùng được; không thay phân công khi phòng/bác sĩ còn Visit Active | version phân công phòng; key bắt buộc |
+| Thành viên phòng / PB-005 | PUT `/admin/clinics/{id}/doctors`; SetClinicDoctorsInputV2 → AdminClinicAssignment, 200 | Admin; một phòng/bác sĩ, tài khoản/khoa hợp lệ, khóa khi có Visit Active | version phòng, 0 khi chưa cấu hình; key bắt buộc |
 | Gửi yêu cầu / PB-006 | POST `/requests`; RegistrationRequestInputV2 → RegistrationRequestV2, 201 | Patient Account/Guest; chưa có request pending hoặc Visit Active | Chưa có version; key bắt buộc, khóa theo Patient |
 | Xác nhận tiếp nhận / PB-008 | POST `/requests/{id}/confirm`; ConfirmReceptionInputV2 → ConfirmReceptionResultV2, 200 | Reception đúng phạm vi request/phòng; đã xác minh; phòng/bác sĩ hợp lệ; Patient chưa có Visit Active | version request + clinicAssignmentVersion; key bắt buộc |
 | Tiếp nhận và gọi khám / PB-010 | POST `/visits/{id}/consultations/accept`; AcceptConsultationInputV2 → VisitV2, 200 | Doctor đúng Visit/phòng; Waiting; phòng không có ca InConsultation | version Visit; key bắt buộc; khóa cả phòng |

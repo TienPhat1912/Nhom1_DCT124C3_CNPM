@@ -394,7 +394,16 @@ export type ClinicAssignmentV2 = {
   activeVisitCount: number;
   canChangeDoctor: boolean;
 };
-export type SetActiveDoctorInputV2 = { version: number; doctorId: string };
+/** Null clears duty after all active Visits have closed. */
+export type SetActiveDoctorInputV2 = { version: number; doctorId: string | null };
+export type SetClinicDoctorsInputV2 = { version: number; doctorIds: string[] };
+export type AdminClinicAssignment = ClinicAssignmentV2 & {
+  departmentId: string;
+  nameVi: string;
+  room: string;
+  available: boolean;
+  activeDoctorUsable: boolean;
+};
 export type RegistrationRequestInputV2 = {
   contact: string;
   preferredDepartmentId: string | null;

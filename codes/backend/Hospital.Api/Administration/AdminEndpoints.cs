@@ -22,7 +22,7 @@ public static class AdminEndpoints
         app.MapGet("/api/staff/profile", async (Access access, HospitalDb db) => {
             var u = await access.Staff("Admin", "Doctor", "Reception", "Service", "Cashier");
             var ids = u.Scopes.Select(s => s.DepartmentId).ToArray();
-            var clinicIds = HospitalCatalog.Clinician(u.Id)?.ClinicIds ?? [];
+            var clinicIds = await db.Set<ClinicDoctor>().Where(a => a.DoctorId == u.Id).Select(a => a.ClinicLocationId).ToArrayAsync();
             return new { u.Id, u.Name, u.Role,
                 departments = await db.Set<Department>().Where(d => ids.Contains(d.Id)).ToListAsync(),
                 specialties = HospitalCatalog.Specialties(u.Id),
@@ -47,6 +47,7 @@ public static class AdminEndpoints
                 templates = await db.Set<GuidanceTemplate>().Where(t => t.Category == "Reception" && t.Published).OrderByDescending(t => t.Revision).ToListAsync() };
         });
         var g = app.MapGroup("/api/admin").WithTags("Administration");
+        app.MapGroup("/api/v2/admin").WithTags("Clinic assignments v2").MapClinicAssignments();
         g.MapGet("/dashboard", AdminDashboard.Read);
         g.MapGet("/configuration", async (Access access, HospitalDb db) => {
             await access.Staff("Admin");
@@ -70,6 +71,8 @@ public static class AdminEndpoints
             var u = await access.Staff("Admin"); return await bus.Run($"{u.Id}:location", input, async () => {
                 var l = await GetOrNew<Location>(input.Id, input.Version, db);
                 Check.That(await db.Set<Department>().AnyAsync(d => d.Id == input.DepartmentId && d.Active), "departmentInvalid", "Active department required.");
+                if (l.DepartmentId != input.DepartmentId) Check.That(!await db.Set<ClinicDoctor>().AnyAsync(a => a.ClinicLocationId == l.Id), "configurationInUse", "Remove clinic doctor assignments before changing the department.", 409);
+                if (!input.Active || l.DepartmentId != input.DepartmentId) Check.That(!await db.Visits.AnyAsync(v => v.Status == "Active" && v.ClinicLocationId == l.Id), "clinicHasActiveVisits", "Clinic has active Visits.", 409);
                 if (!input.Active || (input.Id is not null && l.DepartmentId != input.DepartmentId)) Check.That(!await db.Set<JourneyStep>().AnyAsync(s => s.LocationId == l.Id && s.Status != "Completed" && s.Status != "Cancelled" && s.Status != "Skipped"), "activeReferences", "Location is referenced by unfinished steps.", 409);
                 l.DepartmentId = input.DepartmentId; l.NameVi = Check.Text(input.NameVi, "nameVi", 2, 120); l.Building = Check.Text(input.Building, "building", 1, 30);
                 l.Floor = Check.Text(input.Floor, "floor", 1, 30); l.Room = Check.Text(input.Room, "room", 1, 30); l.Active = input.Active;
@@ -119,8 +122,10 @@ public static class AdminEndpoints
                 if (input.Id is not null) { Check.That(user is not null, "notFound", "Staff account not found.", 404); Check.Version(user!, input.Version); }
                 else { user = new UserAccount(); db.Add(user); }
                 Check.That(user!.Id != admin.Id || (input.Active && input.Role == "Admin"), "selfLockout", "Do not remove your own administrator access.");
-                if (input.Role != "Doctor" || !input.Active) Check.That(!await db.Visits.AnyAsync(v => v.DoctorId == user.Id && v.Status == "Active"), "activeReferences", "Doctor has active assigned Visits.", 409);
+                if (input.Role != "Doctor") Check.That(!await db.Visits.AnyAsync(v => v.DoctorId == user.Id && v.Status == "Active"), "activeReferences", "Doctor has active assigned Visits.", 409);
                 if (input.Role == "Doctor") Check.That(!await db.Visits.AnyAsync(v => v.DoctorId == user.Id && v.Status == "Active" && !input.DepartmentIds.Contains(v.DepartmentId)), "activeReferences", "Keep department access for assigned active Visits.", 409);
+                var assignedDepartments = await (from assignment in db.Set<ClinicDoctor>() join location in db.Set<Location>() on assignment.ClinicLocationId equals location.Id where assignment.DoctorId == user.Id select location.DepartmentId).ToArrayAsync();
+                Check.That(assignedDepartments.Length == 0 || (input.Role == "Doctor" && assignedDepartments.All(input.DepartmentIds.Contains)), "configurationInUse", "Keep the Doctor role and assigned clinic department scope until room membership is removed.", 409);
                 user.Email = IdentityEndpoints.Email(input.Email); user.Name = Check.Text(input.Name, "name", 2, 120); user.Role = input.Role; user.Active = input.Active;
                 if (input.Id is null || !string.IsNullOrEmpty(input.Password)) { Check.That(input.Password?.Length is >= 12 and <= 128 && input.Password.Any(char.IsDigit), "passwordPolicy", "Use 12–128 characters including a number."); user.PasswordHash = new PasswordHasher<UserAccount>().HashPassword(user, input.Password!); }
                 foreach (var old in user.Scopes.Where(s => !input.DepartmentIds.Contains(s.DepartmentId)).ToList()) { db.Remove(old); user.Scopes.Remove(old); }

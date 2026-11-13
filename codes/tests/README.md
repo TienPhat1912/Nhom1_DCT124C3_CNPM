@@ -1,5 +1,12 @@
 # Kiểm thử
 
+PB-005 dùng `powershell -NoProfile -ExecutionPolicy Bypass -File tests/catalog/pb005.ps1 -SqlServer localhost`.
+Runner build web/API, chạy 9 ca API và 2 ca browser desktop/mobile, kiểm tra
+restart rồi buộc nhập lại roster trên database mới riêng. Xem
+[hướng dẫn phân công phòng](../docs/requirements/PB-005-CLINIC-ASSIGNMENT.md).
+Ảnh và báo cáo nằm trong `artifacts/pb005-browser-results` và
+`artifacts/pb005-playwright-report`. CI native chạy cùng runner.
+
 PB-008: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/reception/run.ps1 -SqlServer localhost`
 build web/API và chạy xác nhận cạnh tranh/rollback/grant, browser Reception → Journey
 trên desktop/mobile cùng hồi quy PB-006. Thêm `-Port 5299 -LegacyOnly` để chạy bộ API

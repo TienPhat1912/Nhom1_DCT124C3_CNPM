@@ -60,7 +60,7 @@ const doctorSession=await call("/api/auth/login",{email:"catalog-doctor@example.
 const profile=await call("/api/staff/profile",undefined,doctorSession.token);
 assert.equal(profile.departments[0].id,dep.id);
 assert.ok(profile.specialties.includes("Ngoại thần kinh"));
-assert.ok(profile.clinics.some(c=>c.id===doctor.clinicIds[0]));
+assert.deepEqual(profile.clinics, []); // PB-005 requires explicit database membership, including for roster doctors.
 const assigned=await call("/api/visits",undefined,doctorSession.token);
 assert.ok(assigned.some(v=>v.id===created.visitId));
 const doctorVisit=await call("/api/visits/"+created.visitId,undefined,doctorSession.token);
