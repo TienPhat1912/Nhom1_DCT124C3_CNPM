@@ -15,6 +15,7 @@ await CoreSchemaChecks.Run();
 static class CoreSchemaChecks
 {
     const string Previous = "20261025035340_VietnameseSource";
+    const string CoreSchema = "20261112151204_CoreClinicSchema";
     static int checks;
     static readonly IConfiguration Demo = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> {
         ["Demo:Enabled"] = "true", ["Demo:Password"] = "Fixture-only-PB004-2026!"
@@ -28,14 +29,19 @@ static class CoreSchemaChecks
 
     static HospitalDb NewDatabase(string label)
     {
-        var server = Environment.GetEnvironmentVariable("PB004_SQL_SERVER")
-            ?? throw new InvalidOperationException("Set PB004_SQL_SERVER explicitly to localhost or (localdb)\\MSSQLLocalDB.");
-        if (server is not ("localhost" or ".") && !System.Text.RegularExpressions.Regex.IsMatch(server, @"^(\(localdb\)\\[\w-]+|\.\\[\w-]+)$"))
+        var explicitConnection = Environment.GetEnvironmentVariable("PB004_SQL_CONNECTION");
+        var connection = explicitConnection is null
+            ? new SqlConnectionStringBuilder {
+                DataSource = Environment.GetEnvironmentVariable("PB004_SQL_SERVER")
+                    ?? throw new InvalidOperationException("Set PB004_SQL_SERVER or PB004_SQL_CONNECTION explicitly to a local SQL server."),
+                IntegratedSecurity = true, TrustServerCertificate = true, ConnectTimeout = 10
+            }
+            : new SqlConnectionStringBuilder(explicitConnection);
+        var server = connection.DataSource;
+        if (server is not ("localhost" or ".") && !server.StartsWith("127.0.0.1,", StringComparison.OrdinalIgnoreCase)
+            && !System.Text.RegularExpressions.Regex.IsMatch(server, @"^(\(localdb\)\\[\w-]+|\.\\[\w-]+)$"))
             throw new InvalidOperationException("Only local SQL Server is allowed for these fixtures.");
-        var connection = new SqlConnectionStringBuilder {
-            DataSource = server, InitialCatalog = $"HospitalPB004_{label}_{Guid.NewGuid():N}",
-            IntegratedSecurity = true, TrustServerCertificate = true, ConnectTimeout = 10
-        };
+        connection.InitialCatalog = $"HospitalPB004_{label}_{Guid.NewGuid():N}";
         Console.WriteLine("Isolated database (retained): " + connection.InitialCatalog);
         return new(new DbContextOptionsBuilder<HospitalDb>().UseSqlServer(connection.ConnectionString).Options);
     }
@@ -85,9 +91,15 @@ static class CoreSchemaChecks
         var before = await Fingerprint(db);
         await Seed.Run(db, Demo);
         Check(await Fingerprint(db) == before, "Restart seed must not overwrite assignments or rows");
+        // EF commits newer Down migrations before reaching the PB-004 guard.
+        // Compare preservation at PB-004's boundary, not across unrelated schema removals.
+        await migrator.MigrateAsync(CoreSchema);
+        var coreBefore = await Fingerprint(db);
         try { await migrator.MigrateAsync(Previous); throw new InvalidOperationException("Downgrade must protect assignments"); }
         catch (SqlException e) when (e.Number == 51004) { checks++; }
-        Check(await Fingerprint(db) == before, "Blocked downgrade preserves all data");
+        Check(await Fingerprint(db) == coreBefore, "Blocked downgrade preserves all data");
+        await migrator.MigrateAsync();
+        Check(await Fingerprint(db) == before, "Restore latest schema after PB-004 downgrade check preserves all data");
     }
 
     // Insert only columns that exist in the old database, using current scalar metadata.
@@ -202,9 +214,13 @@ static class CoreSchemaChecks
         await Seed.Run(db, Demo);
         Check(await Fingerprint(db) == after, "Seed does not change existing legacy database");
         await CheckReport(db, cases);
+        await migrator.MigrateAsync(CoreSchema);
+        var coreBefore = await Fingerprint(db);
         try { await migrator.MigrateAsync(Previous); throw new InvalidOperationException("Must not discard inferred room data"); }
         catch (SqlException e) when (e.Number == 51004) { checks++; }
-        Check(await Fingerprint(db) == after, "Blocked legacy downgrade preserves schema and content");
+        Check(await Fingerprint(db) == coreBefore, "Blocked legacy downgrade preserves schema and content");
+        await migrator.MigrateAsync();
+        Check(await Fingerprint(db) == after, "Restore latest legacy schema after PB-004 downgrade check preserves all data");
         var id = cases["certain"].Id;
         await Rejected(db, $"UPDATE Visits SET ClinicLocationId=NEWID() WHERE Id='{id}'", 547);
         await Rejected(db, $"UPDATE Visits SET ExamStatus='InProgress' WHERE Id='{id}'", 547);

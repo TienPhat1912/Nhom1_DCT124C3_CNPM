@@ -17,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("release.json", optional: true, reloadOnChange: false);
 builder.Services.AddDbContext<HospitalDb>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("Hospital") ?? "Server=localhost,14339;Database=HospitalGuidance;Integrated Security=true;TrustServerCertificate=true"));
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddScoped<TicketNumberAllocator>();
 builder.Services.AddDataProtection().SetApplicationName("HospitalGuidance");
 builder.Services.AddScoped<Access>(); builder.Services.AddScoped<SessionIssuer>(); builder.Services.AddScoped<CommandBus>(); builder.Services.AddScoped<QrService>();
 builder.Services.AddScoped<Workflow>(); builder.Services.AddScoped<JourneyReader>(); builder.Services.AddScoped<ContentReader>();

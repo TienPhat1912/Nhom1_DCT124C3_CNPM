@@ -1,11 +1,18 @@
 # Kiểm thử
 
+PB-007: đặt `PB007_SQL_CONNECTION` tới SQL local rồi chạy
+`dotnet run --project tests/ticket-number/TicketNumber.Tests.csproj -c Release`.
+Bộ test tự tạo database mới, kiểm tra concurrent/room/day/retry và migration;
+xem [hướng dẫn cấp số phiếu](../docs/requirements/PB-007-TICKET-NUMBER.md).
+
 PB-006 có [API, browser và migration tests riêng](../docs/requirements/PB-006-REGISTRATION.md#kiểm-thử).
 Luồng V2 mặc định tắt; dùng database riêng và config `playwright.registration.config.ts`
 để kiểm thử khi bật. Migration test tạo fixture mới, không dùng database demo.
 
 PB-004: `dotnet run --project tests/core-schema/CoreSchema.Tests.csproj -c Release`
 sau khi đặt `$env:PB004_SQL_SERVER='localhost'` (hoặc một instance LocalDB).
+SQL Server local dùng SQL authentication có thể đặt `PB004_SQL_CONNECTION` thay thế;
+database trong chuỗi kết nối luôn được thay bằng fixture mới. CI vẫn dùng LocalDB.
 Bộ test tạo database `HospitalPB004_*` mới, giữ lại để đối chiếu, không nhận database
 ứng dụng. Kiểm chứng schema mới/seed, nâng cấp fixture legacy trên schema thật,
 bảo toàn toàn bộ cột cũ bằng SHA-256, báo cáo chỉ đọc, FK/check constraints và
