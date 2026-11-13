@@ -1,4 +1,7 @@
 {
+  "InConsultation": "진료 중",
+  "clinicBusy": "진료실에서 진료 중입니다. 대기 목록을 새로 고치세요.",
+  "consultationCalled": "의사가 진료를 시작했습니다.",
   "menu": "메뉴",
   "doctorUnavailable": "선택한 진료과와 진료실에 배정할 수 있는 의사가 없습니다.",
   "adminWorkspace": "병원 관리",

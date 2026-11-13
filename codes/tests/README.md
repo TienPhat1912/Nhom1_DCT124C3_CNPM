@@ -1,5 +1,11 @@
 # Kiểm thử
 
+PB-010: `node --test tests/api/doctor-accept.test.mjs`,
+`npx playwright test --config playwright.doctor.config.ts` trên API/web acceptance
+V2 riêng; `PB010_SQL_CONNECTION` +
+`dotnet run --project tests/doctor-accept/DoctorAccept.Tests.csproj -c Release`
+kiểm tra migration với SQL local. Xem [bàn giao PB-010](../docs/requirements/PB-010-DOCTOR-ACCEPT.md).
+
 PB-009: `npm run test:reception:unit` kiểm tra component mobile/draft/retry/Entry
 bằng dịch vụ thiết bị giả lập. `node tests/android/android-reception.mjs` là runner
 native riêng cho V2 với API/web/SQL fixture và AVD; xem

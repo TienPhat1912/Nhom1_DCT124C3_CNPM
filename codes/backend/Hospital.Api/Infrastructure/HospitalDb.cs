@@ -23,6 +23,18 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
                 e.Property(p.Name).HasMaxLength(p.Name is "Text" or "Instructions" or "Diagnosis" or "Explanation" or "Description" or "Requests" or "StepsJson" or "ResponseJson" or "DestinationSnapshot" or "Detail" ? 12000 : 500);
         }
         m.Entity<UserAccount>().HasIndex(x => x.Email).IsUnique();
+        m.Entity<ConsultationCall>().HasIndex(x => new { x.VisitId, x.ConsultationNumber }).IsUnique();
+        m.Entity<ConsultationCall>().Property(x => x.PayloadJson).HasColumnType("nvarchar(max)").Metadata.SetMaxLength(null);
+        m.Entity<ConsultationCall>().ToTable(t => {
+            t.HasCheckConstraint("CK_ConsultationCall_Number", "[ConsultationNumber] > 0 AND [ContentRevision] > 0");
+            t.HasCheckConstraint("CK_ConsultationCall_Payload", "ISJSON([PayloadJson]) = 1");
+        });
+        Fk<ConsultationCall, Visit>(m, "VisitId");
+        Fk<ConsultationCall, Location>(m, "ClinicLocationId");
+        Fk<ConsultationCall, UserAccount>(m, "DoctorId");
+        m.Entity<Visit>().HasIndex(x => x.ClinicLocationId).IsUnique()
+            .HasDatabaseName("UX_Visits_OneConsultationPerClinic")
+            .HasFilter("[ClinicLocationId] IS NOT NULL AND [Status] = 'Active' AND [ExamStatus] = 'InConsultation'");
         // These uniqueness constraints apply only to NEW, initially empty tables.
         m.Entity<ClinicDoctor>().HasIndex(x => x.DoctorId).IsUnique();
         m.Entity<ClinicDoctor>().HasAlternateKey(x => new { x.ClinicLocationId, x.DoctorId });

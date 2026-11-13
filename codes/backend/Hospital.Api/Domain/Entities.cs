@@ -150,6 +150,15 @@ public class PatientJourney : Entity
     public string? CompletionSource { get; set; }
     public List<JourneyStep> Steps { get; set; } = [];
 }
+public class ConsultationCall : Entity
+{
+    public Guid VisitId { get; set; }
+    public Guid ClinicLocationId { get; set; }
+    public Guid DoctorId { get; set; }
+    public int ConsultationNumber { get; set; }
+    public int ContentRevision { get; set; } = 1;
+    public string PayloadJson { get; set; } = "{}";
+}
 public class ExaminationTicket : Entity
 {
     // Null together for historical tickets; never infer numbers from legacy H- IDs.

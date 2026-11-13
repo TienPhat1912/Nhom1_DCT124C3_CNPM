@@ -2,6 +2,11 @@
 
 Các mục đầu mô tả API legacy đang chạy. Phần [PB-001: hợp đồng PRD v2](#pb-001-hợp-đồng-prd-v2) ghi hợp đồng đích. PB-005 đã có quản trị phân công phòng, PB-006/PB-008 đã có yêu cầu và xác nhận tiếp nhận V2 dưới cờ Workflow:PrdV2Enabled mặc định tắt. Các nhóm V2 còn lại chờ task tương ứng.
 
+PB-010 bổ sung queue theo phòng, lệnh accept consultation và sự kiện gọi bền vững;
+xem [endpoint runtime, guard và migration PB-010](../requirements/PB-010-DOCTOR-ACCEPT.md).
+GET VisitV2 phục vụ ca đang khám; các capability clinical/settlement chưa triển khai
+vẫn false. Không coi namespace V2 là đã triển khai toàn bộ hợp đồng đích.
+
 Tài liệu máy đọc: `/openapi/v1.json`, snapshot trong `docs/architecture/openapi.json`. C# request records nằm cạnh endpoint; DTO TypeScript dùng chung trong `packages/shared/src/types.ts`, API client trong `api.ts`. DTO phản hồi hiện được duy trì thủ công; acceptance kiểm tra các luồng sử dụng chúng. Không khẳng định có schema-codegen toàn bộ phản hồi anonymous C#.
 
 ## Quy ước

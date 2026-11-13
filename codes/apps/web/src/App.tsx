@@ -167,7 +167,7 @@ export default function App() {
   );
 }
 function Workspace() {
-  const { session, setSession, locale, setLocale, t } = useRuntime();
+  const { session, setSession, locale, setLocale, t, config } = useRuntime();
   const patient = session.role === "Patient";
   const [page, setPage] = useState<Page>(
     patient
@@ -485,6 +485,8 @@ function Workspace() {
             <Admin />
           ) : session.role === "Reception" ? (
             <StaffReception />
+          ) : session.role === "Doctor" && config.prdV2Enabled ? (
+            <StaffClinical id={null} />
           ) : (
             <>
               {visits.data && (

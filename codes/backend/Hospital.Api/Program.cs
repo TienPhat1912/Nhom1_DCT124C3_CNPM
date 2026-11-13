@@ -41,6 +41,7 @@ builder.Services.AddRateLimiter(o => {
 });
 builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 128 * 1024);
 var app = builder.Build();
+app.MapDoctorConsultations();
 app.Use(async (ctx, next) => {
     ctx.Response.Headers.CacheControl = "no-store"; ctx.Response.Headers["X-Content-Type-Options"] = "nosniff"; ctx.Response.Headers["Referrer-Policy"] = "no-referrer";
     try {

@@ -6,6 +6,9 @@ import ru from "./translations/ru.json" with { type: "json" };
 
 export const messages = {
   vi: {
+    InConsultation: "Đang khám",
+    clinicBusy: "Phòng đang có một bệnh nhân trong ca khám. Vui lòng tải lại danh sách.",
+    consultationCalled: "Bác sĩ đã tiếp nhận bạn vào khám.",
     clinicAssignments: "Phân công phòng khám",
     findClinic: "Tìm phòng khám",
     activeDoctor: "Bác sĩ đang hoạt động",
@@ -408,6 +411,9 @@ export const messages = {
     appOpen: "Mở ứng dụng trên điện thoại",
   },
   en: {
+    InConsultation: "In consultation",
+    clinicBusy: "The clinic already has a consultation in progress. Refresh the waiting list.",
+    consultationCalled: "The doctor has accepted you for consultation.",
     clinicAssignments: "Clinic assignments",
     findClinic: "Find clinic",
     activeDoctor: "Active doctor",
