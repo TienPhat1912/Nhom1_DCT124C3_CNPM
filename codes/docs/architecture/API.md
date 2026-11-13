@@ -209,3 +209,12 @@ PB-028/029: POST `/api/v2/presence/heartbeat` không body/version/key, lấy ses
 PB-001 chỉ thêm type/tài liệu. Task tiếp theo dùng namespace `/api/v2`, cấu hình server dự kiến `Workflow:PrdV2Enabled=false`; route đã có nhưng chưa bật trả workflowNotEnabled, UI không hiện nửa luồng. Chỉ bật môi trường dùng chung sau PB-030/031 và API/web/mobile đồng bộ; các task trước đó kiểm thử trên database riêng. Discriminator prd-v2 không cho ép response legacy vào DTO mới.
 
 Trước cutover phải xử lý dữ liệu cũ, constraints và chặn đường legacy phá quy tắc v2: progress/queue tổng quát, sửa/hủy/skip order, publish độc lập, quyết toán sớm, pharmacy/complete-guidance trả legacyCommandDisabled hoặc đi qua đúng guard mới. Deep link/redeem cũ chỉ mở hồ sơ sau kiểm tra quyền, không kích hoạt/chuyển trạng thái. Link-claim/convert ngừng theo PB-003, giữ Guest recovery. Không xóa lịch sử, đổi số phiếu cũ hoặc suy Completed từ SummaryVersion/bước khám cũ. OpenAPI cập nhật khi endpoint thật được triển khai.
+# PB-008 — Xác nhận tiếp nhận V2 đã triển khai
+
+`GET /api/v2/reception/clinics` và `POST /api/v2/requests/{id}/confirm` dùng
+namespace V2 của PB-006, được bảo vệ bởi `Workflow:PrdV2Enabled`. Lệnh confirm nhận
+`ConfirmReceptionInputV2` và Idempotency-Key, trả `{request, visit, ticket}`; tạo
+Visit/Journey Active cùng phiếu và quyền Guest trong một transaction. Phiếu Captured
+ở `GET /api/visits/{id}/ticket` trả snapshot V2 (không có QR), phiếu legacy vẫn giữ
+hợp đồng cũ. Chi tiết quyền, retry, lỗi, rollout và kiểm chứng tại
+[PB-008-CONFIRM-RECEPTION.md](../requirements/PB-008-CONFIRM-RECEPTION.md).

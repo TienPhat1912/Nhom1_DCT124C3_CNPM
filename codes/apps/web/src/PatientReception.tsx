@@ -1,5 +1,5 @@
 import { localizeText } from "@hospital/shared";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ApiError,
   languages,
@@ -79,6 +79,14 @@ function ReceptionV2({
       : "",
   );
   const [preferredDepartmentId, setPreferredDepartmentId] = useState("");
+  const openedVisit = useRef<string | null>(null);
+  const confirmedVisitId = detail.data?.visitId;
+  useEffect(() => {
+    if (confirmedVisitId && openedVisit.current !== confirmedVisitId) {
+      openedVisit.current = confirmedVisitId;
+      onVisit(confirmedVisitId);
+    }
+  }, [confirmedVisitId, onVisit]);
   const problem =
     mutation.error instanceof ApiError
       ? (mutation.error.problem as ApiProblemV2)

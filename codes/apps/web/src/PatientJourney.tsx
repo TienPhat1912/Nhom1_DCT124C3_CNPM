@@ -8,7 +8,13 @@ import {
   QrCode,
   Volume2,
 } from "lucide-react";
-import { dateText, type Step, type Ticket, type Visit } from "@hospital/shared";
+import {
+  dateText,
+  type Step,
+  type Ticket,
+  type Visit,
+  type ExaminationTicketV2,
+} from "@hospital/shared";
 import {
   Button,
   DestinationCard,
@@ -295,11 +301,40 @@ function TimelineStep({
 }
 export function TicketPanel({ id }: { id: string }) {
   const { t } = useRuntime();
-  const r = useResource<Ticket>(`/api/visits/${id}/ticket`);
+  const r = useResource<Ticket | ExaminationTicketV2>(
+    `/api/visits/${id}/ticket`,
+  );
+  if (r.data && "patientSnapshot" in r.data) {
+    const ticket = r.data;
+    return (
+      <article className="ticket-snapshot" data-testid="ticket-v2">
+        <SectionTitle title={`${t("ticket")}: ${ticket.number}`} />
+        <p>
+          {ticket.patientSnapshot.name} · {ticket.patientSnapshot.contact}
+        </p>
+        <p>
+          {ticket.clinicSnapshot.nameVi} · {ticket.clinicSnapshot.room}
+        </p>
+        <p>
+          {ticket.clinicSnapshot.building} · {ticket.clinicSnapshot.floor}
+        </p>
+        <p>
+          {t("doctor")}: <strong>{ticket.doctorSnapshot.name}</strong>
+        </p>
+        <p>
+          <time dateTime={ticket.issuedOn}>{ticket.issuedOn}</time> ·{" "}
+          {ticket.number}
+        </p>
+        <Button variant="secondary" onClick={() => window.print()}>
+          {t("print")}
+        </Button>
+      </article>
+    );
+  }
   return (
     <>
       <ResourceState resource={r} />
-      {r.data && (
+      {r.data && "code" in r.data && (
         <>
           {r.data.doctorName && (
             <p>

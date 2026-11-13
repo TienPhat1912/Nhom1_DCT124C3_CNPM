@@ -201,6 +201,7 @@ function Workspace() {
     visits.data?.[0]?.id ??
     null;
   const selectVisit = (id: string, target: Page = "journey") => {
+    window.history.replaceState(null, "", `#visit=${encodeURIComponent(id)}`);
     setSelected(id);
     setPage(target);
     setMenu(false);

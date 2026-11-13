@@ -7,7 +7,7 @@ export function fixtureSql(query) {
     // Windows CI uses its own LocalDB instance and Windows authentication.
     // Never take this endpoint from the production connection string.
     const server = process.env.SQL_TEST_SERVER;
-    assert.match(server, /^(\(localdb\)\\[\w-]+|\.\\[\w-]+)$/, 'Native fixtures require a local SQL instance');
+    assert.match(server, /^(localhost|\.|\(localdb\)\\[\w-]+|\.\\[\w-]+)$/, 'Native fixtures require a local SQL instance');
     return execFileSync(process.env.SQLCMD_PATH || 'sqlcmd', ['-I', '-S', server, '-E', '-C', '-d', database, '-Q', query, '-b', '-l', '15'], { encoding: 'utf8' });
   }
   const prefix = process.env.SQL_CONTAINER_NAME ? ['exec', '-i', process.env.SQL_CONTAINER_NAME] : ['compose', 'exec', '-T', 'sql'];

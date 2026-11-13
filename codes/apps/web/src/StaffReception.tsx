@@ -23,10 +23,24 @@ import {
 } from "./components";
 import { useMutation, useResource, useRuntime } from "./runtime";
 import { TicketPanel } from "./PatientJourney";
+import { StaffReceptionV2 } from "./StaffReceptionV2";
 export default function StaffReception() {
+  const { config, t } = useRuntime();
+  const [legacy, setLegacy] = useState(false);
+  if (!config.prdV2Enabled) return <LegacyStaffReception />;
+  return (
+    <>
+      <Button variant="quiet" onClick={() => setLegacy((value) => !value)}>
+        {legacy ? t("Reception") : t("legacyRecords")}
+      </Button>
+      {legacy ? <LegacyStaffReception /> : <StaffReceptionV2 />}
+    </>
+  );
+}
+function LegacyStaffReception() {
   const { t, locale } = useRuntime();
   const [offset, setOffset] = useState(0);
-  const list = useResource<RequestSummary[]>(
+  const list = useResource<(RequestSummary & { sourceLanguage?: string | null })[]>(
     `/api/requests?offset=${offset}`,
     true,
   );
@@ -64,7 +78,7 @@ export default function StaffReception() {
           <h3>{t("requestList")}</h3>
           <ResourceState resource={list} />
           {list.data?.length === 0 && <Empty text={t("noRequests")} />}
-          {list.data?.map((r) => (
+          {list.data?.filter((r) => !r.sourceLanguage).map((r) => (
             <button
               className={`record-row ${r.id === id ? "selected" : ""}`}
               key={r.id}

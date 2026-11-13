@@ -4,6 +4,7 @@ using Hospital.Api.Domain;
 using Hospital.Api.Identity;
 using Hospital.Api.Infrastructure;
 using Hospital.Api.Integrations;
+using Hospital.Api.Reception;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hospital.Api.Journeys;
@@ -24,18 +25,20 @@ public class JourneyReader(HospitalDb db, Access access)
         var templates = await db.Set<GuidanceTemplate>().Where(t => keys.Contains(t.Key) && t.Published).OrderByDescending(t => t.Revision).ToListAsync();
         var current = v.Journey.Steps.Where(s => !Workflow.Resolved(s)).OrderBy(s => s.Status == "InProgress" ? 0 : s.Status == "Ready" ? 1 : 2).ThenBy(s => s.Sequence).FirstOrDefault();
         var doctor = await db.Users.FindAsync(v.DoctorId);
+        var ticket = v.Ticket.SnapshotSource == "Captured" ? ReceptionConfirmation.Ticket(v) : null;
         var department = await db.Set<Department>().FindAsync(v.DepartmentId);
         return new {
-            doctorName = doctor?.Name, departmentNameVi = department?.NameVi, departmentNameEn = department?.NameVi,
+            doctorName = ticket?.DoctorSnapshot.Name ?? doctor?.Name, departmentNameVi = department?.NameVi, departmentNameEn = department?.NameVi,
+            v.ClinicLocationId, v.ExamStatus, v.ConsultationCount, ticketIssuedOn = v.Ticket.IssuedOn,
             doctorSpecialties = HospitalCatalog.Specialties(v.DoctorId),
             v.Id, v.Version, v.Status, v.WorkRevision, v.FinalSettlementRevision, v.FinalSettlementOutcome, v.CreatedAt, v.ClosedAt,
-            patientName = v.Patient.Name, v.DepartmentId, v.DoctorId,
+            patientName = ticket?.PatientSnapshot.Name ?? v.Patient.Name, v.DepartmentId, v.DoctorId,
             ticketNumber = v.Ticket.Number, journeyId = v.Journey.Id, journeyStatus = v.Journey.Status, journeyVersion = v.Journey.Version, v.Journey.CompletionSource,
             currentStepId = current?.Id, clinicallyReady = Workflow.ReadyForSettlement(v), updatedAt = DateTime.UtcNow,
             steps = v.Journey.Steps.OrderBy(s => s.Sequence).Select(s => {
                 var variants = templates.Where(t => t.Key == s.TemplateKey).ToList();
                 var t = variants.FirstOrDefault(t => t.Language == "vi");
-                bool canProgress = v.Status == "Active" && (s.Status is "Ready" or "InProgress") && ((role == "Doctor" && s.Authority == "Doctor" && v.DoctorId == session.UserAccountId)
+                bool canProgress = v.ExamStatus == null && v.Status == "Active" && (s.Status is "Ready" or "InProgress") && ((role == "Doctor" && s.Authority == "Doctor" && v.DoctorId == session.UserAccountId)
                     || (role == "Service" && s.Authority == "Service" && session.UserAccount!.Scopes.Any(sc => sc.DepartmentId == s.DepartmentId)));
                 return new { s.Id, s.Version, s.Kind, s.Status, s.Authority, s.DoctorOrderId, s.MappingVersion, s.Sequence, s.LocationId, s.DepartmentId,
                     destination = HospitalCatalog.DisplayDestination(s.DestinationSnapshot), s.QueueNumber, s.QueueStatus, s.QueueUpdatedAt, s.ResolutionReason, s.CompletedAt,
@@ -170,5 +173,8 @@ public static class JourneyEndpoints
             });
         });
     }
-    static void Active(Visit v) => Check.That(v.Status == "Active", "visitClosed", "This Visit is closed. A later attendance requires a new reception.", 409);
+    static void Active(Visit v) {
+        Check.That(v.ExamStatus == null, "legacyCommandDisabled", "Use the PRD-v2 clinical workflow when available.", 410);
+        Check.That(v.Status == "Active", "visitClosed", "This Visit is closed. A later attendance requires a new reception.", 409);
+    }
 }
