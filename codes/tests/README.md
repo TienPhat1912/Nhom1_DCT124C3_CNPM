@@ -1,5 +1,11 @@
 # Kiểm thử
 
+PB-008: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/reception/run.ps1 -SqlServer localhost`
+build web/API và chạy xác nhận cạnh tranh/rollback/grant, browser Reception → Journey
+trên desktop/mobile cùng hồi quy PB-006. Thêm `-Port 5299 -LegacyOnly` để chạy bộ API
+legacy với V2 tắt trên database mới khác. Runner chỉ tạo `HospitalAcceptance_*`
+local và giữ database để đối chiếu. Xem [hướng dẫn PB-008](../docs/requirements/PB-008-CONFIRM-RECEPTION.md).
+
 PB-007: đặt `PB007_SQL_CONNECTION` tới SQL local rồi chạy
 `dotnet run --project tests/ticket-number/TicketNumber.Tests.csproj -c Release`.
 Bộ test tự tạo database mới, kiểm tra concurrent/room/day/retry và migration;

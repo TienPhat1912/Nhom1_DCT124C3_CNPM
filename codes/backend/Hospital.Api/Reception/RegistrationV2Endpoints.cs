@@ -45,12 +45,12 @@ public static class RegistrationV2Endpoints
                 .Select(r => new RegistrationViewV2(r.Id, r.Version, r.CreatedAt, "prd-v2", r.Name, r.Contact,
                     r.PreferredDepartmentId, r.Description, r.SourceLanguage!, r.Status, r.DepartmentId,
                     db.Visits.Where(v => db.Set<ReceptionRecord>().Any(rec => rec.Id == v.ReceptionRecordId && rec.RegistrationRequestId == r.Id))
-                        .Select(v => (Guid?)v.Id).FirstOrDefault(), false)).ToListAsync();
+                        .Select(v => (Guid?)v.Id).FirstOrDefault(), session.PatientId == null && r.Status == "Submitted")).ToListAsync();
         });
         group.MapGet("/{id:guid}", async (Guid id, Access access, HospitalDb db) => {
             var request = await access.Request(id);
             Check.That(request.SourceLanguage != null, "legacyRecord", "Read this historical request through its original contract.", 409);
-            return await View(request, db);
+            return await View(request, db, (await access.Current()).UserAccount?.Role == "Reception");
         });
         group.MapPost("", async (JsonElement body, Access access, HospitalDb db, CommandBus bus) => {
             var session = await access.Patient();
@@ -125,12 +125,11 @@ public static class RegistrationV2Endpoints
         return new(contact, preferred.ValueKind == JsonValueKind.Null ? null : preferred.GetGuid(), description, language);
     }
 
-    static async Task<RegistrationViewV2> View(RegistrationRequest request, HospitalDb db)
+    public static async Task<RegistrationViewV2> View(RegistrationRequest request, HospitalDb db, bool reception = false)
     {
         var visit = await db.Visits.Where(v => db.Set<ReceptionRecord>().Any(r => r.Id == v.ReceptionRecordId && r.RegistrationRequestId == request.Id))
             .Select(v => (Guid?)v.Id).SingleOrDefaultAsync();
-        // Confirmation is deliberately unavailable until PB-008 implements the command.
         return new(request.Id, request.Version, request.CreatedAt, "prd-v2", request.Name, request.Contact,
-            request.PreferredDepartmentId, request.Description, request.SourceLanguage!, request.Status, request.DepartmentId, visit, false);
+            request.PreferredDepartmentId, request.Description, request.SourceLanguage!, request.Status, request.DepartmentId, visit, reception && request.Status == "Submitted" && visit == null);
     }
 }

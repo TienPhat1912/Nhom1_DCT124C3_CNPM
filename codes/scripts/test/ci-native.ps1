@@ -105,7 +105,9 @@ try {
     $env:Workflow__PrdV2Enabled = 'true'
     $apiProcess = Start-TestApi 'native-registration-enabled'
     Invoke-Checked 'node' @('--test', '--test-skip-pattern=disabled', 'tests/api/registration-v2.test.mjs')
+    Invoke-Checked 'node' @('--test', 'tests/api/confirm-reception.test.mjs')
     Invoke-Checked 'npx.cmd' @('playwright', 'test', '--config', 'playwright.registration.config.ts')
+    Invoke-Checked 'npx.cmd' @('playwright', 'test', '--config', 'playwright.reception.config.ts')
     Stop-TestApi
     $env:Workflow__PrdV2Enabled = 'false'
     foreach ($mode in @('Timeout', 'Unavailable')) {

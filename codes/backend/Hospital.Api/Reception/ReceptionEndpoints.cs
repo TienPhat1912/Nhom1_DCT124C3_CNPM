@@ -21,6 +21,7 @@ public static class ReceptionEndpoints
 {
     public static void MapReception(this WebApplication app)
     {
+        app.MapReceptionConfirmation();
         var g = app.MapGroup("/api").AddEndpointFilter<LocalizedResponseFilter>().WithTags("Reception and QR");
         g.MapGet("/entry", () => new { purpose = "Hospital", languages = new[] { "vi", "en" }, createsVisit = false });
         g.MapGet("/requests", async (int? offset, int? limit, Access access, HospitalDb db) => {
@@ -31,7 +32,9 @@ public static class ReceptionEndpoints
             return await q.OrderByDescending(r => r.CreatedAt).ThenBy(r => r.Id).Skip(offset ?? 0).Take(limit ?? 100).Select(r => new { r.Id, r.Name, r.Status, r.Version, r.DepartmentId, r.AppointmentId, r.CreatedAt, r.SourceLanguage }).ToListAsync();
         });
         g.MapGet("/requests/{id:guid}", async (Guid id, Access access, HospitalDb db, QrService qr) => {
-            var r = await access.Request(id); var code = await qr.Current("Reception", id);
+            var r = await access.Request(id);
+            Check.That(r.SourceLanguage == null, "legacyRecord", "Read this request through /api/v2/requests.", 409);
+            var code = await qr.Current("Reception", id);
             var reception = await db.Set<ReceptionRecord>().SingleOrDefaultAsync(x => x.RegistrationRequestId == id);
             var visitId = reception is null ? (Guid?)null : await db.Visits.Where(v => v.ReceptionRecordId == reception.Id).Select(v => (Guid?)v.Id).SingleOrDefaultAsync();
             return new { r.Id, r.Version, r.Name, r.Contact, r.Description, r.Requests, r.Status, r.DepartmentId, r.AppointmentId, r.Messages,
@@ -68,7 +71,11 @@ public static class ReceptionEndpoints
             });
         });
         g.MapPost("/requests/{id:guid}/refresh-qr", async (Guid id, Access access, QrService qr, CommandBus bus) => {
-            var s = await access.Current(); return await bus.Run($"{s.Id}:refresh:{id}", new { id }, async () => { await access.Request(id); await qr.Replace("Reception", id); return new { id }; });
+            var s = await access.Current(); return await bus.Run($"{s.Id}:refresh:{id}", new { id }, async () => {
+                var request = await access.Request(id);
+                Check.That(request.SourceLanguage == null, "legacyCommandDisabled", "This request does not need a reception QR.", 410);
+                await qr.Replace("Reception", id); return new { id };
+            });
         });
         g.MapPost("/reception/scan", async (CodeInput input, Access access, QrService qr) => {
             await access.Staff("Reception"); var code = await qr.Validate(input.Code, "Reception"); var r = await access.Request(code.RegistrationRequestId!.Value); return new { r.Id };
@@ -119,6 +126,7 @@ public static class ReceptionEndpoints
         g.MapGet("/visits/{id:guid}/ticket", async (Guid id, Access access, QrService qr, HospitalDb db) => {
             var v = await access.Visit(id); var s = await access.Current();
             Check.That(s.PatientId is not null || s.UserAccount?.Role == "Reception", "forbidden", "Ticket access requires patient or reception authority.", 403);
+            if (v.Ticket.SnapshotSource == "Captured") return (object)Results.Json(ReceptionConfirmation.Ticket(v));
             var doctor = await db.Users.FindAsync(v.DoctorId);
             var department = await db.Set<Department>().FindAsync(v.DepartmentId);
             var code = await qr.Current("Ticket", v.Ticket.Id); return new { doctorName = doctor?.Name, departmentNameVi = department?.NameVi, departmentNameEn = department?.NameVi, v.Ticket.Id, v.Ticket.Number, visitId = v.Id, journeyId = v.Journey.Id, code = qr.Reveal(code), code.ExpiresAt };
@@ -134,7 +142,9 @@ public static class ReceptionEndpoints
         });
         g.MapPost("/visits/{id:guid}/reissue", async (Guid id, RecoveryIssue input, Access access, QrService qr, CommandBus bus) => {
             var u = await access.Staff("Reception"); return await bus.Run($"{u.Id}:reissue:{id}", input, async () => {
-                var v = await access.Visit(id); VerifyAttendee(input); await qr.Replace("Ticket", v.Ticket.Id); bus.Audit(u.Id, "TicketReissued", id, input.VerificationNote); return new { visitId = id };
+                var v = await access.Visit(id); VerifyAttendee(input);
+                if (v.Ticket.SnapshotSource != "Captured") await qr.Replace("Ticket", v.Ticket.Id);
+                bus.Audit(u.Id, "TicketReissued", id, input.VerificationNote); return new { visitId = id };
             });
         });
         g.MapPost("/visits/{id:guid}/recovery", async (Guid id, RecoveryIssue input, Access access, HospitalDb db, CommandBus bus) => {
