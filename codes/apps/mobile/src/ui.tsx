@@ -115,19 +115,23 @@ export function Choice({
   label,
   selected,
   onPress,
+  disabled = false,
 }: {
   label: string;
   selected: boolean;
   onPress: () => void;
+  disabled?: boolean;
 }) {
   return (
     <Pressable
       accessibilityRole="radio"
-      accessibilityState={{ checked: selected }}
+      accessibilityState={{ checked: selected, disabled }}
       accessibilityLabel={label}
+      disabled={disabled}
       onPress={onPress}
       style={[
         styles.choice,
+        disabled && { opacity: 0.5 },
         selected && { backgroundColor: colors.pale, borderColor: colors.green },
       ]}
     >

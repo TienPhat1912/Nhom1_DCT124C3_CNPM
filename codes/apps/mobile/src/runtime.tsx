@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import * as Speech from "expo-speech";
+import { createReceptionStore } from "./receptionState";
 import {
   ApiError,
   createApi,
@@ -19,6 +20,8 @@ export const API_URL =
 export const WEB_URL =
   process.env.EXPO_PUBLIC_WEB_URL ?? "http://localhost:5180";
 let currentToken: string | null = null;
+let currentSessionId: string | null = null;
+export const receptionStore = createReceptionStore(SecureStore);
 let currentLocale = "vi";
 export const setApiLocale = (language: string) => {
   currentLocale = normalizeLocale(language);
@@ -31,6 +34,9 @@ export const nativeApi = createApi(
 );
 export async function saveSession(s: Session | null) {
   currentToken = s?.token ?? null;
+  if (currentSessionId && currentSessionId !== s?.sessionId)
+    await receptionStore.clear(currentSessionId);
+  currentSessionId = s?.sessionId ?? null;
   if (currentToken)
     await SecureStore.setItemAsync("hospital.token", currentToken);
   else await SecureStore.deleteItemAsync("hospital.token");
@@ -40,6 +46,7 @@ export async function restoreSession() {
   if (!currentToken) return null;
   try {
     const s = await nativeApi<Session>("/api/auth/session");
+    currentSessionId = s.sessionId;
     return { ...s, token: currentToken };
   } catch (e) {
     if (e instanceof ApiError && e.problem.status === 401)

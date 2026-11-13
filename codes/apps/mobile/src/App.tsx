@@ -1,5 +1,6 @@
 import { localizeText } from "@hospital/shared";
 import { setApiLocale } from "./runtime";
+import { visitFromEntry } from "./receptionState";
 import { isLocale } from "@hospital/shared";
 import { LanguagePicker } from "./LanguagePicker";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -37,6 +38,7 @@ import {
   useLoad,
   useNative,
   localizedError,
+  receptionStore,
 } from "./runtime";
 import {
   Badge,
@@ -52,12 +54,7 @@ import {
 import { Auth } from "./Auth";
 import { Reception } from "./Reception";
 import { DirectionsScreen, Journey, ScanTicket } from "./Journey";
-import {
-  Help,
-  Notifications,
-  ProfileScreen,
-  Results,
-} from "./Records";
+import { Help, Notifications, ProfileScreen, Results } from "./Records";
 type Page =
   | "home"
   | "reception"
@@ -79,6 +76,7 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [pending, setPending] = useState<string | null>(null);
+  const clearPending = useCallback(() => setPending(null), []);
   const t = useMemo(() => translator(locale), [locale]);
   const loadConfig = async (language: Locale) => {
     const generation = ++configGeneration.current;
@@ -113,7 +111,6 @@ export default function App() {
     localeOverride.current = language;
     setApiLocale(language);
     configGeneration.current++;
-    if (language !== locale) setConfig(null);
     setLanguage(language);
     void SecureStore.setItemAsync("hospital.language", language);
   };
@@ -144,6 +141,11 @@ export default function App() {
         const u = new URL(url);
         const requestedLanguage = u.searchParams.get("language");
         if (isLocale(requestedLanguage)) setLocale(requestedLanguage);
+        const visitId = visitFromEntry(url);
+        if (visitId) {
+          setPending(`visit:${visitId}`);
+          return;
+        }
         const code =
           new URLSearchParams(u.hash.slice(1)).get("ticket") ??
           u.searchParams.get("ticket");
@@ -221,7 +223,7 @@ export default function App() {
               <PatientApp
                 key={session.sessionId}
                 pending={pending}
-                clearPending={() => setPending(null)}
+                clearPending={clearPending}
               />
             </NativeContext.Provider>
           ) : (
@@ -231,6 +233,7 @@ export default function App() {
                 locale={locale}
                 setLocale={setLocale}
                 onSession={updateSession}
+                onRecovered={(id) => setPending(`visit:${id}`)}
               />
             </>
           )}
@@ -239,7 +242,7 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
-function PatientApp({
+export function PatientApp({
   pending,
   clearPending,
 }: {
@@ -249,9 +252,11 @@ function PatientApp({
   const { t, locale, setLocale, session, config, api, updateSession } =
     useNative();
   const [page, setPage] = useState<Page>(
-    pending ? "scan" : "home",
+    pending && !pending.startsWith("visit:") ? "scan" : "home",
   );
   const [selected, setSelected] = useState<string | null>(null);
+  const [entryError, setEntryError] = useState<unknown>(null);
+  const selectionChanged = useRef(false);
   const [step, setStep] = useState<Step | null>(null);
   const [helpStep, setHelpStep] = useState<string | undefined>();
   const [offset, setOffset] = useState(0);
@@ -277,11 +282,52 @@ function PatientApp({
     return () => handler.remove();
   }, [page]);
   useEffect(() => {
-    if (pending) setPage("scan");
-  }, [pending]);
+    let active = true;
+    if (pending?.startsWith("visit:")) {
+      const visitId = pending.slice(6);
+      // A URI is only a navigation hint. Never grant access or redeem a new ticket.
+      void api(`/api/visits/${visitId}`)
+        .then(() => {
+          if (!active) return;
+          selectionChanged.current = true;
+          setSelected(visitId);
+          setPage("journey");
+          clearPending();
+          setEntryError(null);
+          void receptionStore
+            .saveVisit(session.sessionId, visitId)
+            .catch(setEntryError);
+        })
+        .catch((e) => {
+          if (active) setEntryError(e);
+        });
+    } else if (pending) setPage("scan");
+    return () => {
+      active = false;
+    };
+  }, [pending, api, session.sessionId, clearPending]);
+  useEffect(() => {
+    let active = true;
+    void receptionStore
+      .readVisit(session.sessionId)
+      .then((visitId) => {
+        if (active && !pending && !selectionChanged.current && visitId) {
+          setSelected(visitId);
+          setPage("journey");
+        }
+      })
+      .catch((e) => {
+        if (active) setEntryError(e);
+      });
+    return () => {
+      active = false;
+    };
+  }, [session.sessionId, pending]);
   const choose = (id: string, next: Page = "journey") => {
+    selectionChanged.current = true;
     setSelected(id);
     setPage(next);
+    void receptionStore.saveVisit(session.sessionId, id).catch(setEntryError);
     visits.refresh();
   };
   if (session.role !== "Patient")
@@ -316,6 +362,24 @@ function PatientApp({
         contentContainerStyle={styles.content}
       >
         <Feedback error={action.error} locale={locale} />
+        <Feedback error={entryError} locale={locale} />
+        {!!entryError && pending?.startsWith("visit:") && (
+          <Btn
+            secondary
+            onPress={() => {
+              const visitId = pending.slice(6);
+              void api(`/api/visits/${visitId}`)
+                .then(() => {
+                  clearPending();
+                  setEntryError(null);
+                  choose(visitId);
+                })
+                .catch(setEntryError);
+            }}
+          >
+            {t("retry")}
+          </Btn>
+        )}
         {config.demo && <Txt tone="eyebrow">{t("demo")}</Txt>}
         {page !== "home" && (
           <Btn secondary onPress={() => setPage("home")}>
@@ -332,7 +396,7 @@ function PatientApp({
                   key={v.id}
                   label={`${v.ticketNumber} · ${t(v.status)} / ${t(v.journeyStatus)}`}
                   selected={id === v.id}
-                  onPress={() => setSelected(v.id)}
+                  onPress={() => choose(v.id, page)}
                 />
               ))}
             </Card>
@@ -358,9 +422,11 @@ function PatientApp({
               <Btn secondary onPress={() => setPage("reception")}>
                 {t("prepare")}
               </Btn>
-              <Btn secondary onPress={() => setPage("scan")}>
-                {t("scan")}
-              </Btn>
+              {!config.prdV2Enabled && (
+                <Btn secondary onPress={() => setPage("scan")}>
+                  {t("scan")}
+                </Btn>
+              )}
             </Card>
             <Card>
               <Btn secondary onPress={() => setPage("notifications")}>
@@ -391,7 +457,9 @@ function PatientApp({
             </Card>
           </>
         )}
-        {page === "reception" && <Reception onVisit={choose} />}
+        {page === "reception" && (
+          <Reception onVisit={choose} onProfile={() => setPage("profile")} />
+        )}
         {page === "journey" && (
           <Journey
             id={id}
@@ -410,6 +478,7 @@ function PatientApp({
         {page === "results" && <Results id={id} />}
         {page === "scan" && (
           <ScanTicket
+            key={pending ?? "manual"}
             initialCode={pending}
             onVisit={(id) => {
               clearPending();

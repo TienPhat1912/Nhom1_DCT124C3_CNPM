@@ -2,6 +2,7 @@ import { localizeText } from "@hospital/shared";
 import { useState } from "react";
 import { View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
+import { ReceptionV2 } from "./ReceptionV2";
 import {
   dateText,
   type Booking,
@@ -27,7 +28,21 @@ import {
   useNative,
   WEB_URL,
 } from "./runtime";
-export function Reception({ onVisit }: { onVisit: (id: string) => void }) {
+export function Reception({
+  onVisit,
+  onProfile,
+}: {
+  onVisit: (id: string) => void;
+  onProfile?: () => void;
+}) {
+  const { config } = useNative();
+  return config.prdV2Enabled ? (
+    <ReceptionV2 onVisit={onVisit} onProfile={onProfile} />
+  ) : (
+    <LegacyReception onVisit={onVisit} />
+  );
+}
+function LegacyReception({ onVisit }: { onVisit: (id: string) => void }) {
   const { t, locale } = useNative();
   const [offset, setOffset] = useState(0);
   const list = useLoad<RequestSummary[]>(

@@ -53,6 +53,11 @@ Config plugin `withLocalNetwork.cjs` chỉ cho phép HTTP tới localhost, 127.0
 
 Scheme: `hguide://entry?language=vi` hoặc `hguide://entry?ticket=<opaque-token>`. Native lưu context ticket qua màn hình xác thực; backend vẫn kiểm tra quyền trước khi mở Journey. `/entry` trên web hỗ trợ Android intent kèm web fallback; trình duyệt không hỗ trợ có lựa chọn mở app/web. QR trên phiếu dùng URL web với token trong fragment để tránh gửi token trong URL request/log.
 
+PB-009 bổ sung `hguide://entry?visit=<uuid>&language=vi` cho Visit V2. ID chỉ là gợi ý
+điều hướng: app kiểm tra quyền qua API trước khi mở, không redeem hoặc tạo grant.
+Khi bật V2, form tiếp nhận và snapshot phiếu không dùng QR kích hoạt; xem
+[luồng và kiểm thử PB-009](../requirements/PB-009-MOBILE-RECEPTION.md).
+
 Universal/App Links tự mở từ HTTPS trên mọi trình duyệt cần tên miền thật và association files khớp chữ ký app. Chưa có tên miền/chữ ký phát hành, nên phần này chưa được xác nhận trên thiết bị. Việc biết URI không cấp quyền vào hồ sơ.
 
 ## Kiểm chứng đã thực hiện và còn phải thực hiện
@@ -66,6 +71,11 @@ node tests/android/verify-android.mjs
 node tests/android/android-smoke.mjs
 node tests/android/android-account.mjs
 ```
+
+Hai runner cũ ở trên kiểm tra luồng legacy khi V2 tắt. Với PB-009 và V2 bật, dùng
+`node tests/android/android-reception.mjs` cùng API_URL, WEB_URL, DEMO_PASSWORD,
+ACCEPTANCE_DB được chỉ định cho fixture local riêng. Runner mới chưa được nghiệm
+thu trên giả lập tại lần bàn giao PB-009; không dùng báo cáo legacy thay cho V2.
 
 `android-smoke` tạo khách và hồ sơ tổng hợp mới, hoàn tất hành trình bằng UI native cùng hành động của nhân viên qua API thật. `android-account` tiếp tục đúng khách đó để kiểm tra không còn UI liên kết, đăng ký tài khoản độc lập không nhận lịch sử Guest, khôi phục Guest đã xác minh, khởi động lại, deep link VI và cỡ chữ 130%; luôn phục hồi cỡ chữ cũ sau test. Bộ test đặt kích thước giả lập 720×1280, density 240 và tắt animation; chỉ dùng AVD riêng vì các thiết lập này được giữ lại. Chạy với API/database kiểm thử riêng; không xóa app data hoặc database. SHA-256 của APK đang cài được so với file bàn giao trước khi chạy và ghi cùng báo cáo; ảnh chụp nằm trong `artifacts/android`.
 

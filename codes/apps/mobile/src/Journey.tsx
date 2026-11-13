@@ -2,7 +2,7 @@ import { useState } from "react";
 import { HospitalMap } from "./HospitalMap";
 import { View } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import QRCode from "react-native-qrcode-svg";
+import { VisitTicket } from "./VisitTicket";
 import {
   dateText,
   displayName,
@@ -22,13 +22,7 @@ import {
   Txt,
   styles,
 } from "./ui";
-import {
-  useAction,
-  useLoad,
-  useNarration,
-  useNative,
-  WEB_URL,
-} from "./runtime";
+import { useAction, useLoad, useNarration, useNative } from "./runtime";
 export function Journey({
   id,
   onScan,
@@ -42,13 +36,13 @@ export function Journey({
   onHelp: (step?: string) => void;
   onDirections: (step: Step) => void;
 }) {
-  const { t, locale, api } = useNative();
+  const { t, locale, api, config } = useNative();
   const r = useLoad<Visit>(
     id ? `/api/visits/${id}?language=${locale}` : null,
     true,
   );
   const action = useAction(api);
-  const [ticket, setTicket] = useState<Ticket | null>(null);
+  const [showTicket, setShowTicket] = useState(false);
   const v = r.data;
   const step = v?.steps.find((s) => s.id === v.currentStepId);
   const speech = useNarration(
@@ -60,15 +54,16 @@ export function Journey({
       undefined,
       "GET",
     );
-    if (result) setTicket(result);
     return result;
   };
   return (
     <>
       <Txt tone="title">{t("yourJourney")}</Txt>
-      <Btn secondary onPress={onScan}>
-        {t("scan")}
-      </Btn>
+      {!config?.prdV2Enabled && (
+        <Btn secondary onPress={onScan}>
+          {t("scan")}
+        </Btn>
+      )}
       <LoadingState resource={r} />
       {!id && <Txt>{t("noVisits")}</Txt>}
       {v && (
@@ -85,41 +80,31 @@ export function Journey({
             <Badge value={v.status} />
             <Txt tone="muted">{t("journeyStatus")}</Txt>
             <Badge value={v.journeyStatus} />
-            <Btn secondary busy={action.busy} onPress={() => void loadTicket()}>
+            <Btn secondary onPress={() => setShowTicket((v) => !v)}>
               {t("viewTicket")}
             </Btn>
-            {ticket && (
-              <>
-                <View style={{ alignItems: "center", padding: 15 }}>
-                  <QRCode
-                    value={`${WEB_URL}/#ticket=${ticket.code}`}
-                    size={180}
-                  />
-                </View>
-                <Txt tone="muted">
-                  {t("ticketHint")} · {dateText(ticket.expiresAt, locale)}
-                </Txt>
-              </>
-            )}
+            {showTicket && id && <VisitTicket key={id} id={id} />}
           </Card>
           {v.journeyStatus === "PendingActivation" ? (
             <Card>
               <Txt>{t("pendingActivation")}</Txt>
-              <Btn
-                busy={action.busy}
-                onPress={async () => {
-                  const ticket = await loadTicket();
-                  if (
-                    ticket &&
-                    (await action.run("/api/tickets/redeem", {
-                      code: ticket.code,
-                    }))
-                  )
-                    r.refresh();
-                }}
-              >
-                {t("activate")}
-              </Btn>
+              {!config?.prdV2Enabled && (
+                <Btn
+                  busy={action.busy}
+                  onPress={async () => {
+                    const ticket = await loadTicket();
+                    if (
+                      ticket &&
+                      (await action.run("/api/tickets/redeem", {
+                        code: ticket.code,
+                      }))
+                    )
+                      r.refresh();
+                  }}
+                >
+                  {t("activate")}
+                </Btn>
+              )}
             </Card>
           ) : v.journeyStatus === "Completed" ? (
             <Card>
@@ -245,7 +230,7 @@ export function ScanTicket({
   onVisit: (id: string) => void;
   initialCode?: string | null;
 }) {
-  const { t, locale, api } = useNative();
+  const { t, locale, api, config } = useNative();
   const [permission, requestPermission] = useCameraPermissions();
   const [camera, setCamera] = useState(false);
   const [code, setCode] = useState(initialCode ?? "");
@@ -306,7 +291,7 @@ export function ScanTicket({
           if (r) onVisit(r.visitId);
         }}
       >
-        {t("activate")}
+        {t(config.prdV2Enabled ? "continueVisit" : "activate")}
       </Btn>
       <Feedback error={action.error} locale={locale} />
     </Card>
