@@ -1,5 +1,11 @@
 # Kiểm thử
 
+PB-009: `npm run test:reception:unit` kiểm tra component mobile/draft/retry/Entry
+bằng dịch vụ thiết bị giả lập. `node tests/android/android-reception.mjs` là runner
+native riêng cho V2 với API/web/SQL fixture và AVD; xem
+[hướng dẫn PB-009](../docs/requirements/PB-009-MOBILE-RECEPTION.md). Unit/export
+không thay kiểm thử native; runner thiết bị chưa được chạy ở lần bàn giao local.
+
 PB-005 dùng `powershell -NoProfile -ExecutionPolicy Bypass -File tests/catalog/pb005.ps1 -SqlServer localhost`.
 Runner build web/API, chạy 9 ca API và 2 ca browser desktop/mobile, kiểm tra
 restart rồi buộc nhập lại roster trên database mới riêng. Xem

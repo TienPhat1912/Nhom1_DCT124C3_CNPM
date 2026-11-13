@@ -56,6 +56,8 @@ function harness(file, modules = {}) {
     './Journey': { Journey: 'Journey', ScanTicket: 'ScanTicket', DirectionsScreen: 'DirectionsScreen' },
     './Records': { Help: 'Help', Notifications: 'Notifications', ProfileScreen: 'ProfileScreen', Results: 'Results' },
     './HospitalMap': { HospitalMap: 'HospitalMap' },
+    './VisitTicket': { VisitTicket: 'VisitTicket' },
+    './receptionState': { visitFromEntry: () => null },
     ...modules,
   };
   const exports = {};

@@ -8,10 +8,12 @@ export function Auth({
   locale,
   setLocale,
   onSession,
+  onRecovered,
 }: {
   locale: Locale;
   setLocale: (l: Locale) => void;
   onSession: (s: Session) => Promise<void>;
+  onRecovered?: (visitId: string) => void;
 }) {
   const t = translator(locale);
   const [mode, setMode] = useState("login");
@@ -25,10 +27,16 @@ export function Auth({
   const submit = async () => {
     setValidation("");
     if (mode === "recover") {
-      const r = await action.run<{ session: Session }>("/api/auth/recover", {
-        code,
-      });
-      if (r) await onSession(r.session);
+      const r = await action.run<{ session: Session; visitId: string }>(
+        "/api/auth/recover",
+        {
+          code,
+        },
+      );
+      if (r) {
+        await onSession(r.session);
+        onRecovered?.(r.visitId);
+      }
       return;
     }
     if (
