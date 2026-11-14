@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { randomUUID } from "node:crypto";
 import type {
   ClinicalCatalogPageV2,
@@ -43,6 +43,35 @@ const account = () =>
     contact: "synthetic-contact",
     language: "en",
   });
+test.beforeEach(async ({ page }) => {
+  // Exercise slow session bootstrap: the responsive menu does not exist yet
+  // when the document initially loads on the CI runner.
+  await page.route("**/api/auth/session", async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    await route.continue();
+  });
+});
+
+async function navigate(page: Page, name: string, isMobile: boolean) {
+  const sidebar = page.locator(".sidebar");
+  const target = sidebar
+    .getByRole("navigation")
+    .getByRole("button", { name, exact: true });
+  // Wait for the authenticated workspace before deciding how to navigate.
+  await expect(target).toBeAttached();
+  if (isMobile) {
+    const toggle = page.locator(".mobile-menu");
+    await expect(toggle).toBeVisible();
+    if (!(await sidebar.getAttribute("class"))?.split(/\s+/).includes("open"))
+      await toggle.click();
+    await expect(sidebar).toHaveClass(/\bopen\b/);
+  }
+  await expect(target).toBeInViewport();
+  await target.click();
+  await expect(target).toHaveClass(/\bactive\b/);
+  if (isMobile) await expect(sidebar).not.toHaveClass(/\bopen\b/);
+}
+
 async function prepare() {
   const patient = await account(),
     reception = await login("reception"),
@@ -120,6 +149,7 @@ test("confirmed structured results are visible before settlement; language and r
   page,
   context,
   baseURL,
+  isMobile,
 }, info) => {
   const { patient, doctor, visit, preview, diagnosis } = await prepare();
   await context.addCookies([
@@ -139,13 +169,7 @@ test("confirmed structured results are visible before settlement; language and r
     .locator("main")
     .getByRole("button", { name: "My journey", exact: true })
     .click();
-  // Use the menu on small viewports to open Results before publication.
-  if (await page.locator(".mobile-menu").isVisible())
-    await page.locator(".mobile-menu").click();
-  await page
-    .getByRole("navigation")
-    .getByRole("button", { name: "Results & care", exact: true })
-    .click();
+  await navigate(page, "Results & care", isMobile);
   await expect(page.getByTestId("confirmed-results")).toHaveCount(0);
   await expect(
     page.getByText("PB016 original recommendation", { exact: true }),
@@ -198,6 +222,7 @@ test("published legacy results and history remain available without booking hand
   page,
   context,
   baseURL,
+  isMobile,
 }) => {
   const patient = await account(),
     reception = await login("reception"),
@@ -261,19 +286,14 @@ test("published legacy results and history remain available without booking hand
     localStorage.setItem("hospital.language", "en"),
   );
   await page.goto("/");
-  if (await page.locator(".mobile-menu").isVisible())
-    await page.locator(".mobile-menu").click();
-  await page
-    .getByRole("navigation")
-    .getByRole("button", { name: "Visit history", exact: true })
-    .click();
+  await navigate(page, "Visit history", isMobile);
   await page.locator(".record-row").first().click();
-  if (await page.locator(".mobile-menu").isVisible())
-    await page.locator(".mobile-menu").click();
-  await page
-    .getByRole("navigation")
-    .getByRole("button", { name: "Results & care", exact: true })
-    .click();
+  await expect(
+    page
+      .locator("main")
+      .getByRole("heading", { name: "Results & care", exact: true }),
+  ).toBeVisible();
+  await navigate(page, "Results & care", isMobile);
   await expect(
     page.getByText("PB016 legacy diagnosis", { exact: true }).first(),
   ).toBeVisible();

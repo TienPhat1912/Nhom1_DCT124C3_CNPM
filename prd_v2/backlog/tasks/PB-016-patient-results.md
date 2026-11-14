@@ -103,6 +103,24 @@ APK mới hoặc chạy Android thật**; script native mới chỉ được ki�
 Chưa chạy toàn bộ GitHub CI/default browser hoặc migration upgrade regression.
 Không đánh Done trước khi hoàn tất gate native, reviewer và merge.
 
+### Bản vá CI: điều hướng mobile sau bootstrap phiên
+
+Log CI ghi timeout ở `Visit history`, button nằm ngoài viewport. Điều kiện
+`mobile-menu.isVisible()` chạy trước khi workspace xác thực xuất hiện có thể trả
+false ngay, làm test bỏ qua thao tác mở sidebar. Đã tái hiện cùng lỗi với code cũ
+bằng session response chậm 500 ms trên fixture riêng.
+
+Browser test dùng fixture `isMobile`, chờ nút điều hướng được mount, mở sidebar khi
+cần, chờ class open và nút vào viewport, rồi xác nhận trang được chọn. Luồng lịch
+sử vẫn chọn bản ghi để mở Results. Hook session chậm được giữ trong suite để bảo
+vệ tình huống bootstrap trên CI. Timeout chính vẫn 90 giây như trước.
+
+Kiểm chứng bản vá: `CI=true`, bỏ PLAYWRIGHT_CHANNEL để dùng bundled Chromium
+headless shell như Actions; suite browser lặp `--repeat-each=3` đạt **12/12** trên
+desktop/Pixel 7 viewport, gồm session chậm 500 ms. API 4/4, component native 4/4,
+typecheck và lint đạt; fixture `HospitalAcceptance_1794659354842`. Cần chờ workflow
+remote mới để xác nhận trạng thái checks sau push.
+
 - [ ] Build và cài APK hiện tại, chạy runner với `-Native` trên AVD `cnpm_api36`;
   kiểm chứng kết quả trước quyết toán, đổi ngôn ngữ, lịch sử legacy và lưu báo cáo/ảnh.
 - [ ] Hoàn tất tiêu chí ở trên và quy ước Done.
