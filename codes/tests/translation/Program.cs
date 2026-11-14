@@ -74,6 +74,7 @@ try { Languages.Source("en"); throw new Exception("Expected Vietnamese-only reje
 try { Languages.Normalize("xx"); throw new Exception("Expected unsupported-language rejection"); } catch (ApiException) { }
 Check(Languages.Normalize("zh-Hans") == "zh", "Canonical Chinese locale");
 Console.WriteLine("Translation checks passed: six languages, batching/cache, edits, access, original preservation, narration binding and five failure modes.");
+await ScopedTranslationChecks.Run();
 if (args.Contains("--migration")) await MigrationChecks.Run();
 
 sealed class Provider : HttpMessageHandler, IHttpClientFactory

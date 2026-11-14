@@ -1,5 +1,9 @@
 # Kiểm thử
 
+PB-017: `npm run test:translation` chạy cả hồi quy nội dung bệnh viện và
+ScopedTranslationChecks (nguồn/đích, cache theo hồ sơ/version, timeout/retry,
+fallback, cancellation và log privacy), dùng HTTP provider giả, không gọi Azure.
+
 PB-016: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/patient-results/run.ps1 -SqlServer '.\SQLEXPRESS' -Regression -Capture`
 chạy API/browser/component native trên fixture riêng; `npm run test:results:native`
 chạy riêng component tests. Android thật là gate riêng trong
