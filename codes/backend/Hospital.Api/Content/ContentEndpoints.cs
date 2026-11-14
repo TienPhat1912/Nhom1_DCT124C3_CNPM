@@ -15,6 +15,11 @@ public class ContentReader(HospitalDb db)
 {
     public async Task<ResolvedSummary?> Current(Guid visitId, string language)
     {
+        if (await db.Visits.AnyAsync(v => v.Id == visitId && v.ExamStatus != null)) {
+            var record = await db.Set<ClinicalRecord>().AsNoTracking().SingleOrDefaultAsync(r => r.VisitId == visitId);
+            return record == null ? null : new(record.Id, record.Version, "vi", language != "vi", record.Diagnosis, record.Explanation, record.Instructions,
+                record.AuthorName, DateTime.SpecifyKind(record.PublishedAt, DateTimeKind.Utc), "", new { record.Language, record.Diagnosis, record.Explanation, record.Instructions });
+        }
         var v = await db.Set<SummaryVersion>().Where(s => s.VisitId == visitId && s.Status == "Published").OrderByDescending(s => s.Revision).FirstOrDefaultAsync();
         if (v is null) return null;
         return new(v.Id, v.Revision, "vi", language != "vi", v.Diagnosis, v.Explanation,
@@ -26,6 +31,13 @@ public static class ContentEndpoints
     public static void MapContent(this WebApplication app)
     {
         var g = app.MapGroup("/api").AddEndpointFilter<LocalizedResponseFilter>().WithTags("Doctor content and narration");
+        g.AddEndpointFilter(async (ctx, next) => {
+            if (ctx.HttpContext.Request.Path.Value?.Contains("/drafts", StringComparison.Ordinal) == true && ctx.HttpContext.Request.RouteValues["id"] is string raw && Guid.TryParse(raw, out var visitId)) {
+                var visit = await ctx.HttpContext.RequestServices.GetRequiredService<Access>().DoctorVisit(visitId);
+                Check.That(visit.ExamStatus == null, "legacyCommandDisabled", "Use the examination preview and confirmation workflow.", 410);
+            }
+            return await next(ctx);
+        });
         g.MapGet("/visits/{id:guid}/content", async (Guid id, string? language, Access access, HospitalDb db, ContentReader reader, IAppointmentAdapter appointments) => {
             await access.Visit(id, true);
             return new { summary = await reader.Current(id, language ?? "vi"), followUps = await db.Set<FollowUpRecommendation>().Where(f => f.VisitId == id && f.Status == "Published").OrderByDescending(f => f.CreatedAt).ToListAsync(), bookingUrl = appointments.BookingUrl };

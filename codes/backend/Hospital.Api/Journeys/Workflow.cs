@@ -40,7 +40,7 @@ public class Workflow(HospitalDb db, CommandBus bus)
             if (s.Kind == "Pharmacy") ready = visit.Status == "Closed";
             s.Status = ready ? "Ready" : "Waiting";
         }
-        if (visit.Status == "Active" && ReadyForSettlement(visit) && visit.FinalSettlementRevision == visit.WorkRevision)
+        if (visit.ExamStatus == null && visit.Status == "Active" && ReadyForSettlement(visit) && visit.FinalSettlementRevision == visit.WorkRevision)
         {
             visit.Status = "Closed"; visit.ClosedAt = DateTime.UtcNow;
             foreach (var s in j.Steps.Where(s => s.Kind == "Settlement" && !Resolved(s))) { s.Status = "Completed"; s.CompletedAt = DateTime.UtcNow; }

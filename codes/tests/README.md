@@ -1,5 +1,11 @@
 # Kiểm thử
 
+PB-014: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/complete-examination/run.ps1 -Regression -Capture`
+build/publish và chạy API/browser trên fixture SQL localhost riêng, kèm hồi quy PB-013/012/011/010/008.
+Lệnh riêng: `node --test tests/api/complete-examination.test.mjs` và
+`npx playwright test --config playwright.examination.config.ts`.
+Xem [bàn giao PB-014](../docs/requirements/PB-014-COMPLETE-EXAMINATION.md).
+
 PB-013: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/clinical-catalog/run.ps1 -SqlServer localhost -Regression -Capture`
 chạy migration mới/cũ, API và browser Admin trên fixture SQL riêng; thêm hồi quy PB-012/011/010/008.
 Các lệnh riêng: `node --test tests/api/clinical-catalog.test.mjs`,
