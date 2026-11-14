@@ -1,5 +1,11 @@
 # Kiểm thử
 
+PB-012: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/service-return/run.ps1 -SqlServer localhost`
+build/publish và chạy API/browser trên database `HospitalAcceptance_<timestamp>` mới, giữ lại fixture.
+Hoặc đặt môi trường acceptance riêng rồi chạy `node --test tests/api/service-return.test.mjs`
+và `npx playwright test --config playwright.service.config.ts`.
+Xem [bàn giao PB-012](../docs/requirements/PB-012-SERVICE-RETURN.md).
+
 PB-011: `node --test tests/api/single-order.test.mjs` và
 `npx playwright test --config playwright.order.config.ts` với API/web acceptance
 V2 riêng. Đặt PB011_SQL_CONNECTION tới SQL local rồi chạy

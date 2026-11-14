@@ -14,8 +14,10 @@ import {
 import { useMutation, useResource, useRuntime } from "./runtime";
 import { DoctorContent } from "./StaffContent";
 import { DoctorQueue } from "./DoctorQueue";
+import { ServiceOrders } from "./ServiceOrders";
 export default function StaffClinical({ id }: { id: string | null }) {
   const { config, session } = useRuntime();
+  if (config.prdV2Enabled && session.role === "Service") return <ServiceOrders />;
   return config.prdV2Enabled && session.role === "Doctor" ? <DoctorQueue /> : <LegacyClinical id={id} />;
 }
 function LegacyClinical({ id }: { id: string | null }) {

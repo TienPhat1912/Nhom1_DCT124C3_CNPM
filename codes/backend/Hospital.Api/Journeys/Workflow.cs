@@ -52,11 +52,31 @@ public class Workflow(HospitalDb db, CommandBus bus)
             if (pharmacy is not null) pharmacy.Status = "Ready";
             else if (j.Status != "Completed") Complete(j, "WorkflowNoPharmacy");
         }
-        foreach (var order in visit.Orders.Where(o => o.Status != "Cancelled"))
+        foreach (var order in visit.Orders.Where(o => o.ConsultationNumber == null && o.Status != "Cancelled"))
             if (j.Steps.Where(s => s.DoctorOrderId == order.Id).All(Resolved)) order.Status = "Resolved";
     }
     public static void Complete(PatientJourney j, string source)
     { j.Status = "Completed"; j.CompletedAt = DateTime.UtcNow; j.CompletionSource = source; }
+    public void ReturnFromService(Visit visit, DoctorOrder order, JourneyStep service, Guid actorId)
+    {
+        var original = visit.Journey.Steps.SingleOrDefault(s => s.Kind == "Consultation" && s.LocationId == visit.ClinicLocationId);
+        Check.That(original != null && !visit.Journey.Steps.Any(s => s.Kind == "ReturnConsultation" && !Resolved(s)),
+            "requestLocked", "The original consultation destination must be available.", 409);
+        var now = DateTime.UtcNow;
+        order.Status = "Completed"; order.CompletedById = actorId; order.CompletedAt = now;
+        service.Status = "Completed"; service.CompletedAt = now;
+        // Preserve the original destination snapshot even if the catalog was edited.
+        var ret = new JourneyStep { PatientJourneyId = visit.Journey.Id, LocationId = original!.LocationId,
+            DepartmentId = original.DepartmentId, DestinationSnapshot = original.DestinationSnapshot,
+            Kind = "ReturnConsultation", Authority = "Doctor", TemplateKey = "return", Status = "Ready",
+            QueueNumber = visit.Ticket.Number,
+            Sequence = visit.Journey.Steps.Where(s => s.Sequence < 9000).Max(s => s.Sequence) + 10 };
+        visit.Journey.Steps.Add(ret); Depends(ret, service);
+        foreach (var settlement in visit.Journey.Steps.Where(s => s.Kind == "Settlement" && !Resolved(s))) Depends(settlement, ret);
+        visit.ExamStatus = "Waiting";
+        // Completion resolves existing work; WorkRevision changes only when new work is ordered.
+        Evaluate(visit);
+    }
     public async Task<MappingNode[]> ValidateMapping(WorkflowMapping map)
     {
         MappingNode[] nodes;
