@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="ChatGPT" version="27.0.0" type="device">
+  <diagram id="D01_Component_Updated" name="D01 – Sơ đồ thành phần">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2700" pageHeight="1590" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Component Diagram" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=34;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="50" y="16.08" width="800" height="52.919999999999995" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Multilingual Hospital Visit Narration and Guidance System" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#293D52;fontSize=20;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="50" y="70.4" width="800" height="33.599999999999994" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="D01 · System architecture" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=15;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1940" y="35.8" width="350" height="26.7" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F7F9FC;strokeColor=#8FA1B5;strokeWidth=1.5;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="50" y="132" width="1700" height="218" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="CLIENT APPLICATIONS" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=18;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="73" y="149.16" width="800" height="30.839999999999996" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:21px;font-weight:bold;color:#203247;&quot;&gt;Patient Mobile&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:16px;color:#293D52;&quot;&gt;Mobile App · account / guest&lt;br&gt;Device TTS: expo-speech&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="76" y="202" width="526" height="113" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:21px;font-weight:bold;color:#203247;&quot;&gt;Patient Web&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:16px;color:#293D52;&quot;&gt;Web App · account / guest&lt;br&gt;Device TTS: Web Speech API&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="624" y="202" width="526" height="113" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:21px;font-weight:bold;color:#203247;&quot;&gt;Staff Web&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:16px;color:#293D52;&quot;&gt;Reception · doctor · service · cashier · admin&lt;br&gt;Same SPA artifact as Patient Web&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="1172" y="202" width="526" height="113" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="CLIENT ACCESS" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=18;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1790" y="149.16" width="800" height="30.839999999999996" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="Web App and Mobile App share&lt;br&gt;the same Backend API and&lt;br&gt;server-side access controls." style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#293D52;fontSize=17;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1790" y="190.04" width="800" height="76.38" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="50" y="394" width="1700" height="985" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F1F5FA;strokeColor=#8FA1B5;strokeWidth=1.5;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="50" y="394" width="1700" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="BACKEND APPLICATION  «modular monolith»" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=22;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="74" y="413.64" width="800" height="36.36" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="One deployable application" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=15;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1319" y="415.8" width="400" height="26.7" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:24px;font-weight:bold;color:#203247;&quot;&gt;Backend API&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:17px;color:#293D52;&quot;&gt;HTTPS · authentication · authorization · request routing&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#F1F5FA;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="90" y="485" width="1620" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="339" y="315" as="sourcePoint" />
+            <mxPoint x="339" y="371" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="887" y="315" as="sourcePoint" />
+            <mxPoint x="887" y="371" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1435" y="315" as="sourcePoint" />
+            <mxPoint x="1435" y="371" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="339" y="371" as="sourcePoint" />
+            <mxPoint x="1435" y="371" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="887" y="371" as="sourcePoint" />
+            <mxPoint x="887" y="485" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="22" value="HTTPS API" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=14;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="913" y="356.68" width="800" height="25.32" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="900" y="597" as="sourcePoint" />
+            <mxPoint x="900" y="651" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="24" value="uses" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=14;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="932" y="619.68" width="800" height="25.32" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F7F9FC;strokeColor=#8FA1B5;strokeWidth=1.5;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="651" width="1620" height="553" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="APPLICATION MODULES  «package»" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=18;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="114" y="668.16" width="800" height="30.839999999999996" as="geometry" />
+        </mxCell>
+        <mxCell id="27" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:19px;font-weight:bold;color:#203247;&quot;&gt;Identity &amp;amp; Access&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;color:#293D52;&quot;&gt;Accounts · Guest sessions&lt;br&gt;Verified access and roles&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFF3C9;strokeColor=#D0C17A;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="113" y="717" width="502" height="131" as="geometry" />
+        </mxCell>
+        <mxCell id="28" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:19px;font-weight:bold;color:#203247;&quot;&gt;Reception&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;color:#293D52;&quot;&gt;Patient requests · staff review&lt;br&gt;One pending request per patient&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFF3C9;strokeColor=#D0C17A;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="643" y="717" width="502" height="131" as="geometry" />
+        </mxCell>
+        <mxCell id="29" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:19px;font-weight:bold;color:#203247;&quot;&gt;Visit &amp;amp; Events&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;color:#293D52;&quot;&gt;Room queue · assigned doctor · 4 exam states&lt;br&gt;Max 1 examining patient / room&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFF3C9;strokeColor=#D0C17A;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="1173" y="717" width="502" height="131" as="geometry" />
+        </mxCell>
+        <mxCell id="30" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:19px;font-weight:bold;color:#203247;&quot;&gt;Journey &amp;amp; Workflow&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;color:#293D52;&quot;&gt;Guidance steps · dependencies&lt;br&gt;Progress and completion rules&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFF3C9;strokeColor=#D0C17A;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="113" y="871" width="502" height="131" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:19px;font-weight:bold;color:#203247;&quot;&gt;Clinical &amp;amp; Services&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;color:#293D52;&quot;&gt;1 service per order · sequential orders&lt;br&gt;Completion status · confirmed diagnosis&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFF3C9;strokeColor=#D0C17A;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="643" y="871" width="502" height="131" as="geometry" />
+        </mxCell>
+        <mxCell id="32" value="&lt;div style=&quot;font-family:Arial;line-height:1.3;text-align:left;padding:10px&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;font-size:18px&quot;&gt;Localization &amp;amp; Narration&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:14px&quot;&gt;Vietnamese source → localized text&lt;br&gt;Auto speech / detail translation: target&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFF3C9;strokeColor=#D0C17A;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="1173" y="871" width="502" height="131" as="geometry" />
+        </mxCell>
+        <mxCell id="33" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:19px;font-weight:bold;color:#203247;&quot;&gt;Indoor Navigation&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;color:#293D52;&quot;&gt;RTLS position → automatic route (target)&lt;br&gt;Turn alerts · rerouting (target)&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFF3C9;strokeColor=#D0C17A;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="113" y="1025" width="502" height="131" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="&lt;div style=&quot;font-family:Arial;line-height:1.3;text-align:left;padding:10px&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;font-size:18px&quot;&gt;Patient Assistance&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:14px&quot;&gt;Requests/status: implemented&lt;br&gt;Reception-only + detail translation: target&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFF3C9;strokeColor=#D0C17A;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="643" y="1025" width="502" height="131" as="geometry" />
+        </mxCell>
+        <mxCell id="35" value="&lt;div style=&quot;font-family:Arial;line-height:1.3;text-align:left;padding:10px&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;font-size:18px&quot;&gt;Administration&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:14px&quot;&gt;Catalog / clinic assignment: implemented&lt;br&gt;Live online users (heartbeat): target&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFF3C9;strokeColor=#D0C17A;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="1173" y="1025" width="502" height="131" as="geometry" />
+        </mxCell>
+        <mxCell id="36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="494" y="1204" as="sourcePoint" />
+            <mxPoint x="494" y="1234" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1310" y="1204" as="sourcePoint" />
+            <mxPoint x="1310" y="1234" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="38" value="&lt;div style=&quot;font-family:Arial;line-height:1.3;text-align:left;padding:10px&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;font-size:18px&quot;&gt;Transactional Persistence&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:14px&quot;&gt;EF Core DbContext → SQL Server&lt;br&gt;Transactions · constraints · snapshots&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#F1F5FA;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="90" y="1234" width="774" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="39" value="&lt;div style=&quot;font-family:Arial;line-height:1.3;text-align:left;padding:10px&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;font-size:18px&quot;&gt;Integration Adapters&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:14px&quot;&gt;Translation HTTP; demo provider adapters&lt;br&gt;Push / physical RTLS: future integration&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#F1F5FA;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="930" y="1234" width="780" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="40" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#FCFDFE;strokeColor=#8FA1B5;strokeWidth=1.5;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1804" y="394" width="495" height="770" as="geometry" />
+        </mxCell>
+        <mxCell id="41" value="EXTERNAL SERVICES / PROPOSED RTLS" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=18;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1833" y="413.16" width="800" height="30.839999999999996" as="geometry" />
+        </mxCell>
+        <mxCell id="42" value="Integration-dependent providers" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=14;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1833" y="450.68" width="800" height="25.32" as="geometry" />
+        </mxCell>
+        <mxCell id="43" value="&lt;div style=&quot;font-family:Arial;line-height:1.3;text-align:left;padding:10px&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;font-size:18px&quot;&gt;Azure Translator&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:14px&quot;&gt;Text translation provider (configurable)&lt;br&gt;Speech synthesis runs on client devices&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="1832" y="508" width="441" height="174" as="geometry" />
+        </mxCell>
+        <mxCell id="44" value="&lt;div style=&quot;font-family:Arial;line-height:1.3;text-align:left;padding:10px&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;font-size:18px&quot;&gt;Push Notification Service&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:14px&quot;&gt;Future optional integration&lt;br&gt;Current notifications: DB + client polling&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="1832" y="734" width="441" height="174" as="geometry" />
+        </mxCell>
+        <mxCell id="45" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1710" y="1291" as="sourcePoint" />
+            <mxPoint x="1832" y="590" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1784" y="1291" />
+              <mxPoint x="1784" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="46" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1784" y="821" as="sourcePoint" />
+            <mxPoint x="1832" y="821" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="47" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="474" y="1349" as="sourcePoint" />
+            <mxPoint x="474" y="1420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="48" value="reads / writes" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=14;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="502" y="1395.68" width="800" height="25.32" as="geometry" />
+        </mxCell>
+        <mxCell id="49" value="&lt;b style=&quot;font-size:21px;color:#203247;&quot;&gt;«database»  Relational Database&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;&quot;&gt;Shared Visit, Journey and hospital records&lt;/span&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=0.12;fillColor=#F1F5FA;strokeColor=#8FA1B5;strokeWidth=1.8;" vertex="1" parent="1">
+          <mxGeometry x="118" y="1434" width="765" height="132" as="geometry" />
+        </mxCell>
+        <mxCell id="50" value="RELATIONSHIP KEY" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=18;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1072" y="1448.16" width="800" height="30.839999999999996" as="geometry" />
+        </mxCell>
+        <mxCell id="51" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1072" y="1492" as="sourcePoint" />
+            <mxPoint x="1165" y="1492" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="52" value="A → B: A uses B (UML dependency)" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#293D52;fontSize=15;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1189" y="1485.8" width="800" height="26.7" as="geometry" />
+        </mxCell>
+        <mxCell id="53" value="Status: source snapshot 73d89fd · 14/11/2026. “Target / future” does not mean implemented." style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=15;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="1527.8" width="1180" height="26.7" as="geometry" />
+        </mxCell>
+        <mxCell id="rtls_plan_cmp" value="&lt;div style=&quot;font-family:Arial;line-height:1.3;text-align:left;padding:10px&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187&quot;&gt;«component»&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;font-size:18px&quot;&gt;RTLS / Positioning Engine&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size:14px&quot;&gt;Physical positioning: target, not integrated&lt;br&gt;PB-033/034 simulation: planned demo work&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#F4F8FC;strokeColor=#8FA1B5;strokeWidth=1.5;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1832" y="960" width="441" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="rtls_plan_dep" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1710" y="1280" as="sourcePoint" />
+            <mxPoint x="1832" y="1040" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1795" y="1280" />
+              <mxPoint x="1795" y="1040" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

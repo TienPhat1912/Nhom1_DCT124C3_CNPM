@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="OpenAI">
+  <diagram id="ERD-conceptual" name="ERD Ý niệm">
+    <mxGraphModel dx="2174" dy="967" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2580" pageHeight="1380" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n_StaffUser" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Nhân viên bệnh viện" vertex="1">
+          <mxGeometry height="108" width="350" x="1480" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Patient" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Bệnh nhân" vertex="1">
+          <mxGeometry height="108" width="350" x="500" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n_RegistrationRequest" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Yêu cầu tiếp nhận" vertex="1">
+          <mxGeometry height="108" width="350" x="1000" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n_ReceptionRecord" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Xác nhận tiếp nhận" vertex="1">
+          <mxGeometry height="108" width="350" x="1480" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n_ExaminationTicket" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Phiếu khám" vertex="1">
+          <mxGeometry height="108" width="350" x="1000" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="n_AssistanceRequest" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Yêu cầu hỗ trợ" vertex="1">
+          <mxGeometry height="108" width="350" x="500" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="n_FollowUpRecommendation" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Khuyến nghị tái khám" vertex="1">
+          <mxGeometry height="108" width="350" x="500" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Visit" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Lượt khám (Visit)" vertex="1">
+          <mxGeometry height="108" width="350" x="1000" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="n_PatientJourney" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Hành trình (Journey)" vertex="1">
+          <mxGeometry height="108" width="350" x="1000" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="n_JourneyStep" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Bước hướng dẫn" vertex="1">
+          <mxGeometry height="108" width="350" x="1480" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="n_SymptomCatalog" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Triệu chứng" vertex="1">
+          <mxGeometry height="108" width="350" x="1920" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="n_ClinicalRecord" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Kết quả khám" vertex="1">
+          <mxGeometry height="108" width="350" x="1480" y="438" as="geometry" />
+        </mxCell>
+        <mxCell id="n_DoctorOrder" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Chỉ định dịch vụ" vertex="1">
+          <mxGeometry height="108" width="350" x="500" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="n_HospitalService" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Dịch vụ bệnh viện" vertex="1">
+          <mxGeometry height="108" width="350" x="500" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Location" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Địa điểm" vertex="1">
+          <mxGeometry height="108" width="350" x="1920" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="n_DiagnosisCatalog" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Chẩn đoán" vertex="1">
+          <mxGeometry height="108" width="350" x="1920" y="438" as="geometry" />
+        </mxCell>
+        <mxCell id="n_NarrationTemplate" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Nội dung thuyết minh" vertex="1">
+          <mxGeometry height="108" width="350" x="1000" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="n_Route" parent="1" style="rounded=1;arcSize=16;whiteSpace=wrap;html=1;strokeWidth=2;shadow=1;fontFamily=Arial;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;labelBackgroundColor=none;" value="Tuyến đường" vertex="1">
+          <mxGeometry height="108" width="350" x="1920" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="e_0" edge="1" parent="1" source="n_Patient" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=1;exitY=0.25;entryX=0;entryY=0.25;labelBackgroundColor=none;fontColor=default;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="n_RegistrationRequest" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_1" edge="1" parent="1" source="n_RegistrationRequest" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERzeroToOne;exitX=1;exitY=0.25;entryX=0;entryY=0.25;labelBackgroundColor=none;fontColor=default;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="n_ReceptionRecord" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_2" edge="1" parent="1" source="n_ReceptionRecord" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERmandOne;exitX=0;exitY=0.68;exitPerimeter=0;entryX=1;entryY=0.25;labelBackgroundColor=none;fontColor=default;entryDx=0;entryDy=0;" target="n_Visit" value="">
+          <mxGeometry relative="1" x="0.0294" as="geometry">
+            <Array as="points">
+              <mxPoint x="1400" y="153.44" />
+              <mxPoint x="1400" y="427" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_3" edge="1" parent="1" source="n_Patient" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=1;exitY=0.62;exitPerimeter=0;entryX=0;entryY=0.284;entryPerimeter=0;labelBackgroundColor=none;fontColor=default;" target="n_Visit" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="930" y="146.96" />
+              <mxPoint x="930" y="430.67" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_4" edge="1" parent="1" source="n_Visit" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERmandOne;exitX=0.5;exitY=0;entryX=0.5;entryY=1;labelBackgroundColor=none;fontColor=default;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="n_ExaminationTicket" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_5" edge="1" parent="1" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERmandOne;entryX=0.5;entryY=0;labelBackgroundColor=none;fontColor=default;entryDx=0;entryDy=0;" target="n_PatientJourney" value="" source="n_Visit">
+          <mxGeometry relative="1" as="geometry">
+            </mxGeometry>
+        </mxCell>
+        <mxCell id="e_6" edge="1" parent="1" source="n_PatientJourney" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERoneToMany;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0;entryY=0.5;entryPerimeter=0;labelBackgroundColor=none;fontColor=default;" target="n_JourneyStep" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_7" edge="1" parent="1" source="n_Visit" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=0;exitY=1;entryX=1;entryY=0;labelBackgroundColor=none;fontColor=default;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="n_DoctorOrder" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_8" edge="1" parent="1" source="n_DoctorOrder" style="rounded=1;html=1;strokeWidth=2;startArrow=ERzeroToMany;endArrow=ERmandOne;entryX=0.5;entryY=0;labelBackgroundColor=none;fontColor=default;entryDx=0;entryDy=0;" target="n_HospitalService" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="660" y="690" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_9" edge="1" parent="1" source="n_Visit" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERzeroToOne;exitX=1;exitY=0.75;entryX=0;entryY=0.5;labelBackgroundColor=none;fontColor=default;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="n_ClinicalRecord" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_10" edge="1" parent="1" source="n_ClinicalRecord" style="rounded=1;html=1;strokeWidth=2;startArrow=ERzeroToMany;endArrow=ERzeroToMany;exitX=1;exitY=0;entryX=0;entryY=1;labelBackgroundColor=none;fontColor=default;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="n_SymptomCatalog" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_11" edge="1" parent="1" source="n_ClinicalRecord" style="rounded=1;html=1;strokeWidth=2;startArrow=ERzeroToMany;endArrow=ERzeroToMany;exitX=1;exitY=0.5;entryX=0;entryY=0.5;labelBackgroundColor=none;fontColor=default;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="n_DiagnosisCatalog" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_12" edge="1" parent="1" source="n_Visit" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=0;exitY=0.5;entryX=1;entryY=0.5;labelBackgroundColor=none;fontColor=default;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="n_FollowUpRecommendation" value="">
+          <mxGeometry relative="1" x="-0.0187" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="454" />
+              <mxPoint x="900" y="304" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_13" edge="1" parent="1" source="n_JourneyStep" style="rounded=1;html=1;strokeWidth=2;startArrow=ERzeroToMany;endArrow=ERmandOne;exitX=1;exitY=0.5;entryX=0;entryY=0.5;labelBackgroundColor=none;fontColor=default;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="n_Location" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_14" edge="1" parent="1" source="n_Location" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=0.35;exitY=1;exitPerimeter=0;entryX=0.35;entryY=0;entryPerimeter=0;labelBackgroundColor=none;fontColor=default;" target="n_Route" value="điểm đầu">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_15" edge="1" parent="1" source="n_Visit" style="rounded=1;html=1;strokeWidth=2;startArrow=ERzeroToOne;endArrow=ERzeroToMany;exitX=0;exitY=0.75;entryX=1;entryY=0.75;labelBackgroundColor=none;fontColor=default;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="n_AssistanceRequest" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_16" edge="1" parent="1" source="n_JourneyStep" style="rounded=1;html=1;strokeWidth=2;startArrow=ERzeroToMany;endArrow=ERzeroToOne;exitX=0;exitY=1;entryX=1;entryY=0;labelBackgroundColor=none;fontColor=default;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="n_NarrationTemplate" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_17" edge="1" parent="1" source="n_StaffUser" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=0.5;exitY=0;entryX=0.5;entryY=1;labelBackgroundColor=none;fontColor=default;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="n_ReceptionRecord" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_18" edge="1" parent="1" source="n_StaffUser" style="rounded=1;html=1;strokeWidth=2;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=0.5;exitY=1;exitPerimeter=0;entryX=0.5;entryY=0;entryPerimeter=0;labelBackgroundColor=none;fontColor=default;" target="n_ClinicalRecord" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="con_Patient_Assistance" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;html=1;strokeColor=#758C9B;strokeWidth=1.5;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;labelBackgroundColor=none;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="n_Patient" target="n_AssistanceRequest">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="431" y="134" />
+              <mxPoint x="431" y="454" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="con_Visit_Room" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;html=1;strokeColor=#758C9B;strokeWidth=1.5;startArrow=ERzeroToMany;endArrow=ERmandOne;startFill=0;endFill=0;labelBackgroundColor=none;exitX=0.5;exitY=1;entryX=0;entryY=0.55;" edge="1" parent="1" source="n_Visit" target="n_Location">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1175" y="556" />
+              <mxPoint x="1875" y="556" />
+              <mxPoint x="1875" y="650" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="con_Staff_Visit" value="Bác sĩ phụ trách" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;html=1;strokeColor=#758C9B;strokeWidth=1.5;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;labelBackgroundColor=none;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="n_StaffUser" target="n_Visit">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1405" y="324" />
+              <mxPoint x="1405" y="454" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="con_Staff_Room" value="Phân công bác sĩ" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;html=1;strokeColor=#758C9B;strokeWidth=1.5;startArrow=ERzeroToMany;endArrow=ERzeroToOne;startFill=0;endFill=0;labelBackgroundColor=none;exitX=1;exitY=0.5;entryX=0;entryY=0.55;" edge="1" parent="1" source="n_StaffUser" target="n_Location">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1865" y="324" />
+              <mxPoint x="1865" y="650" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="route_destination" value="điểm cuối" source="n_Location" target="n_Route" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=1;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=15;labelBackgroundColor=#ffffff;startArrow=ERmandOne;exitX=0.8;exitY=1;entryX=0.8;entryY=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="review_title" value="D02 · ERD Ý NIỆM — CÁC QUAN HỆ NGHIỆP VỤ CHÍNH" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;fontSize=26;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="5" width="1840" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="review_note" value="Visit v2 có một phòng/bác sĩ cố định; Assistance có thể chưa gắn Visit. Phân công phòng chỉ áp dụng cho bác sĩ.&#10;Quan hệ nhiều–nhiều kết quả–danh mục được triển khai bằng bảng liên kết; ERD logic thể hiện chi tiết." style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#B7C5D3;fontFamily=Arial;fontSize=16;fontColor=#42586A;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="430" y="950" width="1840" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
