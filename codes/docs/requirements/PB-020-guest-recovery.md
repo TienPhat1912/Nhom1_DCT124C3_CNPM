@@ -97,3 +97,12 @@ Kết quả sau sửa: `npm run typecheck`, `npm run lint`, publish Release đ�
 `node node_modules/@playwright/test/cli.js test` đạt **50/50** trên desktop/mobile
 (46 test cũ và 4 test timer). Test timer chạy riêng cũng đạt 4/4. Chưa chạy toàn
 bộ LocalDB CI; phần sửa hồi quy này chờ kiểm chứng trên CI sau push.
+
+Log CI tiếp theo đã qua 50 browser mặc định và 8 browser registration, nhưng
+dừng ở 2 test `confirm-reception.spec.ts` do locator Location toàn trang trùng
+lookup. Đã giới hạn Location, ghi nhận xác minh, checkbox và nút xác nhận vào
+đúng fieldset xác nhận; test chủ động mở lookup để kiểm tra khi cả hai form cùng
+hiện. Rà các locator Location/Địa điểm còn lại: test danh mục và recovery đã có
+scope riêng. `playwright test --config playwright.reception.config.ts` trên
+published API, SQL Docker/database acceptance riêng đạt 2/2 desktop/mobile;
+ESLint file test và diff check đạt. Lần sửa bổ sung này chờ kiểm chứng trên CI sau push.
