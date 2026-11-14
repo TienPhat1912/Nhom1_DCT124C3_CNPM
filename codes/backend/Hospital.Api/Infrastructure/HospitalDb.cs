@@ -23,6 +23,7 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
                 e.Property(p.Name).HasMaxLength(p.Name is "Text" or "Instructions" or "Diagnosis" or "Explanation" or "Description" or "Requests" or "StepsJson" or "ResponseJson" or "DestinationSnapshot" or "Detail" ? 12000 : 500);
         }
         m.Entity<UserAccount>().HasIndex(x => x.Email).IsUnique();
+        ConfigureClinicalCatalog(m);
         m.Entity<DoctorOrder>().HasIndex(x => x.VisitId).IsUnique().HasDatabaseName("UX_Orders_OneNotCompletedPerVisit")
             .HasFilter("[Status] = 'NotCompleted'");
         m.Entity<DoctorOrder>().HasIndex(x => new { x.VisitId, x.CreatedAt });
@@ -176,6 +177,53 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
     }
     static void Fk<T, P>(ModelBuilder m, string key, string? nav = null) where T : class where P : class =>
         m.Entity<T>().HasOne(typeof(P), nav).WithMany().HasForeignKey(key);
+
+    static void ConfigureClinicalCatalog(ModelBuilder m)
+    {
+        foreach (var type in new[] { typeof(SymptomCatalog), typeof(DiagnosisCatalog), typeof(ClinicalTemplate) })
+        {
+            var e = m.Entity(type);
+            e.Property("Code").HasMaxLength(40); e.Property("NameVi").HasMaxLength(200);
+            e.HasIndex("Code").IsUnique();
+            e.ToTable(t => t.HasCheckConstraint($"CK_{type.Name}_Code", "LEN([Code]) BETWEEN 2 AND 40 AND [Code] COLLATE Latin1_General_100_BIN2 NOT LIKE N'%[^-A-Z0-9_]%' AND [Code] COLLATE Latin1_General_100_BIN2 LIKE N'[A-Z]%'") );
+            e.ToTable(t => t.HasCheckConstraint($"CK_{type.Name}_Name", "LEN(LTRIM(RTRIM([NameVi]))) >= 2 AND [Version] > 0"));
+        }
+        m.Entity<SymptomCatalog>().Property(x => x.Kind).HasMaxLength(10);
+        m.Entity<SymptomCatalog>().HasAlternateKey(x => new { x.Id, x.Kind });
+        m.Entity<SymptomCatalog>().ToTable(t => t.HasCheckConstraint("CK_SymptomCatalog_Kind", "[Kind] IN ('Symptom','Sign')"));
+        m.Entity<ClinicalTemplate>().Property(x => x.DiagnosisTemplate).HasMaxLength(4000);
+        m.Entity<ClinicalTemplate>().Property(x => x.ExplanationTemplate).HasMaxLength(4000);
+        m.Entity<ClinicalTemplate>().Property(x => x.InstructionsTemplate).HasMaxLength(6000);
+        m.Entity<ClinicalTemplate>().Property(x => x.Language).HasMaxLength(10);
+        m.Entity<ClinicalTemplate>().ToTable(t => {
+            t.HasCheckConstraint("CK_ClinicalTemplate_Source", "[Language] = 'vi'");
+            t.HasCheckConstraint("CK_ClinicalTemplate_Content", "LEN(LTRIM(RTRIM([DiagnosisTemplate]))) > 0 AND LEN(LTRIM(RTRIM([InstructionsTemplate]))) > 0");
+        });
+        m.Entity<ClinicalRecord>().HasIndex(x => x.VisitId).IsUnique();
+        m.Entity<ClinicalRecord>().Property(x => x.TemplateSnapshot).HasColumnType("nvarchar(max)").Metadata.SetMaxLength(null);
+        m.Entity<ClinicalRecord>().Property(x => x.Diagnosis).HasMaxLength(4000);
+        m.Entity<ClinicalRecord>().Property(x => x.Explanation).HasMaxLength(4000);
+        m.Entity<ClinicalRecord>().Property(x => x.Instructions).HasMaxLength(6000);
+        m.Entity<ClinicalRecord>().Property(x => x.Language).HasMaxLength(10);
+        m.Entity<ClinicalRecord>().ToTable(t => {
+            t.HasCheckConstraint("CK_ClinicalRecord_Source", "[Language] = 'vi'");
+            t.HasCheckConstraint("CK_ClinicalRecord_Snapshot", "[TemplateVersion] > 0 AND ISJSON([TemplateSnapshot]) = 1");
+            t.HasCheckConstraint("CK_ClinicalRecord_Content", "LEN(LTRIM(RTRIM([Diagnosis]))) > 0 AND LEN(LTRIM(RTRIM([Instructions]))) > 0 AND LEN(LTRIM(RTRIM([AuthorName]))) > 0 AND [PublishedAt] >= [ConfirmedAt]");
+        });
+        Fk<ClinicalRecord, Visit>(m, "VisitId"); Fk<ClinicalRecord, UserAccount>(m, "AuthorId"); Fk<ClinicalRecord, ClinicalTemplate>(m, "TemplateId");
+        m.Entity<ClinicalRecord>().HasMany(x => x.Symptoms).WithOne().HasForeignKey(x => x.ClinicalRecordId);
+        m.Entity<ClinicalRecord>().HasMany(x => x.Diagnoses).WithOne().HasForeignKey(x => x.ClinicalRecordId);
+        m.Entity<ClinicalSymptom>().HasOne<SymptomCatalog>().WithMany().HasForeignKey(x => new { x.SymptomCatalogId, x.Kind }).HasPrincipalKey(x => new { x.Id, x.Kind });
+        Fk<ClinicalDiagnosis, DiagnosisCatalog>(m, "DiagnosisCatalogId");
+        m.Entity<ClinicalSymptom>().HasIndex(x => new { x.ClinicalRecordId, x.SymptomCatalogId }).IsUnique();
+        m.Entity<ClinicalDiagnosis>().HasIndex(x => new { x.ClinicalRecordId, x.DiagnosisCatalogId }).IsUnique();
+        m.Entity<ClinicalSymptom>().Property(x => x.Kind).HasMaxLength(10);
+        foreach (var type in new[] { typeof(ClinicalSymptom), typeof(ClinicalDiagnosis) })
+        {
+            var e = m.Entity(type); e.Property("CodeSnapshot").HasMaxLength(40); e.Property("NameViSnapshot").HasMaxLength(200);
+            e.ToTable(t => t.HasCheckConstraint($"CK_{type.Name}_Snapshot", "[CatalogVersion] > 0 AND LEN(LTRIM(RTRIM([CodeSnapshot]))) >= 2 AND LEN(LTRIM(RTRIM([NameViSnapshot]))) >= 2"));
+        }
+    }
 
     public override Task<int> SaveChangesAsync(CancellationToken ct = default)
     {

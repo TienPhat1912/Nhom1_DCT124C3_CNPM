@@ -1,5 +1,13 @@
 # Kiểm thử
 
+PB-013: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/clinical-catalog/run.ps1 -SqlServer localhost -Regression -Capture`
+chạy migration mới/cũ, API và browser Admin trên fixture SQL riêng; thêm hồi quy PB-012/011/010/008.
+Các lệnh riêng: `node --test tests/api/clinical-catalog.test.mjs`,
+`npx playwright test --config playwright.clinical.config.ts`, và
+`dotnet run --project tests/clinical-catalog/ClinicalCatalog.Tests.csproj -c Release`
+(migration cần `PB013_SQL_CONNECTION` trỏ SQL local; tên database luôn bị thay bằng fixture).
+Xem [hợp đồng và bàn giao PB-013](../docs/requirements/PB-013-CLINICAL-CATALOG.md).
+
 PB-012: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/service-return/run.ps1 -SqlServer localhost`
 build/publish và chạy API/browser trên database `HospitalAcceptance_<timestamp>` mới, giữ lại fixture.
 Hoặc đặt môi trường acceptance riêng rồi chạy `node --test tests/api/service-return.test.mjs`

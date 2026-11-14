@@ -104,6 +104,7 @@ if (!args.Contains("--no-migrate")) {
     }
     await Seed.Run(db, app.Configuration);
     await HospitalCatalog.Sync(db, app.Configuration);
+    await ClinicalCatalogSeed.Run(db, app.Configuration);
     if (args.Contains("--seed-performance")) await PerformanceSeed.Run(db, app.Configuration);
 }
 if (!args.Contains("--migrate-only") && !args.Contains("--seed-performance")) app.Run();

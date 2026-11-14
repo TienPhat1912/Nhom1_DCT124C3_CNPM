@@ -21,6 +21,9 @@ import { useMutation, useResource, useRuntime } from "./runtime";
 import { HospitalQr } from "./HospitalEntry";
 import AdminDashboard from "./AdminDashboard";
 import ClinicAssignments from "./ClinicAssignments";
+import ClinicalCatalogAdmin, {
+  clinicalCatalogLabels,
+} from "./ClinicalCatalogAdmin";
 type Tab = keyof AdminConfig;
 const tabs: Tab[] = [
   "departments",
@@ -33,20 +36,24 @@ const tabs: Tab[] = [
 ];
 type Values = Record<string, string | number | boolean | string[] | null>;
 export default function Admin() {
-  const { t, locale } = useRuntime();
-  const [tab, setTab] = useState<Tab | "dashboard" | "clinics">("dashboard");
+  const { t, locale, config } = useRuntime();
+  const [tab, setTab] = useState<Tab | "dashboard" | "clinics" | "clinical">(
+    "dashboard",
+  );
   const resource = useResource<AdminConfig>(
-    tab === "dashboard" ? null : "/api/admin/configuration",
+    tab === "dashboard" || tab === "clinical"
+      ? null
+      : "/api/admin/configuration",
   );
   const [id, setId] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [search, setSearch] = useState("");
   const data = resource.data;
+  const isConfiguration =
+    tab !== "dashboard" && tab !== "clinics" && tab !== "clinical";
   const record =
-    id && tab !== "dashboard" && tab !== "clinics"
-      ? data?.[tab].find((r) => r.id === id)
-      : undefined;
-  const selectTab = (next: Tab | "dashboard" | "clinics") => {
+    id && isConfiguration ? data?.[tab].find((r) => r.id === id) : undefined;
+  const selectTab = (next: Tab | "dashboard" | "clinics" | "clinical") => {
     setTab(next);
     setSearch("");
     setId(null);
@@ -72,6 +79,15 @@ export default function Admin() {
         >
           {t("clinicAssignments")}
         </button>
+        {config.prdV2Enabled && (
+          <button
+            className={tab === "clinical" ? "selected" : ""}
+            aria-current={tab === "clinical" ? "page" : undefined}
+            onClick={() => selectTab("clinical")}
+          >
+            {clinicalCatalogLabels[locale].title}
+          </button>
+        )}
         {tabs.map((x) => (
           <button
             key={x}
@@ -85,11 +101,13 @@ export default function Admin() {
       </nav>
       {tab === "dashboard" ? (
         <AdminDashboard onConfigure={selectTab} />
+      ) : tab === "clinical" ? (
+        <ClinicalCatalogAdmin />
       ) : (
         <ResourceState resource={resource} />
       )}
       {data && tab === "clinics" && <ClinicAssignments config={data} />}
-      {data && tab !== "dashboard" && tab !== "clinics" && (
+      {data && isConfiguration && (
         <div className="split-layout">
           <aside className="panel">
             <Button
@@ -137,7 +155,10 @@ export default function Admin() {
                         ? displayName(
                             data.services.find(
                               (s) => s.id === item.hospitalServiceId,
-                            ) ?? { nameVi: t("service"), nameEn: t("service") },
+                            ) ?? {
+                              nameVi: t("service"),
+                              nameEn: t("service"),
+                            },
                             locale,
                           )
                         : t("routes")));
