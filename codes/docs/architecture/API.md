@@ -7,6 +7,10 @@ xem [endpoint runtime, guard và migration PB-010](../requirements/PB-010-DOCTOR
 GET VisitV2 phục vụ ca đang khám; các capability clinical/settlement chưa triển khai
 vẫn false. Không coi namespace V2 là đã triển khai toàn bộ hợp đồng đích.
 
+PB-011 bổ sung [preview và xác nhận một dịch vụ](../requirements/PB-011-SINGLE-ORDER.md).
+ConfirmOrderInputV2 thêm previewId bắt buộc; canConfirmOrder đã được tính cho Doctor
+đang khám. Các capability complete service/examination/settlement vẫn chưa bật.
+
 Tài liệu máy đọc: `/openapi/v1.json`, snapshot trong `docs/architecture/openapi.json`. C# request records nằm cạnh endpoint; DTO TypeScript dùng chung trong `packages/shared/src/types.ts`, API client trong `api.ts`. DTO phản hồi hiện được duy trì thủ công; acceptance kiểm tra các luồng sử dụng chúng. Không khẳng định có schema-codegen toàn bộ phản hồi anonymous C#.
 
 ## Quy ước
@@ -147,7 +151,8 @@ Tất cả path trong bảng có tiền tố **`/api/v2`**, là hợp đồng ch
 | Gửi yêu cầu / PB-006 | POST `/requests`; RegistrationRequestInputV2 → RegistrationRequestV2, 201 | Patient Account/Guest; chưa có request pending hoặc Visit Active | Chưa có version; key bắt buộc, khóa theo Patient |
 | Xác nhận tiếp nhận / PB-008 | POST `/requests/{id}/confirm`; ConfirmReceptionInputV2 → ConfirmReceptionResultV2, 200 | Reception đúng phạm vi request/phòng; đã xác minh; phòng/bác sĩ hợp lệ; Patient chưa có Visit Active | version request + clinicAssignmentVersion; key bắt buộc |
 | Tiếp nhận và gọi khám / PB-010 | POST `/visits/{id}/consultations/accept`; AcceptConsultationInputV2 → VisitV2, 200 | Doctor đúng Visit/phòng; Waiting; phòng không có ca InConsultation | version Visit; key bắt buộc; khóa cả phòng |
-| Xác nhận một chỉ định / PB-011 | POST `/visits/{id}/orders`; ConfirmOrderInputV2 → VisitV2, 200 | Doctor phụ trách; InConsultation; không còn order NotCompleted; một service đang dùng, có mapping/địa điểm hợp lệ | version Visit; key bắt buộc |
+| Xem trước chỉ định / PB-011 | POST `/visits/{id}/orders/preview`; PreviewOrderInputV2 → OrderPreviewV2, 200 | Doctor đang khám; một service/mapping/địa điểm đang dùng; chưa tạo order | version Visit; key bắt buộc, preview 5 phút |
+| Xác nhận một chỉ định / PB-011 | POST `/visits/{id}/orders`; ConfirmOrderInputV2 → VisitV2, 200 | Doctor phụ trách; InConsultation; không còn order NotCompleted; preview gắn Visit/doctor/input/config chưa đổi | version Visit + previewId; key bắt buộc |
 | Hoàn tất dịch vụ / PB-012 | POST `/visits/{id}/orders/{orderId}/complete`; CompleteServiceInputV2 → VisitV2, 200 | Service đúng khoa order; order thuộc Visit/bước hiện tại; InService và NotCompleted | version Visit + orderVersion; key bắt buộc |
 | Xem trước / PB-014 | POST `/visits/{id}/examination/preview`; PreviewExaminationInputV2 → ExaminationPreviewV2, 200 | Doctor phụ trách; InConsultation; không còn order chưa xong; danh mục/mẫu đang dùng, ít nhất một chẩn đoán | version Visit + version mỗi lựa chọn/mẫu; không cần key, không thay trạng thái/publish |
 | Hoàn tất khám / PB-014 | POST `/visits/{id}/examination/complete`; CompleteExaminationInputV2 → CompleteExaminationResultV2, 200 | Guard như preview; preview khớp Visit/bác sĩ/lựa chọn/version danh mục/mẫu | version Visit + previewId; key bắt buộc |
@@ -195,7 +200,8 @@ IDs dưới đây là ký hiệu minh họa; triển khai nhận UUID hợp lệ
 |---|---|---|
 | POST requests/r1/confirm | `{"version":3,"clinicLocationId":"room1","clinicAssignmentVersion":2,"attendeeVerified":true,"verificationNote":"Đã đối chiếu trực tiếp"}` | `visit:{contractVersion:prd-v2,version:1,status:Active,journeyStatus:Active,examStatus:Waiting,consultationCount:0}, ticket:{number:001,issuedOn:2026-11-11,sequenceNumber:1,clinicLocationId:room1}` |
 | POST visits/v1/consultations/accept | `{"version":1}` | `version:2, examStatus:InConsultation, consultationCount:1, latestConsultationCall:{id:call1,consultationNumber:1}` |
-| POST visits/v1/orders | `{"version":2,"serviceId":"service1","note":""}` | `version:3, examStatus:InService, workRevision:2, orders:[{id:o1,version:1,status:NotCompleted}]` |
+| POST visits/v1/orders/preview | `{"version":2,"serviceId":"service1","note":""}` | `previewId:p1,visitVersion:2,service:{id:service1},destination:{...},expiresAt:<UTC>`; Visit không đổi |
+| POST visits/v1/orders | `{"version":2,"serviceId":"service1","note":"","previewId":"p1"}` | `version:3, examStatus:InService, workRevision:2, orders:[{id:o1,version:1,status:NotCompleted}]` |
 | POST visits/v1/orders/o1/complete | `{"version":3,"orderVersion":1}` | `version:4, examStatus:Waiting, currentStep:{kind:ReturnConsultation,destination:{id:room1}}, workRevision:2` |
 | POST visits/v1/consultations/accept | `{"version":4}` | `version:5, examStatus:InConsultation, consultationCount:2, latestConsultationCall.id:call2` |
 | POST visits/v1/examination/preview | `{"version":5,"symptomSelections":[],"signSelections":[],"diagnosisSelections":[{"id":"d1","version":1}],"template":{"id":"t1","version":2}}` | `previewId:p1, visitVersion:5, content:{language:vi,...}`; Visit không đổi |

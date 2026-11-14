@@ -507,7 +507,10 @@ export type ConfirmReceptionResultV2 = {
 /** Version of the whole Visit aggregate, not the step/order/Journey. */
 export type VisitCommandInputV2 = { version: number };
 export type AcceptConsultationInputV2 = VisitCommandInputV2;
-export type ConfirmOrderInputV2 = VisitCommandInputV2 & { serviceId: string; note: string };
+export type PreviewOrderInputV2 = VisitCommandInputV2 & { serviceId: string; note: string };
+export type OrderPreviewV2 = { previewId: string; visitId: string; visitVersion: number; expiresAt: string;
+  service: { id: string; code: string; nameVi: string }; destination: ClinicSnapshotV2; note: string };
+export type ConfirmOrderInputV2 = PreviewOrderInputV2 & { previewId: string };
 export type CompleteServiceInputV2 = VisitCommandInputV2 & { orderVersion: number };
 export type CatalogSelectionV2 = { id: string; version: number };
 export type PreviewExaminationInputV2 = VisitCommandInputV2 & {

@@ -2239,7 +2239,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnonymousTypeOfGuidAndGuidAndIEnumerableOfAnonymousTypeOfGuidAndintAndstringAndstringAndDateOnlyAndGuidAndstring"
+                  "$ref": "#/components/schemas/AnonymousTypeOfGuidAndGuidAndIEnumerableOfAnonymousTypeOfGuidAndstringAndstringAndIEnumerableOfAnonymousTypeOfGuidAndintAndstringAndstringAndDateOnlyAndGuidAndstring"
                 }
               }
             }
@@ -2298,6 +2298,104 @@
       "post": {
         "tags": [
           "Doctor consultation"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/order-services": {
+      "get": {
+        "tags": [
+          "Single service order"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnonymousTypeOfGuidAndstringAndstring"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/visits/{id}/orders/preview": {
+      "post": {
+        "tags": [
+          "Single service order"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonElement"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/visits/{id}/orders": {
+      "post": {
+        "tags": [
+          "Single service order"
         ],
         "parameters": [
           {
@@ -2747,23 +2845,23 @@
       },
       "AnonymousTypeOfGuidAndstringAndstring": {
         "required": [
-          "visitId",
-          "status",
-          "journeyStatus"
+          "id",
+          "number",
+          "patientName"
         ],
         "type": "object",
         "properties": {
-          "visitId": {
+          "id": {
             "type": "string",
             "format": "uuid"
           },
-          "status": {
+          "number": {
             "type": [
               "null",
               "string"
             ]
           },
-          "journeyStatus": {
+          "patientName": {
             "type": [
               "null",
               "string"
@@ -5582,6 +5680,46 @@
               "string"
             ],
             "format": "uuid"
+          },
+          "waiting": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/AnonymousTypeOfGuidAndintAndstringAndstringAndDateOnlyAndGuidAndstring"
+            }
+          }
+        }
+      },
+      "AnonymousTypeOfGuidAndGuidAndIEnumerableOfAnonymousTypeOfGuidAndstringAndstringAndIEnumerableOfAnonymousTypeOfGuidAndintAndstringAndstringAndDateOnlyAndGuidAndstring": {
+        "required": [
+          "clinicLocationId",
+          "currentVisitId",
+          "inService",
+          "waiting"
+        ],
+        "type": "object",
+        "properties": {
+          "clinicLocationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentVisitId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "uuid"
+          },
+          "inService": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/AnonymousTypeOfGuidAndstringAndstring"
+            }
           },
           "waiting": {
             "type": [

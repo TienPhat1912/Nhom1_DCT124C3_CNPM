@@ -47,7 +47,7 @@ export const ticket: ExaminationTicketV2 = {
   clinicSnapshot: clinic, doctorSnapshot: doctor,
 };
 export const accept: AcceptConsultationInputV2 = { version: 1 };
-export const order: ConfirmOrderInputV2 = { version: 2, serviceId: "service-1", note: "" };
+export const order: ConfirmOrderInputV2 = { version: 2, serviceId: "service-1", note: "", previewId: "preview-1" };
 export const completeService: CompleteServiceInputV2 = { version: 3, orderVersion: 1 };
 export const preview: ExaminationPreviewV2 = {
   previewId: "preview-1", visitId: waiting.id, visitVersion: 5,
@@ -81,9 +81,11 @@ export const injectedDoctor: ConfirmReceptionInputV2 = { ...confirm, doctorId: "
 // @ts-expect-error: patient identity comes from the session.
 export const injectedPatient: RegistrationRequestInputV2 = { ...request, patientId: "other" };
 // @ts-expect-error: one service per command, never a parallel array.
-export const multipleServices: ConfirmOrderInputV2 = { version: 2, serviceIds: ["a", "b"], note: "" };
+export const multipleServices: ConfirmOrderInputV2 = { version: 2, serviceIds: ["a", "b"], note: "", previewId: "preview-1" };
 // @ts-expect-error: Visit version is required.
-export const unversionedOrder: ConfirmOrderInputV2 = { serviceId: "a", note: "" };
+export const unversionedOrder: ConfirmOrderInputV2 = { serviceId: "a", note: "", previewId: "preview-1" };
+// @ts-expect-error: confirmation requires the reviewed configuration preview.
+export const unreviewedOrder: ConfirmOrderInputV2 = { version: 2, serviceId: "a", note: "" };
 // @ts-expect-error: service completion also checks the order version.
 export const unversionedService: CompleteServiceInputV2 = { version: 3 };
 // @ts-expect-error: state is a server-owned consequence.

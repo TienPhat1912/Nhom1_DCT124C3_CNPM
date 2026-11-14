@@ -8,6 +8,7 @@ import {
   Status,
 } from "./components";
 import { useMutation, useResource, useRuntime } from "./runtime";
+import { DoctorOrderForm, OrderedService } from "./DoctorOrderForm";
 
 const labels: Record<
   Locale,
@@ -52,6 +53,7 @@ const labels: Record<
 };
 type Clinic = { clinicLocationId: string; nameVi: string; room: string };
 type Queue = {
+  inService: { id: string; number: string; patientName: string }[];
   currentVisitId: string | null;
   waiting: {
     id: string;
@@ -79,6 +81,7 @@ function ClinicQueue({ clinic }: { clinic: Clinic }) {
   const { locale } = useRuntime();
   const text = labels[locale];
   const [offset, setOffset] = useState(0);
+  const [followId, setFollowId] = useState<string | null>(null);
   const queue = useResource<Queue>(
     `/api/v2/clinics/${clinic.clinicLocationId}/queue?offset=${offset}`,
     true,
@@ -95,18 +98,47 @@ function ClinicQueue({ clinic }: { clinic: Clinic }) {
     <section className="panel">
       <SectionTitle title={`${clinic.nameVi} · ${clinic.room}`} />
       <ResourceState resource={queue} />
-      <ResourceState resource={current} />
+      {queue.data?.currentVisitId && <ResourceState resource={current} />}
       {current.data && (
         <article data-testid="current-consultation">
-          <h3>{text.current} · {current.data.consultationCount}</h3>
+          <h3>
+            {text.current} · {current.data.consultationCount}
+          </h3>
           <p>
             {current.data.patientName} · {current.data.ticket.issuedOn} ·{" "}
             {current.data.ticket.number}
           </p>
           <Status value={current.data.examStatus} />
+          {current.data.capabilities.canConfirmOrder && (
+            <DoctorOrderForm
+              key={`${current.data.id}:${current.data.version}`}
+              visit={current.data}
+              onFollow={setFollowId}
+              onChanged={() => {
+                queue.refresh();
+                current.refresh();
+              }}
+            />
+          )}
         </article>
       )}
       <Feedback error={mutation.error} locale={locale} />
+      {followId && <OrderedService key={followId} id={followId} />}
+      {!!queue.data?.inService.length && (
+        <section>
+          <h3>{t("InService")}</h3>
+          {queue.data.inService.map((v) => (
+            <button
+              type="button"
+              className="record-row"
+              key={v.id}
+              onClick={() => setFollowId(v.id)}
+            >
+              {v.patientName} · {v.number}
+            </button>
+          ))}
+        </section>
+      )}
       {queue.data?.waiting.length === 0 && <p>{text.empty}</p>}
       {queue.data?.waiting.map((v) => (
         <article className="record-row" key={v.id}>

@@ -190,6 +190,7 @@ public class QrCode : Entity
 }
 public class JourneyStep : Entity
 {
+    public int? ConsultationNumber { get; set; }
     public Guid PatientJourneyId { get; set; }
     public Guid? DoctorOrderId { get; set; }
     public Guid? HospitalServiceId { get; set; }
@@ -216,12 +217,28 @@ public class StepDependency : Entity
 }
 public class DoctorOrder : Entity
 {
+    public int? ConsultationNumber { get; set; }
+    public string? ServiceSnapshot { get; set; }
+    public string? DestinationSnapshot { get; set; }
+    public string? OrderedBySnapshot { get; set; }
+    public Guid? CompletedById { get; set; }
+    public DateTime? CompletedAt { get; set; }
     public Guid VisitId { get; set; }
     public Guid HospitalServiceId { get; set; }
     public Guid OrderedBy { get; set; }
     public string Status { get; set; } = "Ordered";
     public string Note { get; set; } = "";
     public int MappingVersion { get; set; }
+}
+public class OrderPreview : Entity
+{
+    public Guid VisitId { get; set; }
+    public Guid DoctorId { get; set; }
+    public int VisitVersion { get; set; }
+    public Guid ServiceId { get; set; }
+    public string Note { get; set; } = "";
+    public string ConfigurationHash { get; set; } = "";
+    public DateTime ExpiresAt { get; set; }
 }
 public class Department : Entity
 {

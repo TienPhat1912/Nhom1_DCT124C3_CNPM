@@ -1,5 +1,11 @@
 # Kiểm thử
 
+PB-011: `node --test tests/api/single-order.test.mjs` và
+`npx playwright test --config playwright.order.config.ts` với API/web acceptance
+V2 riêng. Đặt PB011_SQL_CONNECTION tới SQL local rồi chạy
+`dotnet run --project tests/single-order/SingleOrder.Tests.csproj -c Release`.
+Xem [hợp đồng preview/confirm và kiểm chứng PB-011](../docs/requirements/PB-011-SINGLE-ORDER.md).
+
 PB-010: `node --test tests/api/doctor-accept.test.mjs`,
 `npx playwright test --config playwright.doctor.config.ts` trên API/web acceptance
 V2 riêng; `PB010_SQL_CONNECTION` +
