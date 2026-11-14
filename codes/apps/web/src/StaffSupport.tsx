@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { dateText, displayName, type Assistance } from "@hospital/shared";
+import {
+  dateText,
+  type Assistance,
+  type DescriptionTranslationV2,
+} from "@hospital/shared";
 import {
   Button,
   Empty,
@@ -35,10 +39,20 @@ function AssistanceCard({
   item: Assistance;
   onChange: () => void;
 }) {
-  const { t, locale, config } = useRuntime();
+  const { t, locale } = useRuntime();
   const mutation = useMutation();
   const [resolution, setResolution] = useState("");
-  const [department, setDepartment] = useState(a.departmentId);
+  const [opened, setOpened] = useState(false);
+  const detail = useResource<{
+    id: string;
+    version: number;
+    translation: DescriptionTranslationV2;
+  }>(opened ? `/api/assistance/${a.id}` : null);
+  const translated =
+    detail.data?.version === a.version &&
+    detail.data.translation.original === a.description
+      ? detail.data.translation
+      : null;
   const update = async (status: string, escalate = false) => {
     if (
       await mutation.run(
@@ -47,7 +61,7 @@ function AssistanceCard({
           status,
           resolution,
           escalate,
-          departmentId: department,
+          departmentId: null,
           version: a.version,
         },
         "PUT",
@@ -60,7 +74,35 @@ function AssistanceCard({
       <SectionTitle title={t(a.category)}>
         <Status value={a.status} />
       </SectionTitle>
-      <p>{a.description}</p>
+      <p>{a.patientName}</p>
+      {a.destinationSnapshot && (
+        <small>{destinationLabel(a.destinationSnapshot)}</small>
+      )}
+      <Button variant="quiet" onClick={() => setOpened(!opened)}>
+        {t("details")}
+      </Button>
+      {opened && (
+        <>
+          <p style={{ whiteSpace: "pre-wrap" }}>{a.description}</p>
+          <small>{a.sourceLanguage ?? "—"}</small>
+          {detail.loading && <p>{t("loading")}</p>}
+          {translated?.status === "Translated" && (
+            <section aria-label={t("requestTranslation")}>
+              <h3>{t("requestTranslation")}</h3>
+              <p style={{ whiteSpace: "pre-wrap" }}>{translated.translated}</p>
+            </section>
+          )}
+          {translated?.status === "NotRequired" && (
+            <p>{t("translationNotRequired")}</p>
+          )}
+          {(!!detail.error || translated?.status === "Unavailable") && (
+            <p>{t("requestTranslationUnavailable")}</p>
+          )}
+          {(!!detail.error || translated?.status === "Unavailable") && (
+            <Button onClick={detail.refresh}>{t("retry")}</Button>
+          )}
+        </>
+      )}
       <small>{dateText(a.createdAt, locale)}</small>
       {a.resolution && (
         <p>
@@ -69,7 +111,7 @@ function AssistanceCard({
       )}
       {a.status !== "Resolved" && (
         <>
-          <Field label={t("resolution")} hint={t("vietnameseSource")}>
+          <Field label={t("resolution")}>
             <textarea
               value={resolution}
               maxLength={500}
@@ -94,36 +136,18 @@ function AssistanceCard({
               </Button>
             )}
           </div>
-          {a.status === "Acknowledged" && (
-            <details>
-              <summary>{t("escalate")}</summary>
-              <Field label={t("department")}>
-                <select
-                  value={department}
-                  onChange={(e) => setDepartment(e.target.value)}
-                >
-                  {config.departments.map((d) => (
-                    <option key={d.id} value={d.id}>
-                      {displayName(d, locale)}
-                    </option>
-                  ))}
-                </select>
-              </Field>
-              <Button
-                variant="secondary"
-                disabled={
-                  resolution.length < 3 || department === a.departmentId
-                }
-                busy={mutation.busy}
-                onClick={() => void update("Acknowledged", true)}
-              >
-                {t("escalate")}
-              </Button>
-            </details>
-          )}
         </>
       )}
       <Feedback error={mutation.error} ok={mutation.ok} locale={locale} />
     </div>
   );
+}
+
+function destinationLabel(snapshot: string): string {
+  try {
+    const value = JSON.parse(snapshot);
+    return [value.nameVi, value.room].filter(Boolean).join(" · ");
+  } catch {
+    return "";
+  }
 }

@@ -54,7 +54,7 @@ Khoảng 7/30 ngày chỉ áp dụng cho biểu đồ `daily`; các số liệu 
 | Ticket | `/api/visits/{id}/ticket`, `/reissue`, `/recovery`, `/api/tickets/redeem` | Chủ hồ sơ/guest grant hoặc reception |
 | Journey | `/api/visits`, `/{id}`, `/{id}/orders`, `/orders/{orderId}`, `/steps/{stepId}/progress`, `/queue`, `/settlement`, `/pharmacy`, `/complete-guidance` | Vai trò + khoa/phân công; bệnh nhân chỉ bước hướng dẫn cuối |
 | Doctor content | `/api/visits/{id}/drafts`, `/drafts/{draftId}/publish`, `/content`, `/follow-ups`, `/narration` | Bác sĩ phụ trách viết/duyệt nguồn Việt; chủ hồ sơ đọc bản gốc hoặc bản dịch khi truy xuất |
-| Support | `/api/visits/{id}/navigation`, `/api/notifications`, `/api/assistance` | Quyền hồ sơ; Reception/Service xử lý hỗ trợ theo khoa |
+| Support | `/api/visits/{id}/navigation`, `/api/notifications`, `/api/assistance` | Quyền hồ sơ; Reception xử lý hỗ trợ theo khoa; Service không có quyền hỗ trợ |
 | Administration | `/api/admin/configuration`, `/departments`, `/locations`, `/services`, `/mappings`, `/templates`, `/routes`, `/staff` | Admin; không tự cấp quyền bác sĩ công bố |
 | Clinic assignments | GET `/api/v2/admin/clinics`, `/{id}/assignment`; PUT `/{id}/doctors`, `/{id}/active-doctor` | Admin, version phòng và guard Visit Active |
 

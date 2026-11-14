@@ -231,7 +231,7 @@ function Workspace() {
       ] as const)
     : ([
         ["workspace", session.role === "Admin" ? Settings2 : ClipboardList],
-        ...(["Reception", "Service"].includes(session.role)
+        ...(session.role === "Reception"
           ? [["assistance", MessageCircle] as const]
           : []),
       ] as const);

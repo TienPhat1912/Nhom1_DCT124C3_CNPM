@@ -207,6 +207,7 @@ export function Help({
   const action = useAction(api);
   const [category, setCategory] = useState("Navigation");
   const [description, setDescription] = useState("");
+  const [sourceLanguage, setSourceLanguage] = useState("vi");
   return (
     <>
       <Txt tone="title">{t("assistance")}</Txt>
@@ -219,6 +220,15 @@ export function Help({
             label={t(c)}
             selected={category === c}
             onPress={() => setCategory(c)}
+          />
+        ))}
+        <Txt tone="heading">{t("descriptionLanguage")}</Txt>
+        {["vi", "en", "zh", "ja"].map((language) => (
+          <Choice
+            key={language}
+            label={language}
+            selected={sourceLanguage === language}
+            onPress={() => setSourceLanguage(language)}
           />
         ))}
         <Input
@@ -235,6 +245,7 @@ export function Help({
               await action.run("/api/assistance", {
                 category,
                 description,
+                sourceLanguage,
                 visitId,
                 requestId: null,
                 stepId: stepId ?? null,
