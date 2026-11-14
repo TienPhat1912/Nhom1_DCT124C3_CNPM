@@ -512,6 +512,14 @@ export type OrderPreviewV2 = { previewId: string; visitId: string; visitVersion:
   service: { id: string; code: string; nameVi: string }; destination: ClinicSnapshotV2; note: string };
 export type ConfirmOrderInputV2 = PreviewOrderInputV2 & { previewId: string };
 export type CompleteServiceInputV2 = VisitCommandInputV2 & { orderVersion: number };
+export type ServiceOrderWorkItemV2 = {
+  visitId: string;
+  visitVersion: number;
+  canComplete: boolean;
+  patientName: string;
+  ticket: TicketNumberV2;
+  order: DoctorOrderV2;
+};
 export type CatalogSelectionV2 = { id: string; version: number };
 export type PreviewExaminationInputV2 = VisitCommandInputV2 & {
   symptomSelections: CatalogSelectionV2[];

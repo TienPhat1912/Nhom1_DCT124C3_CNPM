@@ -137,6 +137,16 @@ try {
         Stop-TestApi
         $apiProcess = Start-TestApi 'native-order-browser'
         Invoke-Checked 'npx.cmd' @('playwright', 'test', '--config', 'playwright.order.config.ts')
+          Stop-TestApi
+          $env:ACCEPTANCE_DB = 'HospitalAcceptance_' + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
+          $env:ConnectionStrings__Hospital = "Server=$SqlServer;Database=$($env:ACCEPTANCE_DB);Integrated Security=true;TrustServerCertificate=true"
+          Push-Location -LiteralPath $publish
+          try { Invoke-Checked 'dotnet' @($dll, '--migrate-only') } finally { Pop-Location }
+          $apiProcess = Start-TestApi 'native-service-api'
+          Invoke-Checked 'node' @('--test', 'tests/api/service-return.test.mjs')
+          Stop-TestApi
+          $apiProcess = Start-TestApi 'native-service-browser'
+          Invoke-Checked 'npx.cmd' @('playwright', 'test', '--config', 'playwright.service.config.ts')
     } finally {
         Stop-TestApi
         $env:ACCEPTANCE_DB = $beforeDoctorDatabase
