@@ -1,4 +1,7 @@
 {
+  "InService": "サービス実施中",
+  "NotCompleted": "未完了",
+  "previewStale": "確認内容が変更または期限切れです。再確認してください。",
   "InConsultation": "診察中",
   "clinicBusy": "診察室で診察中です。待機一覧を更新してください。",
   "consultationCalled": "医師が診察を開始しました。",

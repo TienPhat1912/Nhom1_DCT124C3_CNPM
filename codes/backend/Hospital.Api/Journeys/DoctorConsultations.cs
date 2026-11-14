@@ -9,7 +9,7 @@ namespace Hospital.Api.Journeys;
 
 public static class DoctorConsultations
 {
-    static async Task Authorize(HospitalDb db, Guid doctorId, Guid clinicId)
+    public static async Task Authorize(HospitalDb db, Guid doctorId, Guid clinicId)
     {
         var valid = await (from room in db.Set<ClinicRoom>()
             join location in db.Set<Location>() on room.ClinicLocationId equals location.Id
@@ -40,7 +40,11 @@ public static class DoctorConsultations
                 .ThenBy(v => v.Ticket.SequenceNumber).ThenBy(v => v.Id).Skip(offset ?? 0).Take(100)
                 .Select(v => new { v.Id, v.Version, patientSnapshot = v.Ticket.PatientSnapshot, number = v.Ticket.Number,
                     issuedOn = v.Ticket.IssuedOn, v.ClinicLocationId, v.ExamStatus }).ToArrayAsync();
-            return new { clinicLocationId = clinicId, currentVisitId = current, waiting = waiting.Select(v => new {
+            var inService = await query.Where(v => v.ExamStatus == "InService").OrderByDescending(v => v.CreatedAt).ThenBy(v => v.Id).Take(100)
+                .Select(v => new { v.Id, patientSnapshot = v.Ticket.PatientSnapshot, number = v.Ticket.Number }).ToArrayAsync();
+            return new { clinicLocationId = clinicId, currentVisitId = current,
+                inService = inService.Select(v => new { v.Id, v.number, patientName = JsonSerializer.Deserialize<PatientTicketSnapshot>(v.patientSnapshot!, CommandBus.Json)!.Name }),
+                waiting = waiting.Select(v => new {
                 v.Id, v.Version, patientName = JsonSerializer.Deserialize<PatientTicketSnapshot>(v.patientSnapshot!, CommandBus.Json)!.Name,
                 v.number, v.issuedOn, v.ClinicLocationId, v.ExamStatus }) };
         });
@@ -79,7 +83,8 @@ public static class DoctorConsultations
                     .Where(s => s.Status == "Ready").OrderBy(s => s.Sequence).FirstOrDefault();
                 Check.That(step != null && visit.ConsultationCount != null && visit.Ticket.SnapshotSource == "Captured", "requestLocked", "Consultation is not ready.", 409);
                 visit.ExamStatus = "InConsultation"; visit.ConsultationCount++;
-                step!.Status = "InProgress"; db.Entry(visit.Journey).Property(j => j.Version).IsModified = true;
+                step!.Status = "InProgress"; step.ConsultationNumber = visit.ConsultationCount;
+                db.Entry(visit.Journey).Property(j => j.Version).IsModified = true;
                 var ticket = ReceptionConfirmation.Ticket(visit);
                 var call = new ConsultationCall { VisitId = id, ClinicLocationId = visit.ClinicLocationId!.Value,
                     DoctorId = actor.Id, ConsultationNumber = visit.ConsultationCount!.Value };
@@ -90,7 +95,7 @@ public static class DoctorConsultations
                 db.Add(call); bus.Audit(actor.Id, "ConsultationAccepted", id, call.Id.ToString());
                 bus.Notify(visit.PatientId, id, "consultationCalled");
                 await db.SaveChangesAsync();
-                return await View(visit, db, call);
+                return await View(visit, db, call, canOrder: !visit.Orders.Any(o => o.Status is "NotCompleted" or "Ordered"));
             });
         });
         group.MapGet("/visits/{id:guid}", async (Guid id, Access access, HospitalDb db) => {
@@ -104,11 +109,15 @@ public static class DoctorConsultations
                     && visit.Journey.Steps.Any(s => (s.Kind == "Consultation" || s.Kind == "ReturnConsultation") && s.Status == "Ready")
                     && !await db.Visits.AnyAsync(v => v.ClinicLocationId == visit.ClinicLocationId && v.Status == "Active" && v.ExamStatus == "InConsultation");
             }
-            return await View(visit, db, canAccept: canAccept);
+            var canOrder = session.UserAccount?.Role == "Doctor" && visit.Status == "Active" && visit.Journey.Status == "Active"
+                && visit.ExamStatus == "InConsultation" && visit.ConsultationCount > 0
+                && visit.Journey.Steps.Count(s => (s.Kind == "Consultation" || s.Kind == "ReturnConsultation") && s.Status == "InProgress") == 1
+                && !visit.Orders.Any(o => o.Status is "NotCompleted" or "Ordered");
+            return await View(visit, db, canAccept: canAccept, canOrder: canOrder);
         });
     }
 
-    public static async Task<object> View(Visit v, HospitalDb db, ConsultationCall? call = null, bool canAccept = false)
+    public static async Task<object> View(Visit v, HospitalDb db, ConsultationCall? call = null, bool canAccept = false, bool canOrder = false)
     {
         call ??= await db.Set<ConsultationCall>().AsNoTracking().Where(c => c.VisitId == v.Id).OrderByDescending(c => c.ConsultationNumber).FirstOrDefaultAsync();
         var ticket = ReceptionConfirmation.Ticket(v);
@@ -120,11 +129,17 @@ public static class DoctorConsultations
             journeyId = v.Journey.Id, journeyVersion = v.Journey.Version, updatedAt = DateTime.UtcNow,
             v.FinalSettlementRevision, v.FinalSettlementOutcome, currentStepId = step?.Id,
             currentStep = step == null ? null : Step(step, v.ConsultationCount), latestConsultationCall = call == null ? (JsonElement?)null : JsonSerializer.Deserialize<JsonElement>(call.PayloadJson),
-            capabilities = new { canAcceptConsultation = canAccept, canConfirmOrder = false, canCompleteService = false,
+            capabilities = new { canAcceptConsultation = canAccept, canConfirmOrder = canOrder, canCompleteService = false,
                 canPreviewExamination = false, canCompleteExamination = false, canSettle = false, canViewResults = false },
-            steps = v.Journey.Steps.OrderBy(s => s.Sequence).Select(s => Step(s, v.ConsultationCount)), orders = Array.Empty<object>() };
+            steps = v.Journey.Steps.OrderBy(s => s.Sequence).Select(s => Step(s, v.ConsultationCount)),
+            orders = v.Orders.Where(o => o.ConsultationNumber != null).Select(o => new {
+                o.Id, o.Version, createdAt = DateTime.SpecifyKind(o.CreatedAt, DateTimeKind.Utc), o.HospitalServiceId, o.Status, o.ConsultationNumber, o.Note,
+                serviceSnapshot = JsonSerializer.Deserialize<JsonElement>(o.ServiceSnapshot!),
+                destinationSnapshot = JsonSerializer.Deserialize<JsonElement>(o.DestinationSnapshot!),
+                orderedBy = JsonSerializer.Deserialize<JsonElement>(o.OrderedBySnapshot!),
+                completedBy = (object?)null, o.CompletedAt }) };
     }
     static object Step(JourneyStep s, int? count) => new { s.Id, s.Version, s.CreatedAt, s.Kind, s.Status, s.Sequence,
-        consultationNumber = s.Status == "InProgress" && (s.Kind == "Consultation" || s.Kind == "ReturnConsultation") ? count : null,
+        consultationNumber = s.ConsultationNumber ?? (s.Status == "InProgress" && (s.Kind == "Consultation" || s.Kind == "ReturnConsultation") ? count : null),
         s.DoctorOrderId, destination = JsonSerializer.Deserialize<JsonElement>(s.DestinationSnapshot), s.CompletedAt };
 }

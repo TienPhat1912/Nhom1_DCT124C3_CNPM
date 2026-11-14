@@ -1,4 +1,7 @@
 {
+  "InService": "正在接受服务",
+  "NotCompleted": "未完成",
+  "previewStale": "预览已更改或过期，请重新确认。",
   "InConsultation": "就诊中",
   "clinicBusy": "诊室已有患者正在就诊，请刷新候诊名单。",
   "consultationCalled": "医生已接诊，请前往诊室。",

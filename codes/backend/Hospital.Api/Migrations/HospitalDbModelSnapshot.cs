@@ -408,8 +408,20 @@ namespace Hospital.Api.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CompletedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("ConsultationNumber")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DestinationSnapshot")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("HospitalServiceId")
                         .HasColumnType("uniqueidentifier");
@@ -425,6 +437,12 @@ namespace Hospital.Api.Migrations
                     b.Property<Guid>("OrderedBy")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("OrderedBySnapshot")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceSnapshot")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -439,13 +457,23 @@ namespace Hospital.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompletedById");
+
                     b.HasIndex("HospitalServiceId");
 
                     b.HasIndex("OrderedBy");
 
-                    b.HasIndex("VisitId");
+                    b.HasIndex("VisitId")
+                        .IsUnique()
+                        .HasDatabaseName("UX_Orders_OneNotCompletedPerVisit")
+                        .HasFilter("[Status] = 'NotCompleted'");
 
-                    b.ToTable("DoctorOrder");
+                    b.HasIndex("VisitId", "CreatedAt");
+
+                    b.ToTable("DoctorOrder", t =>
+                        {
+                            t.HasCheckConstraint("CK_Order_V2", "([ConsultationNumber] IS NULL AND [ServiceSnapshot] IS NULL AND [DestinationSnapshot] IS NULL AND [OrderedBySnapshot] IS NULL) OR ([ConsultationNumber] IS NOT NULL AND [ConsultationNumber] > 0 AND [Status] IN ('NotCompleted','Completed') AND [ServiceSnapshot] IS NOT NULL AND ISJSON([ServiceSnapshot]) = 1 AND [DestinationSnapshot] IS NOT NULL AND ISJSON([DestinationSnapshot]) = 1 AND [OrderedBySnapshot] IS NOT NULL AND ISJSON([OrderedBySnapshot]) = 1)");
+                        });
                 });
 
             modelBuilder.Entity("Hospital.Api.Domain.ExaminationTicket", b =>
@@ -755,6 +783,9 @@ namespace Hospital.Api.Migrations
                     b.Property<DateTime?>("CompletedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("ConsultationNumber")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -835,6 +866,8 @@ namespace Hospital.Api.Migrations
 
                     b.ToTable("JourneyStep", t =>
                         {
+                            t.HasCheckConstraint("CK_Step_ConsultationNumber", "[ConsultationNumber] IS NULL OR [ConsultationNumber] > 0");
+
                             t.HasCheckConstraint("CK_Step_Status", "[Status] IN ('Waiting','Ready','InProgress','Completed','Skipped','Cancelled')");
                         });
                 });
@@ -955,6 +988,54 @@ namespace Hospital.Api.Migrations
                     b.HasIndex("VisitId");
 
                     b.ToTable("Notification");
+                });
+
+            modelBuilder.Entity("Hospital.Api.Domain.OrderPreview", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConfigurationHash")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("ServiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("VisitVersion")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("VisitId");
+
+                    b.ToTable("OrderPreview");
                 });
 
             modelBuilder.Entity("Hospital.Api.Domain.Patient", b =>
@@ -1806,6 +1887,11 @@ namespace Hospital.Api.Migrations
 
             modelBuilder.Entity("Hospital.Api.Domain.DoctorOrder", b =>
                 {
+                    b.HasOne("Hospital.Api.Domain.UserAccount", null)
+                        .WithMany()
+                        .HasForeignKey("CompletedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Hospital.Api.Domain.HospitalService", null)
                         .WithMany()
                         .HasForeignKey("HospitalServiceId")
@@ -1965,6 +2051,27 @@ namespace Hospital.Api.Migrations
                         .WithMany()
                         .HasForeignKey("VisitId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Hospital.Api.Domain.OrderPreview", b =>
+                {
+                    b.HasOne("Hospital.Api.Domain.UserAccount", null)
+                        .WithMany()
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Hospital.Api.Domain.HospitalService", null)
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Hospital.Api.Domain.Visit", null)
+                        .WithMany()
+                        .HasForeignKey("VisitId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hospital.Api.Domain.PatientJourney", b =>

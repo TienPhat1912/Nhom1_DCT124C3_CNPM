@@ -6,6 +6,9 @@ import ru from "./translations/ru.json" with { type: "json" };
 
 export const messages = {
   vi: {
+    InService: "Đang thực hiện dịch vụ",
+    NotCompleted: "Chưa hoàn tất",
+    previewStale: "Thông tin xem trước đã thay đổi hoặc hết hạn. Vui lòng xem lại trước khi xác nhận.",
     InConsultation: "Đang khám",
     clinicBusy: "Phòng đang có một bệnh nhân trong ca khám. Vui lòng tải lại danh sách.",
     consultationCalled: "Bác sĩ đã tiếp nhận bạn vào khám.",
@@ -411,6 +414,9 @@ export const messages = {
     appOpen: "Mở ứng dụng trên điện thoại",
   },
   en: {
+    InService: "Undergoing service",
+    NotCompleted: "Not completed",
+    previewStale: "The preview changed or expired. Review the order again before confirming.",
     InConsultation: "In consultation",
     clinicBusy: "The clinic already has a consultation in progress. Refresh the waiting list.",
     consultationCalled: "The doctor has accepted you for consultation.",

@@ -23,6 +23,17 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
                 e.Property(p.Name).HasMaxLength(p.Name is "Text" or "Instructions" or "Diagnosis" or "Explanation" or "Description" or "Requests" or "StepsJson" or "ResponseJson" or "DestinationSnapshot" or "Detail" ? 12000 : 500);
         }
         m.Entity<UserAccount>().HasIndex(x => x.Email).IsUnique();
+        m.Entity<DoctorOrder>().HasIndex(x => x.VisitId).IsUnique().HasDatabaseName("UX_Orders_OneNotCompletedPerVisit")
+            .HasFilter("[Status] = 'NotCompleted'");
+        m.Entity<DoctorOrder>().HasIndex(x => new { x.VisitId, x.CreatedAt });
+        foreach (var name in new[] { "ServiceSnapshot", "DestinationSnapshot", "OrderedBySnapshot" })
+            m.Entity<DoctorOrder>().Property<string?>(name).HasColumnType("nvarchar(max)").Metadata.SetMaxLength(null);
+        m.Entity<DoctorOrder>().ToTable(t => t.HasCheckConstraint("CK_Order_V2",
+            "([ConsultationNumber] IS NULL AND [ServiceSnapshot] IS NULL AND [DestinationSnapshot] IS NULL AND [OrderedBySnapshot] IS NULL) OR ([ConsultationNumber] IS NOT NULL AND [ConsultationNumber] > 0 AND [Status] IN ('NotCompleted','Completed') AND [ServiceSnapshot] IS NOT NULL AND ISJSON([ServiceSnapshot]) = 1 AND [DestinationSnapshot] IS NOT NULL AND ISJSON([DestinationSnapshot]) = 1 AND [OrderedBySnapshot] IS NOT NULL AND ISJSON([OrderedBySnapshot]) = 1)"));
+        m.Entity<JourneyStep>().ToTable(t => t.HasCheckConstraint("CK_Step_ConsultationNumber", "[ConsultationNumber] IS NULL OR [ConsultationNumber] > 0"));
+        Fk<DoctorOrder, UserAccount>(m, "CompletedById");
+        Fk<OrderPreview, Visit>(m, "VisitId"); Fk<OrderPreview, UserAccount>(m, "DoctorId"); Fk<OrderPreview, HospitalService>(m, "ServiceId");
+        m.Entity<OrderPreview>().Property(x => x.ConfigurationHash).HasMaxLength(64);
         m.Entity<ConsultationCall>().HasIndex(x => new { x.VisitId, x.ConsultationNumber }).IsUnique();
         m.Entity<ConsultationCall>().Property(x => x.PayloadJson).HasColumnType("nvarchar(max)").Metadata.SetMaxLength(null);
         m.Entity<ConsultationCall>().ToTable(t => {
