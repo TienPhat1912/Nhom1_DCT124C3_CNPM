@@ -309,6 +309,71 @@ public class SummaryVersion : Entity
     public DateTime? PublishedAt { get; set; }
 }
 
+// PB-013: no symptom-to-diagnosis rule is stored or inferred by these catalogs.
+public class SymptomCatalog : Entity
+{
+    public string Code { get; set; } = "";
+    public string NameVi { get; set; } = "";
+    public string Kind { get; set; } = "Symptom";
+    public bool Active { get; set; }
+    public bool IsDemo { get; set; }
+}
+public class DiagnosisCatalog : Entity
+{
+    public string Code { get; set; } = "";
+    public string NameVi { get; set; } = "";
+    public bool Active { get; set; }
+    public bool IsDemo { get; set; }
+}
+public class ClinicalTemplate : Entity
+{
+    public string Code { get; set; } = "";
+    public string NameVi { get; set; } = "";
+    public string Language { get; set; } = "vi";
+    public string DiagnosisTemplate { get; set; } = "{{diagnoses}}";
+    public string ExplanationTemplate { get; set; } = "";
+    public string InstructionsTemplate { get; set; } = "";
+    public bool Active { get; set; }
+    public bool IsDemo { get; set; }
+}
+// Prepared for PB-014; no public command writes or publishes these records in PB-013.
+public class ClinicalRecord : Entity
+{
+    public Guid VisitId { get; set; }
+    public Guid AuthorId { get; set; }
+    public string AuthorName { get; set; } = "";
+    public Guid TemplateId { get; set; }
+    public int TemplateVersion { get; set; }
+    public string TemplateSnapshot { get; set; } = "{}";
+    public string Language { get; set; } = "vi";
+    public string Diagnosis { get; set; } = "";
+    public string Explanation { get; set; } = "";
+    public string Instructions { get; set; } = "";
+    public DateTime ConfirmedAt { get; set; }
+    public DateTime PublishedAt { get; set; }
+    public List<ClinicalSymptom> Symptoms { get; set; } = [];
+    public List<ClinicalDiagnosis> Diagnoses { get; set; } = [];
+}
+public class ClinicalSymptom : Entity
+{
+    public Guid ClinicalRecordId { get; set; }
+    public Guid SymptomCatalogId { get; set; }
+    public int CatalogVersion { get; set; }
+    public string Kind { get; set; } = "Symptom";
+    public string CodeSnapshot { get; set; } = "";
+    public string NameViSnapshot { get; set; } = "";
+    public bool IsDemoSnapshot { get; set; }
+}
+public class ClinicalDiagnosis : Entity
+{
+    public Guid ClinicalRecordId { get; set; }
+    public Guid DiagnosisCatalogId { get; set; }
+    public int CatalogVersion { get; set; }
+    public string CodeSnapshot { get; set; } = "";
+    public string NameViSnapshot { get; set; } = "";
+    public bool IsDemoSnapshot { get; set; }
+}
+
 public class FollowUpRecommendation : Entity
 {
     public Guid VisitId { get; set; }

@@ -24,7 +24,7 @@ function Find-SqlTool([string]$Name) {
 $names = @('ACCEPTANCE_DB', 'ConnectionStrings__Hospital', 'DEMO_PASSWORD', 'Demo__Enabled', 'Demo__Password',
     'ASPNETCORE_ENVIRONMENT', 'ASPNETCORE_URLS', 'Web__Origin', 'API_URL', 'WEB_URL', 'SQL_TEST_SERVER', 'SQLCMD_PATH',
     'Providers__FailureMode', 'Providers__TimeoutSeconds', 'PROVIDER_FAILURE', 'EXPECTED_COMMIT', 'PB004_SQL_SERVER', 'PB004_SQL_CONNECTION',
-    'PB006_SQL_CONNECTION', 'PB007_SQL_CONNECTION', 'PB010_SQL_CONNECTION', 'PB011_SQL_CONNECTION', 'Workflow__PrdV2Enabled')
+    'PB006_SQL_CONNECTION', 'PB007_SQL_CONNECTION', 'PB010_SQL_CONNECTION', 'PB011_SQL_CONNECTION', 'PB013_SQL_CONNECTION', 'Workflow__PrdV2Enabled')
 $previous = @{}
 foreach ($name in $names) { $previous[$name] = [Environment]::GetEnvironmentVariable($name, 'Process') }
 $apiProcess = $null
@@ -48,6 +48,7 @@ try {
     $env:PB007_SQL_CONNECTION = $env:ConnectionStrings__Hospital
     $env:PB010_SQL_CONNECTION = $env:ConnectionStrings__Hospital
     $env:PB011_SQL_CONNECTION = $env:ConnectionStrings__Hospital
+    $env:PB013_SQL_CONNECTION = $env:ConnectionStrings__Hospital
     $env:DEMO_PASSWORD = 'Demo' + [Guid]::NewGuid().ToString('N') + 'A1'
     $env:Demo__Enabled = 'true'
     $env:Demo__Password = $env:DEMO_PASSWORD
@@ -95,6 +96,7 @@ try {
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/ticket-number/TicketNumber.Tests.csproj', '--configuration', 'Release')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/doctor-accept/DoctorAccept.Tests.csproj', '--configuration', 'Release')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/single-order/SingleOrder.Tests.csproj', '--configuration', 'Release')
+    Invoke-Checked 'dotnet' @('run', '--project', 'tests/clinical-catalog/ClinicalCatalog.Tests.csproj', '--configuration', 'Release')
     Invoke-Checked 'node' @('tests/api/performance.mjs')
     # API/load checks and browsers share the loopback IP's 120/minute auth quota.
     # Give browsers a fresh limiter while retaining the same release and database;
@@ -147,6 +149,16 @@ try {
           Stop-TestApi
           $apiProcess = Start-TestApi 'native-service-browser'
           Invoke-Checked 'npx.cmd' @('playwright', 'test', '--config', 'playwright.service.config.ts')
+        Stop-TestApi
+        $env:ACCEPTANCE_DB = 'HospitalAcceptance_' + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
+        $env:ConnectionStrings__Hospital = "Server=$SqlServer;Database=$($env:ACCEPTANCE_DB);Integrated Security=true;TrustServerCertificate=true"
+        Push-Location -LiteralPath $publish
+        try { Invoke-Checked 'dotnet' @($dll, '--migrate-only') } finally { Pop-Location }
+        $apiProcess = Start-TestApi 'native-clinical-api'
+        Invoke-Checked 'node' @('--test', 'tests/api/clinical-catalog.test.mjs')
+        Stop-TestApi
+        $apiProcess = Start-TestApi 'native-clinical-browser'
+        Invoke-Checked 'npx.cmd' @('playwright', 'test', '--config', 'playwright.clinical.config.ts')
     } finally {
         Stop-TestApi
         $env:ACCEPTANCE_DB = $beforeDoctorDatabase

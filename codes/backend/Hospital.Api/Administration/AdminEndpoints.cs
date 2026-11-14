@@ -19,6 +19,7 @@ public static class AdminEndpoints
 {
     public static void MapAdmin(this WebApplication app)
     {
+        app.MapClinicalCatalog();
         app.MapGet("/api/staff/profile", async (Access access, HospitalDb db) => {
             var u = await access.Staff("Admin", "Doctor", "Reception", "Service", "Cashier");
             var ids = u.Scopes.Select(s => s.DepartmentId).ToArray();

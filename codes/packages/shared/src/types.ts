@@ -521,6 +521,34 @@ export type ServiceOrderWorkItemV2 = {
   order: DoctorOrderV2;
 };
 export type CatalogSelectionV2 = { id: string; version: number };
+export type ClinicalCatalogKindV2 = "symptoms" | "signs" | "diagnoses" | "templates";
+export type ClinicalCatalogEntryV2 = Entity & {
+  code: string;
+  nameVi: string;
+  kind: "Symptom" | "Sign" | "Diagnosis";
+  active: boolean;
+  isDemo: boolean;
+};
+export type ClinicalTemplateV2 = Omit<ClinicalCatalogEntryV2, "kind"> & {
+  kind: "Template";
+  language: "vi";
+  diagnosisTemplate: string;
+  explanationTemplate: string;
+  instructionsTemplate: string;
+};
+export type ClinicalCatalogPageV2 = {
+  items: (ClinicalCatalogEntryV2 | ClinicalTemplateV2)[];
+  offset: number;
+  hasMore: boolean;
+};
+/** POST uses version 0; PUT uses current version. Code is immutable after creation. */
+export type ClinicalCatalogInputV2 = { version: number; code: string; nameVi: string; active: boolean };
+export type ClinicalTemplateInputV2 = ClinicalCatalogInputV2 & {
+  language: "vi";
+  diagnosisTemplate: string;
+  explanationTemplate: string;
+  instructionsTemplate: string;
+};
 export type PreviewExaminationInputV2 = VisitCommandInputV2 & {
   symptomSelections: CatalogSelectionV2[];
   signSelections: CatalogSelectionV2[];
@@ -566,6 +594,7 @@ export type BusinessErrorCodeV2 =
   | "clinicAssignmentChanged" | "clinicHasActiveVisits" | "clinicBusy"
   | "visitNotActive" | "invalidExamStatus" | "unfinishedOrderExists"
   | "orderAlreadyCompleted" | "orderImmutable" | "previewStale"
+  | "catalogCodeImmutable" | "sourceMustBeVietnamese"
   | "examinationNotCompleted" | "servicesNotCompleted"
   | "workflowNotEnabled" | "legacyCommandDisabled";
 export type ApiProblemV2 = Omit<ApiProblem, "title"> & {
