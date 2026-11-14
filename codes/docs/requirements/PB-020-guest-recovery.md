@@ -74,3 +74,26 @@ Chưa kiểm thử gửi mã/mở Journey trên thiết bị hoặc giả lập 
 có SDK/JDK/adb. Harness component không thay thế nghiệm thu native. Chưa chạy
 toàn bộ Windows LocalDB CI. Chờ PR, review và merge; giữ In Progress,
 chưa đánh Done.
+
+## Sửa hồi quy browser CI — 15/11/2026
+
+Log CI tại commit `429d5b0` có 12 lỗi browser, từ ba nguyên nhân:
+
+- Lookup thêm ô Địa điểm khiến locator toàn trang trong test danh mục bị trùng.
+  Test giới hạn ô này vào form có trường Khoa / bộ phận.
+- Fixture ngôn ngữ đặt hạn phiên năm 2030, vượt giới hạn timer signed 32-bit của
+  browser (~24,8 ngày), khiến setTimeout chạy ngay và thoát phiên. App chia thời
+  gian chờ thành các đoạn, kiểm tra deadline thực trước khi hết phiên; fixture dùng
+  hạn 24 giờ tính từ lúc test chạy. Regression dùng clock cố định kiểm tra phiên
+  40 ngày vẫn còn sau 25 ngày rồi hết đúng hạn, và phiên ngắn hết đúng deadline.
+- Test patient cũ chờ trang Xin chào sau recovery/reload. PB-020 mở trực tiếp
+  Journey; test kiểm tra URL đúng Visit và Journey hoàn thành trước/sau reload.
+
+Không thay quyền recovery hoặc nghiệp vụ tiếp nhận. Kiểm chứng trên bản publish
+Release, SQL Server Docker và database acceptance mới, Workflow V2 tắt như nhóm
+browser đầu của CI. Test timer mới nằm trong bộ browser mặc định, không cần đổi CI.
+
+Kết quả sau sửa: `npm run typecheck`, `npm run lint`, publish Release đạt;
+`node node_modules/@playwright/test/cli.js test` đạt **50/50** trên desktop/mobile
+(46 test cũ và 4 test timer). Test timer chạy riêng cũng đạt 4/4. Chưa chạy toàn
+bộ LocalDB CI; phần sửa hồi quy này chờ kiểm chứng trên CI sau push.

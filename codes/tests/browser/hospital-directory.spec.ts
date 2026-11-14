@@ -181,7 +181,10 @@ test("reception submits the selected department and clinic without choosing a do
   await page
     .getByLabel("Khoa / bộ phận", { exact: true })
     .selectOption("D-paediatrics");
-  const loc = page.getByLabel("Địa điểm", { exact: true });
+  const receptionForm = page.getByRole("group").filter({
+    has: page.getByLabel("Khoa / bộ phận", { exact: true }),
+  });
+  const loc = receptionForm.getByLabel("Địa điểm", { exact: true });
   const confirm = page.getByRole("button", {
     name: "Xác nhận tiếp nhận & cấp phiếu",
     exact: true,
