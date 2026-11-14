@@ -102,14 +102,24 @@ test("Reception confirms once; patient enters active Journey without QR; reprint
       "/api/v2/reception/clinics",
       reception.token,
     );
+    // Both the ticket lookup and confirmation form have a Location field.
     await staff
+      .getByText("Find a ticket and recover Guest access", { exact: true })
+      .click();
+    const confirmation = staff.getByRole("group").filter({
+      has: staff.getByRole("button", {
+        name: "Confirm reception & issue ticket",
+        exact: true,
+      }),
+    });
+    await confirmation
       .getByLabel("Location", { exact: true })
       .selectOption(clinics.find((c) => c.room === "A101")!.clinicLocationId);
-    await staff
+    await confirmation
       .getByLabel("Verification note", { exact: true })
       .fill("Verified at reception");
-    await staff.locator('input[type="checkbox"]').check();
-    await staff
+    await confirmation.getByRole("checkbox").check();
+    await confirmation
       .getByRole("button", {
         name: "Confirm reception & issue ticket",
         exact: true,

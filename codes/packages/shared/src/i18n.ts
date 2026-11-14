@@ -6,6 +6,11 @@ import ru from "./translations/ru.json" with { type: "json" };
 
 export const messages = {
   vi: {
+    guestTicketLookup: "Tra cứu phiếu và khôi phục Guest",
+    ticketNumber: "Số phiếu",
+    ticketDate: "Ngày cấp phiếu",
+    searchTickets: "Tìm phiếu",
+    narrowTicketSearch: "Có nhiều kết quả. Hãy chọn thêm phòng và tìm lại trước khi xác minh.",
     requestTranslation: "Bản dịch mô tả sang tiếng Việt",
     translationNotRequired: "Mô tả đã bằng tiếng Việt hoặc để trống; không cần dịch.",
     requestTranslationUnavailable: "Chưa dịch được mô tả. Bạn vẫn có thể đọc bản gốc và thử lại.",
@@ -417,6 +422,11 @@ export const messages = {
     appOpen: "Mở ứng dụng trên điện thoại",
   },
   en: {
+    guestTicketLookup: "Find a ticket and recover Guest access",
+    ticketNumber: "Ticket number",
+    ticketDate: "Ticket issue date",
+    searchTickets: "Find tickets",
+    narrowTicketSearch: "Many matches found. Choose a room and search again before verification.",
     requestTranslation: "Description translated into Vietnamese",
     translationNotRequired: "The description is already Vietnamese or empty; translation is unnecessary.",
     requestTranslationUnavailable: "Description translation is unavailable. Read the original or retry.",

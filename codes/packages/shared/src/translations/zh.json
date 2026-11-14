@@ -1,4 +1,10 @@
 {
+  "guestTicketLookup": "查找票据并恢复访客访问",
+  "ticketNumber": "票号",
+  "ticketDate": "发票日期",
+  "searchTickets": "查找票据",
+  "narrowTicketSearch": "结果较多。请选择诊室后重新查找，再进行核实。",
+
   "requestTranslation": "描述的越南语译文",
   "translationNotRequired": "描述已是越南语或为空，无需翻译。",
   "requestTranslationUnavailable": "暂时无法翻译描述。您仍可阅读原文或重试。",

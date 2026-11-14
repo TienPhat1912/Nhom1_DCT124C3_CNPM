@@ -20,7 +20,7 @@ for (const language of languages.filter((l) =>
       name: "Nguyễn Văn A",
       language: language.code,
       isGuest: true,
-      expiresAt: "2030-01-01T00:00:00Z",
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
       token: null,
     };
     const requests: string[] = [];

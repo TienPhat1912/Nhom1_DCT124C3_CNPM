@@ -1,4 +1,10 @@
 {
+  "guestTicketLookup": "受付票を検索してゲスト利用を復元",
+  "ticketNumber": "受付番号",
+  "ticketDate": "発行日",
+  "searchTickets": "受付票を検索",
+  "narrowTicketSearch": "複数の結果があります。診察室を選んで再検索し、確認してください。",
+
   "requestTranslation": "説明のベトナム語訳",
   "translationNotRequired": "説明はベトナム語または空欄のため、翻訳は不要です。",
   "requestTranslationUnavailable": "説明を翻訳できません。原文を読むか、再試行してください。",

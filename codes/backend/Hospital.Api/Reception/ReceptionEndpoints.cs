@@ -22,6 +22,7 @@ public static class ReceptionEndpoints
     public static void MapReception(this WebApplication app)
     {
         app.MapReceptionConfirmation();
+        app.MapGuestRecoveryLookup();
         var g = app.MapGroup("/api").AddEndpointFilter<LocalizedResponseFilter>().WithTags("Reception and QR");
         g.MapGet("/entry", () => new { purpose = "Hospital", languages = new[] { "vi", "en" }, createsVisit = false });
         g.MapGet("/requests", async (int? offset, int? limit, Access access, HospitalDb db) => {
@@ -151,8 +152,11 @@ public static class ReceptionEndpoints
             var u = await access.Staff("Reception"); return await bus.Run($"{u.Id}:recovery:{id}", input, async () => {
                 var v = await access.Visit(id); VerifyAttendee(input);
                 Check.That(!await db.Users.AnyAsync(a => a.PatientId == v.PatientId), "signInRequired", "Patient has an account; use sign-in recovery.", 409);
-                var token = Crypto.Token(); db.Add(new RecoveryClaim { PatientId = v.PatientId, VisitId = id, Hash = Crypto.Hash(token), ExpiresAt = DateTime.UtcNow.AddMinutes(10) });
-                bus.Audit(u.Id, "VerifiedRecoveryIssued", id, input.VerificationNote); return new { recoveryCode = token };
+                var previous = await db.Set<RecoveryClaim>().Where(c => c.VisitId == id && !c.Consumed).ToListAsync();
+                foreach (var claim in previous) claim.Consumed = true;
+                var expiresAt = DateTime.UtcNow.AddMinutes(10);
+                var token = Crypto.Token(); db.Add(new RecoveryClaim { PatientId = v.PatientId, VisitId = id, Hash = Crypto.Hash(token), ExpiresAt = expiresAt });
+                bus.Audit(u.Id, "VerifiedRecoveryIssued", id, input.VerificationNote); return new { recoveryCode = token, expiresAt };
             }, false);
         });
         MapAppointments(g);

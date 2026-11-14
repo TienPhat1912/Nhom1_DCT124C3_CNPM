@@ -115,14 +115,22 @@ export default function App() {
   }, [updateSession]);
   useEffect(() => {
     if (!session) return;
-    const remaining =
+    const expiresAt =
       new Date(
         session.expiresAt + (session.expiresAt.endsWith("Z") ? "" : "Z"),
-      ).getTime() - Date.now();
-    const timer = setTimeout(
-      () => window.dispatchEvent(new Event("hospital:expired")),
-      Math.max(0, remaining),
-    );
+      ).getTime();
+    let timer: ReturnType<typeof setTimeout>;
+    const checkExpiry = () => {
+      const remaining = expiresAt - Date.now();
+      if (!Number.isFinite(remaining) || remaining <= 0) {
+        window.dispatchEvent(new Event("hospital:expired"));
+        return;
+      }
+      // Browsers overflow delays above a signed 32-bit integer. Recheck long
+      // sessions in chunks, expiring only when their actual deadline is reached.
+      timer = setTimeout(checkExpiry, Math.min(remaining, 2_147_483_647));
+    };
+    checkExpiry();
     return () => clearTimeout(timer);
   }, [session]);
   if (location.pathname === "/entry") return <HospitalEntry locale={locale} />;
@@ -138,8 +146,9 @@ export default function App() {
       <Auth
         locale={locale}
         setLocale={setLocale}
-        onSession={(s) => {
+        onSession={(s, visitId) => {
           updateSession(s);
+          if (visitId) history.replaceState(null, "", `#visit=${encodeURIComponent(visitId)}`);
           setExpired(false);
         }}
         expired={expired}

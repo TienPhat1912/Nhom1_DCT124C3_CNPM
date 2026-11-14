@@ -86,12 +86,10 @@ test('guest reception, pharmacy, readable fallback, assistance and independent a
   await page.getByRole('button', { name: 'Khôi phục quyền truy cập', exact: true }).click();
   await page.getByLabel('Mã khôi phục từ tiếp nhận', { exact: true }).fill(recovery.recoveryCode);
   await page.getByRole('button', { name: 'Khôi phục quyền truy cập', exact: true }).first().click();
-  await expect(page.getByRole('heading', { name: /Xin chào/ })).toBeVisible();
-  await navigate('Hành trình');
+  await expect(page).toHaveURL(new RegExp(`#visit=${confirmed.visitId}`));
   await expect(page.getByRole('heading', { name: 'Hành trình hướng dẫn đã hoàn thành', exact: true })).toBeVisible();
   await page.reload();
-  await expect(page.getByRole('heading', { name: /Xin chào/ })).toBeVisible();
-  await navigate('Hành trình');
+  await expect(page).toHaveURL(new RegExp(`#visit=${confirmed.visitId}`));
   await expect(page.getByRole('heading', { name: 'Hành trình hướng dẫn đã hoàn thành', exact: true })).toBeVisible();
   await page.getByLabel('Ngôn ngữ', { exact: true }).selectOption('en');
   await expect(page.getByRole('heading', { name: 'Your guidance journey is complete', exact: true })).toBeVisible();

@@ -12,7 +12,7 @@ export default function Auth({
 }: {
   locale: Locale;
   setLocale: (l: Locale) => void;
-  onSession: (s: Session) => void;
+  onSession: (s: Session, visitId?: string) => void;
   expired: boolean;
 }) {
   const t = translator(locale);
@@ -27,9 +27,9 @@ export default function Auth({
     if (mode === "recover") {
       const result = await mutation.run<{ session: Session; visitId: string }>(
         "/api/auth/recover",
-        { code },
+        { code: code.trim() },
       );
-      if (result) onSession(result.session);
+      if (result) onSession(result.session, result.visitId);
     } else {
       const s = await mutation.run<Session>(
         `/api/auth/${mode}`,

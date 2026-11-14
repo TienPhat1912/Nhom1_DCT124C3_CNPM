@@ -30,7 +30,7 @@ export function Auth({
       const r = await action.run<{ session: Session; visitId: string }>(
         "/api/auth/recover",
         {
-          code,
+          code: code.trim(),
         },
       );
       if (r) {

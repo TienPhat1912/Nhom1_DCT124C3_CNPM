@@ -230,13 +230,27 @@ test("changing UI locale keeps the mounted Patient screen while localized config
 test("verified recovery navigates to the returned Visit after saving its new session", async () => {
   const calls = [];
   const h = nativeHarness("Auth.tsx", { "@hospital/shared": shared, "./runtime": {
-    useAction: () => ({ run: async () => ({ session, visitId: "recovered-visit" }) }),
+    useAction: () => ({ run: async (path, body) => { assert.equal(path, "/api/auth/recover"); assert.equal(body.code, "synthetic-code"); return { session, visitId: "recovered-visit" }; } }),
   } });
   const props = { locale: "en", setLocale() {}, onSession: async () => { calls.push("session"); }, onRecovered: id => calls.push(id) };
   let tree = h.render("Auth", props); btn(tree, "recover").props.onPress();
-  tree = h.render("Auth", props); input(tree, "recoveryCode").props.onChangeText("synthetic-code");
+  tree = h.render("Auth", props); input(tree, "recoveryCode").props.onChangeText("  synthetic-code  ");
   tree = h.render("Auth", props); find(tree, n => n.type === "Btn" && !n.props.secondary).props.onPress(); await settle();
   assert.deepEqual(calls, ["session", "recovered-visit"]);
+});
+
+test("expired or consumed recovery cannot replace the native session or navigate", async () => {
+  const calls = [];
+  const h = nativeHarness("Auth.tsx", { "@hospital/shared": shared, "./runtime": {
+    useAction: () => ({ run: async () => null, error: { title: "claimInvalid", status: 403 } }),
+  } });
+  const props = { locale: "en", setLocale() {}, onSession: async () => calls.push("session"), onRecovered: id => calls.push(id) };
+  let tree = h.render("Auth", props); btn(tree, "recover").props.onPress();
+  tree = h.render("Auth", props); input(tree, "recoveryCode").props.onChangeText("expired-code");
+  tree = h.render("Auth", props); await find(tree, n => n.type === "Btn" && !n.props.secondary).props.onPress();
+  assert.deepEqual(calls, []);
+  tree = h.render("Auth", props);
+  assert.equal(find(tree, n => n.type === "Input" && n.props.label === "recoveryCode").props.value, "expired-code");
 });
 
 test("legacy history paginates independently when the V2 list is empty and remains read-only", async () => {
