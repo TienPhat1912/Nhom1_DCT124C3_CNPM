@@ -7,6 +7,7 @@ import { languages, normalizeLocale, speechLocale, voiceMatches } from "../../pa
 import { localizeText } from "../../packages/shared/src/localizedText.ts";
 import { hospitalMap, mapCopy, shortestPath, routeInstructions, mapLabel, routeLanguage } from "../../packages/shared/src/hospitalMap.ts";
 import { directoryCopy } from "../../packages/shared/src/directory.ts";
+import { patientResultLabels } from "../../packages/shared/src/patientResults.ts";
 import { mapDepartments, departmentLabel } from "../../packages/shared/src/hospitalDepartments.ts";
 
 const exports = {};
@@ -22,6 +23,8 @@ test("all six locales have complete UI, directory and map dictionaries", () => {
     assert.ok(Object.values(exports.messages[code]).every(t => typeof t === "string" && t.trim()));
     assert.deepEqual(Object.keys(mapCopy[code]), Object.keys(mapCopy.vi));
     assert.deepEqual(Object.keys(directoryCopy[code]), Object.keys(directoryCopy.vi));
+    assert.deepEqual(Object.keys(patientResultLabels[code]), Object.keys(patientResultLabels.vi));
+    assert.ok(Object.values(patientResultLabels[code]).every(value => value.trim()));
     if (code !== "vi") {
       for (const [key, value] of Object.entries(mapCopy[code])) assert.notEqual(value, mapCopy.vi[key], `${code}: map ${key}`);
       for (const [key, value] of Object.entries(directoryCopy[code])) assert.notEqual(value, directoryCopy.vi[key], `${code}: directory ${key}`);

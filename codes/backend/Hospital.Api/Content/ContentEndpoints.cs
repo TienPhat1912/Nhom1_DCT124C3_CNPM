@@ -15,7 +15,9 @@ public class ContentReader(HospitalDb db)
 {
     public async Task<ResolvedSummary?> Current(Guid visitId, string language)
     {
-        if (await db.Visits.AnyAsync(v => v.Id == visitId && v.ExamStatus != null)) {
+        var visit = await db.Visits.AsNoTracking().SingleAsync(v => v.Id == visitId);
+        if (visit.ExamStatus != null) {
+            if (visit.ExamStatus != "Completed" || visit.ExaminationCompletedAt == null) return null;
             var record = await db.Set<ClinicalRecord>().AsNoTracking().SingleOrDefaultAsync(r => r.VisitId == visitId);
             return record == null ? null : new(record.Id, record.Version, "vi", language != "vi", record.Diagnosis, record.Explanation, record.Instructions,
                 record.AuthorName, DateTime.SpecifyKind(record.PublishedAt, DateTimeKind.Utc), "", new { record.Language, record.Diagnosis, record.Explanation, record.Instructions });
@@ -38,9 +40,17 @@ public static class ContentEndpoints
             }
             return await next(ctx);
         });
-        g.MapGet("/visits/{id:guid}/content", async (Guid id, string? language, Access access, HospitalDb db, ContentReader reader, IAppointmentAdapter appointments) => {
-            await access.Visit(id, true);
-            return new { summary = await reader.Current(id, language ?? "vi"), followUps = await db.Set<FollowUpRecommendation>().Where(f => f.VisitId == id && f.Status == "Published").OrderByDescending(f => f.CreatedAt).ToListAsync(), bookingUrl = appointments.BookingUrl };
+        g.MapGet("/visits/{id:guid}/content", async (Guid id, string? language, Access access, HospitalDb db, ContentReader reader) => {
+            var visit = await access.Visit(id, true);
+            var summary = await reader.Current(id, language ?? "vi");
+            var visible = visit.ExamStatus == null || summary != null;
+            var followUps = await db.Set<FollowUpRecommendation>().AsNoTracking()
+                .Where(f => visible && f.VisitId == id && f.Status == "Published").OrderByDescending(f => f.CreatedAt).ThenBy(f => f.Id)
+                .Select(f => new { f.Id, f.Version, f.VisitId, f.DepartmentId, recommendedAt = DateTime.SpecifyKind(f.RecommendedAt, DateTimeKind.Utc),
+                    f.Text, f.Language, f.Status, f.CreatedAt, original = new { f.Language, f.Text } }).ToListAsync();
+            return new { visitId = id, visit.ExamStatus, summary,
+                clinicalRecord = visit.ExamStatus != null && visible ? await Examinations.Record(id, db) : null,
+                followUps, bookingUrl = (string?)null };
         });
         g.MapGet("/visits/{id:guid}/drafts", async (Guid id, Access access, HospitalDb db) => {
             await access.DoctorVisit(id); return await db.Set<SummaryVersion>().Where(s => s.VisitId == id).OrderByDescending(s => s.Revision).ToListAsync();

@@ -1,4 +1,5 @@
 import { localizeText } from "@hospital/shared";
+import { patientResultLabels } from "@hospital/shared";
 import { languages, normalizeLocale } from "@hospital/shared";
 import { useState } from "react";
 import {
@@ -146,20 +147,45 @@ export function VisitRow({
   );
 }
 export function ResultsPanel({ id }: { id: string | null }) {
-  const { t, locale, config } = useRuntime();
+  const { t, locale, config, session } = useRuntime();
   const r = useResource<Content>(
     id ? `/api/visits/${id}/content?language=${locale}` : null,
     true,
   );
-  const summary = r.data?.summary;
-  const speech = useSpeech(`${id}:${summary?.revision}:${summary?.language}`);
+  const summary = r.error ? null : r.data?.summary;
+  const record = r.error ? null : r.data?.clinicalRecord;
+  const text = patientResultLabels[locale];
+  const speech = useSpeech(
+    `${session.sessionId}:${id}:${summary?.revision}:${summary?.language}:${summary?.contentKey}`,
+  );
   return (
     <>
       <SectionTitle eyebrow="03 / RESULTS & CARE" title={t("results")} />
       <p className="page-intro">{t("recordHint")}</p>
       <ResourceState resource={r} empty={t("selectVisit")} />
-      {r.data && (
+      {r.data && !r.error && (
         <>
+          {record && (
+            <section className="panel" data-testid="confirmed-results">
+              <SectionTitle title={text.title} />
+              <p>
+                {t("author")}: {record.author.name} · {text.confirmedAt}:{" "}
+                {dateText(record.confirmedAt, locale)}
+              </p>
+              {(["symptoms", "signs", "diagnoses"] as const).map((kind) => (
+                <div key={kind}>
+                  <h3>{text[kind]}</h3>
+                  <ul>
+                    {record[kind].map((item) => (
+                      <li key={item.id}>
+                        {item.code} · {item.nameVi}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </section>
+          )}
           {summary ? (
             <>
               <div className="content-meta">
@@ -273,22 +299,20 @@ export function ResultsPanel({ id }: { id: string | null }) {
                     {t("actualLanguage")}: {f.language}
                     {f.language !== locale ? ` · ${t("fallback")}` : ""}
                   </small>
+                  {f.language !== "vi" && !f.fallback && (
+                    <Notice>{t("machineTranslation")}</Notice>
+                  )}
+                  {f.original && (
+                    <details>
+                      <summary>
+                        {t("original")} · {f.original.language}
+                      </summary>
+                      <p className="preserve-text">{f.original.text}</p>
+                    </details>
+                  )}
                 </div>
               </div>
             ))}
-            {r.data.followUps.length > 0 &&
-              (r.data.bookingUrl && /^https:\/\//.test(r.data.bookingUrl) ? (
-                <a
-                  className="button secondary"
-                  href={r.data.bookingUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t("bookFollowUp")}
-                </a>
-              ) : (
-                <Notice>{t("bookingUnavailable")}</Notice>
-              ))}
           </section>
         </>
       )}
