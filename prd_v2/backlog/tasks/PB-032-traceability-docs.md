@@ -25,7 +25,7 @@ Nhận PRD/sơ đồ trợ lý tài liệu đã sửa; đối chiếu chức nă
 
 - [ ] 18 UC còn lại và QD-01..06 có ánh xạ API/UI/test; map theo tên nếu PRD đánh số lại; loại liên kết Guest khỏi phạm vi mới.
 - [ ] Tài liệu không còn hướng dẫn kích hoạt QR, chỉ định song song/sửa hủy, tự hoàn tất nhà thuốc hoặc đổi bác sĩ giữa lượt.
-- [ ] Ghi RTLS là mục tiêu, phạm vi bốn ngôn ngữ, cách nâng cấp/khôi phục và bằng chứng nghiệm thu thực tế; không ghi đè PRD đang do trợ lý khác biên soạn.
+- [ ] Phân biệt RTLS thật là mục tiêu với bản đồ tự thiết kế và mô phỏng PB-033/034/026 theo [yêu cầu tích hợp PB-026](./PB-026-route-narration.md). Hướng dẫn cách chọn điểm đầu, chạy/dừng/đặt lại, chu kỳ 5 giây và chờ thuyết minh, thử lệch tuyến/mất tín hiệu; ghi bằng chứng thực tế. Ghi phạm vi bốn ngôn ngữ, cách nâng cấp/khôi phục; không ghi đè PRD đang do trợ lý khác biên soạn.
 
 ## Kiểm chứng bắt buộc
 

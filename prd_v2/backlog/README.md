@@ -1,6 +1,6 @@
 # Product backlog chỉnh sửa dự án theo PRD mới
 
-Ngày tạo: 11/11/2026. Backlog gồm **32 task**, mỗi task là một đơn vị công việc có đầu ra và tiêu chí để review trong một PR. Tất cả task đều chưa được thực hiện. File này và các task là tài liệu local; chưa tạo GitHub Issue, push branch hoặc mở PR.
+Ngày tạo: 11/11/2026. Backlog gồm **34 task**, mỗi task là một đơn vị công việc có đầu ra và tiêu chí để review trong một PR. Trạng thái thực tế nằm trong từng file task. Ngày 14/11/2026 bổ sung PB-033/034 và mở rộng PB-026 theo yêu cầu thiết kế bản đồ và mô phỏng RTLS; chi tiết nằm trong [PB-033](tasks/PB-033-map-layout.md), [PB-034](tasks/PB-034-rtls-simulation.md) và [PB-026](tasks/PB-026-route-narration.md). Việc lập kế hoạch này chỉ cập nhật tài liệu local, chưa tạo Issue/branch/PR mới.
 
 [Kế hoạch chính](../PRD-REVISION-PLAN.md) được giữ nguyên để đối chiếu nghiệp vụ, thứ tự tổng thể và chuyển đổi dữ liệu. Backlog này chia nhỏ kế hoạch thành công việc cho thành viên nhận làm. Các quyết định mới của người dùng ưu tiên hơn PRD/sơ đồ cũ.
 
@@ -14,7 +14,7 @@ Ngày tạo: 11/11/2026. Backlog gồm **32 task**, mỗi task là một đơn v
 
 Có thể copy nguyên nội dung file task thành GitHub Issue. Sau khi chuyển lên Issues, chọn **một nơi làm nguồn trạng thái chính**: Issues hoặc file task, và ghi lựa chọn ở đây; không duy trì hai bảng trạng thái mâu thuẫn. Mặc định hiện tại dùng các file task. Người nhận/PR/trạng thái nằm trong từng file, không nhân đôi ở bảng mục lục dưới.
 
-**Ba task có thể nhận ngay:** PB-001 (hợp đồng), PB-002 (khảo sát dữ liệu) và PB-003 (bỏ liên kết Guest). Chúng có phạm vi khác nhau; PB-001 và PB-003 cần thống nhất khi cùng chạm shared types/nhãn.
+**Task không có phụ thuộc:** PB-001 (hợp đồng), PB-002 (khảo sát dữ liệu), PB-003 (bỏ liên kết Guest) và PB-033 (thiết kế bản đồ). Kiểm tra trạng thái/người nhận trong file trước khi nhận; PB-001 và PB-003 cần thống nhất khi cùng chạm shared types/nhãn.
 
 ## Quy ước chia task
 
@@ -58,13 +58,17 @@ Có thể copy nguyên nội dung file task thành GitHub Issue. Sau khi chuyể
 | [PB-023](tasks/PB-023-event-delivery.md) | Cập nhật gọi khám nhanh và sự kiện không trùng | P1 / M | PB-010, PB-012, PB-014, PB-015 | P5a |
 | [PB-024](tasks/PB-024-web-narration.md) | Tự phát hướng dẫn và gọi số trên web | P1 / M | PB-018, PB-019, PB-021, PB-023 | P5a |
 | [PB-025](tasks/PB-025-mobile-narration.md) | Tự phát hướng dẫn và gọi số trên mobile | P1 / M | PB-019, PB-022, PB-023 | P5a |
-| [PB-026](tasks/PB-026-route-narration.md) | Đồng bộ chỉ đường và tự phát sau khi có tuyến | P1 / M | PB-024, PB-025 | P5a / P6 |
+| [PB-026](tasks/PB-026-route-narration.md) | Chỉ đường và thuyết minh từng chặng theo vị trí mô phỏng | P1 / M | PB-024, PB-025, PB-034 | P5a / P6 mở rộng |
 | [PB-027](tasks/PB-027-four-languages.md) | Rà soát bốn ngôn ngữ cho toàn bộ luồng mới | P1 / S | PB-016, PB-018, PB-019, PB-020, PB-026, PB-029 | P5a |
 | [PB-028](tasks/PB-028-presence-api.md) | Heartbeat và API thống kê trực tuyến | P1 / M | PB-001, PB-003, PB-004 | P5b |
 | [PB-029](tasks/PB-029-presence-clients.md) | Heartbeat web/mobile và thẻ online trên Dashboard | P1 / M | PB-021, PB-022, PB-028 | P5b |
 | [PB-030](tasks/PB-030-migration-rehearsal.md) | Kiểm chứng nâng cấp và phương án khôi phục dữ liệu | P0 / M | PB-002, PB-005, PB-007, PB-013, PB-015, PB-020, PB-028 | P6 / mục 6 |
 | [PB-031](tasks/PB-031-acceptance-release.md) | Nghiệm thu tích hợp, hiệu năng và bản build | P0 / M | PB-016, PB-018, PB-019, PB-020, PB-027, PB-029, PB-030 | P6 |
 | [PB-032](tasks/PB-032-traceability-docs.md) | Đồng bộ tài liệu kỹ thuật và 18 Use Case | P1 / S | PB-031 | P6 |
+| [PB-033](tasks/PB-033-map-layout.md) | Thiết kế lại bản đồ và mạng đường đi các tầng, các tòa | P1 / M | Không — có thể nhận ngay | Bản đồ mở rộng 14/11/2026 |
+| [PB-034](tasks/PB-034-rtls-simulation.md) | Mô phỏng vị trí RTLS và di chuyển theo chặng | P1 / M | PB-033 | Mô phỏng mở rộng 14/11/2026 |
+
+Thứ tự riêng của bản đồ: **PB-033 → PB-034 → PB-026 → PB-027 → PB-031 → PB-032**. PB-026 đồng thời chờ PB-024/025. Theo quyết định ngày 14/11/2026, mô phỏng nằm trong phạm vi demo cần nghiệm thu của đợt này; RTLS thật vẫn là mục tiêu tương lai. Kế hoạch chính được giữ làm đối chiếu lịch sử, giới hạn cũ về mô phỏng được thay bằng các yêu cầu trực tiếp trong PB-033/034/026.
 
 ## Cách chia việc cho nhóm
 
@@ -76,7 +80,7 @@ Không gán sẵn người khi chưa biết danh sách thành viên. Có thể c
 | Web quản trị/nhân viên | PB-005/008/010/011/012/013/014/015/018 | Nhiều task chạm StaffClinical/Admin; làm nối tiếp theo phụ thuộc hoặc tách component |
 | Bệnh nhân và tài khoản | PB-003/006/016/019/020/021 | Quyền Account/Guest, đổi phiên, form và trạng thái |
 | Mobile | PB-009/022/025; phần mobile PB-016/019/020/026/029 | Chờ API merge; tránh nhiều người cùng sửa App/runtime |
-| Thuyết minh, bản đồ, Dashboard | PB-024/026/027/029 | Ưu tiên âm thanh và vòng đời ứng dụng |
+| Thuyết minh, bản đồ, Dashboard | PB-024/026/027/029/033/034 | PB-033/034 làm trước tích hợp PB-026; ưu tiên âm thanh và vòng đời ứng dụng |
 | Nghiệm thu và tài liệu | PB-031/032 | Mỗi PR vẫn tự test; nhóm này kiểm tra tích hợp cuối |
 
 Sau PB-004, có thể nhận các luồng độc lập như phân công phòng (PB-005), yêu cầu tiếp nhận (PB-006), cấp số phiếu (PB-007), dịch thuật sau PB-001 (PB-017), presence (PB-028). Các task có EF migration phải phối hợp thứ tự merge, dù phần logic khác nhau.
@@ -134,5 +138,5 @@ Nội dung PR dùng [mẫu PR](PR-TEMPLATE.md). Commit và stage đúng file c�
 
 PRD/sơ đồ đang được trợ lý khác chỉnh sửa. Nhận bản mới thì PB-001/PB-032 đối chiếu theo tên nghiệp vụ, không tự nhập lại chức năng liên kết Guest hoặc chỉ định song song do tài liệu cũ còn sót. Những sửa đổi nghiệp vụ thực sự mới phải được ghi rõ nguồn quyết định rồi mới cập nhật các task bị ảnh hưởng.
 
-Hiện chỉ tạo backlog và task card. Chưa có thành viên nhận việc, chưa có task chức năng hoàn tất và chưa có PR trên GitHub được tạo từ backlog này.
+Trạng thái nhận việc, hoàn tất và PR được ghi trong từng task card. Kế hoạch bổ sung bản đồ/RTLS ngày 14/11/2026 chưa triển khai mã chức năng.
 
