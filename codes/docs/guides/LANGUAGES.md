@@ -57,6 +57,16 @@ Narration dùng chính bản dịch của các trường hiển thị. Client g�
 
 ## Kiểm thử
 
+PB-017 bổ sung overload `ITranslationService.Translate(TranslationInput, ct)` cho
+nguồn/đích tường minh và cache theo hồ sơ/version. Nguồn khác Việt sang Việt dùng
+Azure sau authorization; không tự dịch Description qua response filter. Khi lỗi,
+`translated=null`, `status=Unavailable`, `fallback=true`, original giữ nguyên văn.
+Vi→vi trả NotRequired. Cấu hình scoped retry bằng `Translation__MaxAttempts` (mặc định
+2), `Translation__RetryDelayMilliseconds` (100 ms); timeout là ngân sách toàn lệnh.
+`Translation__CacheVersion` làm hết hiệu lực scoped cache khi đổi model/provider.
+Các setting này dùng tên cấu hình .NET trực tiếp, không thêm tên dotenv mới vào loader.
+Chi tiết, ví dụ tích hợp và giới hạn: [PB-017](../requirements/PB-017-TRANSLATION-PROVIDER.md).
+
 Chạy từ `codes/`:
 
 ```powershell
