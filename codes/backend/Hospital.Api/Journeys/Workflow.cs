@@ -15,7 +15,10 @@ public class Workflow(HospitalDb db, CommandBus bus)
     }
     public static bool Resolved(JourneyStep s) => s.Status is "Completed" or "Skipped" or "Cancelled";
     public static bool Clinical(JourneyStep s) => s.Kind is "Consultation" or "ReturnConsultation" or "Service";
-    public static bool ReadyForSettlement(Visit v) => v.Journey.Steps.Where(s => Clinical(s) || s.Kind == "IntermediatePayment").All(Resolved);
+    public static bool ReadyForSettlement(Visit v) => v.ExamStatus != null
+        ? v.ExamStatus == "Completed" && v.Orders.All(o => o.Status == "Completed")
+            && v.Journey.Steps.Where(Clinical).All(s => s.Status == "Completed")
+        : v.Journey.Steps.Where(s => Clinical(s) || s.Kind == "IntermediatePayment").All(Resolved);
     public JourneyStep MakeStep(PatientJourney journey, Location location, string kind, string authority, string template, int sequence, DoctorOrder? order = null, int mapping = 0)
     {
         var s = new JourneyStep { PatientJourneyId = journey.Id, LocationId = location.Id, DepartmentId = location.DepartmentId,
@@ -29,7 +32,7 @@ public class Workflow(HospitalDb db, CommandBus bus)
         if (target.Id != prerequisite.Id && target.Dependencies.All(d => d.PrerequisiteStepId != prerequisite.Id))
             target.Dependencies.Add(new StepDependency { JourneyStepId = target.Id, PrerequisiteStepId = prerequisite.Id });
     }
-    public void Evaluate(Visit visit)
+    public void Evaluate(Visit visit, bool allowLegacyClosure = false)
     {
         var j = visit.Journey;
         var byId = j.Steps.ToDictionary(s => s.Id);
@@ -40,7 +43,7 @@ public class Workflow(HospitalDb db, CommandBus bus)
             if (s.Kind == "Pharmacy") ready = visit.Status == "Closed";
             s.Status = ready ? "Ready" : "Waiting";
         }
-        if (visit.ExamStatus == null && visit.Status == "Active" && ReadyForSettlement(visit) && visit.FinalSettlementRevision == visit.WorkRevision)
+        if (allowLegacyClosure && visit.ExamStatus == null && visit.Status == "Active" && ReadyForSettlement(visit) && visit.FinalSettlementRevision == visit.WorkRevision)
         {
             visit.Status = "Closed"; visit.ClosedAt = DateTime.UtcNow;
             foreach (var s in j.Steps.Where(s => s.Kind == "Settlement" && !Resolved(s))) { s.Status = "Completed"; s.CompletedAt = DateTime.UtcNow; }

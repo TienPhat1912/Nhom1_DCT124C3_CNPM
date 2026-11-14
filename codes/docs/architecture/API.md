@@ -4,12 +4,16 @@ Các mục đầu mô tả API legacy đang chạy. Phần [PB-001: hợp đồn
 
 PB-010 bổ sung queue theo phòng, lệnh accept consultation và sự kiện gọi bền vững;
 xem [endpoint runtime, guard và migration PB-010](../requirements/PB-010-DOCTOR-ACCEPT.md).
-GET VisitV2 phục vụ ca đang khám; các capability clinical/settlement chưa triển khai
-vẫn false. Không coi namespace V2 là đã triển khai toàn bộ hợp đồng đích.
+GET VisitV2 phục vụ ca đang khám; capability được bật theo từng task triển khai.
+Không coi namespace V2 là đã triển khai toàn bộ hợp đồng đích.
 
 PB-011 bổ sung [preview và xác nhận một dịch vụ](../requirements/PB-011-SINGLE-ORDER.md).
 ConfirmOrderInputV2 thêm previewId bắt buộc; canConfirmOrder đã được tính cho Doctor
-đang khám. Các capability complete service/examination/settlement vẫn chưa bật.
+đang khám. PB-012/014/015 bổ sung complete service/examination/settlement tương ứng.
+
+PB-015 bổ sung [quyết toán cuối nguyên tử](../requirements/PB-015-FINAL-SETTLEMENT.md),
+workspace Cashier và danh sách Visit đủ điều kiện; Patient thấy Closed/Completed
+sau commit. Evaluate không tự đóng lượt khám từ quyết toán sớm trong dữ liệu cũ.
 
 Tài liệu máy đọc: `/openapi/v1.json`, snapshot trong `docs/architecture/openapi.json`. C# request records nằm cạnh endpoint; DTO TypeScript dùng chung trong `packages/shared/src/types.ts`, API client trong `api.ts`. DTO phản hồi hiện được duy trì thủ công; acceptance kiểm tra các luồng sử dụng chúng. Không khẳng định có schema-codegen toàn bộ phản hồi anonymous C#.
 
@@ -79,7 +83,11 @@ Phản hồi nội dung có ngôn ngữ thực tế, `requestedLanguage`, `fallb
 
 ## State machine
 
-`Visit: Active → Closed`. Guard: mọi Consultation/ReturnConsultation/Service/IntermediatePayment được giải quyết và FinalSettlementRevision bằng WorkRevision. Chỉ định mới/sửa/hủy tăng WorkRevision. Quyết toán Intermediate không là Final. NoPaymentRequired cũng phải qua guard chuyên môn.
+`Visit: Active → Closed` trong luồng legacy chỉ xảy ra khi có lệnh Final/NoPaymentRequired
+đủ điều kiện: mọi Consultation/ReturnConsultation/Service/IntermediatePayment được giải
+quyết và FinalSettlementRevision bằng WorkRevision. Evaluate không tự đóng từ quyết
+toán sớm đã lưu. Chỉ định mới/sửa/hủy tăng WorkRevision. Intermediate không đóng Visit.
+NoPaymentRequired cũng phải qua guard chuyên môn. Điều kiện V2 nghiêm ngặt ở mục PB-001/PB-015.
 
 `Journey: PendingActivation → Active → Completed`; khi không có nhà thuốc, đóng Visit có thể chuyển trực tiếp PendingActivation → Completed. Khi còn nhà thuốc, giữ PendingActivation/Active; bệnh nhân chỉ complete khi Visit Closed, Journey Active và còn đúng một bước Pharmacy Ready.
 
@@ -165,6 +173,7 @@ Tất cả path trong bảng có tiền tố **`/api/v2`**, là hợp đồng ch
 | Quản trị danh mục / PB-013 | GET/POST `/admin/clinical-catalog/{kind}`; PUT `/admin/clinical-catalog/{kind}/{id}` | Admin; thêm/sửa/ngừng dùng, code ổn định, template nguồn vi | POST version 0; PUT current version; mutation cần key; audit before/after và receipt cùng transaction |
 | Hoàn tất khám / PB-014 | POST `/visits/{id}/examination/complete`; CompleteExaminationInputV2 → CompleteExaminationResultV2, 200 | Guard như preview; preview khớp Visit/bác sĩ/lựa chọn/version danh mục/mẫu | version Visit + previewId; key bắt buộc |
 | Quyết toán / PB-015 | POST `/visits/{id}/settlement`; FinalSettlementInputV2 → VisitV2, 200 | Cashier đúng khoa; đủ điều kiện quyết toán; chỉ Final hoặc NoPaymentRequired | version Visit + workRevision; key bắt buộc |
+| Danh sách quyết toán / PB-015 | GET `/cashier/visits?offset=0`; VisitSummaryV2[], 200 | Cashier; chỉ Visit đủ điều kiện trong khoa được giao, lọc trước phân trang | 100 dòng/trang, thứ tự ExaminationCompletedAt rồi Id |
 
 GET `/api/v2/visits` trả VisitSummaryV2[], GET `/api/v2/visits/{id}` trả VisitV2: lọc quyền theo chủ hồ sơ/grant hoặc vai trò/khoa/phân công trước phân trang. Service chỉ đọc Visit có order được giao; danh sách chờ của Doctor chỉ lấy Waiting đúng phòng/bác sĩ. GET `/api/v2/visits/{id}/ticket` trả ExaminationTicketV2; in lại bằng GET + in client, không cấp số mới. GET `/api/v2/requests/{id}` trả RegistrationRequestV2 cho chủ hồ sơ hoặc Reception đúng phạm vi. GET `/api/v2/admin/clinics/{id}/assignment` trả ClinicAssignmentV2 cho Admin. GET `/api/v2/visits/{id}/clinical-record` trả ClinicalRecordV2 hoặc null trước công bố, chỉ chủ hồ sơ/grant và Doctor phụ trách; Service/Cashier/Admin không đọc được. GET không cần key.
 

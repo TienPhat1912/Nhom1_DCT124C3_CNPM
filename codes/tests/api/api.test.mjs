@@ -78,11 +78,14 @@ test('walk-in: preparation, supplement, concurrent reception and QR ownership', 
   await activate(s, id); assert.equal((await visit(s.token, id)).journeyId, v.journeyId);
 });
 
-test('orders, required return consultation, early/current settlement and post-closure pharmacy', async () => {
+test('orders reject early settlement and require explicit final confirmation before pharmacy', async () => {
   const s = await guest(); const { visitId: id } = await attendance(s); await activate(s, id);
   let v = await visit(staff.doctor, id);
   await call(staff.doctor, `/api/visits/${id}/pharmacy`, { required: true, version: v.version });
-  const order = await addOrder(id); await settle(id, 'Final'); assert.equal((await visit(s.token, id)).status, 'Active');
+  const order = await addOrder(id);
+  v = await visit(staff.cashier, id);
+  await call(staff.cashier, `/api/visits/${id}/settlement`, { outcome: 'Final', version: v.version, workRevision: v.workRevision }, 'POST', randomUUID(), 409);
+  assert.equal((await visit(s.token, id)).status, 'Active');
   await progress(id, 'Consultation');
   v = await visit(s.token, id); assert.equal(v.steps.find(s => s.kind === 'ReturnConsultation').status, 'Waiting');
   const before = await visit(staff.service, id); const serviceStep = before.steps.find(s => s.kind === 'Service');
@@ -92,16 +95,19 @@ test('orders, required return consultation, early/current settlement and post-cl
   await call(staff.doctor, `/api/visits/${id}/orders/${order.id}`, { action: 'Cancel', serviceId: null, reason: 'Must not cancel started service', version: currentOrder.version }, 'PUT', randomUUID(), 409);
   await progress(id, 'Service', 'Completed', staff.service);
   assert.equal((await visit(s.token, id)).steps.find(s => s.kind === 'ReturnConsultation').status, 'Ready');
-  await progress(id, 'ReturnConsultation'); v = await visit(s.token, id); assert.equal(v.status, 'Closed'); assert.equal(v.journeyStatus, 'Active');
+  await progress(id, 'ReturnConsultation'); assert.equal((await visit(s.token, id)).status, 'Active');
+  await settle(id); v = await visit(s.token, id); assert.equal(v.status, 'Closed'); assert.equal(v.journeyStatus, 'Active');
   assert.equal(v.steps.find(s => s.kind === 'Pharmacy').canCompleteGuidance, true);
   await call(s.token, `/api/visits/${id}/complete-guidance`, { version: v.journeyVersion }); v = await visit(s.token, id);
   assert.equal(v.journeyStatus, 'Completed'); assert.equal(v.completionSource, 'PatientGuidanceConfirmation');
   await call(staff.doctor, `/api/visits/${id}/orders`, { version: v.version, serviceId: config.services[0].id, note: '' }, 'POST', randomUUID(), 409);
 });
 
-test('changed required work invalidates earlier final settlement; intermediate never closes', async () => {
+test('historical early settlement never auto-closes; intermediate never closes', async () => {
   const s = await guest(); const { visitId: id } = await attendance(s);
-  await settle(id, 'Final'); await addOrder(id); await progress(id, 'Consultation'); await progress(id, 'Service', 'Skipped', staff.service); await progress(id, 'ReturnConsultation');
+  await addOrder(id);
+  fixtureSql(`UPDATE Visits SET FinalSettlementRevision=WorkRevision,FinalSettlementOutcome='Final' WHERE Id='${id}'`);
+  await progress(id, 'Consultation'); await progress(id, 'Service', 'Skipped', staff.service); await progress(id, 'ReturnConsultation');
   assert.equal((await visit(s.token, id)).status, 'Active'); await settle(id, 'Intermediate'); assert.equal((await visit(s.token, id)).status, 'Active');
   await settle(id, 'NoPaymentRequired'); const v = await visit(s.token, id); assert.equal(v.status, 'Closed'); assert.equal(v.journeyStatus, 'Completed'); assert.equal(v.completionSource, 'WorkflowNoPharmacy');
   await activate(s, id); assert.equal((await visit(s.token, id)).journeyStatus, 'Completed');
@@ -513,3 +519,8 @@ test('request pagination reaches older pending records with stable ordering and 
 });
 
 test('test run notes', () => { assert.deepEqual(failures, [], failures.join('; ')); });
+
+test('V2 settlement endpoints remain disabled before cutover', async () => {
+  await call(staff.cashier, '/api/v2/cashier/visits', undefined, 'GET', randomUUID(), 503);
+  await call(staff.cashier, `/api/v2/visits/${randomUUID()}/settlement`, { version: 1, workRevision: 1, outcome: 'Final' }, 'POST', randomUUID(), 503);
+});

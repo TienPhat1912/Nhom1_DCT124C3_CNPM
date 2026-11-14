@@ -48,10 +48,11 @@ Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merg
 
 ## Bàn giao
 
-Triển khai trên `feat/pb-016-patient-results`, base `aa1eb1e` từ `origin/main`.
+Triển khai trên `feat/pb-016-patient-results`; nhánh đã đồng bộ `origin/main`
+`ccca5c7`, bao gồm PB-015 PR #29. Giữ cả hai phase test/CI PB-015 và PB-016,
+mỗi phase dùng database fixture riêng.
 Dependency PB-009 đã merge PR #23 (`f97b348`), PB-014 đã merge PR #28 (`aa1eb1e`);
-task card dependency còn ghi trạng thái local cũ. PB-015 chưa merge tại thời điểm
-bắt đầu, không nằm trong dependency và không đưa mã nhánh PB-015 vào PB-016.
+task card dependency còn ghi trạng thái local cũ.
 
 - [Hợp đồng và gate nghiệm thu](../../../codes/docs/requirements/PB-016-PATIENT-RESULTS.md).
 - ContentReader/API clinical-record/narration bảo vệ trạng thái chưa xác nhận;
@@ -85,6 +86,11 @@ khôi phục env khi runner kết thúc.
 | Release backend build; `dotnet-ef migrations has-pending-model-changes --project backend/Hospital.Api --configuration Release --no-build` | PASS, build 0 warning/error, model không thay đổi |
 | `git diff --check`, parser PowerShell, JavaScript syntax | PASS |
 | `scripts/build/build-android.ps1` | Chưa qua gate môi trường: thiếu Android SDK platform 36 |
+
+Sau khi đồng bộ PB-015 từ `origin/main` (`ccca5c7`), đã chạy lại hai runner trên
+bản gộp: PB-015 API 6/6, browser 2/2; PB-016 API 4/4, browser 4/4, component native
+4/4; typecheck/lint và parser CI đều PASS. Fixture tương ứng
+`HospitalAcceptance_1794656381121` và `HospitalAcceptance_1794656441371`.
 
 Fixture regression cuối bắt đầu `HospitalAcceptance_1794655413164`; PB-014/013/012:
 `HospitalAcceptance_1794655453394`, `HospitalAcceptance_1794655460708` và database
