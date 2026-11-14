@@ -167,6 +167,8 @@ Backend phải dùng danh sách trường input cho phép và từ chối trư�
 
 Preview riêng tư gắn Visit/version/bác sĩ/lựa chọn/version catalog/mẫu; chỉnh lựa chọn phải tạo preview mới, hủy không đổi nghiệp vụ. Confirm chỉ nhận previewId và version, server lấy nội dung đã kiểm chứng và kiểm tra lại catalog/mẫu. Không dùng text hoặc tác giả client gửi làm bản công bố. Snapshot ClinicalRecordV2 giữ lựa chọn, mẫu, nội dung Việt, tác giả thực tế và thời điểm xác nhận/công bố.
 
+PB-014 triển khai previewId dạng chuỗi opaque Data Protection token mã hóa/xác thực, hạn 5 phút (không phải GUID). Token không lưu trong database; confirm kiểm tra fingerprint cả nội dung catalog/mẫu. GET clinical-record trả JSON null trước xác nhận; content V2 đọc ClinicalRecord đã công bố. Draft/publish legacy cho Visit V2 trả 410. Xem [bàn giao PB-014](../requirements/PB-014-COMPLETE-EXAMINATION.md).
+
 ### Version, idempotency và cạnh tranh
 
 1. Scope receipt = contract version + actor từ session + tên lệnh + ID tài nguyên (create request dùng Patient). Hash gồm payload đã validation và version. Receipt và nghiệp vụ commit nguyên tử; không lưu token/grant secret. Kiểm tra xác thực/quyền hiện hành trước replay để không rò dữ liệu khi quyền đã bị thu hồi.

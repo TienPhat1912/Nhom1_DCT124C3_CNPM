@@ -1,5 +1,9 @@
 import { useState } from "react";
-import type { Locale, VisitV2 } from "@hospital/shared";
+import type {
+  Locale,
+  VisitV2,
+  CompleteExaminationResultV2,
+} from "@hospital/shared";
 import {
   Button,
   Feedback,
@@ -9,6 +13,7 @@ import {
 } from "./components";
 import { useMutation, useResource, useRuntime } from "./runtime";
 import { DoctorOrderForm, OrderedService } from "./DoctorOrderForm";
+import { ExaminationForm } from "./ExaminationForm";
 
 const labels: Record<
   Locale,
@@ -81,6 +86,8 @@ function ClinicQueue({ clinic }: { clinic: Clinic }) {
   const { locale } = useRuntime();
   const text = labels[locale];
   const [offset, setOffset] = useState(0);
+  const [completed, setCompleted] =
+    useState<CompleteExaminationResultV2 | null>(null);
   const [followId, setFollowId] = useState<string | null>(null);
   const queue = useResource<Queue>(
     `/api/v2/clinics/${clinic.clinicLocationId}/queue?offset=${offset}`,
@@ -109,6 +116,17 @@ function ClinicQueue({ clinic }: { clinic: Clinic }) {
             {current.data.ticket.number}
           </p>
           <Status value={current.data.examStatus} />
+          {current.data.capabilities.canCompleteExamination && (
+            <ExaminationForm
+              key={`exam:${current.data.id}:${current.data.version}`}
+              visit={current.data}
+              onChanged={(result) => {
+                setCompleted(result);
+                queue.refresh();
+                current.refresh();
+              }}
+            />
+          )}
           {current.data.capabilities.canConfirmOrder && (
             <DoctorOrderForm
               key={`${current.data.id}:${current.data.version}`}
@@ -123,6 +141,17 @@ function ClinicQueue({ clinic }: { clinic: Clinic }) {
         </article>
       )}
       <Feedback error={mutation.error} locale={locale} />
+      {completed && (
+        <section className="sub-panel" data-testid="completed-examination">
+          <h3>
+            {t("Completed")} · {completed.visit.patientName}
+          </h3>
+          <p>{completed.record.content.diagnosis}</p>
+          <p>{completed.record.content.explanation}</p>
+          <p>{completed.record.content.instructions}</p>
+          <p>{completed.record.author.name}</p>
+        </section>
+      )}
       {followId && <OrderedService key={followId} id={followId} />}
       {!!queue.data?.inService.length && (
         <section>
