@@ -31,7 +31,7 @@ public class JourneyReader(HospitalDb db, Access access)
             doctorName = ticket?.DoctorSnapshot.Name ?? doctor?.Name, departmentNameVi = department?.NameVi, departmentNameEn = department?.NameVi,
             v.ClinicLocationId, v.ExamStatus, v.ConsultationCount, ticketIssuedOn = v.Ticket.IssuedOn,
             doctorSpecialties = HospitalCatalog.Specialties(v.DoctorId),
-            v.Id, v.Version, v.Status, v.WorkRevision, v.FinalSettlementRevision, v.FinalSettlementOutcome, v.CreatedAt, v.ClosedAt,
+            v.Id, v.Version, v.Status, v.WorkRevision, v.FinalSettlementRevision, v.FinalSettlementOutcome, v.CreatedAt, closedAt = v.ClosedAt is {} closedAt ? (DateTime?)DateTime.SpecifyKind(closedAt, DateTimeKind.Utc) : null,
             patientName = ticket?.PatientSnapshot.Name ?? v.Patient.Name, v.DepartmentId, v.DoctorId,
             ticketNumber = v.Ticket.Number, journeyId = v.Journey.Id, journeyStatus = v.Journey.Status, journeyVersion = v.Journey.Version, v.Journey.CompletionSource,
             currentStepId = current?.Id, clinicallyReady = Workflow.ReadyForSettlement(v), updatedAt = DateTime.UtcNow,
@@ -43,7 +43,7 @@ public class JourneyReader(HospitalDb db, Access access)
                 return new { s.Id, s.Version, s.Kind, s.Status, s.Authority, s.DoctorOrderId, s.MappingVersion, s.Sequence, s.LocationId, s.DepartmentId,
                     destination = HospitalCatalog.DisplayDestination(s.DestinationSnapshot), s.QueueNumber, s.QueueStatus, s.QueueUpdatedAt, s.ResolutionReason, s.CompletedAt,
                     prerequisites = s.Dependencies.Select(d => d.PrerequisiteStepId), text = t?.Text, contentLanguage = t?.Language, fallback = t?.Language != language, templateVersion = t?.Revision,
-                    canProgress, canCompleteGuidance = role == "Patient" && v.Status == "Closed" && v.Journey.Status == "Active" && s.Kind == "Pharmacy" && s.Status == "Ready" };
+                    canProgress, canCompleteGuidance = v.ExamStatus == null && role == "Patient" && v.Status == "Closed" && v.Journey.Status == "Active" && s.Kind == "Pharmacy" && s.Status == "Ready" };
             }),
             orders = v.Orders.Select(o => new { o.Id, o.Version, o.HospitalServiceId, o.Status, o.Note, o.MappingVersion })
         };
@@ -135,6 +135,7 @@ public static class JourneyEndpoints
         });
         g.MapPost("/visits/{id:guid}/settlement", async (Guid id, SettlementInput input, Access access, HospitalDb db, CommandBus bus, Workflow workflow, ISettlementAdapter adapter, HttpContext http) => {
             var u = await access.Staff("Cashier");
+            Legacy(await access.Visit(id));
             if (input.Source == "Simulation") await adapter.Validate(new("Simulation", http.Request.Headers["Idempotency-Key"].ToString(), id, input.Outcome, input.WorkRevision), http.RequestAborted);
             else Check.That(input.Source == "Staff", "sourceInvalid", "Unsupported event source.");
             return await bus.Run($"{u.Id}:settlement:{id}", input, async () => {
@@ -146,13 +147,13 @@ public static class JourneyEndpoints
                     var p = v.Journey.Steps.Where(s => s.Kind == "IntermediatePayment" && s.Status == "Ready").OrderBy(s => s.Sequence).FirstOrDefault();
                     if (p is not null) { p.Status = "Completed"; p.CompletedAt = DateTime.UtcNow; }
                 }
-                else { v.FinalSettlementRevision = input.WorkRevision; v.FinalSettlementOutcome = input.Outcome; }
+                else { Check.That(Workflow.ReadyForSettlement(v), "examinationNotCompleted", "Complete all clinical work before settlement.", 409); v.FinalSettlementRevision = input.WorkRevision; v.FinalSettlementOutcome = input.Outcome; }
                 db.Entry(v).Property(v => v.WorkRevision).IsModified = true;
-                workflow.Evaluate(v); bus.Audit(u.Id, "Settlement" + input.Outcome, id, $"revision:{input.WorkRevision}", input.Source); bus.Notify(v.PatientId, id); return new { visitId = id, v.Status, journeyStatus = v.Journey.Status };
+                workflow.Evaluate(v, allowLegacyClosure: input.Outcome != "Intermediate"); bus.Audit(u.Id, "Settlement" + input.Outcome, id, $"revision:{input.WorkRevision}", input.Source); bus.Notify(v.PatientId, id); return new { visitId = id, v.Status, journeyStatus = v.Journey.Status };
             });
         });
         g.MapPost("/visits/{id:guid}/pharmacy", async (Guid id, PharmacyInput input, Access access, HospitalDb db, CommandBus bus, Workflow workflow) => {
-            var u = await access.Staff("Doctor"); return await bus.Run($"{u.Id}:pharmacy:{id}", input, async () => {
+            var u = await access.Staff("Doctor"); Legacy(await access.DoctorVisit(id)); return await bus.Run($"{u.Id}:pharmacy:{id}", input, async () => {
                 var v = await access.DoctorVisit(id); Check.Version(v, input.Version); Active(v);
                 var step = v.Journey.Steps.SingleOrDefault(s => s.Kind == "Pharmacy" && !Workflow.Resolved(s));
                 if (input.Required && step is null) {
@@ -165,7 +166,7 @@ public static class JourneyEndpoints
             });
         });
         g.MapPost("/visits/{id:guid}/complete-guidance", async (Guid id, CompleteInput input, Access access, CommandBus bus) => {
-            var s = await access.Patient(); return await bus.Run($"{s.Id}:complete:{id}", input, async () => {
+            var s = await access.Patient(); Legacy(await access.Visit(id)); return await bus.Run($"{s.Id}:complete:{id}", input, async () => {
                 var v = await access.Visit(id); Check.Version(v.Journey, input.Version);
                 Check.That(v.Status == "Closed" && v.Journey.Status == "Active", "notEligible", "Guidance can only be completed after Visit closure and ticket activation.", 409);
                 var remaining = v.Journey.Steps.Where(st => !Workflow.Resolved(st)).ToArray();
@@ -175,8 +176,9 @@ public static class JourneyEndpoints
             });
         });
     }
+    static void Legacy(Visit v) => Check.That(v.ExamStatus == null, "legacyCommandDisabled", "Use the PRD-v2 clinical workflow when available.", 410);
     static void Active(Visit v) {
-        Check.That(v.ExamStatus == null, "legacyCommandDisabled", "Use the PRD-v2 clinical workflow when available.", 410);
+        Legacy(v);
         Check.That(v.Status == "Active", "visitClosed", "This Visit is closed. A later attendance requires a new reception.", 409);
     }
 }
