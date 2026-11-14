@@ -69,6 +69,6 @@ public sealed class LocalizedResponseFilter(ITranslationService translator) : IE
             if (Text(field) && !(field == "text" && Text("diagnosis") && obj.ContainsKey("section"))) fields.Add((field, field));
         if (fields.Count > 0) groups.Add((obj, fields));
         foreach (var (key, value) in obj)
-            if (key is not ("original" or "source" or "sourceVariants" or "warnings" or "translations")) Collect(value, key, groups, arrays);
+            if (key is not ("original" or "clinicalRecord" or "source" or "sourceVariants" or "warnings" or "translations")) Collect(value, key, groups, arrays);
     }
 }

@@ -13,6 +13,11 @@ ConfirmOrderInputV2 thêm previewId bắt buộc; canConfirmOrder đã được 
 
 Tài liệu máy đọc: `/openapi/v1.json`, snapshot trong `docs/architecture/openapi.json`. C# request records nằm cạnh endpoint; DTO TypeScript dùng chung trong `packages/shared/src/types.ts`, API client trong `api.ts`. DTO phản hồi hiện được duy trì thủ công; acceptance kiểm tra các luồng sử dụng chúng. Không khẳng định có schema-codegen toàn bộ phản hồi anonymous C#.
 
+PB-016 mở rộng `GET /api/visits/{id}/content` với visitId/examStatus/clinicalRecord,
+khuyến nghị có original Việt và metadata dịch. V2 chỉ hiển thị sau xác nhận khám,
+kể cả Visit Active; legacy giữ nguồn Published. bookingUrl trả null, web/mobile bỏ
+booking handoff. Xem [hợp đồng và gate native PB-016](../requirements/PB-016-PATIENT-RESULTS.md).
+
 ## Quy ước
 
 - Web dùng cookie `hospital_session` HttpOnly/SameSite Strict; bật Secure khi HTTPS. Native gửi `X-Client: native` lúc xác thực để nhận token và lưu SecureStore, sau đó gửi `Authorization: Bearer <token>`.

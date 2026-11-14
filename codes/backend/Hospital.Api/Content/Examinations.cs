@@ -63,6 +63,7 @@ public static class Examinations
     }
     static string Hash(Capture value) => Crypto.Hash(JsonSerializer.Serialize(value, CommandBus.Json));
     public static async Task<object?> Record(Guid id, HospitalDb db) {
+        if (!await db.Visits.AsNoTracking().AnyAsync(v => v.Id == id && v.ExamStatus == "Completed" && v.ExaminationCompletedAt != null)) return null;
         var r = await db.Set<ClinicalRecord>().AsNoTracking().Include(r => r.Symptoms).Include(r => r.Diagnoses).SingleOrDefaultAsync(r => r.VisitId == id);
         if (r == null) return null;
         object Snapshot(Guid id, int version, string code, string nameVi) => new { id, version, code, nameVi };

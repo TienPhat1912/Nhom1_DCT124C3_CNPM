@@ -200,6 +200,9 @@ export type Draft = Entity & {
   publishedAt: string | null;
 };
 export type FollowUp = Entity & {
+  visitId?: string;
+  fallback?: boolean;
+  original?: { language: string; text: string };
   departmentId: string;
   recommendedAt: string;
   text: string;
@@ -207,6 +210,9 @@ export type FollowUp = Entity & {
   status: string;
 };
 export type Content = {
+  visitId?: string;
+  examStatus?: ExamStatus | null;
+  clinicalRecord?: ClinicalRecordV2 | null;
   summary: Summary | null;
   followUps: FollowUp[];
   bookingUrl: string | null;

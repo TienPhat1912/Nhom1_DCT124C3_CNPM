@@ -27,6 +27,7 @@
     "test:directory:unit": "node --experimental-strip-types --test tests/unit/hospital-directory.test.mjs",
     "test:narration:unit": "node --test tests/unit/native-narration.test.mjs",
     "test:session:unit": "node --test tests/unit/native-session.test.mjs",
+    "test:results:native": "node --test tests/unit/native-results.test.mjs",
     "test:reception:unit": "node --test tests/unit/native-reception.test.mjs",
     "test:languages:unit": "node --experimental-strip-types --test tests/unit/languages.test.mjs",
     "test:translation": "dotnet run --project tests/translation/Translation.Tests.csproj"

@@ -1,5 +1,10 @@
 # Kiểm thử
 
+PB-016: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/patient-results/run.ps1 -SqlServer '.\SQLEXPRESS' -Regression -Capture`
+chạy API/browser/component native trên fixture riêng; `npm run test:results:native`
+chạy riêng component tests. Android thật là gate riêng trong
+`tests/android/android-results.mjs`; xem [PB-016](../docs/requirements/PB-016-PATIENT-RESULTS.md).
+
 PB-014: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/complete-examination/run.ps1 -Regression -Capture`
 build/publish và chạy API/browser trên fixture SQL localhost riêng, kèm hồi quy PB-013/012/011/010/008.
 Lệnh riêng: `node --test tests/api/complete-examination.test.mjs` và

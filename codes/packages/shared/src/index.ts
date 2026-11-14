@@ -6,3 +6,4 @@ export * from "./hospitalMap";
 export * from "./hospitalDepartments";
 export * from "./locales";
 export * from "./localizedText";
+export * from "./patientResults";

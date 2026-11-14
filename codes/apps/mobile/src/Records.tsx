@@ -1,9 +1,10 @@
 import { LanguagePicker } from "./LanguagePicker";
 import { useState } from "react";
-import { Linking, View } from "react-native";
+import { View } from "react-native";
 import {
   dateText,
   displayName,
+  patientResultLabels,
   type Assistance,
   type Content,
   type Notification,
@@ -22,13 +23,17 @@ import {
 } from "./ui";
 import { useAction, useLoad, useNarration, useNative } from "./runtime";
 export function Results({ id }: { id: string | null }) {
-  const { t, locale, config } = useNative();
+  const { t, locale, config, session } = useNative();
   const r = useLoad<Content>(
     id ? `/api/visits/${id}/content?language=${locale}` : null,
     true,
   );
-  const s = r.data?.summary;
-  const speech = useNarration(`${id}:${s?.revision}:${s?.language}`);
+  const s = r.error ? null : r.data?.summary;
+  const record = r.error ? null : r.data?.clinicalRecord;
+  const text = patientResultLabels[locale];
+  const speech = useNarration(
+    `${session.sessionId}:${id}:${s?.revision}:${s?.language}:${s?.contentKey}`,
+  );
   const [original, setOriginal] = useState(false);
   const play = (section: string) =>
     void speech.play(`/api/visits/${id}/narration`, {
@@ -43,8 +48,29 @@ export function Results({ id }: { id: string | null }) {
       <Txt tone="title">{t("results")}</Txt>
       <Txt tone="muted">{t("recordHint")}</Txt>
       <LoadingState resource={r} />
-      {r.data && (
+      {r.data && !r.error && (
         <>
+          {record && (
+            <Card>
+              <Txt tone="heading">{text.title}</Txt>
+              <Txt>
+                {t("author")}: {record.author.name}
+              </Txt>
+              <Txt>
+                {text.confirmedAt}: {dateText(record.confirmedAt, locale)}
+              </Txt>
+              {(["symptoms", "signs", "diagnoses"] as const).map((kind) => (
+                <View key={kind}>
+                  <Txt tone="heading">{text[kind]}</Txt>
+                  {record[kind].map((item) => (
+                    <Txt key={item.id}>
+                      {item.code} · {item.nameVi}
+                    </Txt>
+                  ))}
+                </View>
+              ))}
+            </Card>
+          )}
           {s ? (
             <>
               <Card>
@@ -150,19 +176,19 @@ export function Results({ id }: { id: string | null }) {
                   {t("actualLanguage")}: {f.language}
                   {f.language !== locale ? ` · ${t("fallback")}` : ""}
                 </Txt>
+                {f.language !== "vi" && !f.fallback && (
+                  <Txt tone="muted">{t("machineTranslation")}</Txt>
+                )}
+                {f.original && (
+                  <>
+                    <Txt tone="muted">
+                      {t("original")} · {f.original.language}
+                    </Txt>
+                    <Txt>{f.original.text}</Txt>
+                  </>
+                )}
               </View>
             ))}
-            {r.data.followUps.length > 0 &&
-              (r.data.bookingUrl?.startsWith("https://") ? (
-                <Btn
-                  secondary
-                  onPress={() => void Linking.openURL(r.data!.bookingUrl!)}
-                >
-                  {t("bookFollowUp")}
-                </Btn>
-              ) : (
-                <Txt tone="muted">{t("bookingUnavailable")}</Txt>
-              ))}
           </Card>
         </>
       )}

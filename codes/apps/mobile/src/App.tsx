@@ -475,7 +475,7 @@ export function PatientApp({
             }}
           />
         )}
-        {page === "results" && <Results id={id} />}
+        {page === "results" && <Results key={id} id={id} />}
         {page === "scan" && (
           <ScanTicket
             key={pending ?? "manual"}
