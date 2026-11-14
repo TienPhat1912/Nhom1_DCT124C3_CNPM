@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | In Progress |
+| Người nhận | phuch (Codex hỗ trợ) |
 | Reviewer | Chưa phân công |
 | Nhóm | Dịch và hỗ trợ |
 | Ưu tiên | P1 |
@@ -24,7 +24,7 @@ Thêm chi tiết assistance có dịch, giới hạn Reception xử lý, đồng
 ## Tiêu chí chấp nhận
 
 - [ ] Guest/Account gửi được trước Journey; trong Journey lưu đúng Visit/Step/địa điểm; list staff trả metadata cần thiết.
-- [ ] Reception đúng phạm vi đọc gốc/dịch và cập nhật Chờ xử lý/Đang xử lý/Đã xử lý; Service bị chặn cả API và UI.
+- [x] Reception đúng phạm vi đọc gốc/dịch và cập nhật Chờ xử lý/Đang xử lý/Đã xử lý; Service bị chặn cả API và UI.
 - [ ] Yêu cầu phát sinh tại khu dịch vụ vẫn tới Reception có thẩm quyền; lỗi dịch không ngăn ghi nhận/xử lý; bệnh nhân theo dõi được trạng thái.
 
 ## Kiểm chứng bắt buộc
@@ -44,6 +44,12 @@ App và Records dùng chung nhiều task; giới hạn sửa vùng hỗ trợ, c
 Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merge; chỉ coi Ready và merge khi đã có các dependency, không tham chiếu mã chưa tồn tại. Nếu cần đổi hợp đồng chung, cập nhật hợp đồng và trao đổi với người nhận task phụ thuộc trước khi viết phần còn lại.
 
 ## Bàn giao
+
+Đã triển khai API/web/mobile và thêm kiểm thử trên nhánh
+`feat/pb-019-assistance`; chờ PR, review và merge. Kiểm thử thiết bị/giả lập Android còn
+thiếu do môi trường chưa có SDK/JDK/adb; giữ In Progress, chưa đánh Done.
+Hợp đồng, lệnh kiểm thử và giới hạn:
+[PB-019](../../../codes/docs/requirements/PB-019-assistance.md).
 
 - [ ] Hoàn tất tiêu chí ở trên và quy ước Done.
 - [ ] PR ghi mã PB-019, mô tả hành vi trước/sau, kiểm chứng và migration nếu có.

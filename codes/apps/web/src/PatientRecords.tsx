@@ -333,6 +333,7 @@ export function HelpPanel({
   const mutation = useMutation();
   const [category, setCategory] = useState("Navigation");
   const [description, setDescription] = useState("");
+  const [sourceLanguage, setSourceLanguage] = useState("vi");
   return (
     <>
       <p className="muted">{config.emergency ?? config.emergencyVi}</p>
@@ -343,6 +344,7 @@ export function HelpPanel({
             await mutation.run("/api/assistance", {
               category,
               description,
+              sourceLanguage,
               visitId,
               requestId,
               stepId: stepId ?? null,
@@ -365,6 +367,18 @@ export function HelpPanel({
                 </option>
               ),
             )}
+          </select>
+        </Field>
+        <Field label={t("descriptionLanguage")}>
+          <select
+            value={sourceLanguage}
+            onChange={(e) => setSourceLanguage(e.target.value)}
+          >
+            {["vi", "en", "zh", "ja"].map((language) => (
+              <option key={language} value={language}>
+                {language}
+              </option>
+            ))}
           </select>
         </Field>
         <Field label={t("helpDescription")}>

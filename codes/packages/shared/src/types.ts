@@ -234,6 +234,10 @@ export type Directions = {
   availableStarts: Location[];
 };
 export type Assistance = Entity & {
+  sourceLanguage: LocaleV2 | null;
+  patientName?: string;
+  locationId?: string | null;
+  destinationSnapshot?: string | null;
   patientId: string;
   visitId: string | null;
   registrationRequestId: string | null;

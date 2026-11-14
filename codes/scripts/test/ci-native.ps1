@@ -196,6 +196,8 @@ try {
         $env:ConnectionStrings__Hospital = $beforeDoctorConnection
     }
     Invoke-Checked 'node' @('tests/translation/run-request.mjs')
+    Invoke-Checked 'node' @('--test', 'tests/unit/native-assistance.test.mjs')
+    Invoke-Checked 'node' @('tests/translation/run-assistance.mjs')
     $env:Workflow__PrdV2Enabled = 'false'
     Invoke-Checked 'powershell' @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', 'tests/catalog/pb005.ps1', '-SqlServer', $SqlServer, '-Port', '5295')
     foreach ($mode in @('Timeout', 'Unavailable')) {
