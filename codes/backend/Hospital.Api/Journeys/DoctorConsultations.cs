@@ -117,11 +117,11 @@ public static class DoctorConsultations
                 && visit.ExamStatus == "InService" && visit.Journey.Steps.Any(s => s.Kind == "Service" && s.Authority == "Service"
                     && s.Status == "Ready" && session.UserAccount.Scopes.Any(sc => sc.DepartmentId == s.DepartmentId)
                     && visit.Orders.Any(o => o.Id == s.DoctorOrderId && o.Status == "NotCompleted" && o.ConsultationNumber == visit.ConsultationCount));
-            return await View(visit, db, canAccept: canAccept, canOrder: canOrder, canComplete: canComplete, canExam: canOrder, canView: visit.ExamStatus == "Completed" && (session.PatientId != null || session.UserAccount?.Role == "Doctor"));
+            return await View(visit, db, canAccept: canAccept, canOrder: canOrder, canComplete: canComplete, canExam: canOrder, canSettle: session.UserAccount?.Role == "Cashier" && await FinalSettlements.Eligible(db).AnyAsync(v => v.Id == id), canView: visit.ExamStatus == "Completed" && (session.PatientId != null || session.UserAccount?.Role == "Doctor"));
         });
     }
 
-    public static async Task<object> View(Visit v, HospitalDb db, ConsultationCall? call = null, bool canAccept = false, bool canOrder = false, bool canComplete = false, bool canExam = false, bool canView = false)
+    public static async Task<object> View(Visit v, HospitalDb db, ConsultationCall? call = null, bool canAccept = false, bool canOrder = false, bool canComplete = false, bool canExam = false, bool canView = false, bool canSettle = false)
     {
         call ??= await db.Set<ConsultationCall>().AsNoTracking().Where(c => c.VisitId == v.Id).OrderByDescending(c => c.ConsultationNumber).FirstOrDefaultAsync();
         var ticket = ReceptionConfirmation.Ticket(v);
@@ -131,12 +131,12 @@ public static class DoctorConsultations
         return new { contractVersion = "prd-v2", v.Id, v.Version, createdAt = DateTime.SpecifyKind(v.CreatedAt, DateTimeKind.Utc), v.Status, journeyStatus = v.Journey.Status,
             v.ExamStatus, patientName = ticket.PatientSnapshot.Name, v.ClinicLocationId, clinic = ticket.ClinicSnapshot,
             v.DoctorId, doctor = ticket.DoctorSnapshot, ticket = new { ticket.ClinicLocationId, ticket.IssuedOn, ticket.SequenceNumber, ticket.Number },
-            v.ConsultationCount, examinationCompletedAt = v.ExaminationCompletedAt is {} completedAt ? (DateTime?)DateTime.SpecifyKind(completedAt, DateTimeKind.Utc) : null, v.ClosedAt, v.WorkRevision, v.DepartmentId,
+            v.ConsultationCount, examinationCompletedAt = v.ExaminationCompletedAt is {} completedAt ? (DateTime?)DateTime.SpecifyKind(completedAt, DateTimeKind.Utc) : null, closedAt = v.ClosedAt is {} closedAt ? (DateTime?)DateTime.SpecifyKind(closedAt, DateTimeKind.Utc) : null, v.WorkRevision, v.DepartmentId,
             journeyId = v.Journey.Id, journeyVersion = v.Journey.Version, updatedAt = DateTime.UtcNow,
             v.FinalSettlementRevision, v.FinalSettlementOutcome, currentStepId = step?.Id,
             currentStep = step == null ? null : Step(step, v.ConsultationCount), latestConsultationCall = call == null ? (JsonElement?)null : JsonSerializer.Deserialize<JsonElement>(call.PayloadJson),
             capabilities = new { canAcceptConsultation = canAccept, canConfirmOrder = canOrder, canCompleteService = canComplete,
-                canPreviewExamination = canExam || canOrder, canCompleteExamination = canExam || canOrder, canSettle = false, canViewResults = canView },
+                canPreviewExamination = canExam || canOrder, canCompleteExamination = canExam || canOrder, canSettle, canViewResults = canView },
             steps = v.Journey.Steps.OrderBy(s => s.Sequence).Select(s => Step(s, v.ConsultationCount)),
             orders = v.Orders.Where(o => o.ConsultationNumber != null).OrderBy(o => o.ConsultationNumber).Select(o => Order(o, names)) };
     }

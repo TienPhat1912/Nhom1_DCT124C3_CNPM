@@ -44,6 +44,7 @@ var app = builder.Build();
 app.MapDoctorConsultations();
 app.MapSingleOrders();
 app.MapExaminations();
+app.MapFinalSettlements();
 app.MapServiceReturns();
 app.Use(async (ctx, next) => {
     ctx.Response.Headers.CacheControl = "no-store"; ctx.Response.Headers["X-Content-Type-Options"] = "nosniff"; ctx.Response.Headers["Referrer-Policy"] = "no-referrer";

@@ -485,7 +485,7 @@ function Workspace() {
             <Admin />
           ) : session.role === "Reception" ? (
             <StaffReception />
-          ) : ["Doctor", "Service"].includes(session.role) && config.prdV2Enabled ? (
+          ) : ["Doctor", "Service", "Cashier"].includes(session.role) && config.prdV2Enabled ? (
             <StaffClinical id={null} />
           ) : (
             <>

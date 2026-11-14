@@ -111,6 +111,12 @@ Báo cáo chạy mới ở `artifacts/`, báo cáo Android ở `artifacts/androi
 
 Browser tests dùng `WEB_URL`/`API_URL` khi đổi cổng; mặc định lần lượt là `http://localhost:5180` và `http://127.0.0.1:5280`. Ví dụ PowerShell: `$env:WEB_URL='http://localhost:5188'; $env:API_URL='http://127.0.0.1:5288'` trước `npm run test:e2e`. API acceptance cần cổng 5281 trống, tự tạo database `HospitalAcceptance_<timestamp>` và giữ database này sau kiểm thử.
 
+PB-015: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/final-settlement/run.ps1 -SqlServer '.\SQLEXPRESS' -Regression -Capture`
+build/publish và chạy API/browser Cashier/Patient trên database fixture SQL local
+riêng; `-Regression` chạy thêm PB-014/013/012/011/010/008 và API legacy với cờ V2 tắt.
+Không ghi database demo.
+Chi tiết: [PB-015](../docs/requirements/PB-015-FINAL-SETTLEMENT.md).
+
 ## Bản đồ độc lập
 
 Chạy `npm run test:map`: tự mở Vite riêng ở cổng 5189, dùng API giả lập,
