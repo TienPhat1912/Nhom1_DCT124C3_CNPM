@@ -24,8 +24,22 @@ Chạy kịch bản ở mục 9 kế hoạch qua các vai trò và hai nền t�
 ## Tiêu chí chấp nhận
 
 - [ ] Hoàn thành A/B cùng phòng, nhiều vòng dịch vụ tuần tự, chẩn đoán trước quyết toán, hai outcome đóng Journey và Guest độc lập/khôi phục.
+- [ ] Nghiệm thu bản đồ/RTLS mô phỏng PB-033/034/026 theo [chu kỳ và ngoại lệ PB-026](./PB-026-route-narration.md): cùng tầng, khác tầng, khác tòa; chặng khoảng 5 giây và dừng chờ chỉ dẫn; đổi đích, mất tín hiệu, tắt tiếng, ngắt bởi gọi số và đến đích không tự đổi trạng thái khám. Có bằng chứng web/Android và nhãn mô phỏng rõ ràng. Phụ thuộc được bao hàm qua PB-027 → PB-026 → PB-034 → PB-033.
 - [ ] Kiểm tra 20 người dùng, thao tác thông thường theo mục tiêu 2 giây và gọi khám ≤3 giây ở điều kiện ổn định; báo số đo/môi trường, không chỉ kết luận đạt.
 - [ ] Typecheck/lint/build và test liên quan đạt; kiểm chứng Android theo khả năng môi trường; mọi phần chưa đo/thiết bị chưa thử ghi rõ, không tự đánh Done nếu còn tiêu chí bắt buộc.
+
+## Kịch bản nghiệm thu bản đồ và mô phỏng
+
+| Nhóm | Kịch bản bắt buộc |
+|---|---|
+| Bản đồ | Danh sách phủ tòa/tầng/phòng; cùng tầng; khác tầng qua thang; khác tòa qua lối nối; cạnh đóng; đích chưa ánh xạ; không xuyên tường/phòng |
+| Chu kỳ | Chặng 5 giây; dừng tối thiểu 1 giây; câu đọc dài hơn thời gian dừng; tắt tiếng; tự phát bị chặn; TTS lỗi; đến đích đúng một lần |
+| Phiên | Pause/resume/reset; đóng/mở lại; đổi tài khoản; nền/foreground; không có timer/callback còn sót |
+| Journey | Đổi đích giữa cạnh, đang đọc, đang đổi tầng; gọi số ngắt thuyết minh; đến nơi không đổi trạng thái khám |
+| Vị trí | Đứng yên vẫn fresh; mất/stale tín hiệu; khôi phục; lệch tuyến và tính lại; không có đường |
+| Nền tảng | Web browser test và demo trên Android/giả lập; ảnh/video tuyến cùng tầng, khác tầng, khác tòa; ghi rõ giới hạn môi trường |
+
+Kiểm thử logic thời gian bằng đồng hồ giả để kiểm chứng ranh giới và hủy phiên; quan sát chuyển động/thuyết minh bằng browser/native để kiểm chứng trải nghiệm thực. Các PR chạy typecheck/lint/build và bộ map/narration liên quan theo README backlog.
 
 ## Kiểm chứng bắt buộc
 
