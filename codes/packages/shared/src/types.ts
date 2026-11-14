@@ -617,6 +617,14 @@ export type ApiProblemV2 = Omit<ApiProblem, "title"> & {
   currentVersion?: number;
 };
 // Supporting contracts for PB-017/018/019 and PB-028/029.
+export type GuestTicketMatch = {
+  visitId: string;
+  number: string;
+  issuedOn: string;
+  clinicLocationId: string;
+  patient: { name: string; contact: string } | null;
+  clinic: { nameVi: string; room: string; building: string; floor: string } | null;
+};
 export type DescriptionTranslationV2 = {
   original: string;
   sourceLanguage: string;

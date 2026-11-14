@@ -88,6 +88,7 @@ public static class IdentityEndpoints
             .WithSummary("Retired: Guest conversion is no longer supported");
         g.MapPost("/recover", (RecoveryInput input, HospitalDb db, CommandBus bus, SessionIssuer issuer) =>
             bus.Run("auth:recovery", input, async () => {
+                Check.That(input.Code is { Length: 64 } && input.Code.All(Uri.IsHexDigit), "claimInvalid", "Recovery code invalid or expired.", 403);
                 var hash = Crypto.Hash(input.Code);
                 var claim = await db.Set<RecoveryClaim>().SingleOrDefaultAsync(c => c.Hash == hash);
                 Check.That(claim is not null && !claim.Consumed && claim.ExpiresAt > DateTime.UtcNow, "claimInvalid", "Recovery code invalid or expired.", 403);
@@ -96,6 +97,7 @@ public static class IdentityEndpoints
                 claim!.Consumed = true;
                 var result = await issuer.Issue(p, null, true);
                 db.Add(new AccessGrant { SessionId = result.SessionId, VisitId = claim.VisitId, ExpiresAt = result.ExpiresAt });
+                bus.Audit(result.SessionId, "GuestRecoveryConsumed", claim.VisitId, source: "Patient");
                 return new { session = result, visitId = claim.VisitId };
             }, false));
     }

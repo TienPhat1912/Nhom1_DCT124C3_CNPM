@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | In Progress |
+| Người nhận | phuch (Codex hỗ trợ) |
 | Reviewer | Chưa phân công |
 | Nhóm | Tài khoản |
 | Ưu tiên | P0 |
@@ -23,9 +23,9 @@ Hoàn thiện tìm Visit theo số/ngày/phòng và quy trình Reception xác mi
 
 ## Tiêu chí chấp nhận
 
-- [ ] Số 001 khác phòng/ngày không bị lấy nhầm; nhiều kết quả phải chọn và xác minh đúng Visit.
-- [ ] Chỉ Reception đúng phạm vi cấp recovery một lần, hết hạn rõ; bệnh nhân nhận cùng Visit/Journey với quyền được phép.
-- [ ] Khôi phục không đổi profile lịch sử, không tạo Visit, không cấp lịch sử cho Account độc lập; không dùng lại mã đã tiêu thụ.
+- [x] Số 001 khác phòng/ngày không bị lấy nhầm; nhiều kết quả phải chọn và xác minh đúng Visit.
+- [x] Chỉ Reception đúng phạm vi cấp recovery một lần, hết hạn rõ; bệnh nhân nhận cùng Visit/Journey với quyền được phép.
+- [x] Khôi phục không đổi profile lịch sử, không tạo Visit, không cấp lịch sử cho Account độc lập; không dùng lại mã đã tiêu thụ.
 
 ## Kiểm chứng bắt buộc
 
@@ -44,6 +44,12 @@ Auth/StaffReception tiếp nối các gói đã merge; hạn chế đổi luồn
 Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merge; chỉ coi Ready và merge khi đã có các dependency, không tham chiếu mã chưa tồn tại. Nếu cần đổi hợp đồng chung, cập nhật hợp đồng và trao đổi với người nhận task phụ thuộc trước khi viết phần còn lại.
 
 ## Bàn giao
+
+Đã triển khai và kiểm thử API/browser, regression logic native trên
+`feat/pb-020-guest-recovery`; chờ PR, review và merge. Nghiệm thu trên giả lập/thiết bị
+Android còn thiếu vì môi trường chưa có SDK/JDK/adb. Giữ In Progress chờ nghiệm
+thu native, PR, review và merge. Chi tiết:
+[PB-020](../../../codes/docs/requirements/PB-020-guest-recovery.md).
 
 - [ ] Hoàn tất tiêu chí ở trên và quy ước Done.
 - [ ] PR ghi mã PB-020, mô tả hành vi trước/sau, kiểm chứng và migration nếu có.

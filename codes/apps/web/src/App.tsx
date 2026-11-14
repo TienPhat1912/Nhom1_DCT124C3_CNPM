@@ -138,8 +138,9 @@ export default function App() {
       <Auth
         locale={locale}
         setLocale={setLocale}
-        onSession={(s) => {
+        onSession={(s, visitId) => {
           updateSession(s);
+          if (visitId) history.replaceState(null, "", `#visit=${encodeURIComponent(visitId)}`);
           setExpired(false);
         }}
         expired={expired}
