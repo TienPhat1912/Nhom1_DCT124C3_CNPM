@@ -6,6 +6,9 @@ import ru from "./translations/ru.json" with { type: "json" };
 
 export const messages = {
   vi: {
+    requestTranslation: "Bản dịch mô tả sang tiếng Việt",
+    translationNotRequired: "Mô tả đã bằng tiếng Việt hoặc để trống; không cần dịch.",
+    requestTranslationUnavailable: "Chưa dịch được mô tả. Bạn vẫn có thể đọc bản gốc và thử lại.",
     InService: "Đang thực hiện dịch vụ",
     NotCompleted: "Chưa hoàn tất",
     previewStale: "Thông tin xem trước đã thay đổi hoặc hết hạn. Vui lòng xem lại trước khi xác nhận.",
@@ -414,6 +417,9 @@ export const messages = {
     appOpen: "Mở ứng dụng trên điện thoại",
   },
   en: {
+    requestTranslation: "Description translated into Vietnamese",
+    translationNotRequired: "The description is already Vietnamese or empty; translation is unnecessary.",
+    requestTranslationUnavailable: "Description translation is unavailable. Read the original or retry.",
     InService: "Undergoing service",
     NotCompleted: "Not completed",
     previewStale: "The preview changed or expired. Review the order again before confirming.",

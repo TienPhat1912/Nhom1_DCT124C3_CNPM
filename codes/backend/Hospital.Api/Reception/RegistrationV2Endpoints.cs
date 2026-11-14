@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Hospital.Api.Content;
 using Hospital.Api.Domain;
 using Hospital.Api.Identity;
 using Hospital.Api.Infrastructure;
@@ -52,6 +53,14 @@ public static class RegistrationV2Endpoints
             Check.That(request.SourceLanguage != null, "legacyRecord", "Read this historical request through its original contract.", 409);
             return await View(request, db, (await access.Current()).UserAccount?.Role == "Reception");
         });
+        // Separate read: lists, submissions and Patient detail never invoke the provider.
+        group.MapGet("/{id:guid}/translation", async (Guid id, Access access, ITranslationService translations, CancellationToken ct) => {
+            await access.Staff("Reception");
+            var request = await access.Request(id); // Includes department scope, before cache/provider access.
+            Check.That(request.SourceLanguage != null, "legacyRecord", "The original source language is not recorded for this historical request.", 409);
+            return await translations.Translate(new TranslationInput(request.Description, request.SourceLanguage!, "vi",
+                request.Version, $"RegistrationRequest:{request.Id}:Description"), ct);
+        }).Produces<TextTranslation>();
         group.MapPost("", async (JsonElement body, Access access, HospitalDb db, CommandBus bus) => {
             var session = await access.Patient();
             var input = Parse(body);

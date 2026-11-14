@@ -1,4 +1,8 @@
 {
+  "requestTranslation": "説明のベトナム語訳",
+  "translationNotRequired": "説明はベトナム語または空欄のため、翻訳は不要です。",
+  "requestTranslationUnavailable": "説明を翻訳できません。原文を読むか、再試行してください。",
+
   "InService": "サービス実施中",
   "NotCompleted": "未完了",
   "previewStale": "確認内容が変更または期限切れです。再確認してください。",

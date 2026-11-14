@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   dateText,
   type RegistrationRequestV2,
+  type DescriptionTranslationV2,
   type ConfirmReceptionResultV2,
 } from "@hospital/shared";
 import {
@@ -123,6 +124,11 @@ function Review({ id, onChange }: { id: string; onChange: () => void }) {
               {request.description || "—"}
             </dd>
           </dl>
+          <RequestTranslation
+            id={id}
+            version={request.version}
+            original={request.description}
+          />
           {visitId ? (
             <TicketPanel id={visitId} />
           ) : (
@@ -218,5 +224,42 @@ function Review({ id, onChange }: { id: string; onChange: () => void }) {
       )}
       <Feedback error={mutation.error} locale={locale} />
     </div>
+  );
+}
+
+function RequestTranslation({
+  id,
+  version,
+  original,
+}: {
+  id: string;
+  version: number;
+  original: string;
+}) {
+  const { t } = useRuntime();
+  const translation = useResource<DescriptionTranslationV2>(
+    `/api/v2/requests/${id}/translation?version=${version}`,
+  );
+  const result = translation.data;
+  // A stale response must never be paired with a newer original.
+  const current =
+    result?.sourceVersion === version && result.original === original;
+  const unavailable =
+    !!translation.error || (current && result.status === "Unavailable");
+  return (
+    <section aria-label={t("requestTranslation")}>
+      <h3>{t("requestTranslation")}</h3>
+      {translation.loading && <p role="status">{t("loading")}</p>}
+      {current && result.status === "Translated" && (
+        <p style={{ whiteSpace: "pre-wrap" }}>{result.translated}</p>
+      )}
+      {current && result.status === "NotRequired" && (
+        <p>{t("translationNotRequired")}</p>
+      )}
+      {unavailable && <Notice>{t("requestTranslationUnavailable")}</Notice>}
+      {(unavailable || (!translation.loading && !current)) && (
+        <Button onClick={translation.refresh}>{t("retry")}</Button>
+      )}
+    </section>
   );
 }
