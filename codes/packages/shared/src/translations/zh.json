@@ -1,4 +1,8 @@
 {
+  "requestTranslation": "描述的越南语译文",
+  "translationNotRequired": "描述已是越南语或为空，无需翻译。",
+  "requestTranslationUnavailable": "暂时无法翻译描述。您仍可阅读原文或重试。",
+
   "InService": "正在接受服务",
   "NotCompleted": "未完成",
   "previewStale": "预览已更改或过期，请重新确认。",

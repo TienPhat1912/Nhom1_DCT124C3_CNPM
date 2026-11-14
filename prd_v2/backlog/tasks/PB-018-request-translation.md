@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | In Progress |
+| Người nhận | phuch (Codex hỗ trợ) |
 | Reviewer | Chưa phân công |
 | Nhóm | Dịch và hỗ trợ |
 | Ưu tiên | P1 |
@@ -23,9 +23,9 @@ Endpoint chi tiết request kiểm tra quyền rồi dịch; UI đối chiếu b
 
 ## Tiêu chí chấp nhận
 
-- [ ] List và submit không gọi dịch; Reception đúng phạm vi mở detail mới lấy bản dịch.
-- [ ] Ngôn ngữ nguồn lấy từ request lúc nhập; đổi profile/locale không viết lại nội dung; không dịch tên/định danh.
-- [ ] Provider lỗi vẫn đọc bản gốc và thử lại được; không làm mất yêu cầu hoặc buộc tạo yêu cầu khác.
+- [x] List và submit không gọi dịch; Reception đúng phạm vi mở detail mới lấy bản dịch.
+- [x] Ngôn ngữ nguồn lấy từ request lúc nhập; đổi profile/locale không viết lại nội dung; không dịch tên/định danh.
+- [x] Provider lỗi vẫn đọc bản gốc và thử lại được; không làm mất yêu cầu hoặc buộc tạo yêu cầu khác.
 
 ## Kiểm chứng bắt buộc
 
@@ -44,6 +44,10 @@ StaffReception.tsx nối tiếp PB-008; không refactor chức năng xác nhận
 Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merge; chỉ coi Ready và merge khi đã có các dependency, không tham chiếu mã chưa tồn tại. Nếu cần đổi hợp đồng chung, cập nhật hợp đồng và trao đổi với người nhận task phụ thuộc trước khi viết phần còn lại.
 
 ## Bàn giao
+
+Đã triển khai và kiểm thử cục bộ trên `feat/pb-018-request-translation`;
+chờ PR, review và merge nên giữ In Progress. Bằng chứng, hợp đồng và giới hạn kiểm thử:
+[PB-018](../../../codes/docs/requirements/PB-018-request-translation.md).
 
 - [ ] Hoàn tất tiêu chí ở trên và quy ước Done.
 - [ ] PR ghi mã PB-018, mô tả hành vi trước/sau, kiểm chứng và migration nếu có.

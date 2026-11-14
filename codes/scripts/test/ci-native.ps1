@@ -195,6 +195,7 @@ try {
         $env:ACCEPTANCE_DB = $beforeDoctorDatabase
         $env:ConnectionStrings__Hospital = $beforeDoctorConnection
     }
+    Invoke-Checked 'node' @('tests/translation/run-request.mjs')
     $env:Workflow__PrdV2Enabled = 'false'
     Invoke-Checked 'powershell' @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', 'tests/catalog/pb005.ps1', '-SqlServer', $SqlServer, '-Port', '5295')
     foreach ($mode in @('Timeout', 'Unavailable')) {
