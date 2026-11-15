@@ -43,6 +43,7 @@ shared index/i18n/translations; logic timer và thẻ Online nằm trong module 
 | `npm run test:languages:unit` | 3/3 |
 | `node tests/presence/run-clients.mjs` trên fixture SQL mới | 8/8 desktop/mobile web |
 | `npx playwright test tests/browser/admin.spec.ts` cùng API fixture | 2/2 hồi quy Dashboard |
+| `npm run test:map` sau sửa fixture tương thích heartbeat | 28/28 desktop/mobile web; gồm 22 ca lỗi trong log CI |
 
 Browser bao phủ fake clock 15/5 giây, foreground/hidden, render lại, logout,
 Guest mới, logout nhiều tab, lần tải đầu thất bại, giữ số/timestamp cũ rồi phục hồi.
@@ -54,6 +55,11 @@ phiên Account còn lại. Test dùng đúng viewport desktop/Pixel 7, không ph
 Log cục bộ ở `.local/pb029-*.log`; không commit ảnh, log, credentials hay build.
 CI `ci-native.ps1` chạy unit và browser PB-029 trên database riêng trước hồi quy
 browser mặc định; không xóa session/lịch sử của suite khác để làm số đếm qua.
+Fixture bản đồ xử lý riêng đúng POST `/api/v2/presence/heartbeat` không body/key
+và trả cadence/TTL hợp lệ. Heartbeat là cập nhật hiện diện của session; các POST
+nghiệp vụ khác vẫn được ghi lại để kiểm tra bản đồ không làm thay đổi Visit.
+Test atlas xác nhận có heartbeat và danh sách lệnh nghiệp vụ vẫn rỗng. Điều này
+khắc phục 22 ca PB-033/034/026 bị báo lỗi trên CI khi PB-029 bắt đầu tự heartbeat.
 Chưa chạy toàn bộ pipeline Windows LocalDB trên máy này (kiểm thử API ở đây dùng
 SQL Server container local và cùng bản publish).
 

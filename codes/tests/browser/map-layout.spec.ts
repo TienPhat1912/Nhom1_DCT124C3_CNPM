@@ -68,6 +68,7 @@ test("PB033 atlas: campus and all 25 floor plans have explicit frames, doors and
     "Building/floor unconfirmed",
   );
   expect(f.mutations).toEqual([]);
+  expect(f.heartbeats.length).toBeGreaterThan(0);
 });
 
 test("PB033 legs, arrows, manual updates and destination replacement invalidate old route/voice without business mutations", async ({
