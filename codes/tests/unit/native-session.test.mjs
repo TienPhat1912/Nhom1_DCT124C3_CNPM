@@ -154,7 +154,7 @@ test('native completed Guest Journey offers results without a link invitation', 
   const h = harness('Journey.tsx', { './runtime': {
     useNative: () => ({ t: key => key, locale: 'en', session: guest }),
     useLoad: () => ({ data: { id: 'visit', ticketNumber: 'H-fixture', journeyStatus: 'Completed', steps: [] } }),
-    useAction: () => ({}), useNarration: () => ({}),
+    useAction: () => ({}), useNarration: () => ({}), useVisitEvents: () => {},
   } });
   const tree = h.render('Journey', { id: 'visit', onResults() {} });
   assert.ok(find(tree, node => node.type === 'Btn' && node.props.children === 'results'));

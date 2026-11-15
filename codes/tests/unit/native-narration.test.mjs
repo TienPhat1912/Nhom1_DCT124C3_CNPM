@@ -22,12 +22,16 @@ function harness() {
   const states = [], refs = [], effects = [], pendingEffects = [], spoken = [];
   let stateIndex, refIndex, effectIndex, mounted = true, updatesAfterUnmount = 0;
   let context = "initial", locale = "vi";
-  const runtime = { locale, t: key => key, api: async () => narration };
+  const runtime = { session: { sessionId: "patient-one" }, locale, t: key => key, api: async () => narration };
   const speech = {
     stop: async () => {},
     getAvailableVoicesAsync: async () => voices,
     speak: (text, options) => spoken.push({ text, options }),
   };
+  const listeners = new Set();
+  const appState = { currentState: "active", addEventListener: (_, cb) => { listeners.add(cb); return { remove: () => listeners.delete(cb) }; } };
+  const timers = new Map();
+  let nextTimer = 0;
   const stubs = {
     react: {
       createContext: () => ({}),
@@ -51,7 +55,7 @@ function harness() {
         }
       },
     },
-    "react-native": { AppState: {} },
+    "react-native": { AppState: appState },
     "expo-secure-store": {},
     "./journeyState": { createJourneyStore: () => ({}) },
     "./receptionState": { createReceptionStore: () => ({}) },
@@ -65,7 +69,8 @@ function harness() {
   };
   const exports = {};
   vm.runInNewContext(compiled, {
-    exports, process: { env: {} },
+    exports, process: { env: {} }, AbortController,
+    setTimeout: cb => { timers.set(++nextTimer, cb); return nextTimer; }, clearTimeout: id => timers.delete(id),
     require: name => { assert.ok(name in stubs, name); return stubs[name]; },
   });
   const render = (nextContext = context, nextLocale = locale) => {
@@ -78,6 +83,8 @@ function harness() {
   render();
   return {
     speech, runtime, spoken, render,
+    appState(state) { appState.currentState = state; for (const cb of listeners) cb(state); },
+    timeout() { const callbacks = [...timers.values()]; timers.clear(); for (const cb of callbacks) cb(); },
     get view() { return render(); },
     get updatesAfterUnmount() { return updatesAfterUnmount; },
     unmount() { effects.forEach(effect => effect.cleanup?.()); mounted = false; },
@@ -205,4 +212,69 @@ test("missing voices report an audio error without speaking", async () => {
   assert.equal(h.spoken.length, 0);
   assert.equal(h.view.error, "audioError");
   assert.equal(h.view.loading, false);
+  assert.equal(h.view.text, narration.text);
+});
+
+test("background aborts an in-flight request even if the transport returns late", async () => {
+  const h = harness(), response = deferred(), entered = deferred();
+  let signal;
+  h.runtime.api = (...args) => { signal = args[4]; entered.resolve(); return response.promise; };
+  const pending = h.view.play("/narration");
+  await entered.promise;
+  h.appState("background");
+  assert.equal(signal.aborted, true);
+  response.resolve(narration);
+  await pending;
+  assert.equal(h.spoken.length, 0);
+  assert.equal(h.view.foreground, false);
+  await h.view.play("/narration");
+  assert.equal(h.spoken.length, 0);
+  h.appState("active");
+  await h.view.play("/narration");
+  assert.equal(h.spoken.length, 1);
+});
+
+test("switching sessions cancels pending narration without a changed Visit key", async () => {
+  const h = harness(), response = deferred(), entered = deferred();
+  h.runtime.api = () => { entered.resolve(); return response.promise; };
+  const pending = h.view.play("/narration");
+  await entered.promise;
+  h.runtime.session = { sessionId: "patient-two" };
+  h.render();
+  response.resolve(narration);
+  await pending;
+  assert.equal(h.spoken.length, 0);
+  assert.equal(h.view.text, "");
+});
+
+test("announcement uses the actual response language, ticket and snapshot room", async () => {
+  const h = harness();
+  h.runtime.locale = "en";
+  await h.view.play("/narration", {}, { ticket: "A101-007", room: "A101", called: true });
+  assert.equal(h.spoken[0].options.language, "vi-VN");
+  assert.match(h.spoken[0].text, /A101-007.*A101.*Approved test instruction/);
+  assert.equal(h.view.text, h.spoken[0].text);
+});
+
+test("silent engine fails visibly and stale watchdogs cannot stop a newer playback", async () => {
+  const h = harness();
+  await h.view.play("/first");
+  h.spoken[0].options.onStart();
+  h.timeout();
+  assert.equal(h.view.playing, true);
+  await h.view.play("/second");
+  h.timeout();
+  assert.equal(h.view.playing, false);
+  assert.equal(h.view.error, "audioError");
+  await h.view.play("/retry");
+  assert.equal(h.view.error, "");
+});
+
+test("unmount aborts fetch and clears the engine watchdog", async () => {
+  const h = harness();
+  await h.view.play("/narration");
+  h.unmount();
+  h.timeout();
+  h.spoken[0].options.onDone();
+  assert.equal(h.updatesAfterUnmount, 0);
 });

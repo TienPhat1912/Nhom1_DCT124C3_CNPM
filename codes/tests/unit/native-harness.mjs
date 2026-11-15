@@ -22,7 +22,7 @@ export function loadNative(file, modules = {}, globals = {}) {
 }
 // Runs actual component code with controlled React hooks/device boundaries.
 // This checks behavior, not native layout or real SecureStore; Android remains a required gate.
-export function nativeHarness(file, modules = {}) {
+export function nativeHarness(file, modules = {}, globals = {}) {
   const states = [], refs = [], effects = [], memos = [], pending = [];
   let si, ri, ei, mi;
   const jsx = (type, props, key) => ({ type, props: props ?? {}, key });
@@ -63,7 +63,7 @@ export function nativeHarness(file, modules = {}) {
     "expo-status-bar": { StatusBar: "StatusBar" }, "expo-secure-store": {}, "expo-speech": {},
     "expo-camera": {}, "react-native-qrcode-svg": "QRCode", ...modules,
     react: { ...react, ...modules.react },
-  });
+  }, globals);
   return {
     render(component, ...args) {
       si = ri = ei = mi = 0;

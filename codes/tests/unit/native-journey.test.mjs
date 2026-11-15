@@ -263,6 +263,7 @@ test("Journey renders all four exam states separately and keeps service/return d
       useLoad: () => ({ data: visit }),
       useAction: () => ({}),
       useNarration: () => ({}),
+      useVisitEvents: () => {},
     },
   });
   const props = { id: "visit", onHelp() {}, onResults() {}, onDirections() {} };
