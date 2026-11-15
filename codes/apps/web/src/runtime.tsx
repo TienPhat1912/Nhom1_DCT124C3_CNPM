@@ -31,6 +31,49 @@ export const api: typeof client = async (...args) => {
     throw e;
   }
 };
+// Tab-local snapshots are removed at every authentication boundary.
+export function clearOfflineSnapshots() {
+  try {
+    for (const key of Object.keys(sessionStorage))
+      if (
+        key.startsWith("hospital.cache:") ||
+        key === "hospital.offline-session"
+      )
+        sessionStorage.removeItem(key);
+  } catch {
+    /* Storage can be disabled by browser policy. */
+  }
+}
+export function rememberSession(session: Session) {
+  try {
+    sessionStorage.setItem(
+      "hospital.offline-session",
+      JSON.stringify({ ...session, token: undefined }),
+    );
+  } catch {
+    /* Offline reload is optional when storage is unavailable. */
+  }
+}
+export function offlineSession(): Session | null {
+  try {
+    const session = JSON.parse(
+      sessionStorage.getItem("hospital.offline-session") ?? "null",
+    ) as Session | null;
+    if (
+      session?.role === "Patient" &&
+      Date.parse(
+        session.expiresAt.endsWith("Z")
+          ? session.expiresAt
+          : session.expiresAt + "Z",
+      ) > Date.now()
+    )
+      return session;
+  } catch {
+    /* Ignore invalid or expired snapshots. */
+  }
+  clearOfflineSnapshots();
+  return null;
+}
 export type Runtime = {
   session: Session;
   config: Configuration;
@@ -45,10 +88,21 @@ export function useRuntime() {
   if (!value) throw new Error("Runtime context missing");
   return value;
 }
+function aggregateVersion(data: unknown) {
+  return data && typeof data === "object" && "version" in data
+    ? Number(data.version)
+    : 0;
+}
+function resourceIdentity(value: string) {
+  const url = new URL(value, "http://hospital.local");
+  url.searchParams.delete("language");
+  return url.href;
+}
 export function useResource<T>(
   path: string | null,
   poll = false,
   keepPreviousOnLanguageChange = false,
+  cacheScope?: string,
 ) {
   const locale = useContext(RuntimeContext)?.locale;
   if (path && locale && !/[?&]language=/.test(path))
@@ -58,6 +112,8 @@ export function useResource<T>(
     data: T;
     updated: Date;
   } | null>(null);
+  const [stale, setStale] = useState(false);
+  const latest = useRef<{ path: string; data: T } | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [loading, setLoading] = useState(false);
   const [tick, setTick] = useState(0);
@@ -65,6 +121,31 @@ export function useResource<T>(
   const refresh = useCallback(() => setTick((v) => v + 1), []);
   useEffect(() => {
     if (!path) return;
+    const cacheKey = cacheScope ? `hospital.cache:${cacheScope}:${path}` : null;
+    if (cacheKey) {
+      try {
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+          const snapshot = JSON.parse(cached) as { data: T; updated: string };
+          const previous = latest.current;
+          if (!(
+            previous &&
+            resourceIdentity(previous.path) === resourceIdentity(path) &&
+            aggregateVersion(previous.data) > aggregateVersion(snapshot.data)
+          )) {
+            latest.current = { path, data: snapshot.data };
+            setState({
+              path,
+              data: snapshot.data,
+              updated: new Date(snapshot.updated),
+            });
+            setStale(true);
+          }
+        }
+      } catch {
+        /* Storage is optional; fetching still works. */
+      }
+    }
     let active = true;
     let controller: AbortController | undefined;
     const load = async () => {
@@ -81,7 +162,30 @@ export function useResource<T>(
           controller.signal,
         );
         if (active && seq === sequence.current) {
-          setState({ path, data, updated: new Date() });
+          // Request ordering alone cannot prevent an older server snapshot from
+          // replacing a newer aggregate (for example after reconnecting).
+          const previous = latest.current;
+          if (
+            cacheScope &&
+            previous &&
+            resourceIdentity(previous.path) === resourceIdentity(path) &&
+            aggregateVersion(data) < aggregateVersion(previous.data)
+          )
+            return;
+          const updated = new Date();
+          latest.current = { path, data };
+          setState({ path, data, updated });
+          setStale(false);
+          if (cacheKey) {
+            try {
+              sessionStorage.setItem(
+                cacheKey,
+                JSON.stringify({ data, updated }),
+              );
+            } catch {
+              /* Private mode or a full cache must not break the screen. */
+            }
+          }
           setError(null);
         }
       } catch (e) {
@@ -96,23 +200,21 @@ export function useResource<T>(
           if (document.visibilityState === "visible") void load();
         }, 5000)
       : undefined;
+    const offline = () => setStale(true);
+    window.addEventListener("offline", offline);
     window.addEventListener("online", load);
     window.addEventListener("focus", load);
     return () => {
       active = false;
       controller?.abort();
       clearInterval(timer);
+      window.removeEventListener("offline", offline);
       window.removeEventListener("online", load);
       window.removeEventListener("focus", load);
     };
-  }, [path, poll, tick]);
+  }, [path, poll, tick, cacheScope]);
   // Keep mounted screens while translating the same resource. Other query
   // changes (including pagination) and different records still clear old data.
-  const resourceIdentity = (value: string) => {
-    const url = new URL(value, "http://hospital.local");
-    url.searchParams.delete("language");
-    return url.href;
-  };
   const visible =
     state &&
     path &&
@@ -123,6 +225,7 @@ export function useResource<T>(
     data: visible ? state.data : null,
     updated: visible ? state.updated : null,
     error,
+    stale: !!visible && (stale || state?.path !== path),
     loading,
     refresh,
   };

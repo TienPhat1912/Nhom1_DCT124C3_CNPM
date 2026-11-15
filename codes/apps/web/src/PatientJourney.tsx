@@ -41,11 +41,12 @@ export function PatientJourney({
   onSelected: (id: string) => void;
   onResults: () => void;
 }) {
-  const { t, locale } = useRuntime();
+  const { t, locale, session } = useRuntime();
   const resource = useResource<Visit>(
     id ? `/api/visits/${id}?language=${locale}` : null,
     true,
     true,
+    `journey:${session.sessionId}`,
   );
   const mutation = useMutation();
   const [modal, setModal] = useState<
@@ -91,6 +92,11 @@ export function PatientJourney({
             <span>
               {t("ticket")}: <strong>{v.ticketNumber}</strong>
             </span>
+            {v.examStatus && (
+              <span data-testid="exam-status">
+                {t("examStatus")}: <Status value={v.examStatus} />
+              </span>
+            )}
             <span>
               {t("visitStatus")}: <Status value={v.status} />
             </span>
@@ -130,12 +136,14 @@ export function PatientJourney({
                     <span className="eyebrow">{t("currentStep")}</span>
                     <Status value={step.status} />
                   </div>
-                  <h2>{t(step.kind)}</h2>
+                  <h2>{t(step.kind === "Service" ? "services" : step.kind)}</h2>
                   <div className="next-action">
                     <span>{t("nextAction")}</span>
                     <p>{step.text ?? t("help")}</p>
                     <small>
-                      {step.status === "Ready" ? t("proceed") : t("wait")}
+                      {v.examStatus === "Waiting" ? t("waitingForConsultation") :
+                        v.examStatus === "InConsultation" ? t("InConsultation") :
+                        step.status === "Ready" ? t("proceed") : t("wait")}
                     </small>
                   </div>
                   {step.fallback && (
@@ -183,7 +191,7 @@ export function PatientJourney({
                     </Button>
                   )}
                   {speech.error && <Notice kind="error">{speech.error}</Notice>}
-                  {step.canCompleteGuidance && (
+                  {!v.examStatus && step.canCompleteGuidance && (
                     <div className="final-guidance">
                       <p>{t("guidanceOnly")}</p>
                       <Button
@@ -210,9 +218,9 @@ export function PatientJourney({
               </div>
               <aside className="queue-card">
                 <span className="eyebrow">{t("queue")}</span>
-                <strong>{step.queueNumber || v.ticketNumber}</strong>
+                <strong>{v.examStatus ? v.ticketNumber : step.queueNumber || v.ticketNumber}</strong>
                 <Status value={step.queueStatus} />
-                <p>{t("wait")}</p>
+                <p>{t(v.examStatus === "Waiting" ? "waitingForConsultation" : v.examStatus ?? "wait")}</p>
                 <small>{dateText(step.queueUpdatedAt, locale)}</small>
               </aside>
             </div>
@@ -289,7 +297,7 @@ function TimelineStep({
         {step.status === "Completed" ? <Check size={17} /> : number}
       </div>
       <div>
-        <strong>{t(step.kind)}</strong>
+        <strong>{t(step.kind === "Service" ? "services" : step.kind)}</strong>
         <p>
           {step.destination.name ?? step.destination.nameVi} · {t("room")}{" "}
           {step.destination.room}

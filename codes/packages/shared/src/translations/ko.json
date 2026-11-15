@@ -1,4 +1,6 @@
 {
+  "examStatus": "진찰 상태",
+  "waitingForConsultation": "진료표에 표시된 진료실에서 기다려 주세요.",
   "guestTicketLookup": "접수표 검색 및 게스트 접근 복구",
   "ticketNumber": "접수 번호",
   "ticketDate": "접수표 발행일",

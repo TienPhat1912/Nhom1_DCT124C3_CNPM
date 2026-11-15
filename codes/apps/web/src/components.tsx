@@ -176,6 +176,7 @@ export function ResourceState({
     loading: boolean;
     refresh: () => void;
     updated?: Date | null;
+    stale?: boolean;
   };
   empty?: string;
 }) {
@@ -194,6 +195,8 @@ export function ResourceState({
         </Button>
       </Notice>
     );
+  if (resource.data && resource.stale)
+    return <Notice>{t("stale")} {resource.updated?.toLocaleTimeString()}</Notice>;
   if (!resource.data && resource.loading)
     return (
       <div className="empty">

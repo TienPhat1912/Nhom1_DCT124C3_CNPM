@@ -1,4 +1,6 @@
 {
+  "examStatus": "診察状態",
+  "waitingForConsultation": "受診票に記載された診察室でお待ちください。",
   "guestTicketLookup": "受付票を検索してゲスト利用を復元",
   "ticketNumber": "受付番号",
   "ticketDate": "発行日",

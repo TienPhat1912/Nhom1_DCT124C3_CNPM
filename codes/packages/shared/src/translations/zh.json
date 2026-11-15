@@ -1,4 +1,6 @@
 {
+  "examStatus": "检查状态",
+  "waitingForConsultation": "请在就诊单上的诊室等候就诊。",
   "guestTicketLookup": "查找票据并恢复访客访问",
   "ticketNumber": "票号",
   "ticketDate": "发票日期",

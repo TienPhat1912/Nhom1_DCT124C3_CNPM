@@ -199,6 +199,11 @@ try {
     Invoke-Checked 'node' @('--test', 'tests/unit/native-assistance.test.mjs')
     Invoke-Checked 'node' @('tests/translation/run-assistance.mjs')
     Invoke-Checked 'node' @('tests/recovery/run.mjs')
+    # Recovery owns and stops its API process. WEB_URL still targets this
+    # runner's port, so the Journey browser suite needs its own live server.
+    $apiProcess = Start-TestApi 'native-journey-browser'
+    Invoke-Checked 'npx.cmd' @('playwright', 'test', '--config', 'playwright.journey.config.ts')
+    Stop-TestApi
     $env:Workflow__PrdV2Enabled = 'false'
     Invoke-Checked 'powershell' @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', 'tests/catalog/pb005.ps1', '-SqlServer', $SqlServer, '-Port', '5295')
     foreach ($mode in @('Timeout', 'Unavailable')) {

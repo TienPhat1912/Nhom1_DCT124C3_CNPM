@@ -6,6 +6,8 @@ import ru from "./translations/ru.json" with { type: "json" };
 
 export const messages = {
   vi: {
+    examStatus: "Trạng thái khám",
+    waitingForConsultation: "Chờ khám tại phòng khám trên phiếu.",
     guestTicketLookup: "Tra cứu phiếu và khôi phục Guest",
     ticketNumber: "Số phiếu",
     ticketDate: "Ngày cấp phiếu",
@@ -430,6 +432,8 @@ export const messages = {
     requestTranslation: "Description translated into Vietnamese",
     translationNotRequired: "The description is already Vietnamese or empty; translation is unnecessary.",
     requestTranslationUnavailable: "Description translation is unavailable. Read the original or retry.",
+    examStatus: "Examination status",
+    waitingForConsultation: "Wait for consultation at the clinic on your ticket.",
     InService: "Undergoing service",
     NotCompleted: "Not completed",
     previewStale: "The preview changed or expired. Review the order again before confirming.",

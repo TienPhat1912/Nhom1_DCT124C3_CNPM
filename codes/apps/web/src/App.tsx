@@ -1,4 +1,4 @@
-import { languages, normalizeLocale } from "@hospital/shared";
+import { ApiError, languages, normalizeLocale } from "@hospital/shared";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Bell,
@@ -27,6 +27,9 @@ import {
 } from "@hospital/shared";
 import {
   api,
+  clearOfflineSnapshots,
+  rememberSession,
+  offlineSession,
   RuntimeContext,
   useMutation,
   useResource,
@@ -83,6 +86,8 @@ export default function App() {
       if (sessionId.current)
         history.replaceState(null, "", location.pathname + location.search);
     }
+    if (sessionId.current !== (next?.sessionId ?? null)) clearOfflineSnapshots();
+    if (next) rememberSession(next);
     sessionId.current = next?.sessionId ?? null;
     setSession(next);
   }, []);
@@ -92,6 +97,7 @@ export default function App() {
     `/api/config?language=${locale}`,
     true,
     true,
+    "config",
   );
   const t = useMemo(() => translator(locale), [locale]);
   useEffect(() => {
@@ -102,9 +108,18 @@ export default function App() {
     void api<Session>("/api/auth/session")
       .then((s) => {
         sessionId.current = s.sessionId;
+        rememberSession(s);
         setSession(s);
       })
-      .catch(() => {})
+      .catch((error: unknown) => {
+        // An HTTP auth denial is authoritative. Only transport failures may
+        // restore an unexpired patient shell; server commands still need auth.
+        if (error instanceof ApiError && error.problem.status === 0) {
+          const cached = offlineSession();
+          sessionId.current = cached?.sessionId ?? null;
+          setSession(cached);
+        } else clearOfflineSnapshots();
+      })
       .finally(() => setReady(true));
     const expire = () => {
       updateSession(null);
@@ -209,6 +224,12 @@ function Workspace() {
     visits.data?.find((v) => v.journeyStatus !== "Completed")?.id ??
     visits.data?.[0]?.id ??
     null;
+  useEffect(() => {
+    if (patient && page === "journey" && visitId && !selected) {
+      setSelected(visitId);
+      window.history.replaceState(null, "", `#visit=${encodeURIComponent(visitId)}`);
+    }
+  }, [patient, page, visitId, selected]);
   const selectVisit = (id: string, target: Page = "journey") => {
     window.history.replaceState(null, "", `#visit=${encodeURIComponent(id)}`);
     setSelected(id);
@@ -379,7 +400,6 @@ function Workspace() {
                     if (result) {
                       selectVisit(result.visitId);
                       setPendingQr(null);
-                      history.replaceState(null, "", location.pathname);
                     }
                   }}
                 >
@@ -406,7 +426,7 @@ function Workspace() {
                     {t("selectVisit")}
                     <select
                       value={visitId ?? ""}
-                      onChange={(e) => setSelected(e.target.value)}
+                      onChange={(e) => selectVisit(e.target.value, page)}
                     >
                       {visits.data.map((v) => (
                         <option key={v.id} value={v.id}>

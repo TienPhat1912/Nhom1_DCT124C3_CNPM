@@ -147,6 +147,8 @@ test("cashier settles both outcomes and patient observes completed journey", asy
         .getByRole("button", { name: "My journey", exact: true })
         .click();
       await expect(patientPage.locator(".visit-meta")).toContainText("Active");
+      await expect(patientPage.getByTestId("exam-status")).toContainText("Completed");
+      await expect(patientPage.locator(".completion-card")).toHaveCount(0);
       await page.goto("/");
       const workspace = page.getByTestId("cashier-settlements");
       await workspace

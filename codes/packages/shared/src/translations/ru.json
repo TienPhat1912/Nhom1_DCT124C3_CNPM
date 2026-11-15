@@ -1,4 +1,6 @@
 {
+  "examStatus": "Статус осмотра",
+  "waitingForConsultation": "Ожидайте приема в кабинете, указанном в талоне.",
   "guestTicketLookup": "Поиск талона и восстановление доступа гостя",
   "ticketNumber": "Номер талона",
   "ticketDate": "Дата выдачи талона",
