@@ -12,6 +12,7 @@ export function deferred() {
 export function loadNative(file, modules = {}, globals = {}) {
   const exports = {};
   const compiled = ts.transpileModule(readFileSync(new URL(`../../apps/mobile/src/${file}`, import.meta.url), "utf8"), {
+    fileName: file,
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
   }).outputText;
   vm.runInNewContext(compiled, { exports, URL, URLSearchParams, AbortController, process: { env: {} },
@@ -48,7 +49,7 @@ export function nativeHarness(file, modules = {}) {
   const names = ["Btn", "Card", "Choice", "Feedback", "Input", "Txt", "Badge", "LoadingState", "DestinationBlock"];
   const ui = Object.fromEntries(names.map(n => [n, n]));
   const exports = loadNative(file, {
-    react, "react/jsx-runtime": { jsx, jsxs: jsx, Fragment: "Fragment" },
+    "react/jsx-runtime": { jsx, jsxs: jsx, Fragment: "Fragment" },
     "react-native": { View: "View", ScrollView: "ScrollView", Pressable: "Pressable", ActivityIndicator: "ActivityIndicator",
       KeyboardAvoidingView: "KeyboardAvoidingView", Platform: { OS: "android" },
       BackHandler: { addEventListener: () => ({ remove() {} }) } },
@@ -61,15 +62,17 @@ export function nativeHarness(file, modules = {}) {
     "react-native-safe-area-context": { SafeAreaProvider: "SafeAreaProvider", SafeAreaView: "SafeAreaView" },
     "expo-status-bar": { StatusBar: "StatusBar" }, "expo-secure-store": {}, "expo-speech": {},
     "expo-camera": {}, "react-native-qrcode-svg": "QRCode", ...modules,
+    react: { ...react, ...modules.react },
   });
   return {
-    render(component, props = {}) {
+    render(component, ...args) {
       si = ri = ei = mi = 0;
-      const tree = exports[component](props);
+      const tree = exports[component](...args);
       while (pending.length) pending.shift()();
       return tree;
     },
     unmount() { effects.forEach(e => e.cleanup?.()); },
+    exports,
   };
 }
 export function all(tree, predicate) {

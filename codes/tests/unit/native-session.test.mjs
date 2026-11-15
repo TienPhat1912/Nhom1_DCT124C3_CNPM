@@ -38,6 +38,7 @@ function harness(file, modules = {}) {
     react,
     'react/jsx-runtime': { jsx, jsxs: jsx, Fragment: 'Fragment' },
     'react-native': {
+      AppState: { addEventListener: () => ({ remove() {} }) },
       View: 'View', ScrollView: 'ScrollView', Pressable: 'Pressable', ActivityIndicator: 'ActivityIndicator',
       KeyboardAvoidingView: 'KeyboardAvoidingView', Platform: { OS: 'android' },
       Linking: { getInitialURL: async () => null, addEventListener: () => ({ remove() {} }) },
@@ -121,6 +122,7 @@ test('native session changes unmount private screens and stop audio before devic
   const h = harness('App.tsx', {
     'expo-speech': { stop: async () => { stops++; } },
     './runtime': {
+      journeyStore: { saveConfig: async () => {} },
       NativeContext: context, setApiLocale() {}, localizedError: () => '',
       nativeApi: async () => ({ demo: false }), restoreSession: async () => guest,
       saveSession: async s => { saved.push(s); await new Promise(resolve => { finishStorage = resolve; }); },

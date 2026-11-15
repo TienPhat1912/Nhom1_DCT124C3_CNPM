@@ -53,6 +53,7 @@ function harness() {
     },
     "react-native": { AppState: {} },
     "expo-secure-store": {},
+    "./journeyState": { createJourneyStore: () => ({}) },
     "./receptionState": { createReceptionStore: () => ({}) },
     "expo-speech": speech,
     "@hospital/shared": {

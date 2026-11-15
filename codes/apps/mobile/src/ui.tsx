@@ -169,6 +169,7 @@ export function LoadingState({
     error: unknown;
     loading: boolean;
     updatedAt?: string | null;
+    stale?: boolean;
     refresh: () => void;
   };
 }) {
@@ -182,6 +183,9 @@ export function LoadingState({
         />
       )}
       <Feedback error={resource.error} locale={locale} />
+      {!resource.error && resource.data && resource.stale ? (
+        <Txt tone="muted">{t("stale")} ? {dateText(resource.updatedAt, locale)}</Txt>
+      ) : null}
       {resource.error ? (
         <>
           {resource.data && (
@@ -260,6 +264,7 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     textAlign: "center",
+    flexShrink: 1,
   },
   secondaryButton: {
     backgroundColor: "white",

@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | In progress — code/test logic và export đạt; chờ build APK/nghiệm thu native |
+| Người nhận | Codex (theo yêu cầu người dùng) |
 | Reviewer | Chưa phân công |
 | Nhóm | Mobile |
 | Ưu tiên | P0 |
@@ -44,6 +44,25 @@ Runtime/Journey mobile dùng chung PB-025/029; tránh cùng sửa lúc đang In 
 Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merge; chỉ coi Ready và merge khi đã có các dependency, không tham chiếu mã chưa tồn tại. Nếu cần đổi hợp đồng chung, cập nhật hợp đồng và trao đổi với người nhận task phụ thuộc trước khi viết phần còn lại.
 
 ## Bàn giao
+
+Triển khai trên `feat/pb-022-mobile-journey`, base `f96912a` từ main đã merge PB-021.
+Hành vi, lưu cache, quyền và lệnh chạy: [PB-022 mobile Journey](../../../codes/docs/requirements/PB-022-MOBILE-JOURNEY.md).
+
+- Tách ExamStatus/Visit/Journey; hiển thị điểm dịch vụ và trở về phòng cũ theo
+  snapshot API, giữ số phiếu, tự hiện hoàn tất sau quyết toán, không có nút
+  kích hoạt hoặc tự hoàn tất nhà thuốc trong Journey.
+- Cache SecureStore theo session, bảo toàn bản commit khi ghi bị gián đoạn,
+  chặn response/version cũ và xóa snapshot khi đổi phiên/denied/logout/hết hạn.
+  Restart offline chỉ mở dữ liệu đã xem khi phiên Patient còn hạn; deep link
+  mới không tự cấp quyền. Có nhãn dữ liệu cũ, poll/retry/foreground refresh.
+- Test native mới và runner Android đã thêm; CI application chạy test logic.
+  Chưa có bằng chứng runner Android/font scaling/thiết bị thực đã đạt.
+- `npm run typecheck`, `npm run lint` và export bundle Android đã đạt trong
+  quá trình triển khai. Kết quả lượt chốt ghi trong tài liệu PB-022.
+- Build APK bằng `scripts/build/build-android.ps1` dừng ở prerequisite
+  `Android SDK platform 36 is required`; máy không có SDK/adb/emulator.
+  Không đánh Done hoặc coi export bundle là native build/acceptance.
+
 
 - [ ] Hoàn tất tiêu chí ở trên và quy ước Done.
 - [ ] PR ghi mã PB-022, mô tả hành vi trước/sau, kiểm chứng và migration nếu có.
