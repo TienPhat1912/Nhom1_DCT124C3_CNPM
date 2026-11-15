@@ -84,15 +84,19 @@ export default function App() {
   const loadConfig = async (language: Locale) => {
     const generation = ++configGeneration.current;
     try {
-      const value = await nativeApi<Configuration>(`/api/config?language=${language}`);
+      const value = await nativeApi<Configuration>(
+        `/api/config?language=${language}`,
+      );
       if (generation === configGeneration.current) {
         configLanguage.current = language;
         setConfig(value);
       }
       void journeyStore.saveConfig(language, value).catch(() => {});
     } catch (error) {
-      const cached = error instanceof ApiError && error.problem.status === 0
-        ? await journeyStore.readConfig(language) : null;
+      const cached =
+        error instanceof ApiError && error.problem.status === 0
+          ? await journeyStore.readConfig(language)
+          : null;
       if (!cached) throw error;
       if (generation === configGeneration.current) {
         configLanguage.current = language;
@@ -115,7 +119,9 @@ export default function App() {
     // Config may have loaded before login. Persist it as soon as the session
     // exists so an immediate offline restart does not wait for the next poll.
     if (session && config)
-      void journeyStore.saveConfig(configLanguage.current, config).catch(() => {});
+      void journeyStore
+        .saveConfig(configLanguage.current, config)
+        .catch(() => {});
   }, [session?.sessionId, config]);
   const updateSession = useCallback(async (s: Session | null) => {
     if (sessionId.current !== (s?.sessionId ?? null)) {
@@ -194,14 +200,19 @@ export default function App() {
       const remaining = expiry - Date.now();
       if (!Number.isFinite(remaining) || remaining <= 0) {
         void updateSession(null);
-        setError(new ApiError({ status: 401, title: "sessionExpired", detail: "" }));
+        setError(
+          new ApiError({ status: 401, title: "sessionExpired", detail: "" }),
+        );
       } else timer = setTimeout(check, Math.min(remaining, 2_147_483_647));
     };
     check();
-    const listener = AppState.addEventListener("change", state => {
+    const listener = AppState.addEventListener("change", (state) => {
       if (state === "active") check();
     });
-    return () => { clearTimeout(timer); listener.remove(); };
+    return () => {
+      clearTimeout(timer);
+      listener.remove();
+    };
   }, [session, updateSession]);
   const api = useCallback<ApiClient>(
     async (...args) => {
@@ -237,6 +248,7 @@ export default function App() {
               value={{
                 session,
                 config,
+                configLocale: configLanguage.current,
                 locale,
                 setLocale,
                 updateSession,
@@ -284,6 +296,7 @@ export function PatientApp({
   const selectionChanged = useRef(false);
   const [step, setStep] = useState<Step | null>(null);
   const [helpStep, setHelpStep] = useState<string | undefined>();
+  const [routeAutoplay, setRouteAutoplay] = useState(true);
   const [offset, setOffset] = useState(0);
   const historyPage = useLoad<VisitSummary[]>(
     page === "history" ? `/api/visits?offset=${offset}` : null,
@@ -306,15 +319,26 @@ export function PatientApp({
     });
     return () => handler.remove();
   }, [page]);
-  const checkEntry = useCallback(async (visitId: string) => {
-    try { await api(`/api/visits/${visitId}`); }
-    catch (error) {
-      // Offline navigation is limited to a snapshot this same session already
-      // obtained from the server. A new URI never grants access to records.
-      if (!(error instanceof ApiError) || error.problem.status !== 0 ||
-          !await journeyStore.read(session.sessionId, `/api/visits/${visitId}?language=${locale}`)) throw error;
-    }
-  }, [api, session.sessionId, locale]);
+  const checkEntry = useCallback(
+    async (visitId: string) => {
+      try {
+        await api(`/api/visits/${visitId}`);
+      } catch (error) {
+        // Offline navigation is limited to a snapshot this same session already
+        // obtained from the server. A new URI never grants access to records.
+        if (
+          !(error instanceof ApiError) ||
+          error.problem.status !== 0 ||
+          !(await journeyStore.read(
+            session.sessionId,
+            `/api/visits/${visitId}?language=${locale}`,
+          ))
+        )
+          throw error;
+      }
+    },
+    [api, session.sessionId, locale],
+  );
   useEffect(() => {
     let active = true;
     if (pending?.startsWith("visit:")) {
@@ -494,19 +518,22 @@ export function PatientApp({
         {page === "reception" && (
           <Reception onVisit={choose} onProfile={() => setPage("profile")} />
         )}
-        {page === "journey" && (
-          <Journey
-            id={id}
-            onResults={() => setPage("results")}
-            onHelp={(step) => {
-              setHelpStep(step);
-              setPage("help");
-            }}
-            onDirections={(step) => {
-              setStep(step);
-              setPage("directions");
-            }}
-          />
+        {(page === "journey" || page === "directions") && (
+          <View style={{ display: page === "journey" ? "flex" : "none" }}>
+            <Journey
+              id={id}
+              onResults={() => setPage("results")}
+              onHelp={(step) => {
+                setHelpStep(step);
+                setPage("help");
+              }}
+              onDirections={(step, autoplay = true) => {
+                setRouteAutoplay(autoplay);
+                setStep(step);
+                setPage("directions");
+              }}
+            />
+          </View>
         )}
         {page === "results" && <Results key={id} id={id} />}
         {page === "scan" && (
@@ -521,6 +548,7 @@ export function PatientApp({
         )}
         {page === "directions" && id && step && (
           <DirectionsScreen
+            autoplay={routeAutoplay}
             visitId={id}
             onHelp={(stepId) => {
               setHelpStep(stepId);

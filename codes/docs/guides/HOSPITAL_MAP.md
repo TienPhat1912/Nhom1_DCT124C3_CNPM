@@ -2,11 +2,16 @@
 
 Mở **Hành trình → Chỉ đường** trên web hoặc Android:
 
-Mặc định PB-034 mở **Mô phỏng RTLS** tại Cổng 1. Chọn điểm đầu, bấm
-**Bắt đầu / tiếp tục**, rồi xác nhận ở mỗi điểm hướng dẫn; có pause/reset,
-thử lệch tuyến và mất/stale tín hiệu. Mỗi chặng demo 5 giây, dừng ít nhất
-1 giây; không phải vị trí thiết bị hoặc thời gian đi bộ thực. Chưa nối TTS
-theo vị trí. Xem [hướng dẫn và hợp đồng PB-034](../requirements/PB-034-RTLS-SIMULATION.md).
+Mặc định mở **Mô phỏng RTLS** tại Cổng 1 và tự đọc chỉ dẫn theo lựa chọn
+tự phát của Journey. Sau khi đọc xong và dừng tối thiểu 1 giây, marker đi
+theo chặng khoảng 5 giây; đến điểm hướng dẫn tiếp thì dừng và đọc tiếp.
+Tắt tự phát vẫn hiển thị chữ và tự di chuyển sau thời gian dừng; bấm nghe
+lại để đọc chỉ dẫn hiện tại. Có tạm dừng/tiếp tục, đặt lại, đổi điểm đầu,
+thử lệch tuyến và mất/tín hiệu cũ. Journey/gọi số được ưu tiên và tạm dừng
+dẫn đường; trở lại từ nền hoặc khôi phục tín hiệu cần bấm tiếp tục.
+Đây là tốc độ/vị trí trình diễn, không phải vị trí thiết bị hoặc thời gian
+đi bộ thực. Xem [thuyết minh PB-026](../requirements/PB-026-ROUTE-NARRATION.md)
+và [nguồn vị trí PB-034](../requirements/PB-034-RTLS-SIMULATION.md).
 
 Chọn **Thủ công** để dùng quy trình chọn vị trí và đọc tuyến tĩnh bên dưới:
 

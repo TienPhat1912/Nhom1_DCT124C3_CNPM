@@ -1,8 +1,9 @@
 import { expect, type Page } from "@playwright/test";
 import { mapDepartments, mappedJourneyRooms } from "@hospital/shared";
-export async function mapFixture(page: Page, manual = true) {
+export async function mapFixture(page: Page, manual = true, autoplay = true) {
   let destination = { ...mappedJourneyRooms[0] };
   let version = 1;
+  let announcing = false;
   const mutations: string[] = [];
   await page.addInitScript(() => {
     localStorage.setItem("hospital.language", "en");
@@ -25,6 +26,13 @@ export async function mapFixture(page: Page, manual = true) {
         },
         speak(u: SpeechSynthesisUtterance) {
           calls.push(u);
+          const mode = (window as unknown as { routeSpeechMode?: string })
+            .routeSpeechMode;
+          if (mode === "throw") throw new Error("blocked");
+          if (mode === "blocked")
+            u.onerror?.call(u, {
+              error: "not-allowed",
+            } as SpeechSynthesisErrorEvent);
         },
       },
     });
@@ -46,6 +54,9 @@ export async function mapFixture(page: Page, manual = true) {
           kind: "Consultation",
           status: "Ready",
           queueStatus: "Waiting",
+          templateVersion: announcing ? 1 : undefined,
+          text: announcing ? "Priority queue call" : undefined,
+          contentLanguage: "en",
           destination,
         },
       ],
@@ -56,7 +67,15 @@ export async function mapFixture(page: Page, manual = true) {
         ? {
             name: "Map demo",
             catalogVersion: "pb033",
-            departments: mapDepartments.map((d) => ({ ...d, active: true })),
+            departments: mapDepartments.map((d) => ({
+              ...d,
+              name:
+                new URL(route.request().url()).searchParams.get("language") ===
+                "vi"
+                  ? d.nameVi
+                  : d.nameEn,
+              active: true,
+            })),
             services: [],
             locations: [
               ...mappedJourneyRooms.map((r) => ({
@@ -94,12 +113,21 @@ export async function mapFixture(page: Page, manual = true) {
             }
           : path === "/api/visits"
             ? [visit]
-            : path === "/api/visits/map-layout"
-              ? visit
-              : [];
+            : path === "/api/visits/map-layout/narration"
+              ? { text: "Priority queue call", language: "en", revision: 1 }
+              : path === "/api/visits/map-layout"
+                ? visit
+                : [];
     await route.fulfill({ json: data });
   });
   await page.goto("/#visit=map-layout");
+  if (manual || !autoplay)
+    await page
+      .getByRole("checkbox", {
+        name: "Automatically read instructions and queue calls",
+        exact: true,
+      })
+      .uncheck();
   await page.getByRole("button", { name: "Directions", exact: true }).click();
   const dialog = page.getByRole("dialog");
   if (manual)
@@ -108,9 +136,24 @@ export async function mapFixture(page: Page, manual = true) {
     "data-space",
     "campus",
   );
+  if (!manual && !autoplay)
+    await dialog
+      .getByRole("checkbox", {
+        name: "Automatically read directions",
+        exact: true,
+      })
+      .uncheck();
   return {
     dialog,
     mutations,
+    async announce() {
+      announcing = true;
+      version++;
+      await page.evaluate(() => window.dispatchEvent(new Event("focus")));
+      await expect(
+        page.getByRole("button", { name: "Listen", exact: true }),
+      ).toBeEnabled();
+    },
     async target(room: string) {
       destination = {
         ...destination,

@@ -77,6 +77,7 @@ export function offlineSession(): Session | null {
 export type Runtime = {
   session: Session;
   config: Configuration;
+  configLocale?: Locale;
   locale: Locale;
   setLocale: (l: Locale) => void;
   setSession: (s: Session | null) => void;
@@ -223,6 +224,11 @@ export function useResource<T>(
         resourceIdentity(state.path) === resourceIdentity(path)));
   return {
     data: visible ? state.data : null,
+    dataLocale: visible
+      ? normalizeLocale(
+          new URLSearchParams(state.path.split("?")[1] ?? "").get("language"),
+        )
+      : null,
     updated: visible ? state.updated : null,
     error,
     stale: !!visible && (stale || state?.path !== path),

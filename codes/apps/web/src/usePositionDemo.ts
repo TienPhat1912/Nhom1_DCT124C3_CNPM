@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 import {
   DemoPositionSource,
+  positionGraphIdentity,
   type MapGraph,
   type PositionSnapshot,
 } from "@hospital/shared";
@@ -10,6 +11,7 @@ export function usePositionDemo(
   targetId: string | null,
   contextKey?: string,
 ) {
+  const geometry = useMemo(() => positionGraphIdentity(graph), [graph]);
   const [controller, setController] = useState<DemoPositionSource | null>(null);
   const [snapshot, setSnapshot] = useState<PositionSnapshot | null>(null);
   useEffect(() => {
@@ -21,7 +23,10 @@ export function usePositionDemo(
       unsubscribe();
       source.dispose();
     };
-  }, [graph]);
+  }, [geometry]);
+  useEffect(() => {
+    controller?.refreshLabels(graph);
+  }, [controller, graph]);
   useEffect(() => {
     controller?.setTarget(targetId);
   }, [controller, targetId, contextKey]);

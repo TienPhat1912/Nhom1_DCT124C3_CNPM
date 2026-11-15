@@ -30,6 +30,7 @@ jobs:
       - run: npm run test:journey:native
       - run: npm run test:map:unit && npm run test:directory:unit
       - run: npm run test:position:unit
+      - run: npm run test:route:unit
       - run: npm run test:reception:unit
       - run: dotnet restore --locked-mode && dotnet build -c Release --no-restore
       - run: npm run test:translation
@@ -60,6 +61,7 @@ jobs:
             codes/artifacts/mobile-android/
             codes/artifacts/pb033/
             codes/artifacts/pb034/
+            codes/artifacts/pb026/
           retention-days: 7
   deploy:
     needs: application

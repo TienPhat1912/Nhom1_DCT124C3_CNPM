@@ -1,6 +1,9 @@
+import { deviceAudio } from "./deviceAudio";
+import type { AudioLease } from "@hospital/shared";
 import { speechLocale, voiceMatches } from "@hospital/shared";
 import { useEffect, useRef, useState } from "react";
 import * as Speech from "expo-speech";
+import { AppState } from "react-native";
 import type { Locale } from "@hospital/shared";
 
 export function useRouteSpeech(
@@ -11,22 +14,43 @@ export function useRouteSpeech(
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState("");
   const generation = useRef(0);
+  const lease = useRef<AudioLease | null>(null);
+  const release = () => {
+    lease.current?.release();
+    lease.current = null;
+  };
   const stop = () => {
     generation.current++;
-    void Speech.stop().catch(() => {});
+    if (lease.current?.valid() || deviceAudio.priority() === null)
+      void Speech.stop().catch(() => {});
+    release();
     setPlaying(false);
   };
   useEffect(() => {
+    const subscription = AppState.addEventListener("change", (state) => {
+      if (state !== "active") stop();
+    });
     generation.current++;
-    void Speech.stop().catch(() => {});
+    if (lease.current?.valid() || deviceAudio.priority() === null)
+      void Speech.stop().catch(() => {});
+    release();
     setPlaying(false);
     setError("");
     return () => {
+      subscription.remove();
       generation.current++;
-      void Speech.stop().catch(() => {});
+      if (lease.current?.valid() || deviceAudio.priority() === null)
+        void Speech.stop().catch(() => {});
+      release();
     };
   }, [text, locale]);
   const play = async () => {
+    stop();
+    lease.current = deviceAudio.acquire("route", stop, 15000);
+    if (!lease.current) {
+      setError(unavailable);
+      return;
+    }
     const seq = ++generation.current;
     setError("");
     try {
@@ -42,20 +66,28 @@ export function useRouteSpeech(
         voice: voice.identifier,
         rate: 0.9,
         onDone: () => {
-          if (seq === generation.current) setPlaying(false);
+          if (seq === generation.current) {
+            setPlaying(false);
+            release();
+          }
         },
         onStopped: () => {
-          if (seq === generation.current) setPlaying(false);
+          if (seq === generation.current) {
+            setPlaying(false);
+            release();
+          }
         },
         onError: () => {
           if (seq === generation.current) {
             setPlaying(false);
+            release();
             setError(unavailable);
           }
         },
       });
     } catch {
       if (seq === generation.current) {
+        release();
         setPlaying(false);
         setError(unavailable);
       }
