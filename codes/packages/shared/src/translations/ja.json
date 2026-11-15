@@ -1,4 +1,10 @@
 {
+  "onlinePresence": "オンライン",
+  "onlineAccounts": "アカウント",
+  "onlineGuests": "ゲストセッション",
+  "onlineStale": "接続が切れています。最後に更新された人数を表示しています。",
+  "onlineUnavailable": "オンライン人数を取得できません。",
+
   "autoNarration": "案内と番号呼び出しを自動再生",
   "manualNarrationHint": "画面の案内を読むか、聞くボタンで再試行してください。",
   "examStatus": "診察状態",

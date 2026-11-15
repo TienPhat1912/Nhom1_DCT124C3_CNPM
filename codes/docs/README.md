@@ -18,3 +18,4 @@
 Các lệnh trong tài liệu được chạy từ thư mục gốc dự án, trừ khi có chỉ dẫn khác. Xem [README chính](../README.md) để cài đặt và tìm mã nguồn.
 
 - [Sáu ngôn ngữ, nguồn tiếng Việt và cấu hình Azure Translator](guides/LANGUAGES.md).
+- [PB-029: heartbeat client, thẻ Online, kiểm thử và gate Android](requirements/PB-029-PRESENCE-CLIENTS.md).

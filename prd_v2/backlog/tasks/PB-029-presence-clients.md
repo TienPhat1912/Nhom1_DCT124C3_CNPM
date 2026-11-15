@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | In Progress |
+| Người nhận | phuch (Codex hỗ trợ) |
 | Reviewer | Chưa phân công |
 | Nhóm | Dashboard |
 | Ưu tiên | P1 |
@@ -24,7 +24,7 @@ Client gửi heartbeat khi sử dụng; Admin xem số online với thời đi�
 ## Tiêu chí chấp nhận
 
 - [ ] Heartbeat khoảng 15 giây khi foreground; đổi phiên/logout dừng nhịp cũ; cleanup không tạo nhiều timer theo render.
-- [ ] Dashboard refresh khoảng 5 giây, hiển thị số từ API và updatedAt; lỗi mạng không biến số cũ thành số mới.
+- [x] Dashboard refresh khoảng 5 giây, hiển thị số từ API và updatedAt; lỗi mạng không biến số cũ thành số mới.
 - [ ] Guest/Account độc lập, nhiều tab Account không cộng trùng; foreground trở lại cập nhật đúng; mobile background không tiếp tục tự khai đang dùng.
 
 ## Kiểm chứng bắt buộc
@@ -44,6 +44,12 @@ Runtime web/mobile dùng chung; lấy code sau PB-021/022 và phối hợp nếu
 Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merge; chỉ coi Ready và merge khi đã có các dependency, không tham chiếu mã chưa tồn tại. Nếu cần đổi hợp đồng chung, cập nhật hợp đồng và trao đổi với người nhận task phụ thuộc trước khi viết phần còn lại.
 
 ## Bàn giao
+
+Đã triển khai web/native trên `feat/pb-029-presence-clients`, base main `1ca8315`;
+Typecheck/lint/publish pass; 5 unit presence, 80 hồi quy native,
+3 kiểm tra ngôn ngữ, 8 browser PB-029 và 2 hồi quy Dashboard pass. Hai tiêu chí có
+native còn chờ kiểm chứng APK/AppState trên giả lập/thiết bị; giữ In Progress.
+Chi tiết và cách chạy lại: [bàn giao PB-029](../../../codes/docs/requirements/PB-029-PRESENCE-CLIENTS.md).
 
 - [ ] Hoàn tất tiêu chí ở trên và quy ước Done.
 - [ ] PR ghi mã PB-029, mô tả hành vi trước/sau, kiểm chứng và migration nếu có.

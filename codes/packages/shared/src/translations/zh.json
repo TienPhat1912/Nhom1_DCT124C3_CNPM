@@ -1,4 +1,10 @@
 {
+  "onlinePresence": "当前在线",
+  "onlineAccounts": "账户",
+  "onlineGuests": "访客会话",
+  "onlineStale": "连接已断开；显示最近一次成功更新的数据。",
+  "onlineUnavailable": "无法加载在线人数。",
+
   "autoNarration": "自动播放指引和叫号",
   "manualNarrationHint": "可以阅读屏幕指引，或点击收听重试。",
   "examStatus": "检查状态",

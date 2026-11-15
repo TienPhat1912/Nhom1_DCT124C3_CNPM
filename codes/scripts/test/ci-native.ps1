@@ -106,6 +106,20 @@ try {
     # Give browsers a fresh limiter while retaining the same release and database;
     # otherwise fast CI runs can return 429 on logout or the following login.
     Stop-TestApi
+    Invoke-Checked 'node' @('--experimental-strip-types', '--test', 'tests/unit/presence.test.mjs')
+    # Online counts require a clean fixture: earlier API suites retain active sessions.
+    $beforePresenceDatabase = $env:ACCEPTANCE_DB
+    $beforePresenceConnection = $env:ConnectionStrings__Hospital
+    try {
+        $env:ACCEPTANCE_DB = 'HospitalAcceptance_' + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
+        $env:ConnectionStrings__Hospital = "Server=$SqlServer;Database=$($env:ACCEPTANCE_DB);Integrated Security=true;TrustServerCertificate=true"
+        Push-Location -LiteralPath $publish
+        try { Invoke-Checked 'dotnet' @($dll, '--migrate-only') } finally { Pop-Location }
+        Invoke-Checked 'node' @('tests/presence/run-clients.mjs')
+    } finally {
+        $env:ACCEPTANCE_DB = $beforePresenceDatabase
+        $env:ConnectionStrings__Hospital = $beforePresenceConnection
+    }
     $apiProcess = Start-TestApi 'native-browser-api'
     Invoke-Checked 'npx.cmd' @('playwright', 'test')
     Stop-TestApi

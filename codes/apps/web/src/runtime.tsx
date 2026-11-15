@@ -14,6 +14,8 @@ import {
   type Configuration,
   type Locale,
   type Session,
+  createPresenceController,
+  type PresenceHeartbeatV2,
 } from "@hospital/shared";
 
 const client = createApi(
@@ -22,15 +24,72 @@ const client = createApi(
   false,
   () => normalizeLocale(localStorage.getItem("hospital.language")),
 );
-export const api: typeof client = async (...args) => {
+export const api: typeof client = async <T,>(...args: Parameters<typeof client>): Promise<T> => {
+  const boundary = /^\/api\/auth\/(login|register|guest|recover|logout)$/.test(args[0]);
+  const previous = presenceSession;
+  if (boundary) { presencePaused = true; synchronizePresence(); }
   try {
-    return await client(...args);
+    const result = await client<T>(...args);
+    if (boundary) {
+      const auth = result as { sessionId?: string; session?: { sessionId?: string } };
+      broadcastSession(auth.session?.sessionId ?? auth.sessionId ?? null);
+    }
+    return result;
   } catch (e) {
+    if (boundary && previous === presenceSession && !(e instanceof ApiError && e.problem.title === "sessionExpired")) { presencePaused = false; synchronizePresence(); }
     if (e instanceof ApiError && e.problem.title === "sessionExpired")
       window.dispatchEvent(new Event("hospital:expired"));
     throw e;
   }
 };
+
+let presenceSession: string | null = null;
+let presencePaused = false;
+let synchronizePresence = () => {};
+let disposePresence = () => {};
+const presenceTab = Math.random().toString(36).slice(2);
+function broadcastSession(sessionId: string | null) {
+  if (typeof BroadcastChannel === "undefined") return;
+  const channel = new BroadcastChannel("hospital.presence-session");
+  channel.postMessage({ tab: presenceTab, sessionId }); channel.close();
+}
+export function stopWebPresence() { disposePresence(); }
+
+export function WebPresence({ session }: { session: Session }) {
+  useEffect(() => {
+    presenceSession = session.sessionId; presencePaused = false;
+    let pageHidden = false;
+    const controller = createPresenceController({
+      send: signal => client<PresenceHeartbeatV2>("/api/v2/presence/heartbeat", "POST", undefined, undefined, signal),
+      unauthorized: error => error instanceof ApiError && error.problem.status === 401,
+      onExpired: () => window.dispatchEvent(new Event("hospital:expired")),
+    });
+    const sync = () => controller.setActive(!presencePaused && !pageHidden && document.visibilityState === "visible" && navigator.onLine);
+    const hide = () => { pageHidden = true; sync(); };
+    const show = () => { pageHidden = false; sync(); };
+    const dispose = () => { controller.stop(); if (presenceSession === session.sessionId) presenceSession = null; };
+    synchronizePresence = sync; disposePresence = dispose;
+    const channel = typeof BroadcastChannel === "undefined" ? null : new BroadcastChannel("hospital.presence-session");
+    if (channel) channel.onmessage = event => {
+      if (typeof event.data?.tab === "string" && (event.data.sessionId === null || typeof event.data.sessionId === "string") && event.data.tab !== presenceTab && event.data.sessionId !== session.sessionId) {
+        dispose(); window.dispatchEvent(new Event("hospital:expired"));
+      }
+    };
+    document.addEventListener("visibilitychange", sync);
+    window.addEventListener("online", sync); window.addEventListener("offline", sync);
+    window.addEventListener("pagehide", hide); window.addEventListener("pageshow", show);
+    sync();
+    return () => {
+      dispose();
+      channel?.close();
+      document.removeEventListener("visibilitychange", sync);
+      window.removeEventListener("online", sync); window.removeEventListener("offline", sync);
+      window.removeEventListener("pagehide", hide); window.removeEventListener("pageshow", show);
+      if (synchronizePresence === sync) { synchronizePresence = () => {}; disposePresence = () => {}; }
+    };
+  }, [session.sessionId]);
+  return null;
+}
 // Tab-local snapshots are removed at every authentication boundary.
 export function clearOfflineSnapshots() {
   try {

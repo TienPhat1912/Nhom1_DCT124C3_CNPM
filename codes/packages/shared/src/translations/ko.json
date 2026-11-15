@@ -1,4 +1,10 @@
 {
+  "onlinePresence": "현재 온라인",
+  "onlineAccounts": "계정",
+  "onlineGuests": "게스트 세션",
+  "onlineStale": "연결이 끊어졌습니다. 마지막으로 갱신된 수를 표시합니다.",
+  "onlineUnavailable": "온라인 수를 불러올 수 없습니다.",
+
   "autoNarration": "안내 및 번호 호출 자동 재생",
   "manualNarrationHint": "화면의 안내를 읽거나 듣기를 눌러 다시 시도하세요.",
   "examStatus": "진찰 상태",

@@ -5,6 +5,7 @@ export async function mapFixture(page: Page, manual = true, autoplay = true) {
   let version = 1;
   let announcing = false;
   const mutations: string[] = [];
+  const heartbeats: string[] = [];
   await page.addInitScript(() => {
     localStorage.setItem("hospital.language", "en");
     const calls: SpeechSynthesisUtterance[] = [];
@@ -39,6 +40,22 @@ export async function mapFixture(page: Page, manual = true, autoplay = true) {
   });
   await page.route("**/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
+    // Presence writes session liveness, independently of map/Visit commands.
+    // Exempt only this exact contract; every other non-GET remains recorded.
+    if (path === "/api/v2/presence/heartbeat") {
+      expect(route.request().method()).toBe("POST");
+      expect(route.request().postData()).toBeNull();
+      expect(route.request().headers()["idempotency-key"]).toBeUndefined();
+      heartbeats.push(path);
+      await route.fulfill({
+        json: {
+          lastSeenAt: new Date().toISOString(),
+          heartbeatSeconds: 15,
+          ttlSeconds: 60,
+        },
+      });
+      return;
+    }
     if (route.request().method() !== "GET") mutations.push(path);
     const visit = {
       id: "map-layout",
@@ -146,6 +163,7 @@ export async function mapFixture(page: Page, manual = true, autoplay = true) {
   return {
     dialog,
     mutations,
+    heartbeats,
     async announce() {
       announcing = true;
       version++;
