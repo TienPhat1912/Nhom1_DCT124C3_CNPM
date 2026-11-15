@@ -197,6 +197,7 @@ test("session changes erase prior session draft/selection while profile updates 
   const { storage } = memory();
   const runtime = loadNative("runtime.tsx", { react: { createContext: () => ({}) }, "react-native": {},
     "expo-secure-store": storage, "expo-speech": {}, "./receptionState": state,
+    "./journeyState": loadNative("journeyState.ts"),
     "@hospital/shared": { ...shared, createApi: () => () => {} },
   });
   await runtime.saveSession({ ...session, token: "synthetic-token" });
@@ -213,10 +214,11 @@ test("changing UI locale keeps the mounted Patient screen while localized config
   const store = memory().store, slowConfig = deferred();
   const h = nativeHarness("App.tsx", { "@hospital/shared": shared, "./receptionState": state,
     "react-native": { View: "View", ScrollView: "ScrollView", ActivityIndicator: "ActivityIndicator", KeyboardAvoidingView: "KeyboardAvoidingView", Platform: { OS: "android" },
+      AppState: { addEventListener: () => ({ remove() {} }) },
       Linking: { getInitialURL: async () => null, addEventListener: () => ({ remove() {} }) } },
     "expo-secure-store": { getItemAsync: async () => "en", setItemAsync: async () => {} },
     "./runtime": { NativeContext: { Provider: "Provider" }, nativeApi: async path => path.includes("language=vi") ? slowConfig.promise : config,
-      restoreSession: async () => session, setApiLocale() {}, receptionStore: store },
+      restoreSession: async () => session, setApiLocale() {}, receptionStore: store, journeyStore: { saveConfig: async () => {} } },
   });
   h.render("default"); await settle();
   const before = find(h.render("default"), n => n.type === "Provider"); assert.ok(before);

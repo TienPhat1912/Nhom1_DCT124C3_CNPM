@@ -6,6 +6,7 @@ import { LanguagePicker } from "./LanguagePicker";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  AppState,
   BackHandler,
   KeyboardAvoidingView,
   Linking,
@@ -39,6 +40,7 @@ import {
   useNative,
   localizedError,
   receptionStore,
+  journeyStore,
 } from "./runtime";
 import {
   Badge,
@@ -72,6 +74,7 @@ export default function App() {
   const [locale, setLanguage] = useState<Locale>("vi");
   const localeOverride = useRef<Locale | null>(null);
   const configGeneration = useRef(0);
+  const configLanguage = useRef<Locale>("vi");
   const [config, setConfig] = useState<Configuration | null>(null);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<unknown>(null);
@@ -80,10 +83,22 @@ export default function App() {
   const t = useMemo(() => translator(locale), [locale]);
   const loadConfig = async (language: Locale) => {
     const generation = ++configGeneration.current;
-    const value = await nativeApi<Configuration>(
-      `/api/config?language=${language}`,
-    );
-    if (generation === configGeneration.current) setConfig(value);
+    try {
+      const value = await nativeApi<Configuration>(`/api/config?language=${language}`);
+      if (generation === configGeneration.current) {
+        configLanguage.current = language;
+        setConfig(value);
+      }
+      void journeyStore.saveConfig(language, value).catch(() => {});
+    } catch (error) {
+      const cached = error instanceof ApiError && error.problem.status === 0
+        ? await journeyStore.readConfig(language) : null;
+      if (!cached) throw error;
+      if (generation === configGeneration.current) {
+        configLanguage.current = language;
+        setConfig(cached);
+      }
+    }
   };
   useEffect(() => {
     const reload = () => {
@@ -96,6 +111,12 @@ export default function App() {
       clearInterval(timer);
     };
   }, [locale]);
+  useEffect(() => {
+    // Config may have loaded before login. Persist it as soon as the session
+    // exists so an immediate offline restart does not wait for the next poll.
+    if (session && config)
+      void journeyStore.saveConfig(configLanguage.current, config).catch(() => {});
+  }, [session?.sessionId, config]);
   const updateSession = useCallback(async (s: Session | null) => {
     if (sessionId.current !== (s?.sessionId ?? null)) {
       if (sessionId.current) setPending(null);
@@ -122,10 +143,10 @@ export default function App() {
         setApiLocale(language);
         setLanguage(language);
       }
+      const restored = await restoreSession();
       await loadConfig(
         localeOverride.current ?? (isLocale(language) ? language : "vi"),
       );
-      const restored = await restoreSession();
       sessionId.current = restored?.sessionId ?? null;
       setSession(restored);
     } catch (e) {
@@ -167,16 +188,20 @@ export default function App() {
         ? session.expiresAt
         : session.expiresAt + "Z",
     ).getTime();
-    const timer = setTimeout(
-      () => {
+    let timer: ReturnType<typeof setTimeout>;
+    const check = () => {
+      clearTimeout(timer);
+      const remaining = expiry - Date.now();
+      if (!Number.isFinite(remaining) || remaining <= 0) {
         void updateSession(null);
-        setError(
-          new ApiError({ status: 401, title: "sessionExpired", detail: "" }),
-        );
-      },
-      Math.max(0, expiry - Date.now()),
-    );
-    return () => clearTimeout(timer);
+        setError(new ApiError({ status: 401, title: "sessionExpired", detail: "" }));
+      } else timer = setTimeout(check, Math.min(remaining, 2_147_483_647));
+    };
+    check();
+    const listener = AppState.addEventListener("change", state => {
+      if (state === "active") check();
+    });
+    return () => { clearTimeout(timer); listener.remove(); };
   }, [session, updateSession]);
   const api = useCallback<ApiClient>(
     async (...args) => {
@@ -281,12 +306,21 @@ export function PatientApp({
     });
     return () => handler.remove();
   }, [page]);
+  const checkEntry = useCallback(async (visitId: string) => {
+    try { await api(`/api/visits/${visitId}`); }
+    catch (error) {
+      // Offline navigation is limited to a snapshot this same session already
+      // obtained from the server. A new URI never grants access to records.
+      if (!(error instanceof ApiError) || error.problem.status !== 0 ||
+          !await journeyStore.read(session.sessionId, `/api/visits/${visitId}?language=${locale}`)) throw error;
+    }
+  }, [api, session.sessionId, locale]);
   useEffect(() => {
     let active = true;
     if (pending?.startsWith("visit:")) {
       const visitId = pending.slice(6);
       // A URI is only a navigation hint. Never grant access or redeem a new ticket.
-      void api(`/api/visits/${visitId}`)
+      void checkEntry(visitId)
         .then(() => {
           if (!active) return;
           selectionChanged.current = true;
@@ -305,7 +339,7 @@ export function PatientApp({
     return () => {
       active = false;
     };
-  }, [pending, api, session.sessionId, clearPending]);
+  }, [pending, checkEntry, session.sessionId, clearPending]);
   useEffect(() => {
     let active = true;
     void receptionStore
@@ -368,7 +402,7 @@ export function PatientApp({
             secondary
             onPress={() => {
               const visitId = pending.slice(6);
-              void api(`/api/visits/${visitId}`)
+              void checkEntry(visitId)
                 .then(() => {
                   clearPending();
                   setEntryError(null);
@@ -414,7 +448,7 @@ export function PatientApp({
                   <Txt>
                     {visits.data?.find((v) => v.id === id)?.ticketNumber}
                   </Txt>
-                  <Btn onPress={() => setPage("journey")}>{t("journey")}</Btn>
+                  <Btn onPress={() => choose(id)}>{t("journey")}</Btn>
                 </>
               ) : (
                 <Txt tone="muted">{t("noVisits")}</Txt>
@@ -463,7 +497,6 @@ export function PatientApp({
         {page === "journey" && (
           <Journey
             id={id}
-            onScan={() => setPage("scan")}
             onResults={() => setPage("results")}
             onHelp={(step) => {
               setHelpStep(step);
@@ -543,7 +576,10 @@ export function PatientApp({
             accessibilityLabel={t(tab)}
             accessibilityState={{ selected: page === tab }}
             key={tab}
-            onPress={() => setPage(tab)}
+            onPress={() => {
+              if (tab === "journey" && id) choose(id);
+              else setPage(tab);
+            }}
             style={[
               styles.tab,
               page === tab && { backgroundColor: colors.pale },

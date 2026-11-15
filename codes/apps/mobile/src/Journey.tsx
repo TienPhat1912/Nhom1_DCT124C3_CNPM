@@ -8,7 +8,6 @@ import {
   displayName,
   qrToken,
   type Step,
-  type Ticket,
   type Visit,
 } from "@hospital/shared";
 import {
@@ -25,45 +24,30 @@ import {
 import { useAction, useLoad, useNarration, useNative } from "./runtime";
 export function Journey({
   id,
-  onScan,
   onResults,
   onHelp,
   onDirections,
 }: {
   id: string | null;
-  onScan: () => void;
   onResults: () => void;
   onHelp: (step?: string) => void;
   onDirections: (step: Step) => void;
 }) {
-  const { t, locale, api, config } = useNative();
+  const { t, locale } = useNative();
   const r = useLoad<Visit>(
     id ? `/api/visits/${id}?language=${locale}` : null,
     true,
+    true,
   );
-  const action = useAction(api);
   const [showTicket, setShowTicket] = useState(false);
   const v = r.data;
   const step = v?.steps.find((s) => s.id === v.currentStepId);
   const speech = useNarration(
     `${id}:${v?.version}:${step?.id}:${step?.templateVersion}`,
   );
-  const loadTicket = async () => {
-    const result = await action.run<Ticket>(
-      `/api/visits/${id}/ticket`,
-      undefined,
-      "GET",
-    );
-    return result;
-  };
   return (
     <>
       <Txt tone="title">{t("yourJourney")}</Txt>
-      {!config?.prdV2Enabled && (
-        <Btn secondary onPress={onScan}>
-          {t("scan")}
-        </Btn>
-      )}
       <LoadingState resource={r} />
       {!id && <Txt>{t("noVisits")}</Txt>}
       {v && (
@@ -75,6 +59,12 @@ export function Journey({
                 {v.departmentName ?? v.departmentNameVi} · {t("doctor")}:{" "}
                 {v.doctorName}
               </Txt>
+            )}
+            {v.examStatus && (
+              <>
+                <Txt tone="muted">{t("examStatus")}</Txt>
+                <Badge value={v.examStatus} />
+              </>
             )}
             <Txt tone="muted">{t("visitStatus")}</Txt>
             <Badge value={v.status} />
@@ -88,23 +78,6 @@ export function Journey({
           {v.journeyStatus === "PendingActivation" ? (
             <Card>
               <Txt>{t("pendingActivation")}</Txt>
-              {!config?.prdV2Enabled && (
-                <Btn
-                  busy={action.busy}
-                  onPress={async () => {
-                    const ticket = await loadTicket();
-                    if (
-                      ticket &&
-                      (await action.run("/api/tickets/redeem", {
-                        code: ticket.code,
-                      }))
-                    )
-                      r.refresh();
-                  }}
-                >
-                  {t("activate")}
-                </Btn>
-              )}
             </Card>
           ) : v.journeyStatus === "Completed" ? (
             <Card>
@@ -115,12 +88,22 @@ export function Journey({
           ) : step ? (
             <Card>
               <Txt tone="eyebrow">{t("currentStep")}</Txt>
-              <Txt tone="title">{t(step.kind)}</Txt>
+              <Txt tone="title">
+                {t(step.kind === "Service" ? "services" : step.kind)}
+              </Txt>
               <Badge value={step.status} />
               <Txt tone="heading">{t("nextAction")}</Txt>
               <Txt>{step.text ?? t("help")}</Txt>
               <Txt tone="muted">
-                {t(step.status === "Ready" ? "proceed" : "wait")}
+                {t(
+                  v.examStatus === "Waiting"
+                    ? "waitingForConsultation"
+                    : v.examStatus === "InConsultation"
+                      ? "InConsultation"
+                      : step.status === "Ready"
+                        ? "proceed"
+                        : "wait",
+                )}
               </Txt>
               {step.fallback && (
                 <Txt tone="muted">
@@ -130,7 +113,10 @@ export function Journey({
               <DestinationBlock destination={step.destination} />
               <View style={styles.row}>
                 <Txt>
-                  {t("queue")}: {step.queueNumber || v.ticketNumber}
+                  {t("queue")}:{" "}
+                  {v.examStatus
+                    ? v.ticketNumber
+                    : step.queueNumber || v.ticketNumber}
                 </Txt>
                 <Badge value={step.queueStatus} />
               </View>
@@ -169,25 +155,6 @@ export function Journey({
               {speech.error && (
                 <Txt style={{ color: "#a44638" }}>{speech.error}</Txt>
               )}
-              {step.canCompleteGuidance && (
-                <>
-                  <Txt tone="muted">{t("guidanceOnly")}</Txt>
-                  <Btn
-                    busy={action.busy}
-                    onPress={async () => {
-                      if (
-                        await action.run(
-                          `/api/visits/${id}/complete-guidance`,
-                          { version: v.journeyVersion },
-                        )
-                      )
-                        r.refresh();
-                    }}
-                  >
-                    {t("completeJourney")}
-                  </Btn>
-                </>
-              )}
             </Card>
           ) : (
             <Txt>{t("noCurrent")}</Txt>
@@ -204,7 +171,7 @@ export function Journey({
                 }}
               >
                 <Txt>
-                  {index + 1}. {t(s.kind)}
+                  {index + 1}. {t(s.kind === "Service" ? "services" : s.kind)}
                 </Txt>
                 <Txt tone="muted">
                   {displayName(s.destination, locale)} · {t("room")}{" "}
@@ -219,7 +186,6 @@ export function Journey({
           </Txt>
         </>
       )}
-      <Feedback error={action.error} ok={action.ok} locale={locale} />
     </>
   );
 }
@@ -230,7 +196,7 @@ export function ScanTicket({
   onVisit: (id: string) => void;
   initialCode?: string | null;
 }) {
-  const { t, locale, api, config } = useNative();
+  const { t, locale, api } = useNative();
   const [permission, requestPermission] = useCameraPermissions();
   const [camera, setCamera] = useState(false);
   const [code, setCode] = useState(initialCode ?? "");
@@ -291,7 +257,7 @@ export function ScanTicket({
           if (r) onVisit(r.visitId);
         }}
       >
-        {t(config.prdV2Enabled ? "continueVisit" : "activate")}
+        {t("continueVisit")}
       </Btn>
       <Feedback error={action.error} locale={locale} />
     </Card>
@@ -307,6 +273,7 @@ export function DirectionsScreen({
   const { t, locale } = useNative();
   const visit = useLoad<Visit>(
     `/api/visits/${visitId}?language=${locale}`,
+    true,
     true,
   );
   const current = visit.data?.steps.find(

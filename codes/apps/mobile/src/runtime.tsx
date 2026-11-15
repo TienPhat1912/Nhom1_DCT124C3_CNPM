@@ -3,6 +3,13 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import * as Speech from "expo-speech";
+import {
+  createJourneyStore,
+  olderSnapshot,
+  resourceIdentity,
+  sessionValid,
+  type JourneySnapshot,
+} from "./journeyState";
 import { createReceptionStore } from "./receptionState";
 import {
   ApiError,
@@ -22,6 +29,7 @@ export const WEB_URL =
 let currentToken: string | null = null;
 let currentSessionId: string | null = null;
 export const receptionStore = createReceptionStore(SecureStore);
+export const journeyStore = createJourneyStore(SecureStore);
 let currentLocale = "vi";
 export const setApiLocale = (language: string) => {
   currentLocale = normalizeLocale(language);
@@ -36,6 +44,8 @@ export async function saveSession(s: Session | null) {
   currentToken = s?.token ?? null;
   if (currentSessionId && currentSessionId !== s?.sessionId)
     await receptionStore.clear(currentSessionId);
+  if (s) await journeyStore.open(s);
+  else await journeyStore.clear();
   currentSessionId = s?.sessionId ?? null;
   if (currentToken)
     await SecureStore.setItemAsync("hospital.token", currentToken);
@@ -43,14 +53,31 @@ export async function saveSession(s: Session | null) {
 }
 export async function restoreSession() {
   currentToken = await SecureStore.getItemAsync("hospital.token");
-  if (!currentToken) return null;
+  if (!currentToken) {
+    const previous = await journeyStore.readSession();
+    if (previous) await receptionStore.clear(previous.sessionId);
+    await journeyStore.clear();
+    return null;
+  }
   try {
     const s = await nativeApi<Session>("/api/auth/session");
-    currentSessionId = s.sessionId;
-    return { ...s, token: currentToken };
+    const restored = { ...s, token: currentToken };
+    await saveSession(restored);
+    return restored;
   } catch (e) {
-    if (e instanceof ApiError && e.problem.status === 401)
+    if (e instanceof ApiError && e.problem.status === 0) {
+      const cached = await journeyStore.readSession();
+      if (cached && sessionValid(cached)) {
+        currentSessionId = cached.sessionId;
+        await journeyStore.open(cached);
+        return { ...cached, token: currentToken };
+      }
+    }
+    if (e instanceof ApiError && [0, 401, 403].includes(e.problem.status)) {
+      const previous = await journeyStore.readSession();
+      if (previous) await receptionStore.clear(previous.sessionId);
       await saveSession(null);
+    }
     throw e;
   }
 }
@@ -70,8 +97,8 @@ export function useNative() {
   if (!c) throw new Error("Missing native context");
   return c;
 }
-export function useLoad<T>(path: string | null, poll = false) {
-  const { api, locale } = useNative();
+export function useLoad<T>(path: string | null, poll = false, persist = false) {
+  const { api, locale, session } = useNative();
   if (path && !/[?&]language=/.test(path))
     path += `${path.includes("?") ? "&" : "?"}language=${locale}`;
   const [snapshot, setSnapshot] = useState<{
@@ -79,6 +106,8 @@ export function useLoad<T>(path: string | null, poll = false) {
     data: T;
     updatedAt: string;
   } | null>(null);
+  const latest = useRef<JourneySnapshot<T> | null>(null);
+  const [stale, setStale] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [loading, setLoading] = useState(false);
   const [revision, setRevision] = useState(0);
@@ -101,16 +130,57 @@ export function useLoad<T>(path: string | null, poll = false) {
           abort.signal,
         );
         if (active && id === seq.current) {
-          setSnapshot({ path, data, updatedAt: new Date().toISOString() });
+          if (persist && olderSnapshot(latest.current, path, data)) {
+            setStale(true);
+            return;
+          }
+          const next = { path, data, updatedAt: new Date().toISOString() };
+          latest.current = next;
+          setSnapshot(next);
+          setStale(false);
+          if (persist)
+            void journeyStore.save(session.sessionId, next).catch(() => {});
           setError(null);
         }
       } catch (e) {
-        if (active && id === seq.current) setError(e);
+        if (active && id === seq.current) {
+          if (
+            e instanceof ApiError &&
+            [401, 403, 404].includes(e.problem.status)
+          ) {
+            latest.current = null;
+            setSnapshot(null);
+            if (persist)
+              void journeyStore
+                .discard(session.sessionId, path)
+                .catch(() => {});
+          }
+          setError(e);
+        }
       } finally {
         if (active && id === seq.current) setLoading(false);
       }
     };
-    void load();
+    const restore = async () => {
+      if (persist) {
+        try {
+          const saved = await journeyStore.read<T>(session.sessionId, path);
+          if (
+            active &&
+            saved &&
+            !olderSnapshot(latest.current, path, saved.data)
+          ) {
+            latest.current = saved;
+            setSnapshot(saved);
+            setStale(true);
+          }
+        } catch {
+          /* An unavailable cache must not prevent an online read. */
+        }
+      }
+      if (active) void load();
+    };
+    void restore();
     const timer = poll
       ? setInterval(() => {
           if (AppState.currentState === "active") void load();
@@ -118,6 +188,7 @@ export function useLoad<T>(path: string | null, poll = false) {
       : undefined;
     const listener = AppState.addEventListener("change", (state) => {
       if (state === "active") void load();
+      else setStale(true);
     });
     return () => {
       active = false;
@@ -125,9 +196,15 @@ export function useLoad<T>(path: string | null, poll = false) {
       clearInterval(timer);
       listener.remove();
     };
-  }, [path, poll, revision, api]);
+  }, [path, poll, revision, api, persist, session.sessionId]);
+  const visible =
+    snapshot &&
+    path &&
+    (snapshot.path === path ||
+      (persist && resourceIdentity(snapshot.path) === resourceIdentity(path)));
   return {
-    data: snapshot?.path === path ? snapshot.data : null,
+    data: visible ? snapshot.data : null,
+    stale: !!visible && (stale || snapshot?.path !== path),
     updatedAt: snapshot?.updatedAt ?? null,
     error,
     loading,
