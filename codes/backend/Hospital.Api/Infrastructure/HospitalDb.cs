@@ -23,6 +23,8 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
                 e.Property(p.Name).HasMaxLength(p.Name is "Text" or "Instructions" or "Diagnosis" or "Explanation" or "Description" or "Requests" or "StepsJson" or "ResponseJson" or "DestinationSnapshot" or "Detail" ? 12000 : 500);
         }
         m.Entity<UserAccount>().HasIndex(x => x.Email).IsUnique();
+        m.Entity<Session>().HasIndex(s => s.LastSeenAt).HasFilter("[LastSeenAt] IS NOT NULL")
+            .IncludeProperties(s => new { s.IsGuest, s.UserAccountId, s.ExpiresAt, s.Revoked });
         ConfigureClinicalCatalog(m);
         m.Entity<VisitEvent>().Property(e => e.Sequence).UseIdentityColumn();
         m.Entity<VisitEvent>().HasIndex(e => e.Sequence).IsUnique();

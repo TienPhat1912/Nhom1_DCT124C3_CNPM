@@ -7,14 +7,15 @@ namespace Hospital.Api.Administration;
 
 public static class AdminDashboard
 {
-    public static async Task<IResult> Read(int? days, Access access, HospitalDb db, CancellationToken ct)
+    public static async Task<IResult> Read(int? days, Access access, HospitalDb db, PresenceService presence, TimeProvider clock, CancellationToken ct)
     {
         await access.Staff("Admin");
         var period = days ?? 7;
         Check.That(period is 7 or 30, "validation", "Choose a 7-day or 30-day period.");
 
         // Hospital reporting uses Vietnam calendar days, independently of the server's time zone.
-        var now = DateTime.UtcNow;
+        var now = clock.GetUtcNow().UtcDateTime;
+        var online = await presence.Read(now, ct);
         var today = now.AddHours(7).Date;
         var start = today.AddDays(1 - period).AddHours(-7);
         var todayStart = today.AddHours(-7);
@@ -57,6 +58,7 @@ public static class AdminDashboard
         var stepsByDepartment = steps.ToDictionary(x => x.DepartmentId);
         return Results.Ok(new {
             generatedAt = now,
+            online,
             timeZone = "Asia/Ho_Chi_Minh",
             days = period,
             summary = new {

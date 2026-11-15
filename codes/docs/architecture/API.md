@@ -49,6 +49,7 @@ Khoảng 7/30 ngày chỉ áp dụng cho biểu đồ `daily`; các số liệu 
 |---|---|---|
 | Entry/config | GET `/api/entry`, `/api/config` | Công khai, không tạo Visit |
 | Identity | `/api/auth/register`, `login`, `guest`, `session`, `profile`, `logout`, `recover` | Subject/recovery hợp lệ; register luôn tạo Patient độc lập |
+| Presence | POST `/api/v2/presence/heartbeat` (alias `/api/presence/heartbeat`); GET `/api/v2/admin/presence` | Heartbeat lấy session/server time, không body/version/key; đọc aggregate chỉ Admin. Dashboard có thêm `online`; [PB-028](../requirements/PB-028-presence-api.md) |
 | External/booking | `/api/external/link`, `/api/appointments`, `/api/appointments/prepare`, `/api/requests/{id}/booking` | Chủ hồ sơ hoặc reception đã xác minh |
 | Reception | `/api/requests`, `/{id}`, `/{id}/message`, `/{id}/confirm`, `/api/reception/scan`, `/api/reception/resources` | Chủ request/reception theo khoa |
 | Ticket | `/api/visits/{id}/ticket`, `/reissue`, `/recovery`, `/api/tickets/redeem` | Chủ hồ sơ/guest grant hoặc reception |

@@ -379,6 +379,7 @@ export type ReceptionResources = {
   templates: Template[];
 };
 export type AdminDashboardData = {
+  online: OnlinePresenceV2;
   generatedAt: string;
   timeZone: string;
   days: number;

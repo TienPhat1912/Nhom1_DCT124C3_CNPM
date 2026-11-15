@@ -8,12 +8,15 @@ using Microsoft.Extensions.Configuration;
 
 var connection = new SqlConnectionStringBuilder(Environment.GetEnvironmentVariable("PB023_SQL_CONNECTION")
     ?? throw new InvalidOperationException("Set PB023_SQL_CONNECTION to a local test SQL server."));
-if (!(connection.DataSource == "localhost" || connection.DataSource.StartsWith(".\\") || connection.DataSource.StartsWith("(localdb)\\")))
+var host = connection.DataSource.Split(',')[0];
+if (!(host is "localhost" or "127.0.0.1" or "." || host.StartsWith(".\\") || host.StartsWith("(localdb)\\")))
     throw new InvalidOperationException("Local SQL only.");
 connection.InitialCatalog = "HospitalPB023_" + Guid.NewGuid().ToString("N");
 await using var db = new HospitalDb(new DbContextOptionsBuilder<HospitalDb>().UseSqlServer(connection.ConnectionString).Options);
 var migrator = db.GetService<IMigrator>();
-var previous = db.Database.GetMigrations().Last(m => !m.EndsWith("VisitEventDelivery"));
+var migrations = db.Database.GetMigrations().ToArray();
+var eventMigration = Array.FindIndex(migrations, m => m.EndsWith("VisitEventDelivery"));
+var previous = migrations[eventMigration - 1];
 await migrator.MigrateAsync(previous);
 await Seed.Run(db, new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> {
     ["Demo:Enabled"] = "true", ["Demo:Password"] = "Synthetic-PB023-Fixture!"
