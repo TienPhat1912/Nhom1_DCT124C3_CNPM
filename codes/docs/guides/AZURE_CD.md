@@ -107,7 +107,7 @@ Job `application` chạy trên `windows-2022`:
 
 1. Restore dependency đã khóa, lint/typecheck và kiểm thử unit/translation.
 2. `publish-azure.ps1` build React, publish API, thêm `release.json` chứa commit SHA và đóng gói `azure-release.zip`.
-3. `ci-native.ps1` tạo instance LocalDB riêng, seed database kiểm thử, chạy SQL/API/migration/performance/Playwright/provider tests trực tiếp trên bản publish.
+3. `ci-native.ps1` tạo instance LocalDB riêng, khởi động tối đa ba lần và kiểm tra SQL bằng `sqlcmd SELECT 1` trước khi seed; sau đó chạy SQL/API/migration/performance/Playwright/provider tests trực tiếp trên bản publish. Nếu engine không khởi động, dừng ngay tại bước hạ tầng, lưu `artifacts/localdb-startup.log` và `artifacts/localdb-engine-*.log` trước khi dọn instance; workflow upload các log kể cả khi thất bại. Không coi thông báo/exit code của riêng SqlLocalDB là bằng chứng SQL đã sẵn sàng.
 4. Chỉ upload artifact deploy khi các bước trên thành công. Artifact được giữ 14 ngày.
 
 Job `deploy` chỉ chạy trên `main` khi CI thành công và `AZURE_DEPLOY_ENABLED=true`. Job dùng OIDC, tải đúng artifact cùng run, triển khai ZIP rồi kiểm tra `/health`, commit SHA, web asset, `/entry`, route API và catalog. Không rebuild tại server. Deployment chạy tuần tự; commit cũ đã bị thay thế ở `main` được bỏ qua trước khi deploy. Job Android độc lập với web/API.

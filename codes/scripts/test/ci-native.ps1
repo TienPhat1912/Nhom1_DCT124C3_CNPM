@@ -3,6 +3,7 @@ param(
     [ValidateRange(1024, 65535)][int]$ApiPort = 5280
 )
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'localdb.ps1')
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $publish = Join-Path $root 'artifacts/azure-release'
 $dll = Join-Path $publish 'Hospital.Api.dll'
@@ -35,7 +36,7 @@ try {
     $env:SQLCMD_PATH = Find-SqlTool 'sqlcmd.exe'
     if (-not $SqlServer) {
         $localDb = Find-SqlTool 'SqlLocalDB.exe'
-        Invoke-Checked $localDb @('create', $instance, '-s')
+        Initialize-CiLocalDb -Tool $localDb -SqlCmd $env:SQLCMD_PATH -Instance $instance -Artifacts (Join-Path $root 'artifacts')
         $SqlServer = "(localdb)\$instance"
     }
     $env:SQL_TEST_SERVER = $SqlServer
