@@ -24,7 +24,7 @@ public static class ReceptionEndpoints
         app.MapReceptionConfirmation();
         app.MapGuestRecoveryLookup();
         var g = app.MapGroup("/api").AddEndpointFilter<LocalizedResponseFilter>().WithTags("Reception and QR");
-        g.MapGet("/entry", () => new { purpose = "Hospital", languages = new[] { "vi", "en" }, createsVisit = false });
+        g.MapGet("/entry", () => new { purpose = "Hospital", languages = Languages.Primary, createsVisit = false });
         g.MapGet("/requests", async (int? offset, int? limit, Access access, HospitalDb db) => {
             Check.That((offset ?? 0) >= 0 && (limit ?? 100) is >= 1 and <= 100, "validation", "Use non-negative offset and a page size from 1 to 100.");
             var s = await access.Current(); var q = db.Requests.AsQueryable();

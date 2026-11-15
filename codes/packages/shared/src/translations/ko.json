@@ -1,4 +1,5 @@
 {
+  "legacyLanguageNotice": "저장된 한국어/러시아어 설정은 유지됩니다. 화면은 베트남어로 표시되며 베트남어, 영어, 중국어, 일본어를 선택할 수 있습니다. 기록과 진행 상태는 변경되지 않습니다.",
   "onlinePresence": "현재 온라인",
   "onlineAccounts": "계정",
   "onlineGuests": "게스트 세션",
@@ -239,7 +240,7 @@
   "validation": "입력 정보를 확인하세요.",
   "invalidCredentials": "이메일 또는 비밀번호가 올바르지 않습니다.",
   "identityConflict": "계정에 다른 환자 기록이 있어 직원 확인이 필요합니다. 게스트 기록은 유지됩니다.",
-  "accountExists": "이미 계정이 있습니다. 로그인하여 연결하세요.",
+  "accountExists": "이미 계정이 있습니다. 이 계정으로 로그인하세요.",
   "passwordPolicy": "문자와 숫자를 포함한 12~128자를 사용하세요.",
   "qrPurpose": "QR 코드가 잘못되었거나 용도가 다릅니다.",
   "qrExpired": "QR 코드가 만료되었습니다. 접수처에 재발급을 요청하세요.",

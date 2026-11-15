@@ -470,3 +470,16 @@ test("actual native Journey hook freezes route movement and returns ownership af
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(h.audio.priority(), null);
 });
+
+
+for (const { code, speech } of localeExports.languages) test(`PB027 native narration ${code} uses the actual response language and matching voice`, async () => {
+  const h = harness();
+  h.runtime.api = async () => ({ text: `instruction-${code}`, language: code, revision: 1 });
+  h.speech.getAvailableVoicesAsync = async () => [{ language: speech, identifier: `voice-${code}` }];
+  h.render("four-languages", code);
+  await h.view.play("/narration");
+  assert.equal(h.spoken[0].text, `instruction-${code}`);
+  assert.equal(h.spoken[0].options.language, speech);
+  assert.equal(h.spoken[0].options.voice, `voice-${code}`);
+  h.spoken[0].options.onDone();
+});

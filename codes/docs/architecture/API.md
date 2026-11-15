@@ -79,7 +79,7 @@ Xác nhận lại hồ sơ đã tiếp nhận trả Visit cũ, không phân côn
 
 ## Ngôn ngữ khi đọc dữ liệu
 
-`language` trong query hoặc `X-Hospital-Language` chọn `vi`, `en`, `zh`, `ko`, `ja`, `ru`. API giữ nguyên tên người, mã và bản gốc; dịch các trường nội dung bệnh viện sau kiểm tra quyền. Dữ liệu lưu SQL là nguồn Việt, bản dịch chỉ được cache trong RAM. Tên hiển thị dùng `name`/`departmentName`, bản gốc dùng `nameVi`/`departmentNameVi`.
+Entry và `/api/config.languages` công bố `vi`, `en`, `zh`, `ja` theo PB-027, cùng picker web/native. `language` trong query hoặc `X-Hospital-Language` dùng các mã này; API vẫn nhận `ko`, `ru` để tương thích dữ liệu/client cũ. API giữ nguyên tên người, mã và bản gốc; dịch các trường nội dung bệnh viện sau kiểm tra quyền. Dữ liệu lưu SQL là nguồn Việt, bản dịch chỉ được cache trong RAM. Tên hiển thị dùng `name`/`departmentName`, bản gốc dùng `nameVi`/`departmentNameVi`.
 
 Phản hồi nội dung có ngôn ngữ thực tế, `requestedLanguage`, `fallback`, `translationStatus` và `contentKey`. Narration gửi `language`, `sourceRevision`, `contentKey` để bảo đảm phát đúng bản đang hiển thị. Lỗi dịch trả nội dung Việt với `fallback=true`; bản dịch thay đổi trả `409 sourceChanged` khi phát bản cũ. Endpoint nhập bản dịch riêng `/summaries/{summaryId}/translations` đã được loại bỏ. Chi tiết và migration: [LANGUAGES.md](../guides/LANGUAGES.md).
 

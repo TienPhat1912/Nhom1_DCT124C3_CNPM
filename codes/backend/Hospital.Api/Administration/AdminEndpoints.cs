@@ -31,6 +31,7 @@ public static class AdminEndpoints
         }).AddEndpointFilter<LocalizedResponseFilter>().WithTags("Configuration");
         app.MapGet("/api/directory", (HospitalDb db) => HospitalCatalog.Directory(db)).AddEndpointFilter<LocalizedResponseFilter>().WithTags("Configuration");
         app.MapGet("/api/config", async (HospitalDb db, IConfiguration config) => new {
+            languages = Languages.Primary,
             prdV2Enabled = config.GetValue<bool>("Workflow:PrdV2Enabled"),
             name = "An Tâm · Hospital Guide", catalogVersion = HospitalCatalog.Roster.Version, demo = config.GetValue<bool>("Demo:Enabled"),
             departments = await db.Set<Department>().Where(d => d.Active).ToListAsync(), locations = await db.Set<Location>().Where(l => l.Active).ToListAsync(),

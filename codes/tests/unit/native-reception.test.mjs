@@ -1,3 +1,4 @@
+import { displayLocale, isLegacyLocale } from "../../packages/shared/src/locales.ts";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { all, deferred, find, loadNative, nativeHarness, tick } from "./native-harness.mjs";
@@ -6,7 +7,7 @@ const state = loadNative("receptionState.ts");
 const locale = { vi: "Tiếng Việt", en: "English", zh: "简体中文", ja: "日本語" };
 class ApiError extends Error { constructor(problem) { super(problem.title); this.problem = problem; } }
 const shared = { ApiError, dateText: x => x, languages: Object.entries(locale).map(([code, label]) => ({ code, label })),
-  localizeText: x => x, isLocale: x => ["vi", "en", "zh", "ja", "ko", "ru"].includes(x), translator: () => key => key };
+  localizeText: x => x, displayLocale, isLegacyLocale, isLocale: x => ["vi", "en", "zh", "ja", "ko", "ru"].includes(x), translator: () => key => key };
 const session = { sessionId: "fixture-session", role: "Patient", isGuest: true, expiresAt: "2030-01-01T00:00:00Z" };
 const profile = { name: "Synthetic Guest", contact: "synthetic-contact" };
 const config = { prdV2Enabled: true, departments: [{ id: "department", active: true, nameVi: "Fixture clinic" }] };

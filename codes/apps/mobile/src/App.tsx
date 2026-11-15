@@ -1,7 +1,7 @@
 import { localizeText } from "@hospital/shared";
 import { setApiLocale } from "./runtime";
 import { visitFromEntry } from "./receptionState";
-import { isLocale } from "@hospital/shared";
+import { isLocale, displayLocale, isLegacyLocale } from "@hospital/shared";
 import { LanguagePicker } from "./LanguagePicker";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -75,6 +75,7 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const sessionId = useRef<string | null>(null);
   const [locale, setLanguage] = useState<Locale>("vi");
+  const [legacyLanguage, setLegacyLanguage] = useState(false);
   const localeOverride = useRef<Locale | null>(null);
   const configGeneration = useRef(0);
   const configLanguage = useRef<Locale>("vi");
@@ -139,6 +140,7 @@ export default function App() {
     setSession(s);
   }, []);
   const setLocale = (language: Locale) => {
+    setLegacyLanguage(false);
     localeOverride.current = language;
     setApiLocale(language);
     configGeneration.current++;
@@ -150,12 +152,13 @@ export default function App() {
     try {
       const language = await SecureStore.getItemAsync("hospital.language");
       if (localeOverride.current === null && isLocale(language)) {
-        setApiLocale(language);
-        setLanguage(language);
+        setApiLocale(displayLocale(language));
+        setLanguage(displayLocale(language));
+        setLegacyLanguage(isLegacyLocale(language));
       }
       const restored = await restoreSession();
       await loadConfig(
-        localeOverride.current ?? (isLocale(language) ? language : "vi"),
+        localeOverride.current ?? displayLocale(language),
       );
       sessionId.current = restored?.sessionId ?? null;
       setSession(restored);
@@ -171,7 +174,14 @@ export default function App() {
       try {
         const u = new URL(url);
         const requestedLanguage = u.searchParams.get("language");
-        if (isLocale(requestedLanguage)) setLocale(requestedLanguage);
+        if (isLocale(requestedLanguage)) {
+          if (isLegacyLocale(requestedLanguage)) {
+            localeOverride.current = displayLocale(requestedLanguage);
+            setApiLocale(displayLocale(requestedLanguage));
+            setLanguage(displayLocale(requestedLanguage));
+            setLegacyLanguage(true);
+          } else setLocale(requestedLanguage);
+        }
         const visitId = visitFromEntry(url);
         if (visitId) {
           setPending(`visit:${visitId}`);
@@ -238,6 +248,7 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.screen}>
         <StatusBar style="dark" />
+        {legacyLanguage && <Txt>{t("legacyLanguageNotice")}</Txt>}
         <NativePresence session={session} onExpired={() => {
           void updateSession(null);
           setError(new ApiError({ status: 401, title: "sessionExpired", detail: "" }));

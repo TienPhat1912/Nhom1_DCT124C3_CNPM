@@ -1,9 +1,16 @@
-import { localizeText } from "@hospital/shared";
+import { localizeText, languages, translator } from "@hospital/shared";
 import { useEffect } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import type { Locale } from "@hospital/shared";
-export function HospitalEntry({ locale }: { locale: Locale }) {
-  const web = `${location.origin}/#hospital`;
+export function HospitalEntry({
+  locale,
+  setLocale,
+}: {
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
+}) {
+  const t = translator(locale);
+  const web = `${location.origin}/?language=${locale}#hospital`;
   const app = `hguide://entry?language=${locale}`;
   const android = /Android/i.test(navigator.userAgent);
   const target = android
@@ -17,6 +24,21 @@ export function HospitalEntry({ locale }: { locale: Locale }) {
   return (
     <main className="entry-access">
       <div className="panel">
+        <select
+          aria-label={t("language")}
+          value={locale}
+          onChange={(event) => {
+            const language = event.target.value as Locale;
+            history.replaceState(null, "", `/entry?language=${language}`);
+            setLocale(language);
+          }}
+        >
+          {languages.map((language) => (
+            <option key={language.code} value={language.code}>
+              {language.label}
+            </option>
+          ))}
+        </select>
         <span className="eyebrow">An Tâm</span>
         <h1>{localizeText("Hướng dẫn khám bệnh", locale)}</h1>
         <p>

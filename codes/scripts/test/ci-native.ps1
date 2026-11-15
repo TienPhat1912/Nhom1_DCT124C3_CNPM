@@ -91,6 +91,7 @@ try {
     $apiProcess = Start-TestApi 'native-api'
     Invoke-Checked 'node' @('scripts/deploy/smoke.mjs')
     Invoke-Checked 'node' @('--test', '--test-concurrency=1', 'tests/api/api.test.mjs')
+    Invoke-Checked 'node' @('--test', 'tests/api/languages-v2.test.mjs')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/translation/Translation.Tests.csproj', '--', '--migration')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/core-schema/CoreSchema.Tests.csproj', '--configuration', 'Release')
     Invoke-Checked 'powershell' @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', 'tests/migration/run.ps1', '-SqlServer', $SqlServer)
