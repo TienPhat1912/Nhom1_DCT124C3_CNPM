@@ -25,7 +25,7 @@
     "mobile": "npm run start --workspace @hospital/mobile",
     "test:directory": "playwright test --config playwright.directory.config.ts",
     "test:directory:unit": "node --experimental-strip-types --test tests/unit/hospital-directory.test.mjs",
-    "test:narration:unit": "node --test tests/unit/native-narration.test.mjs",
+    "test:narration:unit": "node --test tests/unit/native-narration.test.mjs tests/unit/native-journey-narration.test.mjs",
     "test:narration:web": "playwright test --config playwright.narration.config.ts",
     "test:journey:native": "node --test tests/unit/native-journey.test.mjs",
     "test:session:unit": "node --test tests/unit/native-session.test.mjs",

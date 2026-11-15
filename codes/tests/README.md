@@ -1,5 +1,10 @@
 # Kiểm thử
 
+PB-025: `npm run test:narration:unit` chạy narration, polling/lifecycle và
+component Journey mobile. `node --test tests/unit/native-*.test.mjs` chạy hồi quy
+native. Gate thiết bị riêng: `node tests/android/android-narration.mjs` với API,
+database acceptance và APK mới; xem [bàn giao PB-025](../docs/requirements/PB-025-MOBILE-NARRATION.md).
+
 PB-024: `npm run test:narration:web` chạy browser API/speech mock trên desktop và
 mobile viewport, bao phủ tự phát/nghe lại/chống lặp/hủy/lỗi và đo độ trễ cập nhật
 hiển thị. Không cần database. Xem [bàn giao PB-024](../docs/requirements/PB-024-WEB-NARRATION.md)

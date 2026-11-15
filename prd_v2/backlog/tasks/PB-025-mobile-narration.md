@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | In progress — đã triển khai local, chờ nghiệm thu thiết bị/review/merge |
+| Người nhận | Codex (triển khai local theo yêu cầu) |
 | Reviewer | Chưa phân công |
 | Nhóm | Thuyết minh |
 | Ưu tiên | P1 |
@@ -51,4 +51,16 @@ Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merg
 - [ ] PR được merge; cập nhật trạng thái Done, người nhận và link PR trong file này.
 
 Nguồn đối chiếu: [kế hoạch chính](../../PRD-REVISION-PLAN.md), [backlog và quy trình làm việc](../README.md). Không thay đổi sáu quyết định nghiệp vụ hoặc sửa kế hoạch chính trong PR này nếu chỉ nhằm hoàn thành task.
+
+## Triển khai local
+
+Đã tích hợp Expo Speech, bật/tắt tự phát, nghe lại và văn bản, polling PB-023,
+chống lặp theo nội dung và hủy request/callback cũ khi đổi phiên/ngôn ngữ/bước.
+Background dừng tiếng/polling; foreground xác thực lại trạng thái và bỏ lịch sử.
+Chi tiết kiểm chứng và giới hạn: [PB-025-MOBILE-NARRATION](../../../codes/docs/requirements/PB-025-MOBILE-NARRATION.md).
+Ngày 15/11/2026: 67/67 ca native, 3/3 ca ngôn ngữ, typecheck, lint, web build
+và Expo Android export đạt; script narration (21 ca) đã nối vào CI hiện hữu.
+Giữ checklist nghiệm thu chưa đóng: chưa có SDK platform 36 để build/cài APK,
+chưa chạy gate thiết bị/âm thanh thật; chưa xác nhận dependency merge hoặc có
+PR/reviewer/merge. Không coi kiểm thử mô phỏng là nghiệm thu thiết bị.
 

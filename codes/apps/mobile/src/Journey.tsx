@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HospitalMap } from "./HospitalMap";
-import { View } from "react-native";
+import { View, Switch } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { VisitTicket } from "./VisitTicket";
 import {
@@ -21,7 +21,13 @@ import {
   Txt,
   styles,
 } from "./ui";
-import { useAction, useLoad, useNarration, useNative } from "./runtime";
+import {
+  useAction,
+  useLoad,
+  useNarration,
+  useNative,
+  useVisitEvents,
+} from "./runtime";
 export function Journey({
   id,
   onResults,
@@ -33,7 +39,7 @@ export function Journey({
   onHelp: (step?: string) => void;
   onDirections: (step: Step) => void;
 }) {
-  const { t, locale } = useNative();
+  const { t, locale, session } = useNative();
   const r = useLoad<Visit>(
     id ? `/api/visits/${id}?language=${locale}` : null,
     true,
@@ -42,9 +48,71 @@ export function Journey({
   const [showTicket, setShowTicket] = useState(false);
   const v = r.data;
   const step = v?.steps.find((s) => s.id === v.currentStepId);
-  const speech = useNarration(
-    `${id}:${v?.version}:${step?.id}:${step?.templateVersion}`,
+  useVisitEvents(id, r.refresh);
+  const [autoplay, setAutoplay] = useState(true);
+  const clinical =
+    !!v?.examStatus &&
+    (step?.kind === "Consultation" || step?.kind === "ReturnConsultation");
+  const queue = clinical ? undefined : step?.queueStatus;
+  const called = clinical
+    ? v?.examStatus === "InConsultation"
+    : queue === "Called";
+  const ticket = v?.examStatus
+    ? v.ticketNumber
+    : step?.queueNumber || v?.ticketNumber;
+  const key = JSON.stringify([
+    session.sessionId,
+    id,
+    locale,
+    step?.id,
+    step?.templateVersion,
+    step?.contentKey,
+    step?.text,
+    step?.contentLanguage,
+    step?.destination,
+    ticket,
+    queue,
+    called,
+    v?.examStatus,
+    v?.journeyStatus,
+  ]);
+  const speech = useNarration(key);
+  const eligible = !!(
+    v &&
+    step &&
+    v.journeyStatus === "Active" &&
+    step.templateVersion &&
+    step.text &&
+    !r.stale &&
+    !r.error &&
+    speech.foreground
   );
+  const play = () => {
+    if (!eligible || !step || !ticket) return;
+    return speech.play(
+      `/api/visits/${id}/narration`,
+      {
+        kind: "Step",
+        section: "Instruction",
+        stepId: step.id,
+        sourceRevision: step.templateVersion,
+        contentKey: step.contentKey,
+        language: locale,
+      },
+      { ticket, room: step.destination.room, called },
+    );
+  };
+  const latest = useRef({ key, play });
+  latest.current = { key, play };
+  const consumed = useRef<string | null>(null);
+  useEffect(() => {
+    if (!autoplay || !eligible || consumed.current === key) return;
+    const timer = setTimeout(() => {
+      if (latest.current.key !== key) return;
+      if (latest.current.play()) consumed.current = key;
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [key, eligible, autoplay]);
   return (
     <>
       <Txt tone="title">{t("yourJourney")}</Txt>
@@ -123,19 +191,22 @@ export function Journey({
               <Txt tone="muted">
                 {t("updated")}: {dateText(step.queueUpdatedAt, locale)}
               </Txt>
+              <View style={styles.row}>
+                <Txt>{t("autoNarration")}</Txt>
+                <Switch
+                  accessibilityLabel={t("autoNarration")}
+                  value={autoplay}
+                  onValueChange={(value) => {
+                    setAutoplay(value);
+                    if (!value) void speech.stop();
+                  }}
+                />
+              </View>
               <Btn
                 secondary
                 busy={speech.loading}
-                onPress={() =>
-                  void speech.play(`/api/visits/${id}/narration`, {
-                    kind: "Step",
-                    section: "Instruction",
-                    stepId: step.id,
-                    sourceRevision: step.templateVersion,
-                    contentKey: step.contentKey,
-                    language: locale,
-                  })
-                }
+                disabled={!eligible}
+                onPress={() => void play()}
               >
                 {t("listen")}
               </Btn>
@@ -152,8 +223,11 @@ export function Journey({
               <Btn secondary onPress={() => onHelp(step.id)}>
                 {t("help")}
               </Btn>
+              {!!speech.text && <Txt>{speech.text}</Txt>}
               {speech.error && (
-                <Txt style={{ color: "#a44638" }}>{speech.error}</Txt>
+                <Txt style={{ color: "#a44638" }}>
+                  {speech.error} {t("manualNarrationHint")}
+                </Txt>
               )}
             </Card>
           ) : (

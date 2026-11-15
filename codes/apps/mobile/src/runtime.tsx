@@ -1,5 +1,12 @@
 import { normalizeLocale, speechLocale, voiceMatches } from "@hospital/shared";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { AppState } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import * as Speech from "expo-speech";
@@ -20,6 +27,7 @@ import {
   type Locale,
   type Narration,
   type Session,
+  type VisitEventPoll,
 } from "@hospital/shared";
 
 export const API_URL =
@@ -117,6 +125,7 @@ export function useLoad<T>(path: string | null, poll = false, persist = false) {
     let active = true;
     let abort: AbortController | undefined;
     const load = async () => {
+      if (AppState.currentState !== "active") return;
       abort?.abort();
       abort = new AbortController();
       const id = ++seq.current;
@@ -181,14 +190,23 @@ export function useLoad<T>(path: string | null, poll = false, persist = false) {
       if (active) void load();
     };
     void restore();
-    const timer = poll
-      ? setInterval(() => {
-          if (AppState.currentState === "active") void load();
-        }, 5000)
-      : undefined;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    const startPolling = () => {
+      clearInterval(timer);
+      if (poll && AppState.currentState === "active")
+        timer = setInterval(() => void load(), 5000);
+    };
+    startPolling();
     const listener = AppState.addEventListener("change", (state) => {
+      clearInterval(timer);
       if (state === "active") void load();
-      else setStale(true);
+      else {
+        abort?.abort();
+        seq.current++;
+        setLoading(false);
+        setStale(true);
+      }
+      startPolling();
     });
     return () => {
       active = false;
@@ -208,7 +226,7 @@ export function useLoad<T>(path: string | null, poll = false, persist = false) {
     updatedAt: snapshot?.updatedAt ?? null,
     error,
     loading,
-    refresh: () => setRevision((r) => r + 1),
+    refresh: useCallback(() => setRevision((r) => r + 1), []),
   };
 }
 export function useAction(api: ApiClient = nativeApi) {
@@ -256,12 +274,24 @@ export function localizedError(e: unknown, locale: Locale) {
     : t("connection");
 }
 export function useNarration(context: string) {
-  const { api, locale, t } = useNative();
+  const { api, locale, t, session } = useNative();
   const [error, setError] = useState("");
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [text, setText] = useState("");
+  const [foreground, setForeground] = useState(
+    AppState.currentState === "active",
+  );
   const seq = useRef(0);
+  const request = useRef<AbortController | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const invalidate = () => {
+    seq.current++;
+    request.current?.abort();
+    clearTimeout(timer.current);
+  };
   const stop = async () => {
+    invalidate();
     const generation = ++seq.current;
     setPlaying(false);
     setLoading(false);
@@ -272,17 +302,31 @@ export function useNarration(context: string) {
     }
   };
   useEffect(() => {
-    seq.current++;
+    invalidate();
     void Speech.stop().catch(() => {});
     setPlaying(false);
     setLoading(false);
     setError("");
+    setText("");
+    const listener = AppState.addEventListener("change", (state) => {
+      setForeground(state === "active");
+      if (state !== "active") void stop();
+    });
     return () => {
-      seq.current++;
+      listener.remove();
+      invalidate();
       void Speech.stop().catch(() => {});
     };
-  }, [context, locale]);
-  const play = async (path: string, body: unknown = {}) => {
+  }, [context, locale, session.sessionId]);
+  const play = async (
+    path: string,
+    body: unknown = {},
+    announcement?: { ticket: string; room: string; called: boolean },
+  ) => {
+    if (AppState.currentState !== "active") return;
+    invalidate();
+    const controller = new AbortController();
+    request.current = controller;
     // Capture this playback before the first await so cancellation cannot be lost.
     const generation = ++seq.current;
     setLoading(true);
@@ -291,8 +335,19 @@ export function useNarration(context: string) {
     try {
       await Speech.stop();
       if (seq.current !== generation) return;
-      const n = await api<Narration>(path, "POST", body);
+      const n = await api<Narration>(
+        path,
+        "POST",
+        body,
+        undefined,
+        controller.signal,
+      );
       if (seq.current !== generation) return;
+      const labels = translator(normalizeLocale(n.language));
+      const spoken = announcement
+        ? `${labels("ticket")}: ${announcement.ticket}. ${labels("room")}: ${announcement.room}. ${announcement.called ? labels("proceed") + " " : ""}${n.text}`
+        : n.text;
+      setText(spoken);
       const voices = await Speech.getAvailableVoicesAsync();
       if (seq.current !== generation) return;
       const voice = voices.find((v) => voiceMatches(v.language, n.language));
@@ -301,23 +356,39 @@ export function useNarration(context: string) {
         return;
       }
       setPlaying(true);
-      Speech.speak(n.text, {
+      timer.current = setTimeout(() => {
+        if (seq.current !== generation) return;
+        void stop();
+        setError(t("audioError"));
+      }, 3000);
+      Speech.speak(spoken, {
+        onStart: () => {
+          if (seq.current === generation) clearTimeout(timer.current);
+        },
         language: speechLocale(n.language),
         voice: voice.identifier,
         onDone: () => {
-          if (seq.current === generation) setPlaying(false);
+          if (seq.current === generation) {
+            clearTimeout(timer.current);
+            setPlaying(false);
+          }
         },
         onStopped: () => {
-          if (seq.current === generation) setPlaying(false);
+          if (seq.current === generation) {
+            clearTimeout(timer.current);
+            setPlaying(false);
+          }
         },
         onError: () => {
           if (seq.current !== generation) return;
+          clearTimeout(timer.current);
           setError(t("audioError"));
           setPlaying(false);
         },
       });
     } catch (e) {
       if (seq.current === generation) {
+        clearTimeout(timer.current);
         setPlaying(false);
         setError(localizedError(e, locale));
       }
@@ -325,5 +396,81 @@ export function useNarration(context: string) {
       if (seq.current === generation) setLoading(false);
     }
   };
-  return { play, stop, error, playing, loading };
+  return { play, stop, error, playing, loading, text, foreground };
+}
+
+/** PB-023 stream: only the visible Journey owns a fast polling loop. */
+export function useVisitEvents(id: string | null, refresh: () => void) {
+  const { api, session } = useNative();
+  useEffect(() => {
+    if (!id) return;
+    let mounted = true;
+    let cursor: string | undefined;
+    let previous: string | undefined;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let pending: AbortController | undefined;
+    const seen = new Set<string>();
+    const poll = async () => {
+      if (!mounted || AppState.currentState !== "active" || pending) return;
+      const controller = new AbortController();
+      pending = controller;
+      let delay = 5000;
+      try {
+        const value = await api<VisitEventPoll>(
+          `/api/visits/${id}/events${cursor ? `?after=${encodeURIComponent(cursor)}` : ""}`,
+          "GET",
+          undefined,
+          undefined,
+          controller.signal,
+        );
+        if (!mounted || controller.signal.aborted || value.visitId !== id)
+          return;
+        const state = JSON.stringify(value.state);
+        let fresh = false;
+        for (const event of value.reset ? [] : value.events) {
+          if (seen.has(event.id)) continue;
+          seen.add(event.id);
+          if (
+            event.visitId === id &&
+            !event.stale &&
+            Date.parse(event.expiresAt) > Date.now()
+          )
+            fresh = true;
+        }
+        if (state !== previous || fresh) refresh();
+        if (seen.size > 200) seen.clear();
+        previous = state;
+        cursor = value.cursor;
+        delay = Math.max(1000, Math.min(10000, value.pollAfterMs || 1000));
+      } catch (error) {
+        if (
+          error instanceof ApiError &&
+          error.problem.title === "invalidCursor"
+        )
+          cursor = undefined;
+      } finally {
+        if (pending === controller) pending = undefined;
+        if (mounted && AppState.currentState === "active")
+          timer = setTimeout(() => void poll(), delay);
+      }
+    };
+    const listener = AppState.addEventListener("change", (state) => {
+      clearTimeout(timer);
+      if (state === "active") {
+        refresh(); // Revalidate language/content before any resumed playback.
+        void poll();
+      } else {
+        cursor = undefined;
+        seen.clear();
+        pending?.abort();
+      }
+    });
+    void poll();
+    return () => {
+      mounted = false;
+      clearTimeout(timer);
+      pending?.abort();
+      listener.remove();
+    };
+  }, [id, session.sessionId, api, refresh]);
 }
