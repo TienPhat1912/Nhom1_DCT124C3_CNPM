@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="ChatGPT" version="27.0.0" type="device">
+  <diagram id="D04_Deployment_Updated" name="D04 – Sơ đồ triển khai">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2450" pageHeight="1680" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Deployment Diagram" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=34;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="48" y="18.08" width="800" height="52.919999999999995" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Multilingual Hospital Visit Narration and Guidance System" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#293D52;fontSize=20;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="48" y="74.4" width="800" height="33.599999999999994" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="D04 · Reference deployment" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=15;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1875" y="36.8" width="390" height="26.7" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#E3EAF3;strokeColor=#8FA1B5;strokeWidth=1.2;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="69" y="160" width="556" height="278" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F1F5FA;strokeColor=#92A5BC;strokeWidth=1.9;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="58" y="171" width="556" height="278" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="«executionEnvironment»" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=13;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="79" y="187.56" width="536" height="23.939999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="CI/CD Runner" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=23;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="79" y="208.76" width="526" height="37.739999999999995" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="Build · test · release&lt;br&gt;Patient Web · Staff Web · Mobile App&lt;br&gt;Backend application" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#293D52;fontSize=16;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="79" y="263.92" width="521" height="72.24" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#E3EAF3;strokeColor=#8FA1B5;strokeWidth=1.2;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="839" y="160" width="615" height="278" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F1F5FA;strokeColor=#92A5BC;strokeWidth=1.9;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="828" y="171" width="615" height="278" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="«node»" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=13;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="849" y="187.56" width="595" height="23.939999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="Web Hosting" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=23;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="849" y="208.76" width="585" height="37.739999999999995" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="&lt;div style=&quot;font-family:Arial;font-size:18px;padding:10px&quot;&gt;«artifact» Shared Web SPA&lt;br&gt;&lt;b&gt;Patient + Staff interfaces&lt;/b&gt;&lt;br&gt;Azure: assets in Backend wwwroot&lt;br&gt;Compose: nginx static hosting&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="846" y="257" width="579" height="169" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="REFERENCE DEPLOYMENT" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=19;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1570" y="192.28" width="800" height="32.22" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="Reference topology. Patient Web and Staff Web share ONE SPA artifact. Azure bundles it in Backend wwwroot; Compose uses nginx separately. Physical RTLS and push remain proposed." style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#293D52;fontSize=17;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1570" y="237.04" width="800" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="614" y="314" as="sourcePoint" />
+            <mxPoint x="828" y="314" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="18" value="«deploy» web assets" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=14;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="678" y="286.68" width="800" height="25.32" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#E3EAF3;strokeColor=#8FA1B5;strokeWidth=1.2;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="71" y="573" width="625" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F1F5FA;strokeColor=#92A5BC;strokeWidth=1.9;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="584" width="625" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="21" value="«node»" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=13;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="81" y="600.56" width="605" height="23.939999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="Patient Mobile Device" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=23;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="81" y="621.76" width="595" height="37.739999999999995" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«executionEnvironment»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:18px;font-weight:bold;color:#203247;&quot;&gt;Mobile App Runtime&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;color:#293D52;&quot;&gt;«artifact» Patient Mobile App&lt;br&gt;Account / Guest · Journey · Narration · expo-speech (device TTS)&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="78" y="670" width="589" height="201" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#E3EAF3;strokeColor=#8FA1B5;strokeWidth=1.2;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="863" y="573" width="625" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F1F5FA;strokeColor=#92A5BC;strokeWidth=1.9;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="852" y="584" width="625" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="«node»" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=13;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="873" y="600.56" width="605" height="23.939999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="27" value="Patient Web Device" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=23;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="873" y="621.76" width="595" height="37.739999999999995" as="geometry" />
+        </mxCell>
+        <mxCell id="28" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«executionEnvironment»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:18px;font-weight:bold;color:#203247;&quot;&gt;Web Browser&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;color:#293D52;&quot;&gt;«artifact» Patient Web&lt;br&gt;Account / Guest · Journey · Navigation · Web Speech API&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="870" y="670" width="589" height="201" as="geometry" />
+        </mxCell>
+        <mxCell id="29" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#E3EAF3;strokeColor=#8FA1B5;strokeWidth=1.2;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="1651" y="573" width="625" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="30" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F1F5FA;strokeColor=#92A5BC;strokeWidth=1.9;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="1640" y="584" width="625" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="«node»" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=13;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1661" y="600.56" width="605" height="23.939999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="32" value="Staff Workstation" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=23;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1661" y="621.76" width="595" height="37.739999999999995" as="geometry" />
+        </mxCell>
+        <mxCell id="33" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«executionEnvironment»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:18px;font-weight:bold;color:#203247;&quot;&gt;Web Browser&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;color:#293D52;&quot;&gt;«artifact» Staff Web&lt;br&gt;Reception · doctor · service · cashier · admin&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="1658" y="670" width="589" height="201" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="449" as="sourcePoint" />
+            <mxPoint x="240" y="584" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="35" value="«deploy» Mobile App" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=14;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="263" y="510.68" width="800" height="25.32" as="geometry" />
+        </mxCell>
+        <mxCell id="36" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=0;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1137" y="449" as="sourcePoint" />
+            <mxPoint x="1170" y="584" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1137" y="518" />
+              <mxPoint x="1170" y="518" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=0;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1137" y="518" as="sourcePoint" />
+            <mxPoint x="1952" y="584" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1952" y="518" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="38" value="HTTPS · static assets" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=15;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="490.8" width="800" height="26.7" as="geometry" />
+        </mxCell>
+        <mxCell id="39" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=0;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="372" y="894" as="sourcePoint" />
+            <mxPoint x="372" y="976" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="40" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=0;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1165" y="894" as="sourcePoint" />
+            <mxPoint x="1165" y="976" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="41" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=0;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1952" y="894" as="sourcePoint" />
+            <mxPoint x="1952" y="976" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="42" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=0;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="372" y="976" as="sourcePoint" />
+            <mxPoint x="1952" y="976" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="43" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=0;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1165" y="976" as="sourcePoint" />
+            <mxPoint x="1165" y="1055" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="44" value="HTTPS · Backend API" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=16;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1228" y="994.92" width="800" height="28.08" as="geometry" />
+        </mxCell>
+        <mxCell id="45" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#E3EAF3;strokeColor=#8FA1B5;strokeWidth=1.2;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="869" y="1044" width="635" height="345" as="geometry" />
+        </mxCell>
+        <mxCell id="46" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F1F5FA;strokeColor=#92A5BC;strokeWidth=1.9;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="858" y="1055" width="635" height="345" as="geometry" />
+        </mxCell>
+        <mxCell id="47" value="«node»" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=13;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="879" y="1071.56" width="615" height="23.939999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="48" value="Application Server" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=23;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="879" y="1092.76" width="605" height="37.739999999999995" as="geometry" />
+        </mxCell>
+        <mxCell id="49" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«executionEnvironment»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:18px;font-weight:bold;color:#203247;&quot;&gt;Backend Runtime&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;color:#293D52;&quot;&gt;«artifact» Backend Application&lt;br&gt;Modular Monolith · Visit / Journey&lt;br&gt;Indoor Navigation (RTLS adapter proposed)&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="876" y="1141" width="599" height="236" as="geometry" />
+        </mxCell>
+        <mxCell id="50" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#E3EAF3;strokeColor=#8FA1B5;strokeWidth=1.2;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="1668" y="1049" width="610" height="306" as="geometry" />
+        </mxCell>
+        <mxCell id="51" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F1F5FA;strokeColor=#92A5BC;strokeWidth=1.9;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="1657" y="1060" width="610" height="306" as="geometry" />
+        </mxCell>
+        <mxCell id="52" value="«external node»" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=13;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1678" y="1076.56" width="590" height="23.939999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="53" value="Provider Environments" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=23;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1678" y="1097.76" width="580" height="37.739999999999995" as="geometry" />
+        </mxCell>
+        <mxCell id="54" value="Azure Translator (text HTTP API)&lt;br&gt;Device TTS is inside web/mobile runtime&lt;br&gt;Push service: future, not integrated" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#293D52;fontSize=16;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1678" y="1152.92" width="575" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="55" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=0;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1493" y="1228" as="sourcePoint" />
+            <mxPoint x="1657" y="1228" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="56" value="HTTPS / API" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=14;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1510" y="1198.68" width="800" height="25.32" as="geometry" />
+        </mxCell>
+        <mxCell id="57" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="449" as="sourcePoint" />
+            <mxPoint x="858" y="1118" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="35" y="449" />
+              <mxPoint x="35" y="1118" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="58" value="«deploy» Backend build" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=14;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="95" y="1089.68" width="800" height="25.32" as="geometry" />
+        </mxCell>
+        <mxCell id="59" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#E3EAF3;strokeColor=#8FA1B5;strokeWidth=1.2;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="869" y="1427" width="635" height="225" as="geometry" />
+        </mxCell>
+        <mxCell id="60" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F1F5FA;strokeColor=#92A5BC;strokeWidth=1.9;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="858" y="1438" width="635" height="225" as="geometry" />
+        </mxCell>
+        <mxCell id="61" value="«node»" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=13;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="879" y="1454.56" width="615" height="23.939999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="62" value="Database Host / Service" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=23;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="879" y="1475.76" width="605" height="37.739999999999995" as="geometry" />
+        </mxCell>
+        <mxCell id="63" value="&lt;div style=&quot;font-family:Arial;line-height:1.30;text-align:left;&quot;&gt;&lt;span style=&quot;font-size:12px;color:#607187;&quot;&gt;«executionEnvironment»&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:18px;font-weight:bold;color:#203247;&quot;&gt;Relational Database&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:15px;color:#293D52;&quot;&gt;Shared Patient · Visit · Journey · clinical records&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=12;spacingLeft=15;spacingRight=14;fillColor=#FFFFFF;strokeColor=#8FA1B5;strokeWidth=1.5;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="876" y="1524" width="599" height="116" as="geometry" />
+        </mxCell>
+        <mxCell id="64" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=0;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1175" y="1400" as="sourcePoint" />
+            <mxPoint x="1175" y="1438" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="65" value="DB connection" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#607187;fontSize=14;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1198" y="1417.68" width="800" height="25.32" as="geometry" />
+        </mxCell>
+        <mxCell id="66" value="RELATIONSHIP KEY" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=18;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1388.16" width="800" height="30.839999999999996" as="geometry" />
+        </mxCell>
+        <mxCell id="67" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=0;endArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="1440" as="sourcePoint" />
+            <mxPoint x="165" y="1440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="68" value="Runtime communication" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#293D52;fontSize=15;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1433.8" width="800" height="26.7" as="geometry" />
+        </mxCell>
+        <mxCell id="69" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#667C95;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="1488" as="sourcePoint" />
+            <mxPoint x="165" y="1488" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="70" value="Build / deployment dependency" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#293D52;fontSize=15;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1482.8" width="800" height="26.7" as="geometry" />
+        </mxCell>
+        <mxCell id="71" value="ACCESS BOUNDARY" style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#203247;fontSize=18;fontStyle=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1551.16" width="800" height="30.839999999999996" as="geometry" />
+        </mxCell>
+        <mxCell id="72" value="Clients call Backend API.&lt;br&gt;Only backend accesses the database." style="text;html=1;whiteSpace=wrap;overflow=visible;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontColor=#293D52;fontSize=15;fontStyle=0;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1589.8" width="800" height="47.4" as="geometry" />
+        </mxCell>
+        <mxCell id="rtls_plan_node" value="" style="rounded=0;arcSize=8;whiteSpace=wrap;html=1;fillColor=#F4F8FC;strokeColor=#7F9CB8;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1657" y="1427" width="610" height="225" as="geometry" />
+        </mxCell>
+        <mxCell id="rtls_node_type" value="«proposed external node»" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;fontSize=16;fontColor=#607187;" vertex="1" parent="1">
+          <mxGeometry x="1678" y="1456" width="567" height="27" as="geometry" />
+        </mxCell>
+        <mxCell id="rtls_node_title" value="RTLS / Positioning Engine" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=23;fontColor=#203247;" vertex="1" parent="1">
+          <mxGeometry x="1678" y="1495" width="576" height="43" as="geometry" />
+        </mxCell>
+        <mxCell id="rtls_node_body" value="Physical RTLS / Positioning Engine: target only.&#10;PB-033/034 positioning simulation: planned demo.&#10;No positioning hardware integration in current code." style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=17;fontColor=#293D52;" vertex="1" parent="1">
+          <mxGeometry x="1678" y="1550" width="575" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="rtls_runtime_link" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#7F9CB8;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1493" y="1305" as="sourcePoint" />
+            <mxPoint x="1657" y="1534" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1565" y="1305" />
+              <mxPoint x="1565" y="1534" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="deployment_current" name="D04.2 · ĐÓNG GÓI TRIỂN KHAI HIỆN TẠI">
+    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1500" pageHeight="1500">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="D04.2 · ĐÓNG GÓI TRIỂN KHAI HIỆN TẠI" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;fontSize=27;fontStyle=1;fontColor=#253D50;" vertex="1" parent="1">
+          <mxGeometry x="30" y="15" width="1420" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Hai phương án có trong cấu hình nguồn; chưa xác minh deployment đang chạy. Web bệnh nhân/nhân viên dùng chung SPA." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;" vertex="1" parent="1">
+          <mxGeometry x="30" y="80" width="1420" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="ci" value="GitHub Actions&#10;Build web/API, kiểm thử; tạo ZIP / APK" style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#8498AB;strokeWidth=1.8;fontFamily=Arial;fontSize=19;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="400" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="app" value="Azure App Service — một Backend App&#10;ASP.NET Core API + wwwroot (Vite SPA)&#10;Deploy ZIP có điều kiện; /health có release SHA" style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#8498AB;strokeWidth=1.8;fontFamily=Arial;fontSize=19;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="570" y="180" width="630" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="mobile" value="Thiết bị bệnh nhân&#10;Expo / React Native APK&#10;TTS: expo-speech" style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#8498AB;strokeWidth=1.8;fontFamily=Arial;fontSize=19;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="600" width="400" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="web" value="Trình duyệt bệnh nhân / nhân viên&#10;Một React SPA; giao diện theo role&#10;TTS: Web Speech API" style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#8498AB;strokeWidth=1.8;fontFamily=Arial;fontSize=19;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="570" y="600" width="630" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="sql" value="SQL Server / Azure SQL&#10;EF Core migrations, constraints, transaction" style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#8498AB;strokeWidth=1.8;fontFamily=Arial;fontSize=19;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="570" y="1020" width="630" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="translator" value="Azure Translator&#10;HTTP text translation; fallback nguồn Việt" style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#8498AB;strokeWidth=1.8;fontFamily=Arial;fontSize=19;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1020" width="400" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="deploy_zip" value="ZIP: API + web assets" source="ci" target="app" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=15;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="deploy_apk" value="APK artifact; cài trên thiết bị" source="ci" target="mobile" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=15;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="http_web" value="HTTPS: SPA + /api" source="web" target="app" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=15;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="http_mobile" value="" source="mobile" target="app" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=15;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;entryX=0.2;entryY=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="690" />
+              <mxPoint x="500" y="420" />
+              <mxPoint x="696" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sql_conn" value="EF Core / SQL connection" source="app" target="sql" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=15;labelBackgroundColor=#ffffff;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1310" y="270" />
+              <mxPoint x="1310" y="1100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="azure_text" value="" source="app" target="translator" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=15;labelBackgroundColor=#ffffff;exitX=0;exitY=0.7;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="306" />
+              <mxPoint x="470" y="950" />
+              <mxPoint x="240" y="950" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label_mobile_api" value="HTTPS JSON /api" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;fillColor=#FFFFFF;fontSize=16;align=center;" vertex="1" parent="1">
+          <mxGeometry x="455" y="425" width="220" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="label_translation" value="HTTPS text translation" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;fillColor=#FFFFFF;fontSize=16;align=center;" vertex="1" parent="1">
+          <mxGeometry x="55" y="905" width="355" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="compose_note" value="Phương án Compose local/LAN: web nginx → API ASP.NET → SQL Server; sql-data và DataProtection-Keys có volume.&#10;TTS phát tại thiết bị. Push / RTLS vật lý chưa tích hợp; mô phỏng vị trí thuộc PB-033/034/026.&#10;Nguồn: compose*.yaml, Dockerfile, Program.cs, publish-azure.ps1, check.yml · 73d89fd · 14/11/2026." style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#B7C5D3;fontFamily=Arial;fontSize=16;fontColor=#42586A;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1280" width="1420" height="130" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

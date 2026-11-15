@@ -1,0 +1,363 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="Codex" type="device">
+  <diagram id="logical_identity" name="D03.1 · DANH TÍNH VÀ TIẾP NHẬN">
+    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1500" pageHeight="1500">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="D03.1 · DANH TÍNH VÀ TIẾP NHẬN" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;fontSize=27;fontStyle=1;fontColor=#253D50;" vertex="1" parent="1">
+          <mxGeometry x="30" y="15" width="1420" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="ERD LOGIC RÚT GỌN · Mô hình logic rút gọn theo EF Core; Account và Guest dùng UserAccount / Session, không gộp lịch sử." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;" vertex="1" parent="1">
+          <mxGeometry x="30" y="80" width="1420" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="patient" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Patient&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Name / Contact&lt;br&gt;Language&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="account" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;UserAccount&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK PatientId? (unique)&lt;br&gt;Email (unique) / PasswordHash&lt;br&gt;Role / Active&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="session" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Session&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK UserAccountId? / PatientId?&lt;br&gt;TokenHash (unique)&lt;br&gt;IsGuest / ExpiresAt / Revoked&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="request" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;RegistrationRequest&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK PatientId / SessionId&lt;br&gt;FK PreferredDepartmentId?&lt;br&gt;SourceLanguage? / Description&lt;br&gt;Status / Contact&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="reception" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;ReceptionRecord&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK RegistrationRequestId (unique)&lt;br&gt;FK PatientId / ConfirmedBy&lt;br&gt;VerificationNote&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Visit [tham chiếu]&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK PatientId&lt;br&gt;FK ReceptionRecordId (unique)&lt;br&gt;Status: Active / Closed&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="recovery" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;RecoveryClaim&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK PatientId / VisitId&lt;br&gt;Hash / ExpiresAt / Consumed&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="grant" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;AccessGrant&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK SessionId / VisitId&lt;br&gt;ExpiresAt&lt;br&gt;UQ (SessionId, VisitId)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" value="" source="patient" target="account" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" value="" source="account" target="session" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" value="" source="patient" target="request" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r4" value="" source="request" target="reception" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r5" value="" source="reception" target="visit" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r6" value="" source="visit" target="grant" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r7" value="" source="patient" target="recovery" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;exitX=0;exitY=0.7;entryX=0;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r8" value="phiên được cấp quyền" source="session" target="grant" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;exitX=1;exitY=0.5;entryX=1;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1390" y="285" />
+              <mxPoint x="1390" y="1015" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="foot" value="PK/FK dùng đúng tên thuộc tính model. Mọi entity có Id (Guid, PK), Version, CreatedAt.&#10;Session có thể là Guest không có UserAccount. AccessGrant gắn Session–Visit; không có XOR Account/Guest trong bảng grant.&#10;FK tới bảng ở trang khác được nêu trong thẻ; chỉ vẽ các quan hệ chính để tránh đường giao nhau.&#10;Nguồn đầy đủ: codes/backend/Hospital.Api/Domain/Entities.cs và Infrastructure/HospitalDb.cs.&#10;Nhánh update_backlog · commit 73d89fd · 14/11/2026. Lược bớt thuộc tính/đường FK; bảng tham chiếu có thể lặp." style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#B7C5D3;fontFamily=Arial;fontSize=16;fontColor=#42586A;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1320" width="1420" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="logical_clinic" name="D03.2 · PHÒNG KHÁM, BÁC SĨ VÀ PHIẾU">
+    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1500" pageHeight="1500">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="D03.2 · PHÒNG KHÁM, BÁC SĨ VÀ PHIẾU" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;fontSize=27;fontStyle=1;fontColor=#253D50;" vertex="1" parent="1">
+          <mxGeometry x="30" y="15" width="1420" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="ERD LOGIC RÚT GỌN · Cố định phòng/bác sĩ khi tiếp nhận; chỉ một Visit InConsultation trên mỗi phòng; số phiếu theo phòng/ngày." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;" vertex="1" parent="1">
+          <mxGeometry x="30" y="80" width="1420" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="department" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Department&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Code (unique) / NameVi&lt;br&gt;Active&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="location" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Location&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK DepartmentId&lt;br&gt;NameVi / Building / Floor / Room&lt;br&gt;Active&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="room" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;ClinicRoom&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK ClinicLocationId (unique)&lt;br&gt;ActiveDoctorId?&lt;br&gt;FK ghép tới ClinicDoctor&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="ticket" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;ExaminationTicket&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK VisitId (unique)&lt;br&gt;FK ClinicLocationId?&lt;br&gt;IssuedOn? / SequenceNumber?&lt;br&gt;Patient/Clinic/DoctorSnapshot&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Visit&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK PatientId / ReceptionRecordId&lt;br&gt;FK ClinicLocationId? / DoctorId&lt;br&gt;ExamStatus? / ConsultationCount?&lt;br&gt;Status / WorkRevision&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="membership" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;ClinicDoctor&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK DoctorId (unique)&lt;br&gt;FK ClinicLocationId&lt;br&gt;AK (ClinicLocationId, DoctorId)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="counter" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;TicketDailyCounter&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK ClinicLocationId&lt;br&gt;IssuedOn / LastNumber&lt;br&gt;UQ (ClinicLocationId, IssuedOn)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="scope" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;StaffScope&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK UserAccountId / DepartmentId&lt;br&gt;UQ (UserAccountId, DepartmentId)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="doctor" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#526579;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;UserAccount [Doctor]&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Role = Doctor&lt;br&gt;Active / PasswordHash&lt;br&gt;Phạm vi khoa qua StaffScope&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" value="" source="department" target="location" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" value="" source="location" target="room" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" value="" source="location" target="visit" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r4" value="" source="visit" target="ticket" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r5" value="bác sĩ hoạt động" source="room" target="membership" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;startFill=0;exitX=1;exitY=0.6;entryX=1;entryY=0.4;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r6" value="" source="membership" target="doctor" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmandOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r7" value="phạm vi khoa" source="doctor" target="scope" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r9" value="" source="location" target="counter" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;exitX=0;exitY=0.8;entryX=1;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="348" />
+              <mxPoint x="420" y="1015" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="foot" value="PK/FK dùng đúng tên thuộc tính model. Mọi entity có Id (Guid, PK), Version, CreatedAt.&#10;ClinicDoctor là membership; ClinicRoom chọn active doctor từ membership cùng phòng. Không đặt ActiveDoctorId trên Location.&#10;Phiếu mới có UQ (ClinicLocationId, IssuedOn, SequenceNumber); các trường nullable giữ tương thích legacy.&#10;Nguồn đầy đủ: codes/backend/Hospital.Api/Domain/Entities.cs và Infrastructure/HospitalDb.cs.&#10;Nhánh update_backlog · commit 73d89fd · 14/11/2026. Lược bớt thuộc tính/đường FK; bảng tham chiếu có thể lặp." style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#B7C5D3;fontFamily=Arial;fontSize=16;fontColor=#42586A;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1320" width="1420" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="logical_journey" name="D03.3 · JOURNEY VÀ CHỈ ĐỊNH DỊCH VỤ">
+    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1500" pageHeight="1500">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="D03.3 · JOURNEY VÀ CHỈ ĐỊNH DỊCH VỤ" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;fontSize=27;fontStyle=1;fontColor=#253D50;" vertex="1" parent="1">
+          <mxGeometry x="30" y="15" width="1420" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="ERD LOGIC RÚT GỌN · Các bước lưu snapshot điểm đến; một dịch vụ mỗi chỉ định, tối đa một chỉ định NotCompleted trên mỗi Visit." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;" vertex="1" parent="1">
+          <mxGeometry x="30" y="80" width="1420" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="journey" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#28627A;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;PatientJourney&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK VisitId (unique)&lt;br&gt;Status / ActivatedAt / CompletedAt&lt;br&gt;CompletionSource&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="step" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#28627A;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;JourneyStep&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK PatientJourneyId / LocationId&lt;br&gt;FK DoctorOrderId? / HospitalServiceId?&lt;br&gt;Kind / Authority / Status / Sequence&lt;br&gt;DestinationSnapshot&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="dependency" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#28627A;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;StepDependency&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK JourneyStepId&lt;br&gt;FK PrerequisiteStepId&lt;br&gt;UQ (hai FK)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#28627A;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Visit [tham chiếu]&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Id / DoctorId / ClinicLocationId?&lt;br&gt;ExamStatus? / WorkRevision&lt;br&gt;FinalSettlementRevision?&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="order" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#28627A;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;DoctorOrder&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK VisitId / HospitalServiceId&lt;br&gt;FK OrderedBy / CompletedById?&lt;br&gt;ConsultationNumber? / Status&lt;br&gt;ServiceSnapshot / DestinationSnapshot&lt;br&gt;OrderedBySnapshot&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="545" width="330" height="245" as="geometry" />
+        </mxCell>
+        <mxCell id="service" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#28627A;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;HospitalService&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK DepartmentId / LocationId&lt;br&gt;Code (unique) / NameVi / Active&lt;br&gt;ReturnRequired (legacy mapping)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="call" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#28627A;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;ConsultationCall&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK VisitId / ClinicLocationId&lt;br&gt;FK DoctorId&lt;br&gt;UQ (VisitId, ConsultationNumber)&lt;br&gt;PayloadJson / ContentRevision&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="preview" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#28627A;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;OrderPreview&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK VisitId / DoctorId / ServiceId&lt;br&gt;VisitVersion / ConfigurationHash&lt;br&gt;Note / ExpiresAt&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="location" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#28627A;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Location [tham chiếu]&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Id / DepartmentId&lt;br&gt;Building / Floor / Room&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" value="" source="visit" target="journey" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" value="" source="journey" target="step" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" value="bước phụ thuộc" source="step" target="dependency" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r4" value="" source="visit" target="order" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r5" value="" source="order" target="service" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmandOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToMany;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r6" value="" source="order" target="step" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r7" value="" source="visit" target="call" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r9" value="" source="service" target="location" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmandOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToMany;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r10" value="" source="visit" target="preview" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;exitX=0.6;exitY=1;entryX=0;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="830" />
+              <mxPoint x="400" y="1015" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="foot" value="PK/FK dùng đúng tên thuộc tính model. Mọi entity có Id (Guid, PK), Version, CreatedAt.&#10;StepDependency dùng Id làm PK, cặp FK chỉ là unique; PrerequisiteStepId cũng trỏ JourneyStep.&#10;OrderPreview không có FK DoctorOrderId. Visit→Journey/Phiếu là 1–1 trong giao dịch tiếp nhận; DB FK unique giới hạn tối đa một.&#10;Nguồn đầy đủ: codes/backend/Hospital.Api/Domain/Entities.cs và Infrastructure/HospitalDb.cs.&#10;Nhánh update_backlog · commit 73d89fd · 14/11/2026. Lược bớt thuộc tính/đường FK; bảng tham chiếu có thể lặp." style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#B7C5D3;fontFamily=Arial;fontSize=16;fontColor=#42586A;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1320" width="1420" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="logical_clinical" name="D03.4 · KẾT QUẢ KHÁM VÀ KHUYẾN NGHỊ">
+    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1500" pageHeight="1500">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="D03.4 · KẾT QUẢ KHÁM VÀ KHUYẾN NGHỊ" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;fontSize=27;fontStyle=1;fontColor=#253D50;" vertex="1" parent="1">
+          <mxGeometry x="30" y="15" width="1420" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="ERD LOGIC RÚT GỌN · ClinicalRecord chỉ công bố khi kết thúc khám; bản gốc chuyên môn và snapshot danh mục lưu bằng tiếng Việt." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;" vertex="1" parent="1">
+          <mxGeometry x="30" y="80" width="1420" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="template" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#337A66;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;ClinicalTemplate&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Code (unique) / Active / IsDemo&lt;br&gt;Language = vi&lt;br&gt;Diagnosis/Explanation/InstructionsTemplate&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="record" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#337A66;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;ClinicalRecord&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK VisitId (unique) / AuthorId&lt;br&gt;FK TemplateId / TemplateVersion&lt;br&gt;TemplateSnapshot / Diagnosis&lt;br&gt;ConfirmedAt / PublishedAt&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#337A66;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Visit [tham chiếu]&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;ExamStatus = Completed để đọc&lt;br&gt;ExaminationCompletedAt?&lt;br&gt;Không cần đợi quyết toán&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="symptomlink" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#337A66;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;ClinicalSymptom&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK ClinicalRecordId&lt;br&gt;FK (SymptomCatalogId, Kind)&lt;br&gt;CatalogVersion / CodeSnapshot&lt;br&gt;UQ (ClinicalRecordId, SymptomCatalogId)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="diagnosislink" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#337A66;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;ClinicalDiagnosis&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK ClinicalRecordId / DiagnosisCatalogId&lt;br&gt;CatalogVersion / NameViSnapshot&lt;br&gt;UQ (ClinicalRecordId, DiagnosisCatalogId)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="follow" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#337A66;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;FollowUpRecommendation&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK VisitId / DepartmentId / AuthorId&lt;br&gt;Text / Language = vi&lt;br&gt;RecommendedAt / Status&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="symptom" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#337A66;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;SymptomCatalog&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Code (unique) / NameVi&lt;br&gt;Kind: Symptom hoặc Sign&lt;br&gt;Active / IsDemo&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="diagnosis" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#337A66;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;DiagnosisCatalog&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Code (unique) / NameVi&lt;br&gt;Active / IsDemo&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="summary" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#337A66;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;SummaryVersion [legacy]&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK VisitId / AuthorId&lt;br&gt;UQ (VisitId, Revision)&lt;br&gt;Draft / Published / Superseded&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" value="" source="template" target="record" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" value="" source="record" target="visit" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmandOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" value="" source="record" target="symptomlink" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;exitX=0;exitY=0.65;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="316.5" />
+              <mxPoint x="420" y="465" />
+              <mxPoint x="205" y="465" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r4" value="" source="record" target="diagnosislink" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r5" value="" source="symptomlink" target="symptom" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmandOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToMany;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r6" value="" source="diagnosislink" target="diagnosis" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERmandOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToMany;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r7" value="" source="visit" target="follow" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r9" value="" source="visit" target="summary" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;exitX=1;exitY=0.5;entryX=1;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1390" y="285" />
+              <mxPoint x="1390" y="1015" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="foot" value="PK/FK dùng đúng tên thuộc tính model. Mọi entity có Id (Guid, PK), Version, CreatedAt.&#10;Bảng liên kết có PK Id; cặp FK là unique, không phải PK ghép. ClinicalSymptom dùng Kind để tách triệu chứng/dấu hiệu.&#10;AuthorId trỏ UserAccount; FollowUp và SummaryVersion trỏ Visit. Không lưu kết quả xét nghiệm/chụp chiếu trong DoctorOrder.&#10;Nguồn đầy đủ: codes/backend/Hospital.Api/Domain/Entities.cs và Infrastructure/HospitalDb.cs.&#10;Nhánh update_backlog · commit 73d89fd · 14/11/2026. Lược bớt thuộc tính/đường FK; bảng tham chiếu có thể lặp." style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#B7C5D3;fontFamily=Arial;fontSize=16;fontColor=#42586A;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1320" width="1420" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="logical_support" name="D03.5 · HỖ TRỢ, NỘI DUNG VÀ NHẬT KÝ">
+    <mxGraphModel grid="1" gridSize="10" page="1" pageWidth="1500" pageHeight="1500">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="D03.5 · HỖ TRỢ, NỘI DUNG VÀ NHẬT KÝ" style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;fontSize=27;fontStyle=1;fontColor=#253D50;" vertex="1" parent="1">
+          <mxGeometry x="30" y="15" width="1420" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="ERD LOGIC RÚT GỌN · Các bảng bổ trợ hiện có; Dashboard truy vấn tổng hợp, chưa có bảng DashboardMetric hay FloorPlan trong EF model." style="text;html=0;whiteSpace=wrap;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#526579;" vertex="1" parent="1">
+          <mxGeometry x="30" y="80" width="1420" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="patient" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#85643C;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Patient [tham chiếu]&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Id / Language&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="assistance" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#85643C;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;AssistanceRequest&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK PatientId / SessionId / DepartmentId&lt;br&gt;FK VisitId? / RegistrationRequestId?&lt;br&gt;FK JourneyStepId?; SourceLanguage?&lt;br&gt;Category / Description / Status&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="visit" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#85643C;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Visit [tham chiếu]&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Id / PatientId / DepartmentId&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="180" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="notification" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#85643C;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;Notification&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK PatientId / VisitId?&lt;br&gt;Key / Read&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="audit" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#85643C;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;AuditEvent&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK VisitId?; ActorId là provenance&lt;br&gt;Source / SourceEventId / Type&lt;br&gt;UQ (Source, SourceEventId)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="receipt" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#85643C;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;CommandReceipt&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Scope / Key / RequestHash&lt;br&gt;ResponseJson&lt;br&gt;UQ (Scope, Key)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="545" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="guidance" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#85643C;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;GuidanceTemplate&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;Key / Language=vi / Revision&lt;br&gt;Text / Published&lt;br&gt;UQ (Key, Language, Revision)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="mapping" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#85643C;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;WorkflowMapping&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK HospitalServiceId&lt;br&gt;Revision / Published / StepsJson&lt;br&gt;UQ (HospitalServiceId, Revision)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="515" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="route" value="&lt;div style=&quot;font-family:Arial;width:330px;box-sizing:border-box&quot;&gt;&lt;div style=&quot;width:100%;box-sizing:border-box;background:#85643C;color:white;font-size:21px;font-weight:bold;padding:10px 14px&quot;&gt;HospitalRoute&lt;/div&gt;&lt;div style=&quot;font-size:16px;line-height:1.45;padding:10px 14px;color:#263D50&quot;&gt;FK FromLocationId / ToLocationId&lt;br&gt;Instructions / Language=vi / Active&lt;/div&gt;&lt;/div&gt;" style="rounded=1;arcSize=0;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;overflow=hidden;fillColor=#FFFFFF;strokeColor=#758898;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="990" y="910" width="330" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" value="" source="patient" target="assistance" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" value="" source="assistance" target="visit" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToOne;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToMany;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" value="" source="patient" target="notification" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERmandOne;startFill=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r4" value="" source="visit" target="audit" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=ERzeroToMany;endFill=0;strokeColor=#536b7b;strokeWidth=1.6;fontFamily=Arial;fontSize=14;labelBackgroundColor=#ffffff;startArrow=ERzeroToOne;startFill=0;exitX=0.5;exitY=1;entryX=1;entryY=0.4;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1155" y="465" />
+              <mxPoint x="900" y="465" />
+              <mxPoint x="900" y="629" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="foot" value="PK/FK dùng đúng tên thuộc tính model. Mọi entity có Id (Guid, PK), Version, CreatedAt.&#10;Assistance có thể chưa có Visit/Journey. Các FK nội dung/mapping/route trỏ bảng được ghi trên thẻ, không suy là bảng mới.&#10;QR, appointment, external identity và link-claim legacy không mở rộng trong ERD rút gọn này; xem đầy đủ trong EF model.&#10;Nguồn đầy đủ: codes/backend/Hospital.Api/Domain/Entities.cs và Infrastructure/HospitalDb.cs.&#10;Nhánh update_backlog · commit 73d89fd · 14/11/2026. Lược bớt thuộc tính/đường FK; bảng tham chiếu có thể lặp." style="rounded=1;arcSize=8;html=0;whiteSpace=wrap;fillColor=#F2F6FA;strokeColor=#B7C5D3;fontFamily=Arial;fontSize=16;fontColor=#42586A;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1320" width="1420" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
