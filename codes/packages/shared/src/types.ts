@@ -255,6 +255,56 @@ export type Notification = Entity & {
   key: string;
   read: boolean;
 };
+/** PB-023: cursor is opaque, Visit-scoped, and must never be parsed as a JS number. */
+export type VisitEventCursor = string;
+export type VisitEventState = {
+  visitId: string;
+  status: string;
+  examStatus: string | null;
+  journeyStatus: string;
+  consultationCount: number | null;
+  ticketNumber: string;
+  steps: Array<{
+    id: string;
+    version: number;
+    kind: string;
+    status: string;
+    queueNumber: string;
+    queueStatus: string;
+    locationId: string;
+    destinationSnapshot: string;
+    templateKey: string;
+    mappingVersion: number;
+  }>;
+};
+export type VisitDeliveryEvent = {
+  id: string;
+  visitId: string;
+  key: string;
+  occurredAt: string;
+  expiresAt: string;
+  cursor: VisitEventCursor;
+  language: "vi";
+  contentRevision: 1;
+  stale: boolean;
+  state: VisitEventState;
+  guidance: Array<{
+    stepId: string;
+    templateId: string;
+    templateKey: string;
+    revision: number;
+    language: string;
+    text: string;
+  }>;
+};
+export type VisitEventPoll = {
+  visitId: string;
+  cursor: VisitEventCursor;
+  reset: boolean;
+  pollAfterMs: number;
+  state: VisitEventState;
+  events: VisitDeliveryEvent[];
+};
 export type Booking = {
   reference: string;
   identityReference: string;

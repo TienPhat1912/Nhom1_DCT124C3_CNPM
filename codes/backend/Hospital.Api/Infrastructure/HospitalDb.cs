@@ -24,6 +24,11 @@ public class HospitalDb(DbContextOptions<HospitalDb> options) : DbContext(option
         }
         m.Entity<UserAccount>().HasIndex(x => x.Email).IsUnique();
         ConfigureClinicalCatalog(m);
+        m.Entity<VisitEvent>().Property(e => e.Sequence).UseIdentityColumn();
+        m.Entity<VisitEvent>().HasIndex(e => e.Sequence).IsUnique();
+        m.Entity<VisitEvent>().HasIndex(e => new { e.VisitId, e.Sequence });
+        m.Entity<VisitEvent>().Property(e => e.PayloadJson).HasColumnType("nvarchar(max)").Metadata.SetMaxLength(null);
+        Fk<VisitEvent, Visit>(m, "VisitId");
         m.Entity<DoctorOrder>().HasIndex(x => x.VisitId).IsUnique().HasDatabaseName("UX_Orders_OneNotCompletedPerVisit")
             .HasFilter("[Status] = 'NotCompleted'");
         m.Entity<DoctorOrder>().HasIndex(x => new { x.VisitId, x.CreatedAt });

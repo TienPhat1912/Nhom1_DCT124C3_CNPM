@@ -1,5 +1,10 @@
 # Kiểm thử
 
+PB-023: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/event-delivery/run.ps1 -SqlServer '.\SQLEXPRESS' -Regression`
+chạy API polling trên SQL fixture riêng, retry/quyền/stale/rollback/đọc trước commit và đo tải;
+`dotnet run --project tests/event-delivery/EventDelivery.Tests.csproj -c Release` với
+`PB023_SQL_CONNECTION` kiểm tra migration schema cũ. Xem [hợp đồng và reconnect](../docs/requirements/PB-023-EVENT-DELIVERY.md).
+
 PB-017: `npm run test:translation` chạy cả hồi quy nội dung bệnh viện và
 ScopedTranslationChecks (nguồn/đích, cache theo hồ sơ/version, timeout/retry,
 fallback, cancellation và log privacy), dùng HTTP provider giả, không gọi Azure.
