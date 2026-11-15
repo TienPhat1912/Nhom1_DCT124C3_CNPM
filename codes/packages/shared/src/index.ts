@@ -7,3 +7,5 @@ export * from "./hospitalDepartments";
 export * from "./locales";
 export * from "./localizedText";
 export * from "./patientResults";
+export * from "./positionSource";
+export * from "./positionCopy";

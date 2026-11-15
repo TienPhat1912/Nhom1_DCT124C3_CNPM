@@ -143,6 +143,11 @@ Chi tiết: [PB-015](../docs/requirements/PB-015-FINAL-SETTLEMENT.md).
 
 ## Bản đồ độc lập
 
+PB-034: `npm run test:position:unit` kiểm tra nguồn vị trí/đồng hồ giả và
+component/AppState native; `npm run test:map` còn chạy mô phỏng marker trên
+desktop/điện thoại, lưu ảnh vào `artifacts/pb034/`. Xem
+[hợp đồng và giới hạn native](../docs/requirements/PB-034-RTLS-SIMULATION.md).
+
 Chạy `npm run test:map`: tự mở Vite riêng ở cổng 5189, dùng API giả lập,
 không cần backend/SQL. `npm run test:map:unit` kiểm tra thuật toán và danh mục.
 Windows tự dùng Chrome/Edge có sẵn; máy chưa có trình duyệt phù hợp chạy

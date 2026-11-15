@@ -2,6 +2,8 @@ import { localizeText } from "@hospital/shared";
 import { useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { FloorPlan } from "./FloorPlan";
+import { SimulationMap } from "./SimulationMap";
+import { positionCopy } from "@hospital/shared";
 import {
   configuredMapDepartments,
   departmentLabel,
@@ -32,8 +34,14 @@ import { Btn, Choice, DestinationBlock, Txt, Input } from "./ui";
 import { useNative } from "./runtime";
 import { useRouteSpeech } from "./useRouteSpeech";
 
-export function HospitalMap({ destination }: { destination: Destination }) {
-  const { locale, config } = useNative();
+export function HospitalMap({
+  destination,
+  contextKey,
+}: {
+  destination: Destination;
+  contextKey?: string;
+}) {
+  const { locale, config, session } = useNative();
   const mapDepartments = configuredMapDepartments(
     config.departments,
     !!config.catalogVersion,
@@ -106,8 +114,9 @@ export function HospitalMap({ destination }: { destination: Destination }) {
         </>
       )}
       <MapPanel
-        key={`${destination.id}:${destination.building}:${destination.floor}:${destination.room}:${departmentId}:${departmentFloor}`}
+        key={session.sessionId}
         destination={destination}
+        contextKey={contextKey}
         department={department}
         departmentFloor={departmentFloor}
       />
@@ -115,7 +124,60 @@ export function HospitalMap({ destination }: { destination: Destination }) {
   );
 }
 
-export function MapPanel({
+type MapPanelProps = {
+  contextKey?: string;
+  destination: Destination;
+  department?: MapDepartment;
+  departmentFloor?: string;
+};
+export function MapPanel(props: MapPanelProps) {
+  const { locale, config } = useNative();
+  const [mode, setMode] = useState("simulation");
+  const signature = JSON.stringify([
+    config.departments,
+    !!config.catalogVersion,
+  ]);
+  const graph = useMemo(() => {
+    const [departments, authoritative] = JSON.parse(signature);
+    return configuredHospitalMap(departments, authoritative);
+  }, [signature]);
+  const target = props.department
+    ? graph.nodes.find(
+        (n) =>
+          !n.closed &&
+          n.id ===
+            departmentNodeId(props.department!.id, props.departmentFloor ?? ""),
+      )
+    : destinationNode(props.destination, graph);
+  return (
+    <View style={{ gap: 12 }}>
+      <Choice
+        label={positionCopy[locale].title}
+        selected={mode === "simulation"}
+        onPress={() => setMode("simulation")}
+      />
+      <Choice
+        label={positionCopy[locale].manual}
+        selected={mode === "manual"}
+        onPress={() => setMode("manual")}
+      />
+      {mode === "simulation" ? (
+        <SimulationMap
+          graph={graph}
+          targetId={target?.id ?? null}
+          contextKey={props.contextKey}
+          locale={locale}
+        />
+      ) : (
+        <ManualMapPanel
+          key={`${props.destination.id}:${props.destination.building}:${props.destination.floor}:${props.destination.room}:${props.department?.id}:${props.departmentFloor}:${props.contextKey}`}
+          {...props}
+        />
+      )}
+    </View>
+  );
+}
+export function ManualMapPanel({
   destination,
   department,
   departmentFloor = "",

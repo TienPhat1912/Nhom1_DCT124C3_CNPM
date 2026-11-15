@@ -33,6 +33,8 @@ test('guest reception, pharmacy, readable fallback, assistance and independent a
   await page.getByRole('button', { name: 'Mở hành trình', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Khám ban đầu', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Chỉ đường', exact: true }).click();
+  await expect(page.getByTestId('simulation-panel')).toBeVisible();
+  await page.getByRole('dialog').getByRole('button', { name: 'Thủ công', exact: true }).click();
   await expect(page.getByText('Bản đồ mẫu', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Tìm đường', exact: true })).toBeDisabled();
   await page.getByRole('button', { name: 'Đóng', exact: true }).click();

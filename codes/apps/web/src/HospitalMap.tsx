@@ -40,10 +40,18 @@ import { Button, DestinationCard, Field, Notice } from "./components";
 import { useRuntime } from "./runtime";
 import { useRouteSpeech } from "./useRouteSpeech";
 import { FloorPlan } from "./FloorPlan";
+import { SimulationMap } from "./SimulationMap";
+import { positionCopy } from "@hospital/shared";
 import "./hospital-map.css";
 
-export function HospitalMap({ destination }: { destination: Destination }) {
-  const { locale, config } = useRuntime();
+export function HospitalMap({
+  destination,
+  contextKey,
+}: {
+  destination: Destination;
+  contextKey?: string;
+}) {
+  const { locale, config, session } = useRuntime();
   const mapDepartments = configuredMapDepartments(
     config.departments,
     !!config.catalogVersion,
@@ -119,8 +127,9 @@ export function HospitalMap({ destination }: { destination: Destination }) {
         )}
       </details>
       <MapPanel
-        key={`${destination.id}:${destination.building}:${destination.floor}:${destination.room}:${departmentId}:${departmentFloor}`}
+        key={session.sessionId}
         destination={destination}
+        contextKey={contextKey}
         department={department}
         departmentFloor={departmentFloor}
       />
@@ -128,7 +137,68 @@ export function HospitalMap({ destination }: { destination: Destination }) {
   );
 }
 
-function MapPanel({
+type MapPanelProps = {
+  contextKey?: string;
+  destination: Destination;
+  department?: MapDepartment;
+  departmentFloor?: string;
+};
+function MapPanel(props: MapPanelProps) {
+  const { locale, config } = useRuntime();
+  const [mode, setMode] = useState("simulation");
+  const signature = JSON.stringify([
+    config.departments,
+    !!config.catalogVersion,
+  ]);
+  const graph = useMemo(() => {
+    const [departments, authoritative] = JSON.parse(signature);
+    return configuredHospitalMap(departments, authoritative);
+  }, [signature]);
+  const target = props.department
+    ? graph.nodes.find(
+        (n) =>
+          !n.closed &&
+          n.id ===
+            departmentNodeId(props.department!.id, props.departmentFloor ?? ""),
+      )
+    : destinationNode(props.destination, graph);
+  return (
+    <>
+      <div
+        className="actions"
+        role="group"
+        aria-label={positionCopy[locale].title}
+      >
+        <Button
+          variant={mode === "simulation" ? "primary" : "secondary"}
+          onClick={() => setMode("simulation")}
+        >
+          {positionCopy[locale].title}
+        </Button>
+        <Button
+          variant={mode === "manual" ? "primary" : "secondary"}
+          onClick={() => setMode("manual")}
+        >
+          {positionCopy[locale].manual}
+        </Button>
+      </div>
+      {mode === "simulation" ? (
+        <SimulationMap
+          graph={graph}
+          targetId={target?.id ?? null}
+          contextKey={props.contextKey}
+          locale={locale}
+        />
+      ) : (
+        <ManualMapPanel
+          key={`${props.destination.id}:${props.destination.building}:${props.destination.floor}:${props.destination.room}:${props.department?.id}:${props.departmentFloor}:${props.contextKey}`}
+          {...props}
+        />
+      )}
+    </>
+  );
+}
+function ManualMapPanel({
   destination,
   department,
   departmentFloor = "",

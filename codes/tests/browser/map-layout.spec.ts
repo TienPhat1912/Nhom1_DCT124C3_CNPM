@@ -1,137 +1,6 @@
-import { test, expect, type Page } from "@playwright/test";
-import {
-  mapDepartments,
-  mappedJourneyRooms,
-  hospitalMap,
-  shortestPath,
-  mapUiCopy,
-} from "@hospital/shared";
-
-async function fixture(page: Page) {
-  let destination = { ...mappedJourneyRooms[0] };
-  let version = 1;
-  const mutations: string[] = [];
-  await page.addInitScript(() => {
-    localStorage.setItem("hospital.language", "en");
-    const calls: SpeechSynthesisUtterance[] = [];
-    Object.assign(window, { pb033: { calls, cancels: 0 } });
-    Object.defineProperty(window, "SpeechSynthesisUtterance", {
-      configurable: true,
-      value: class {
-        constructor(public text: string) {}
-      },
-    });
-    Object.defineProperty(window, "speechSynthesis", {
-      configurable: true,
-      value: {
-        cancel() {
-          (window as unknown as { pb033: { cancels: number } }).pb033.cancels++;
-        },
-        getVoices() {
-          return [{ lang: "en-US" }, { lang: "vi-VN" }];
-        },
-        speak(u: SpeechSynthesisUtterance) {
-          calls.push(u);
-        },
-      },
-    });
-  });
-  await page.route("**/api/**", async (route) => {
-    const path = new URL(route.request().url()).pathname;
-    if (route.request().method() !== "GET") mutations.push(path);
-    const visit = {
-      id: "map-layout",
-      version,
-      ticketNumber: "PB033-007",
-      status: "Active",
-      journeyStatus: "Active",
-      currentStepId: destination.id,
-      updatedAt: "2026-11-15T00:00:00Z",
-      steps: [
-        {
-          id: destination.id,
-          kind: "Consultation",
-          status: "Ready",
-          queueStatus: "Waiting",
-          destination,
-        },
-      ],
-      orders: [],
-    };
-    const data =
-      path === "/api/config"
-        ? {
-            name: "Map demo",
-            catalogVersion: "pb033",
-            departments: mapDepartments.map((d) => ({ ...d, active: true })),
-            services: [],
-            locations: [
-              ...mappedJourneyRooms.map((r) => ({
-                ...r,
-                nameVi: r.nameVi,
-                active: true,
-              })),
-              {
-                id: "unconfirmed-clinic",
-                nameVi: "Clinic 66",
-                building: "?",
-                floor: "?",
-                room: "66",
-                active: true,
-              },
-              {
-                id: "unmapped-room",
-                nameVi: "Room A999",
-                building: "A",
-                floor: "1",
-                room: "A999",
-                active: true,
-              },
-            ],
-            form: {},
-          }
-        : path === "/api/auth/session"
-          ? {
-              sessionId: "pb033-session",
-              role: "Patient",
-              patientId: "patient",
-              name: "Map Patient",
-              isGuest: true,
-              expiresAt: "2099-01-01T00:00:00Z",
-            }
-          : path === "/api/visits"
-            ? [visit]
-            : path === "/api/visits/map-layout"
-              ? visit
-              : [];
-    await route.fulfill({ json: data });
-  });
-  await page.goto("/#visit=map-layout");
-  await page.getByRole("button", { name: "Directions", exact: true }).click();
-  const dialog = page.getByRole("dialog");
-  await expect(dialog.getByTestId("map-plan")).toHaveAttribute(
-    "data-space",
-    "campus",
-  );
-  return {
-    dialog,
-    mutations,
-    async target(room: string) {
-      destination = {
-        ...destination,
-        ...(mappedJourneyRooms.find((r) => r.room === room) ?? {
-          id: room,
-          room,
-          building: "A",
-          floor: "1",
-        }),
-      };
-      version++;
-      await page.evaluate(() => window.dispatchEvent(new Event("focus")));
-      await expect(dialog.locator(".map-destination")).toContainText(room);
-    },
-  };
-}
+import { mapFixture } from "../map/fixture";
+import { test, expect } from "@playwright/test";
+import { hospitalMap, shortestPath, mapUiCopy } from "@hospital/shared";
 
 test("PB033 atlas: campus and all 25 floor plans have explicit frames, doors and complete floor coverage", async ({
   page,
@@ -141,7 +10,7 @@ test("PB033 atlas: campus and all 25 floor plans have explicit frames, doors and
     width: page.viewportSize()!.width,
     height: 1800,
   });
-  const f = await fixture(page),
+  const f = await mapFixture(page),
     d = f.dialog;
   await expect(d.getByTestId("map-plan").locator("image")).toHaveCount(0);
   await expect(
@@ -204,7 +73,7 @@ test("PB033 atlas: campus and all 25 floor plans have explicit frames, doors and
 test("PB033 legs, arrows, manual updates and destination replacement invalidate old route/voice without business mutations", async ({
   page,
 }, info) => {
-  const f = await fixture(page),
+  const f = await mapFixture(page),
     d = f.dialog;
   await d.getByTestId("map-node-gate-1").click();
   await d.getByRole("button", { name: "Find route", exact: true }).click();

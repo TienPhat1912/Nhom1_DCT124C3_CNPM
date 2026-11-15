@@ -41,7 +41,7 @@ function fixture() {
     runtime,
     texts,
     renderPlan: (room = "B201", extra = {}) =>
-      h.render("MapPanel", { destination: destination(room), ...extra }),
+      h.render("ManualMapPanel", { destination: destination(room), ...extra }),
   };
 }
 function choose(tree, label) {
@@ -108,7 +108,7 @@ test("native target change invalidates the old route; unknown rooms/floors never
   const plan = find(tree, (n) => n.type === "FloorPlan");
   assert.equal(plan.props.route.nodes.at(-1).id, "room-B201");
   assert.notEqual(h.texts.at(-1), first);
-  tree = h.render("MapPanel", {
+  tree = h.render("ManualMapPanel", {
     destination: { ...destination("B201"), room: "B999" },
   });
   assert.equal(find(tree, (n) => n.type === "FloorPlan").props.route, null);

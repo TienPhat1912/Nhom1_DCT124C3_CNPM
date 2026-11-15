@@ -59,6 +59,7 @@ export function nativeHarness(file, modules = {}, globals = {}) {
     "./Journey": { Journey: "Journey", ScanTicket: "ScanTicket", DirectionsScreen: "DirectionsScreen" },
     "./Records": { Help: "Help", Notifications: "Notifications", ProfileScreen: "ProfileScreen", Results: "Results" },
     "./HospitalMap": { HospitalMap: "HospitalMap" }, "./VisitTicket": { VisitTicket: "VisitTicket" },
+    "./SimulationMap": { SimulationMap: "SimulationMap" },
     "react-native-safe-area-context": { SafeAreaProvider: "SafeAreaProvider", SafeAreaView: "SafeAreaView" },
     "expo-status-bar": { StatusBar: "StatusBar" }, "expo-secure-store": {}, "expo-speech": {},
     "expo-camera": {}, "react-native-qrcode-svg": "QRCode", ...modules,

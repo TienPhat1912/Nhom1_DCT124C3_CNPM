@@ -32,6 +32,7 @@ export function FloorPlan({
   zoom,
   onChoose,
   onBuilding,
+  position,
 }: {
   graph: MapGraph;
   spaceId: string;
@@ -42,6 +43,7 @@ export function FloorPlan({
   zoom: number;
   onChoose: (id: string) => void;
   onBuilding: (id: string) => void;
+  position?: { x: number; y: number; spaceId: string };
 }) {
   const { width } = useWindowDimensions();
   const scene = mapScene(graph, spaceId, route),
@@ -318,6 +320,19 @@ export function FloorPlan({
               </G>
             );
           })}
+        {position?.spaceId === spaceId && (
+          <G accessibilityLabel="RTLS demo">
+            <Circle
+              cx={position.x}
+              cy={position.y}
+              r={13}
+              fill="#fff"
+              stroke="#7c3aed"
+              strokeWidth={3}
+            />
+            <Circle cx={position.x} cy={position.y} r={6} fill="#7c3aed" />
+          </G>
+        )}
       </Svg>
     </ScrollView>
   );

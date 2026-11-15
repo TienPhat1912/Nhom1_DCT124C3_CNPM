@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | Implemented local — chờ gate Android, review/merge |
+| Người nhận | Codex (triển khai local 15/11/2026) |
 | Reviewer | Chưa phân công |
 | Nhóm | Bản đồ / mô phỏng |
 | Ưu tiên | P1 |
@@ -31,14 +31,14 @@ Mặc định di chuyển 5 giây/chặng và dừng tối thiểu 1 giây tại
 
 ## Tiêu chí chấp nhận
 
-- [ ] Hợp đồng vị trí có nguồn, ID phiên, tòa/tầng/tọa độ, timestamp, trạng thái khả dụng; có start/pause/resume/reset/dispose. Chế độ thủ công vẫn hoạt động độc lập.
-- [ ] UI ghi rõ Mô phỏng RTLS; khi mở phiên dùng điểm đầu demo hợp lệ, cho phép đổi điểm đầu; không tuyên bố nhận vị trí thiết bị thật hoặc mang vị trí qua tài khoản khác.
-- [ ] Marker nội suy mượt dọc các cạnh của mỗi chặng trong khoảng 5 giây, dừng ngay trước điểm rẽ/đổi tầng/tòa hoặc tại đích. Không cắt góc qua tường, không nội suy giữa hệ tọa độ tầng khác nhau.
-- [ ] Phát sự kiện đến điểm hướng dẫn kèm ID phiên/tuyến/chặng và giữ dừng ít nhất 1 giây; chỉ đi tiếp khi nhận lệnh tiếp tục hợp lệ. PB-026 quyết định lệnh theo TTS; PB-034 được kiểm thử bằng bộ điều khiển thử, không phụ thuộc ngược PB-026.
-- [ ] Có điều khiển bắt đầu/tiếp tục, tạm dừng, đặt lại và đổi điểm xuất phát; thao tác thử lệch tuyến và mất/khôi phục tín hiệu. Đứng yên vẫn cập nhật timestamp; mất/stale tín hiệu dừng tiến độ.
-- [ ] Khi đổi tuyến giữa cạnh, cung cấp vị trí hiện tại trên cạnh làm điểm đầu tạm; không nhảy lại đầu chặng. Chuyển tầng/tòa hiển thị bước chuyển và mặt bằng hiện tại rõ ràng.
-- [ ] Đóng bản đồ/đổi phiên/đưa app vào nền dừng chuyển động, hủy timer/subscription; callback cũ không cập nhật phiên mới. Khôi phục tín hiệu/foreground không chạy bù quãng đường.
-- [ ] Thời gian chặng, dừng và ngưỡng stale có cấu hình chung; không dùng thời gian demo làm thời gian đi bộ thực. Chưa nối TTS thì không công bố luồng dẫn đường hoàn chỉnh đã sẵn sàng.
+- [x] Hợp đồng vị trí có nguồn, ID phiên, tòa/tầng/tọa độ, timestamp, trạng thái khả dụng; có start/pause/resume/reset/dispose. Chế độ thủ công vẫn hoạt động độc lập.
+- [x] UI ghi rõ Mô phỏng RTLS; khi mở phiên dùng điểm đầu demo hợp lệ, cho phép đổi điểm đầu; không tuyên bố nhận vị trí thiết bị thật hoặc mang vị trí qua tài khoản khác.
+- [x] Marker nội suy mượt dọc các cạnh của mỗi chặng trong khoảng 5 giây, dừng ngay trước điểm rẽ/đổi tầng/tòa hoặc tại đích. Không cắt góc qua tường, không nội suy giữa hệ tọa độ tầng khác nhau.
+- [x] Phát sự kiện đến điểm hướng dẫn kèm ID phiên/tuyến/chặng và giữ dừng ít nhất 1 giây; chỉ đi tiếp khi nhận lệnh tiếp tục hợp lệ. PB-026 quyết định lệnh theo TTS; PB-034 được kiểm thử bằng bộ điều khiển thử, không phụ thuộc ngược PB-026.
+- [x] Có điều khiển bắt đầu/tiếp tục, tạm dừng, đặt lại và đổi điểm xuất phát; thao tác thử lệch tuyến và mất/khôi phục tín hiệu. Đứng yên vẫn cập nhật timestamp; mất/stale tín hiệu dừng tiến độ.
+- [x] Khi đổi tuyến giữa cạnh, cung cấp vị trí hiện tại trên cạnh làm điểm đầu tạm; không nhảy lại đầu chặng. Chuyển tầng/tòa hiển thị bước chuyển và mặt bằng hiện tại rõ ràng.
+- [x] Đóng bản đồ/đổi phiên/đưa app vào nền dừng chuyển động, hủy timer/subscription; callback cũ không cập nhật phiên mới. Khôi phục tín hiệu/foreground không chạy bù quãng đường. Đã kiểm thử controller/browser/AppState component, còn gate thiết bị bên dưới.
+- [x] Thời gian chặng, dừng và ngưỡng stale có cấu hình chung; không dùng thời gian demo làm thời gian đi bộ thực. Chưa nối TTS thì không công bố luồng dẫn đường hoàn chỉnh đã sẵn sàng.
 
 ## Kiểm chứng bắt buộc
 
@@ -52,3 +52,19 @@ Không tích hợp cảm biến/RTLS thật, không xây lại mặt bằng (PB-
 
 - [ ] Đạt tiêu chí và quy ước Done; tài liệu hợp đồng điều khiển và cấu hình thời gian cho PB-026.
 - [ ] PR ghi PB-034 và bằng chứng kiểm thử/ảnh hoặc video; reviewer duyệt và merge mới chuyển Done.
+
+## Triển khai và bằng chứng local
+
+[Hợp đồng nguồn vị trí, cấu hình, hướng dẫn demo và kiểm chứng](../../../codes/docs/requirements/PB-034-RTLS-SIMULATION.md).
+
+Đã có nguồn shared cho mô phỏng/thủ công, marker và điều khiển trên hai client,
+token phiên/tuyến/chặng/revision, vị trí đầu tạm khi đổi tuyến giữa cạnh và
+cleanup khi nền/đóng/đổi phiên. UI dùng bộ điều khiển thử, không nối TTS PB-026.
+16/16 unit/component tests của task, 87/87 hồi quy native/nguồn vị trí trên Node
+22.19, 12/12 map browser và 88/88 Application browser trên API/SQL fixture riêng
+đạt. Typecheck/contracts, lint, web build và Metro Android export đạt. Ảnh sinh
+tại `codes/artifacts/pb034/`, không commit artifact; kết quả và giới hạn ghi trong tài liệu.
+
+SDK Android platform 36 chưa có trên máy: Metro export/component tests không
+thay cho chạy APK mới trên thiết bị. Còn gate native và reviewer/merge theo
+quy ước Done; không đánh dấu Done dựa riêng vào triển khai local.
