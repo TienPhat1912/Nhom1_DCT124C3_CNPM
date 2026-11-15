@@ -2,7 +2,7 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
+| Trạng thái | In Progress |
 | Người nhận | Chưa nhận |
 | Reviewer | Chưa phân công |
 | Nhóm | Ngôn ngữ |
@@ -24,7 +24,7 @@
 ## Tiêu chí chấp nhận
 
 - [ ] Entry, picker, API và speech có cùng bốn lựa chọn chính; không còn endpoint Entry chỉ trả vi/en.
-- [ ] Không thiếu nhãn trạng thái/validation/hành động mới; không còn lời mời liên kết Guest hoặc booking trong luồng mới.
+- [x] Không thiếu nhãn trạng thái/validation/hành động mới; không còn lời mời liên kết Guest hoặc booking trong luồng mới.
 - [ ] Locale ko/ru đã lưu không gây lỗi hoặc xóa lịch sử; fallback rõ, đổi ngôn ngữ không thay Visit/tiến độ.
 
 ## Kiểm chứng bắt buộc
@@ -44,6 +44,12 @@ Chạy gần cuối để tránh nhiều người cùng sửa locales/i18n; task
 Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merge; chỉ coi Ready và merge khi đã có các dependency, không tham chiếu mã chưa tồn tại. Nếu cần đổi hợp đồng chung, cập nhật hợp đồng và trao đổi với người nhận task phụ thuộc trước khi viết phần còn lại.
 
 ## Bàn giao
+
+Đã triển khai trên `feat/pb-027-four-languages`, base main `eb868b1` sau PB-029.
+Typecheck/lint/publish/Android export pass; 15 language unit/component, 94 hồi quy
+native, 20 browser và 2 API locale legacy pass; translation/provider pass.
+Còn gate layout/giọng đọc/deep link trên APK thật hoặc giả lập;
+giữ In Progress. [Bàn giao và cách chạy lại](../../../codes/docs/requirements/PB-027-FOUR-LANGUAGES.md).
 
 - [ ] Hoàn tất tiêu chí ở trên và quy ước Done.
 - [ ] PR ghi mã PB-027, mô tả hành vi trước/sau, kiểm chứng và migration nếu có.

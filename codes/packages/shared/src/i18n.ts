@@ -6,6 +6,7 @@ import ru from "./translations/ru.json" with { type: "json" };
 
 export const messages = {
   vi: {
+    legacyLanguageNotice: "Ngôn ngữ Hàn/Nga đã lưu được giữ nguyên. Giao diện hiện dùng tiếng Việt; bạn có thể chọn Việt, Anh, Trung hoặc Nhật. Hồ sơ và tiến độ không thay đổi.",
     onlinePresence: "Đang trực tuyến",
     onlineAccounts: "Tài khoản",
     onlineGuests: "Phiên khách",
@@ -304,7 +305,7 @@ export const messages = {
     invalidCredentials: "Email hoặc mật khẩu chưa đúng.",
     identityConflict:
       "Tài khoản đã gắn với một hồ sơ bệnh nhân khác. Cần nhân viên xác minh; dữ liệu khách vẫn được giữ nguyên.",
-    accountExists: "Tài khoản đã tồn tại. Chọn đăng nhập để liên kết.",
+    accountExists: "Tài khoản đã tồn tại. Hãy đăng nhập bằng tài khoản này.",
     passwordPolicy: "Mật khẩu cần 12–128 ký tự, gồm chữ và số.",
     qrPurpose: "Mã QR không hợp lệ hoặc không đúng mục đích.",
     qrExpired: "Mã QR đã hết hạn. Liên hệ tiếp nhận để cấp lại.",
@@ -431,6 +432,7 @@ export const messages = {
     appOpen: "Mở ứng dụng trên điện thoại",
   },
   en: {
+    legacyLanguageNotice: "Your saved Korean/Russian preference is preserved. The interface is using Vietnamese; choose Vietnamese, English, Chinese or Japanese. Records and progress are unchanged.",
     onlinePresence: "Online now",
     onlineAccounts: "Accounts",
     onlineGuests: "Guest sessions",
@@ -725,7 +727,7 @@ export const messages = {
     invalidCredentials: "Email or password is incorrect.",
     identityConflict:
       "The account already owns another patient record. Staff verification is needed; guest data is preserved.",
-    accountExists: "Account already exists. Choose sign in to link.",
+    accountExists: "Account already exists. Sign in with this account.",
     passwordPolicy: "Use 12–128 characters including a letter and a number.",
     qrPurpose: "Invalid QR code or wrong purpose.",
     qrExpired: "QR code expired. Ask reception for a replacement.",

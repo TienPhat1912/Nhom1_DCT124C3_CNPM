@@ -1,5 +1,12 @@
 # Kiểm thử
 
+PB-027: `npm run test:languages:unit` kiểm tra dictionary, bốn lựa chọn UI,
+fallback legacy và component native. Browser languages kiểm tra vi/en/zh/ja,
+Entry và ko/ru đã lưu. `node --test tests/api/languages-v2.test.mjs` với fixture
+SQL local mới kiểm tra metadata và Visit/hồ sơ cũ không thay đổi khi đổi ngôn
+ngữ. Xem [bàn giao PB-027](../docs/requirements/PB-027-FOUR-LANGUAGES.md) cho
+kết quả và gate Android còn thiếu; dịch/API tương thích vẫn kiểm tra sáu mã.
+
 PB-029: `npm run test:presence:unit` kiểm tra timer và adapter AppState native;
 `node tests/presence/run-clients.mjs` chạy browser giả lập mạng/clock và số đếm
 qua API thật trên database acceptance mới đã migrate. CI tự tạo fixture riêng.

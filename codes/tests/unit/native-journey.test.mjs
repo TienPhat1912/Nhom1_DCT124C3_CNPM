@@ -1,3 +1,4 @@
+import { displayLocale, isLegacyLocale } from "../../packages/shared/src/locales.ts";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -450,7 +451,7 @@ for (const cached of [true, false])
 test("offline cold start restores the patient shell using cached configuration", async () => {
   const savedConfigs = [];
   const h = nativeHarness("App.tsx", {
-    "@hospital/shared": { ...shared, isLocale: (x) => x === "en" },
+    "@hospital/shared": { ...shared, displayLocale, isLegacyLocale, isLocale: (x) => x === "en" },
     "./receptionState": reception,
     "react-native": {
       View: "View",

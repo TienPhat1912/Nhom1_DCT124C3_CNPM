@@ -1,4 +1,4 @@
-import { normalizeLocale } from "@hospital/shared";
+import { normalizeLocale, displayLocale } from "@hospital/shared";
 import {
   createContext,
   useCallback,
@@ -22,7 +22,7 @@ const client = createApi(
   "",
   () => null,
   false,
-  () => normalizeLocale(localStorage.getItem("hospital.language")),
+  () => displayLocale(localStorage.getItem("hospital.language")),
 );
 export const api: typeof client = async <T,>(...args: Parameters<typeof client>): Promise<T> => {
   const boundary = /^\/api\/auth\/(login|register|guest|recover|logout)$/.test(args[0]);

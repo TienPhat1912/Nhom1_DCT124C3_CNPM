@@ -1,4 +1,4 @@
-import { ApiError, languages, normalizeLocale } from "@hospital/shared";
+import { ApiError, languages, normalizeLocale, displayLocale, isLegacyLocale } from "@hospital/shared";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Bell,
@@ -73,9 +73,17 @@ type Page =
   | "workspace";
 export default function App() {
   const [locale, updateLocale] = useState<Locale>(() =>
-    normalizeLocale(localStorage.getItem("hospital.language")),
+    displayLocale(new URLSearchParams(location.search).get("language") ?? localStorage.getItem("hospital.language")),
+  );
+  const [legacyLanguage, setLegacyLanguage] = useState(() =>
+    isLegacyLocale(new URLSearchParams(location.search).get("language") ?? localStorage.getItem("hospital.language")),
   );
   const setLocale = (language: Locale) => {
+    setLegacyLanguage(false);
+    if (new URLSearchParams(location.search).has("language")) {
+      const url = new URL(location.href); url.searchParams.set("language", language);
+      history.replaceState(null, "", url.pathname + url.search + url.hash);
+    }
     localStorage.setItem("hospital.language", language);
     updateLocale(language);
   };
@@ -106,8 +114,8 @@ export default function App() {
   const t = useMemo(() => translator(locale), [locale]);
   useEffect(() => {
     document.documentElement.lang = locale;
-    localStorage.setItem("hospital.language", locale);
-  }, [locale]);
+    if (!legacyLanguage) localStorage.setItem("hospital.language", locale);
+  }, [locale, legacyLanguage]);
   useEffect(() => {
     void api<Session>("/api/auth/session")
       .then((s) => {
@@ -151,7 +159,8 @@ export default function App() {
     checkExpiry();
     return () => clearTimeout(timer);
   }, [session]);
-  if (location.pathname === "/entry") return <HospitalEntry locale={locale} />;
+  const languageNotice = legacyLanguage ? <Notice>{t("legacyLanguageNotice")}</Notice> : null;
+  if (location.pathname === "/entry") return <>{languageNotice}<HospitalEntry locale={locale} setLocale={setLocale} /></>;
   if (!ready)
     return (
       <div className="boot-screen">
@@ -161,6 +170,7 @@ export default function App() {
     );
   if (!session)
     return (
+      <>{languageNotice}
       <Auth
         locale={locale}
         setLocale={setLocale}
@@ -176,6 +186,7 @@ export default function App() {
         }}
         expired={expired}
       />
+      </>
     );
   if (!config.data)
     return (
@@ -203,6 +214,7 @@ export default function App() {
       }}
     >
       <WebPresence session={session} />
+      {languageNotice}
       <Workspace key={session.sessionId} />
     </RuntimeContext.Provider>
   );
