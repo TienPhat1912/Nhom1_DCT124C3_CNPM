@@ -10,8 +10,8 @@ using Microsoft.Extensions.Logging;
 static class ScopedTranslationChecks
 {
     static void Check(bool ok, string message) { if (!ok) throw new Exception(message); }
-    static IConfigurationRoot Config() => new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> {
-        ["Translation:Provider"] = "Azure", ["Translation:Key"] = "test-only-secret", ["Translation:TimeoutSeconds"] = "1",
+    static IConfigurationRoot Config(int timeoutSeconds = 5) => new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> {
+        ["Translation:Provider"] = "Azure", ["Translation:Key"] = "test-only-secret", ["Translation:TimeoutSeconds"] = timeoutSeconds.ToString(),
         ["Translation:MaxAttempts"] = "2", ["Translation:RetryDelayMilliseconds"] = "0", ["Translation:CacheVersion"] = "1"
     }).Build();
     static void Fallback(TextTranslation result, string original) => Check(result is { Status: "Unavailable", Translated: null, Fallback: true }
@@ -65,7 +65,7 @@ static class ScopedTranslationChecks
 
         foreach (var failure in new[] { "503", "429", "400", "401", "403", "network", "malformed", "empty", "wrongLanguage", "echo", "echoTrim", "timeout" }) {
             var failing = new ScopedProvider { Failure = failure }; var capture = new SafeLogger();
-            using var unavailable = new TranslationService(Config(), failing, capture);
+            using var unavailable = new TranslationService(Config(failure == "timeout" ? 1 : 5), failing, capture);
             var watch = Stopwatch.StartNew(); Fallback(await unavailable.Translate(input, default), input.Original);
             Check(watch.Elapsed < TimeSpan.FromSeconds(3), "Whole operation has a bounded timeout, including retries");
             Check(failing.Calls == (failure is "503" or "429" or "network" ? 2 : 1), "Retry only transient HTTP failures: " + failure);

@@ -10,15 +10,18 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 static void Check(bool condition, string description) { if (!condition) throw new Exception(description); }
 var fake = new Provider();
-var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> {
-    ["Translation:Provider"] = "Azure", ["Translation:Key"] = "test-only", ["Translation:TimeoutSeconds"] = "1"
+// Allow cold-start/JIT work on CI; only timeout checks need the minimum deadline.
+static IConfigurationRoot Config(int timeoutSeconds = 5) => new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> {
+    ["Translation:Provider"] = "Azure", ["Translation:Key"] = "test-only", ["Translation:TimeoutSeconds"] = timeoutSeconds.ToString()
 }).Build();
+var config = Config();
 using var service = new TranslationService(config, fake, NullLogger<TranslationService>.Instance);
 var source = "Nội dung thử nghiệm chưa có trong từ điển";
 foreach (var language in Languages.Supported)
 {
     var result = await service.Translate(["Quầy tiếp nhận", source], language, default);
-    Check(result.Values.All(x => !x.Fallback && x.Language == language), "Actual language for " + language);
+    Check(result.Values.All(x => !x.Fallback && x.Language == language),
+        $"Actual language for {language}: {JsonSerializer.Serialize(result.Values)}; provider calls: {fake.Calls}");
     Check(result[source].Text == (language == "vi" ? source : language + ":" + source), "Provider result");
 }
 Check(fake.Calls == 5, "Vietnamese and dictionary hits bypass provider");
@@ -59,7 +62,7 @@ Check(fake.Calls == before, "Authorization must precede translation and cache re
 
 foreach (var failure in new[] { "http", "timeout", "malformed", "emptyTranslation", "wrongLanguage" })
 {
-    using var unavailable = new TranslationService(config, new Provider { Failure = failure }, NullLogger<TranslationService>.Instance);
+    using var unavailable = new TranslationService(Config(failure == "timeout" ? 1 : 5), new Provider { Failure = failure }, NullLogger<TranslationService>.Instance);
     var result = await unavailable.Translate([source], "ru", default);
     Check(result[source] is { Language: "vi", Fallback: true } && result[source].Text == source, "Honest fallback on " + failure);
 }
