@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View } from "react-native";
+import { View, Switch } from "react-native";
 import { Btn, Choice, Txt } from "./ui";
 import {
   mapLabel,
@@ -8,37 +8,45 @@ import {
   routeInstructions,
   routeLanguage,
   positionCopy,
+  routeNarrationCopy,
   demoDeviationNode,
   type Locale,
   type MapGraph,
 } from "@hospital/shared";
 import { FloorPlan } from "./FloorPlan";
 import { usePositionDemo } from "./usePositionDemo";
+import { useRouteNarration } from "./useRouteNarration";
 
 export function SimulationMap({
   graph,
   targetId,
   contextKey,
+  autoplay = true,
+  labelsReady = true,
   locale,
 }: {
   graph: MapGraph;
   targetId: string | null;
   contextKey?: string;
+  autoplay?: boolean;
+  labelsReady?: boolean;
   locale: Locale;
 }) {
   const { controller, snapshot } = usePositionDemo(graph, targetId, contextKey);
   const [showOrigins, setShowOrigins] = useState(false);
+  const narration = useRouteNarration(
+    controller,
+    locale,
+    autoplay,
+    labelsReady,
+  );
   const c = positionCopy[locale];
   if (!controller || !snapshot) return null;
   const p = snapshot.position;
   const space = graph.spaces?.find((s) => s.id === p.spaceId);
   const target = graph.nodes.find((n) => n.id === targetId);
   const choices = graph.nodes.filter((n) => !n.closed && n.kind !== "door");
-  const proceed = () => {
-    controller.start();
-    const token = controller.getSnapshot().guidance;
-    if (token) controller.continue(token);
-  };
+  const proceed = () => narration.start();
   const reset = () => {
     controller.reset();
     controller.setTarget(targetId);
@@ -58,6 +66,15 @@ export function SimulationMap({
     <View style={{ gap: 12 }} testID="simulation-panel">
       <Txt tone="heading">{c.title}</Txt>
       <Txt tone="muted">{c.note}</Txt>
+      <Txt>{routeNarrationCopy[locale].auto}</Txt>
+      <Switch
+        accessibilityLabel={routeNarrationCopy[locale].auto}
+        value={!narration.muted}
+        onValueChange={(v) => narration.setMuted(!v)}
+      />
+      {narration.error && (
+        <Txt accessibilityRole="alert">{mapCopy[locale].audioError}</Txt>
+      )}
       <Txt>
         {mapCopy[locale].target}:{" "}
         {target ? mapLabel(target, locale) : mapCopy[locale].unmapped}
@@ -83,13 +100,30 @@ export function SimulationMap({
       <Txt>{text}</Txt>
       <View style={{ gap: 8 }}>
         <Btn
-          disabled={stopped || snapshot.status === "moving"}
+          disabled={
+            !labelsReady ||
+            !snapshot.route ||
+            stopped ||
+            snapshot.status === "moving"
+          }
           onPress={proceed}
         >
           {c.start}
         </Btn>
-        {snapshot.guidance && <Btn onPress={proceed}>{c.ack}</Btn>}
-        <Btn secondary onPress={() => controller.pause()}>
+        <Btn
+          secondary
+          disabled={
+            !labelsReady ||
+            !snapshot.route ||
+            ["paused", "lost", "stale", "no-route", "disposed"].includes(
+              snapshot.status,
+            )
+          }
+          onPress={narration.replay}
+        >
+          {mapCopy[locale].listen}
+        </Btn>
+        <Btn secondary onPress={() => narration.pause()}>
           {c.pause}
         </Btn>
         <Btn secondary onPress={reset}>

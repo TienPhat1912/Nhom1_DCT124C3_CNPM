@@ -37,7 +37,9 @@ import { useRouteSpeech } from "./useRouteSpeech";
 export function HospitalMap({
   destination,
   contextKey,
+  autoplay = true,
 }: {
+  autoplay?: boolean;
   destination: Destination;
   contextKey?: string;
 }) {
@@ -117,6 +119,7 @@ export function HospitalMap({
         key={session.sessionId}
         destination={destination}
         contextKey={contextKey}
+        autoplay={autoplay}
         department={department}
         departmentFloor={departmentFloor}
       />
@@ -125,13 +128,14 @@ export function HospitalMap({
 }
 
 type MapPanelProps = {
+  autoplay?: boolean;
   contextKey?: string;
   destination: Destination;
   department?: MapDepartment;
   departmentFloor?: string;
 };
 export function MapPanel(props: MapPanelProps) {
-  const { locale, config } = useNative();
+  const { locale, config, configLocale } = useNative();
   const [mode, setMode] = useState("simulation");
   const signature = JSON.stringify([
     config.departments,
@@ -164,8 +168,10 @@ export function MapPanel(props: MapPanelProps) {
       {mode === "simulation" ? (
         <SimulationMap
           graph={graph}
+          labelsReady={!configLocale || configLocale === locale}
           targetId={target?.id ?? null}
           contextKey={props.contextKey}
+          autoplay={props.autoplay}
           locale={locale}
         />
       ) : (

@@ -366,7 +366,12 @@ export function PatientJourney({
       )}
       {modal === "directions" && id && step && (
         <Modal title={t("navigate")} onClose={() => setModal(null)}>
-          <DirectionsPanel key={id} step={step} onHelp={() => setModal("help")} />
+          <DirectionsPanel
+            key={id}
+            autoplay={autoplay}
+            step={step}
+            onHelp={() => setModal("help")}
+          />
         </Modal>
       )}
       {modal === "help" && (
@@ -462,11 +467,23 @@ export function TicketPanel({ id }: { id: string }) {
     </>
   );
 }
-function DirectionsPanel({ step, onHelp }: { step: Step; onHelp: () => void }) {
+function DirectionsPanel({
+  step,
+  onHelp,
+  autoplay,
+}: {
+  step: Step;
+  onHelp: () => void;
+  autoplay: boolean;
+}) {
   const { t } = useRuntime();
   return (
     <>
-      <HospitalMap destination={step.destination} contextKey={step.id} />
+      <HospitalMap
+        autoplay={autoplay}
+        destination={step.destination}
+        contextKey={step.id}
+      />
       <Button variant="secondary" onClick={onHelp}>
         {t("help")}
       </Button>

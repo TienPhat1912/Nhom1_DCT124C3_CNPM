@@ -310,6 +310,10 @@ test("six languages cover simulation controls and temporary reroute origins", ()
       Object.keys(positionCopy.vi),
     );
     assert.ok(Object.values(positionCopy[locale]).every((text) => text.trim()));
+    assert.doesNotMatch(
+      Object.values(positionCopy[locale]).join(" "),
+      /\?{2,}|\uFFFD/,
+    );
   }
   const clock = new FakeClock(),
     c = new DemoPositionSource(hospitalMap, "simulation", { clock });
@@ -321,5 +325,31 @@ test("six languages cover simulation controls and temporary reroute origins", ()
   for (const locale of ["vi", "en", "zh", "ko", "ja", "ru"])
     assert.equal(routeLanguage(c.getSnapshot().route, locale), locale);
   c.dispose();
+  f.c.dispose();
+});
+
+test("label-only graph refresh preserves position/session, temporary edges and route identity", () => {
+  const f = fixture();
+  ack(f);
+  f.clock.advance(2500);
+  f.c.setTarget("a");
+  const before = f.s();
+  f.c.refreshLabels({
+    ...graph,
+    nodes: graph.nodes.map((n) => ({ ...n, name: n.id + " translated" })),
+  });
+  assert.equal(f.s().position, before.position);
+  assert.equal(f.s().route.id, before.route.id);
+  assert.equal(f.s().position.sessionId, before.position.sessionId);
+  assert.ok(f.s().route.edges.every((e) => f.c.getGraph().edges.includes(e)));
+  assert.ok(f.s().route.nodes.some((n) => n.name?.endsWith("translated")));
+  assert.throws(
+    () =>
+      f.c.refreshLabels({
+        ...graph,
+        nodes: graph.nodes.map((n) => ({ ...n, x: n.x + 1 })),
+      }),
+    /Geometry/,
+  );
   f.c.dispose();
 });

@@ -9,6 +9,14 @@ Các fixture tạo session ở schema trước PB-028 dùng
 `fixtures/LegacySessionFixture.cs` để chỉ ghi các cột session lịch sử, rồi kiểm tra
 migration với model hiện hành sau khi upgrade.
 
+PB-026: `npm run test:route:unit` kiểm tra handshake vị trí/TTS, ưu tiên âm
+thanh và adapter/hook Expo thực tế với engine giả. `npm run test:map` chạy
+bản đồ/mô phỏng/thuyết minh trên desktop và mobile viewport; các ca cũng nằm
+trong bộ Application mặc định. `node --test tests/unit/native-*.test.mjs`
+chạy thêm hồi quy Journey/session/native. Xem
+[bàn giao PB-026](../docs/requirements/PB-026-ROUTE-NARRATION.md) cho kết quả,
+artifact và gate APK/âm thanh thiết bị còn lại.
+
 PB-025: `npm run test:narration:unit` chạy narration, polling/lifecycle và
 component Journey mobile. `node --test tests/unit/native-*.test.mjs` chạy hồi quy
 native. Gate thiết bị riêng: `node tests/android/android-narration.mjs` với API,

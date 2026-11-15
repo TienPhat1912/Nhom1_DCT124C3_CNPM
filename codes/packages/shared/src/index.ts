@@ -9,3 +9,6 @@ export * from "./localizedText";
 export * from "./patientResults";
 export * from "./positionSource";
 export * from "./positionCopy";
+export * from "./audioCoordinator";
+export * from "./routeNarration";
+export * from "./routeNarrationCopy";

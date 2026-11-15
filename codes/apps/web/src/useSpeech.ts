@@ -8,6 +8,8 @@ import {
   type Narration,
 } from "@hospital/shared";
 import { api, errorText, useRuntime } from "./runtime";
+import { deviceAudio } from "./deviceAudio";
+import type { AudioLease } from "@hospital/shared";
 
 export type Announcement = { ticket: string; room: string; called: boolean };
 
@@ -18,6 +20,7 @@ export function useSpeech(contextKey: string) {
   const [error, setError] = useState("");
   const [text, setText] = useState("");
   const generation = useRef(0);
+  const lease = useRef<AudioLease | null>(null);
   const pending = useRef<AbortController | null>(null);
   const currentUtterance = useRef<SpeechSynthesisUtterance | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -27,7 +30,10 @@ export function useSpeech(contextKey: string) {
     pending.current?.abort();
     pending.current = null;
     clearTimeout(timer.current);
-    window.speechSynthesis?.cancel();
+    if (lease.current?.valid() || deviceAudio.priority() === null)
+      window.speechSynthesis?.cancel();
+    lease.current?.release();
+    lease.current = null;
     currentUtterance.current = null;
     setPlaying(false);
     setLoading(false);
@@ -53,10 +59,14 @@ export function useSpeech(contextKey: string) {
   const play = useCallback(
     async (path: string, body?: unknown, announcement?: Announcement) => {
       stop();
+      lease.current = deviceAudio.acquire("journey", stop, 15000);
       setError("");
       setLoading(true);
       const seq = generation.current;
-      const valid = () => seq === generation.current && !document.hidden;
+      const valid = () =>
+        seq === generation.current &&
+        !document.hidden &&
+        lease.current?.valid() === true;
       const controller = new AbortController();
       pending.current = controller;
       try {
@@ -111,11 +121,15 @@ export function useSpeech(contextKey: string) {
           if (!valid()) return;
           clearTimeout(timer.current);
           setPlaying(false);
+          lease.current?.release();
+          lease.current = null;
         };
         utterance.onerror = (event) => {
           if (!valid()) return;
           clearTimeout(timer.current);
           setPlaying(false);
+          lease.current?.release();
+          lease.current = null;
           if (event.error !== "canceled" && event.error !== "interrupted")
             setError(t("audioError"));
         };
@@ -131,6 +145,8 @@ export function useSpeech(contextKey: string) {
         if (valid()) {
           clearTimeout(timer.current);
           setPlaying(false);
+          lease.current?.release();
+          lease.current = null;
           setError(
             e instanceof ApiError ? errorText(e, locale) : t("audioError"),
           );

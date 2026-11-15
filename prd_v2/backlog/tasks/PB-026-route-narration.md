@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | In progress — chuẩn bị; PB-033/PB-034 có mã local, chờ tích hợp và các gate phụ thuộc |
-| Người nhận | Codex (chuẩn bị local) |
+| Trạng thái | Implemented local — đã tích hợp, chờ gate APK/thiết bị và reviewer/merge |
+| Người nhận | Codex (tích hợp và kiểm chứng local ngày 15/11/2026) |
 | Reviewer | Chưa phân công |
 | Nhóm | Bản đồ |
 | Ưu tiên | P1 |
@@ -47,18 +47,22 @@ Các giá trị 5 giây/chặng và 1 giây/dừng là mặc định cấu hình
 
 ## Phạm vi mã nguồn
 
-Đường dẫn tính từ `codes/`: apps/web/src/HospitalMap.tsx, useRouteSpeech.ts; apps/mobile/src/HospitalMap.tsx, useRouteSpeech.ts; packages/shared/src/hospitalMap.ts.
+Đường dẫn tính từ `codes/`: `packages/shared/src/routeNarration.ts`, `audioCoordinator.ts`, `deviceAudio.ts`, `positionSource.ts`; `apps/{web,mobile}/src/{useRouteNarration,routeSpeechAdapter,SimulationMap,usePositionDemo,useRouteSpeech}`; Journey narration và runtime của hai nền tảng. Danh sách hợp đồng và kiểm chứng: [bàn giao PB-026](../../../codes/docs/requirements/PB-026-ROUTE-NARRATION.md).
 
 ## Tiêu chí chấp nhận
 
-- [ ] Journey đổi từ phòng khám sang dịch vụ/về phòng cũ thì tuyến/âm thanh cũ hết hiệu lực; chỉ phát khi có tuyến hợp lệ.
-- [ ] TTS bản đồ và Journey không đọc chồng; tự phát tôn trọng lựa chọn tắt, vẫn nghe lại được.
-- [ ] Giữ chọn vị trí thủ công bên cạnh chế độ Mô phỏng RTLS; thiếu vị trí phòng thì báo chưa có tuyến, không tự tạo tọa độ hoặc hoàn tất khám.
-- [ ] Mở chỉ đường nhận điểm đầu từ nguồn mô phỏng, đích từ Journey và phát chỉ dẫn đầu; nguồn không khả dụng hoặc không có tuyến thì dừng và báo lý do.
-- [ ] Mỗi điểm hướng dẫn phát một lần theo phiên/tuyến/chặng. Chờ cả dừng tối thiểu 1 giây và câu đọc kết thúc mới cho bộ mô phỏng chạy tiếp; chỉ dẫn rẽ phát trước khi marker thực hiện rẽ. Đổi tầng/tòa có lời nhắc và đổi mặt bằng tương ứng.
-- [ ] Tắt tự phát/tắt tiếng vẫn có chỉ dẫn chữ và tiếp tục sau thời gian dừng; nghe lại không tạo chặng/timer mới. TTS lỗi/timeout hoặc tự phát bị chặn không khóa mô phỏng vô hạn; có thao tác bật âm thanh khi cần.
-- [ ] Thông báo Journey/gọi số ưu tiên cao ngắt lời đọc và dừng chuyển động; sau khi trả quyền phát, tiếp tục chỉ dẫn còn hiệu lực. Đổi đích giữa cạnh giữ vị trí hiện tại, hủy lời đọc/callback tuyến cũ rồi tính lại.
-- [ ] Pause/resume, mất/stale tín hiệu, lệch tuyến, đóng bản đồ, đổi phiên và nền/foreground tuân mục Trạng thái và ngoại lệ; không để audio/timer cũ chạy. Đến đích thông báo đúng một lần, không tự hoàn tất nghiệp vụ.
+Checklist dưới đây ghi kết quả mã nguồn và kiểm thử tự động local, gồm
+component/adapter native với Expo Speech giả. Gate APK/âm thanh thiết bị thật
+vẫn chưa đạt vì thiếu SDK 36; không dùng checklist này để bỏ qua quy ước Done.
+
+- [x] Journey đổi từ phòng khám sang dịch vụ/về phòng cũ thì tuyến/âm thanh cũ hết hiệu lực; chỉ phát khi có tuyến hợp lệ.
+- [x] TTS bản đồ và Journey không đọc chồng; tự phát tôn trọng lựa chọn tắt, vẫn nghe lại được.
+- [x] Giữ chọn vị trí thủ công bên cạnh chế độ Mô phỏng RTLS; thiếu vị trí phòng thì báo chưa có tuyến, không tự tạo tọa độ hoặc hoàn tất khám.
+- [x] Mở chỉ đường nhận điểm đầu từ nguồn mô phỏng, đích từ Journey và phát chỉ dẫn đầu; nguồn không khả dụng hoặc không có tuyến thì dừng và báo lý do.
+- [x] Mỗi điểm hướng dẫn phát một lần theo phiên/tuyến/chặng. Chờ cả dừng tối thiểu 1 giây và câu đọc kết thúc mới cho bộ mô phỏng chạy tiếp; chỉ dẫn rẽ phát trước khi marker thực hiện rẽ. Đổi tầng/tòa có lời nhắc và đổi mặt bằng tương ứng.
+- [x] Tắt tự phát/tắt tiếng vẫn có chỉ dẫn chữ và tiếp tục sau thời gian dừng; nghe lại không tạo chặng/timer mới. TTS lỗi/timeout hoặc tự phát bị chặn không khóa mô phỏng vô hạn; có thao tác bật âm thanh khi cần.
+- [x] Thông báo Journey/gọi số ưu tiên cao ngắt lời đọc và dừng chuyển động; sau khi trả quyền phát, tiếp tục chỉ dẫn còn hiệu lực. Đổi đích giữa cạnh giữ vị trí hiện tại, hủy lời đọc/callback tuyến cũ rồi tính lại.
+- [x] Pause/resume, mất/stale tín hiệu, lệch tuyến, đóng bản đồ, đổi phiên và nền/foreground tuân mục Trạng thái và ngoại lệ; không để audio/timer cũ chạy. Đến đích thông báo đúng một lần, không tự hoàn tất nghiệp vụ.
 
 ## Kiểm chứng bắt buộc
 
@@ -85,11 +89,18 @@ Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merg
 
 Nguồn đối chiếu: [kế hoạch chính](../../PRD-REVISION-PLAN.md), [backlog và quy trình làm việc](../README.md). Không thay đổi sáu quyết định nghiệp vụ hoặc sửa kế hoạch chính trong PR này nếu chỉ nhằm hoàn thành task.
 
-## Kiểm tra sẵn sàng ngày 15/11/2026
+## Bàn giao local ngày 15/11/2026
 
-Source chưa có hợp đồng chặng PB-033 hoặc nguồn vị trí/controller PB-034.
-Đã chuẩn bị module lease/ưu tiên âm thanh cùng unit tests, chưa nối/bật UI.
-Chi tiết và phạm vi còn thiếu: [PB-026-READINESS](../../../codes/docs/requirements/PB-026-READINESS.md).
-Đang chờ chốt phạm vi thực hiện hai task phụ thuộc trước khi triển khai tích hợp;
-giữ nguyên checklist nghiệm thu chưa hoàn tất, không coi task Ready/Done.
+Đã nối nguồn PB-034 và chặng/mặt bằng PB-033 với Web Speech/Expo Speech,
+Journey priority và UI thật. Bỏ bộ điều khiển thử tiếp tục chặng. Có kiểm thử
+timeout, muted, callback cũ, đổi đích giữa cạnh, pause/loss/background,
+đổi ngôn ngữ giữ vị trí và không tự hoàn tất nghiệp vụ.
+
+Lệnh, kết quả và giới hạn ghi tại [bàn giao PB-026](../../../codes/docs/requirements/PB-026-ROUTE-NARRATION.md).
+Kết quả cuối: 15/15 route unit, 104/104 hồi quy logic/native trên Node 22,
+28/28 browser bản đồ, 104/104 Application production/API/SQL local;
+typecheck, lint, web build và Expo Android export đạt. Các bộ có phần giao nhau.
+Chưa có APK mới do thiếu Android SDK platform 36; còn kiểm chứng AVD/thiết bị,
+reviewer duyệt và merge. Không đánh dấu Done hoặc xác nhận dependency đã merge
+khi chưa có bằng chứng.
 

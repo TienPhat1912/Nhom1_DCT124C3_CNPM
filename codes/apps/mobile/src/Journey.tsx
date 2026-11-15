@@ -37,7 +37,7 @@ export function Journey({
   id: string | null;
   onResults: () => void;
   onHelp: (step?: string) => void;
-  onDirections: (step: Step) => void;
+  onDirections: (step: Step, autoplay?: boolean) => void;
 }) {
   const { t, locale, session } = useNative();
   const r = useLoad<Visit>(
@@ -217,7 +217,7 @@ export function Journey({
               >
                 {t("stop")}
               </Btn>
-              <Btn secondary onPress={() => onDirections(step)}>
+              <Btn secondary onPress={() => onDirections(step, autoplay)}>
                 {t("navigate")}
               </Btn>
               <Btn secondary onPress={() => onHelp(step.id)}>
@@ -339,9 +339,11 @@ export function ScanTicket({
 }
 export function DirectionsScreen({
   visitId,
+  autoplay = true,
   onHelp,
 }: {
   visitId: string;
+  autoplay?: boolean;
   onHelp: (stepId?: string) => void;
 }) {
   const { t, locale } = useNative();
@@ -359,7 +361,12 @@ export function DirectionsScreen({
       <Card>
         <LoadingState resource={visit} />
         {current ? (
-          <HospitalMap key={visitId} destination={current.destination} contextKey={current.id} />
+          <HospitalMap
+            autoplay={autoplay}
+            key={visitId}
+            destination={current.destination}
+            contextKey={current.id}
+          />
         ) : (
           visit.data && <Txt>{t("noCurrent")}</Txt>
         )}
