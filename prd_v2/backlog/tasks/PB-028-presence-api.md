@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | In Progress |
+| Người nhận | phuch (Codex hỗ trợ) |
 | Reviewer | Chưa phân công |
 | Nhóm | Dashboard |
 | Ưu tiên | P1 |
@@ -23,9 +23,9 @@ Lưu tín hiệu hiện diện hợp lệ và tổng hợp số online cho Admin
 
 ## Tiêu chí chấp nhận
 
-- [ ] Heartbeat lấy danh tính từ session; không tin userId/role client; không đi qua khóa ghi nghiệp vụ toàn cục.
-- [ ] Account nhiều phiên tính một; Guest theo phiên; loại revoked/expired/logout/quá TTL; không gộp Guest/Account theo tên.
-- [ ] Giữ số liệu vận hành Dashboard hiện có; trả generatedAt và định nghĩa thời hạn; không coi mọi session chưa hết hạn là online.
+- [x] Heartbeat lấy danh tính từ session; không tin userId/role client; không đi qua khóa ghi nghiệp vụ toàn cục.
+- [x] Account nhiều phiên tính một; Guest theo phiên; loại revoked/expired/logout/quá TTL; không gộp Guest/Account theo tên.
+- [x] Giữ số liệu vận hành Dashboard hiện có; trả generatedAt và định nghĩa thời hạn; không coi mọi session chưa hết hạn là online.
 
 ## Kiểm chứng bắt buộc
 
@@ -44,6 +44,12 @@ Có migration; merge tuần tự sau snapshot hiện hành, phối hợp PB-013/
 Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merge; chỉ coi Ready và merge khi đã có các dependency, không tham chiếu mã chưa tồn tại. Nếu cần đổi hợp đồng chung, cập nhật hợp đồng và trao đổi với người nhận task phụ thuộc trước khi viết phần còn lại.
 
 ## Bàn giao
+
+Đã triển khai trên `feat/pb-028-presence-api`, gồm migration SessionPresence,
+API heartbeat/aggregate và Dashboard.online. Kiểm thử SQL/HTTP/migration/tải đã có
+trong task; giữ In Progress chờ PR, review và merge.
+Chi tiết hợp đồng, cấu hình, số đo và giới hạn:
+[PB-028](../../../codes/docs/requirements/PB-028-presence-api.md).
 
 - [ ] Hoàn tất tiêu chí ở trên và quy ước Done.
 - [ ] PR ghi mã PB-028, mô tả hành vi trước/sau, kiểm chứng và migration nếu có.

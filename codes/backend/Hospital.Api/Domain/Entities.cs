@@ -41,6 +41,7 @@ public class ClinicRoom : Entity
 }
 public class Session : Entity
 {
+    public DateTime? LastSeenAt { get; set; }
     public string TokenHash { get; set; } = "";
     public Guid? UserAccountId { get; set; }
     public UserAccount? UserAccount { get; set; }

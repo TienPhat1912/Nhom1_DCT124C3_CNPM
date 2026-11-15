@@ -1,3 +1,4 @@
+using Hospital.Tests.Fixtures;
 using System.Text.Json;
 using Hospital.Api.Domain;
 using Hospital.Api.Infrastructure;
@@ -38,7 +39,9 @@ var reception = new ReceptionRecord { PatientId = patient.Id, RegistrationReques
 var visit = new Visit { PatientId = patient.Id, ReceptionRecordId = reception.Id, DoctorId = doctor.Id, DepartmentId = department.Id };
 var old = new SummaryVersion { VisitId = visit.Id, AuthorId = doctor.Id, AuthorName = doctor.Name, Language = "vi", Status = "Published", Revision = 1,
     Diagnosis = "  Chẩn đoán cũ\n", Explanation = "Nội dung nguyên bản", Instructions = "Hướng dẫn nguyên bản", PublishedAt = DateTime.UtcNow };
-db.AddRange(patient, session, request, reception, visit, old); await db.SaveChangesAsync(); db.ChangeTracker.Clear();
+db.Add(patient); await db.SaveChangesAsync();
+await LegacySessionFixture.Insert(db, session);
+db.AddRange(request, reception, visit, old); await db.SaveChangesAsync(); db.ChangeTracker.Clear();
 var before = JsonSerializer.Serialize(await db.Set<SummaryVersion>().AsNoTracking().SingleAsync(x => x.Id == old.Id));
 await migrator.MigrateAsync(); Check(!db.Database.HasPendingModelChanges());
 Check(JsonSerializer.Serialize(await db.Set<SummaryVersion>().AsNoTracking().SingleAsync(x => x.Id == old.Id)) == before);

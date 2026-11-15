@@ -1,5 +1,14 @@
 # Kiểm thử
 
+PB-028: `dotnet run --project tests/presence/Presence.Tests.csproj -c Release`
+với `PB028_SQL_CONNECTION` local chạy kiểm tra SQL/handler dùng clock điều khiển
+và migration trên database fixture riêng. `node tests/presence/run.mjs` chạy HTTP
+và tải 20 client trên bản published, với database acceptance mới và env kết nối.
+Hai bộ được nối vào ci-native. Xem [PB-028](../docs/requirements/PB-028-presence-api.md).
+Các fixture tạo session ở schema trước PB-028 dùng
+`fixtures/LegacySessionFixture.cs` để chỉ ghi các cột session lịch sử, rồi kiểm tra
+migration với model hiện hành sau khi upgrade.
+
 PB-026: `npm run test:route:unit` kiểm tra handshake vị trí/TTS, ưu tiên âm
 thanh và adapter/hook Expo thực tế với engine giả. `npm run test:map` chạy
 bản đồ/mô phỏng/thuyết minh trên desktop và mobile viewport; các ca cũng nằm

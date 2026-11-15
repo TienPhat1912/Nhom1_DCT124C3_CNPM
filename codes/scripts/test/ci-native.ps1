@@ -25,7 +25,7 @@ function Find-SqlTool([string]$Name) {
 $names = @('ACCEPTANCE_DB', 'ConnectionStrings__Hospital', 'DEMO_PASSWORD', 'Demo__Enabled', 'Demo__Password',
     'ASPNETCORE_ENVIRONMENT', 'ASPNETCORE_URLS', 'Web__Origin', 'API_URL', 'WEB_URL', 'SQL_TEST_SERVER', 'SQLCMD_PATH',
     'Providers__FailureMode', 'Providers__TimeoutSeconds', 'PROVIDER_FAILURE', 'EXPECTED_COMMIT', 'PB004_SQL_SERVER', 'PB004_SQL_CONNECTION',
-    'PB006_SQL_CONNECTION', 'PB007_SQL_CONNECTION', 'PB010_SQL_CONNECTION', 'PB011_SQL_CONNECTION', 'PB013_SQL_CONNECTION', 'Workflow__PrdV2Enabled')
+    'PB006_SQL_CONNECTION', 'PB007_SQL_CONNECTION', 'PB010_SQL_CONNECTION', 'PB011_SQL_CONNECTION', 'PB013_SQL_CONNECTION', 'PB028_SQL_CONNECTION', 'Workflow__PrdV2Enabled')
 $previous = @{}
 foreach ($name in $names) { $previous[$name] = [Environment]::GetEnvironmentVariable($name, 'Process') }
 $apiProcess = $null
@@ -99,6 +99,9 @@ try {
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/single-order/SingleOrder.Tests.csproj', '--configuration', 'Release')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/clinical-catalog/ClinicalCatalog.Tests.csproj', '--configuration', 'Release')
     Invoke-Checked 'node' @('tests/api/performance.mjs')
+    $env:PB028_SQL_CONNECTION = $env:ConnectionStrings__Hospital
+    Invoke-Checked 'dotnet' @('run', '--project', 'tests/presence/Presence.Tests.csproj', '--configuration', 'Release')
+    Invoke-Checked 'node' @('tests/presence/run.mjs')
     # API/load checks and browsers share the loopback IP's 120/minute auth quota.
     # Give browsers a fresh limiter while retaining the same release and database;
     # otherwise fast CI runs can return 429 on logout or the following login.

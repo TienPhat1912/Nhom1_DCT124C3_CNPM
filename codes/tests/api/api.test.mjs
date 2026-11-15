@@ -376,7 +376,16 @@ test('administrator dashboard requires admin access and reports bounded aggregat
   assert.equal(week.configuration.activeStaff, configuration.staff.filter(s => s.active).length);
   assert.equal(week.configuration.servicesWithoutMapping, configuration.services.filter(s => s.active && !configuration.mappings.some(m => m.hospitalServiceId === s.id && m.published)).length);
   // The administrator gets counts, not patient identities or clinical content.
-  assert.deepEqual(Object.keys(week).sort(), ['configuration', 'daily', 'days', 'departments', 'generatedAt', 'summary', 'timeZone']);
+  assert.deepEqual(Object.keys(week).sort(), ['configuration', 'daily', 'days', 'departments', 'generatedAt', 'online', 'summary', 'timeZone']);
+  for (const dashboard of [week, month]) {
+    assert.deepEqual(Object.keys(dashboard.online).sort(), ['accounts', 'generatedAt', 'guests', 'total', 'ttlSeconds']);
+    assert.equal(dashboard.online.generatedAt, dashboard.generatedAt);
+    assert.ok(Number.isSafeInteger(dashboard.online.ttlSeconds) && dashboard.online.ttlSeconds > 0);
+    // This suite creates sessions but never sends heartbeats: login alone is not online.
+    assert.equal(dashboard.online.accounts, 0);
+    assert.equal(dashboard.online.guests, 0);
+    assert.equal(dashboard.online.total, 0);
+  }
   for (const d of week.departments) {
     assert.deepEqual(Object.keys(d).sort(), ['active', 'activeVisits', 'id', 'inProgressSteps', 'nameEn', 'nameVi', 'openAssistance', 'waitingSteps']);
   }

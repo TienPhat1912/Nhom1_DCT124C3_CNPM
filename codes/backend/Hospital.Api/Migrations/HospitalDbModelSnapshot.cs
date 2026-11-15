@@ -1669,6 +1669,9 @@ namespace Hospital.Api.Migrations
                     b.Property<bool>("IsGuest")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("LastSeenAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid?>("PatientId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1688,6 +1691,11 @@ namespace Hospital.Api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LastSeenAt")
+                        .HasFilter("[LastSeenAt] IS NOT NULL");
+
+                    SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex("LastSeenAt"), new[] { "IsGuest", "UserAccountId", "ExpiresAt", "Revoked" });
 
                     b.HasIndex("PatientId");
 
