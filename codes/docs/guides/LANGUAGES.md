@@ -1,6 +1,13 @@
 # Ngôn ngữ và nội dung tiếng Việt
 
-Ứng dụng hỗ trợ **Việt (`vi`), Anh (`en`), Trung giản thể (`zh`), Hàn (`ko`), Nhật (`ja`) và Nga (`ru`)** trên web và Android. Nhân viên nhập nội dung bệnh viện bằng tiếng Việt. API kiểm tra quyền truy cập, đọc bản gốc, dịch sang ngôn ngữ được chọn và trả văn bản cho giao diện/giọng đọc trên thiết bị.
+Từ PB-027, Entry, config và picker web/Android có bốn lựa chọn chính:
+**Việt (`vi`), Anh (`en`), Trung giản thể (`zh`) và Nhật (`ja`)**.
+Tùy chọn Hàn (`ko`)/Nga (`ru`) đã lưu được giữ nguyên; client dùng giao diện Việt
+kèm thông báo và chỉ lưu lựa chọn mới khi người dùng chủ động đổi. Không sửa
+ngôn ngữ hồ sơ, Visit hoặc tiến độ khi chỉ đổi giao diện. API/dictionary/giọng đọc
+vẫn hiểu ko/ru để đọc nội dung lịch sử và phục vụ client cũ.
+Nhân viên nhập nội dung bệnh viện bằng tiếng Việt. API kiểm tra quyền truy cập,
+đọc bản gốc, dịch sang ngôn ngữ được chọn và trả văn bản cho giao diện/giọng đọc.
 
 ## Chạy khi chưa có khóa dịch
 
@@ -53,7 +60,7 @@ Các tên hiển thị dùng `name`, `departmentName`; `nameVi`/`departmentNameV
 
 Nhóm nội dung trả `requestedLanguage`, `translationStatus` (`source`, `translated`, `unavailable`) và `fallback`. Một tóm tắt khám được dịch cùng nhóm: nếu một trường không dịch được, toàn bộ nhóm dùng tiếng Việt để tránh đọc lẫn ngôn ngữ. `original` luôn giữ bản gốc.
 
-Narration dùng chính bản dịch của các trường hiển thị. Client gửi cả `sourceRevision` và `contentKey`; nếu bản nguồn hoặc bản dịch đã thay đổi, API trả `409 sourceChanged` để tải lại trước khi phát. Tên giọng đọc: `vi-VN`, `en-US`, `zh-CN`, `ko-KR`, `ja-JP`, `ru-RU`. Máy cần cài giọng tương ứng; thiếu giọng thì báo lỗi âm thanh và tiếp tục hiển thị văn bản.
+Narration dùng chính bản dịch của các trường hiển thị. Client gửi cả `sourceRevision` và `contentKey`; nếu bản nguồn hoặc bản dịch đã thay đổi, API trả `409 sourceChanged` để tải lại trước khi phát. Bốn giọng chính: `vi-VN`, `en-US`, `zh-CN`, `ja-JP`; giữ `ko-KR`, `ru-RU` cho nội dung tương thích. Giọng chọn theo ngôn ngữ văn bản thực tế, kể cả khi dịch lỗi và trả bản gốc Việt. Máy cần cài giọng tương ứng; thiếu giọng thì báo lỗi âm thanh và tiếp tục hiển thị văn bản.
 
 ## Kiểm thử
 

@@ -1,4 +1,5 @@
 {
+  "legacyLanguageNotice": "已保留原有韩语或俄语偏好。界面暂用越南语，可选择越南语、英语、中文或日语。记录和进度保持不变。",
   "onlinePresence": "当前在线",
   "onlineAccounts": "账户",
   "onlineGuests": "访客会话",
@@ -239,7 +240,7 @@
   "validation": "请检查输入的信息。",
   "invalidCredentials": "邮箱或密码不正确。",
   "identityConflict": "账户已关联其他患者记录，需工作人员核实。访客数据已保留。",
-  "accountExists": "账户已存在，请登录以关联。",
+  "accountExists": "账户已存在，请使用此账户登录。",
   "passwordPolicy": "请使用12至128个字符，包含字母和数字。",
   "qrPurpose": "二维码无效或用途不符。",
   "qrExpired": "二维码已过期，请向接待处申请更换。",

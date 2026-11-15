@@ -1,3 +1,4 @@
+import { displayLocale, isLegacyLocale } from "../../packages/shared/src/locales.ts";
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -43,7 +44,7 @@ function harness(file, modules = {}) {
       KeyboardAvoidingView: 'KeyboardAvoidingView', Platform: { OS: 'android' },
       Linking: { getInitialURL: async () => null, addEventListener: () => ({ remove() {} }) },
     },
-    '@hospital/shared': { translator: () => key => key, isLocale: value => ['vi', 'en'].includes(value), localizeText: text => text, dateText: () => 'fixture-date', ApiError: class extends Error {} },
+    '@hospital/shared': { translator: () => key => key, displayLocale, isLegacyLocale, isLocale: value => ['vi', 'en'].includes(value), localizeText: text => text, dateText: () => 'fixture-date', ApiError: class extends Error {} },
     'react-native-safe-area-context': { SafeAreaProvider: 'SafeAreaProvider', SafeAreaView: 'SafeAreaView' },
     'expo-status-bar': { StatusBar: 'StatusBar' },
     'expo-secure-store': { getItemAsync: async () => null, setItemAsync: async () => {} },

@@ -9,6 +9,8 @@ namespace Hospital.Api.Content;
 
 public static class Languages
 {
+    public static readonly string[] Primary = ["vi", "en", "zh", "ja"];
+    // Preserve old preferences/source documents and older clients, without advertising them.
     public static readonly string[] Supported = ["vi", "en", "zh", "ko", "ja", "ru"];
     public static string Normalize(string? language)
     {

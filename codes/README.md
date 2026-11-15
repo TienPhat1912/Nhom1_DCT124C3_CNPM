@@ -250,4 +250,4 @@ Tài liệu bổ sung: [chỉ mục](docs/README.md), [cấu hình Android](docs
 
 ## Nội dung đa ngôn ngữ
 
-Web và Android hỗ trợ Việt, Anh, Trung giản thể, Hàn, Nhật, Nga. Nội dung bệnh viện lưu bằng tiếng Việt; xem [cấu hình dịch và chuyển đổi database](docs/guides/LANGUAGES.md) để bật dịch tự động cho nội dung mới.
+Web và Android có bốn lựa chọn chính: Việt, Anh, Trung giản thể và Nhật. Dữ liệu Hàn/Nga cũ vẫn đọc được; xem [chính sách ngôn ngữ và cấu hình dịch](docs/guides/LANGUAGES.md). Nội dung bệnh viện lưu bằng tiếng Việt.

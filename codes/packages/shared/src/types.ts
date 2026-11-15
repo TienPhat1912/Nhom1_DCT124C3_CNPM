@@ -45,6 +45,7 @@ export type HospitalService = Entity & {
   returnRequired: boolean;
 };
 export type Configuration = {
+  languages?: LocaleV2[];
   prdV2Enabled?: boolean;
   catalogVersion?: string;
   name: string;
