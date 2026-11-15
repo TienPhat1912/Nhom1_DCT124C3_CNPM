@@ -290,21 +290,34 @@ test('switching from Guest to an independent account discards old selection and 
       speak: () => { calls.spoken++; },
     } });
   });
-  let release: (() => void) | undefined;
+  let release!: () => void;
+  const held = new Promise<void>(resolve => { release = resolve; });
+  const deliveries: Promise<void>[] = [];
+  let waiting = 0;
   await page.route(`**/api/visits/${visitId}/narration`, async route => {
-    const response = await route.fetch();
-    await new Promise<void>(resolve => { release = resolve; });
-    await route.fulfill({ response });
+    const delivery = (async () => {
+      const response = await route.fetch();
+      waiting++;
+      await held;
+      await route.fulfill({ response });
+    })();
+    deliveries.push(delivery);
+    await delivery;
   });
   await page.goto(`/#visit=${visitId}`);
   await expect(page.getByRole('heading', { name: 'Initial consultation', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Listen', exact: true }).click();
-  await expect.poll(() => !!release).toBe(true);
+  // Narration now starts automatically. Hold that request across the session
+  // boundary instead of clicking a Listen button that may already be busy.
+  await expect.poll(() => waiting).toBeGreaterThan(0);
   const navigate = async (label: string) => {
     if (await page.locator('.mobile-menu').isVisible()) await page.locator('.mobile-menu').click();
     await page.getByRole('button', { name: label, exact: true }).click();
   };
+  const cancelled = page.waitForEvent('requestfailed', {
+    predicate: request => request.url().endsWith(`/visits/${visitId}/narration`),
+  });
   await navigate('Sign out');
+  await cancelled;
   await expect(page.getByRole('heading', { name: 'Sign in', exact: true })).toBeVisible();
   const email = `session-boundary-${randomUUID()}@example.test`;
   await page.getByRole('button', { name: 'Create account', exact: true }).click();
@@ -315,9 +328,10 @@ test('switching from Guest to an independent account discards old selection and 
   await page.getByRole('button', { name: 'Create account', exact: true }).last().click();
   await expect(page.getByRole('heading', { name: 'Hello, Independent account fixture', exact: true })).toBeVisible();
   await expect(page.getByText('No confirmed hospital Visits yet.', { exact: true })).toBeVisible();
-  const delayed = page.waitForResponse(response => response.url().endsWith(`/visits/${visitId}/narration`));
-  release!();
-  await delayed;
+  // Aborted browser fetches have no response event. Await completion of every
+  // intercepted delivery, then verify the old text cannot reach the new user.
+  release();
+  await Promise.all(deliveries);
   await expect.poll(() => page.evaluate(() => (window as unknown as { pb003Speech: { spoken: number } }).pb003Speech.spoken)).toBe(0);
   expect(await page.evaluate(() => (window as unknown as { pb003Speech: { cancelled: number } }).pb003Speech.cancelled)).toBeGreaterThan(0);
   await expect(page).not.toHaveURL(/#visit=/);

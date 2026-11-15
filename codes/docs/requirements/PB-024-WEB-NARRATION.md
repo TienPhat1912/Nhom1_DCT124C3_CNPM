@@ -88,3 +88,24 @@ Trước nghiệm thu phát hành, dùng trình duyệt có cài giọng phù h�
 Không có migration, không thay nghiệp vụ hoặc authentication ngoài cleanup
 âm thanh. Review, PR và merge là bước bàn giao riêng theo quy ước backlog;
 không đánh Done chỉ dựa trên mã nguồn và kiểm thử local.
+
+## Hồi quy CI: đổi Guest sang Account
+
+Log CI ngày 15/11/2026 có 76 browser tests đạt, hai ca session-boundary trên
+desktop/mobile timeout tại `page.waitForResponse` trong `patient.spec.ts`.
+PB-024 hủy fetch thuyết minh khi rời màn hình/đăng xuất, nên request đã hủy
+không còn phát sự kiện response mà test cũ chờ đợi.
+
+Test đã được cập nhật để giữ request tự phát, xác nhận `requestfailed` khi đăng
+xuất, sau đó giải phóng và chờ hoàn thành mọi handler đang giữ response. Sau
+khi tạo tài khoản độc lập, test tiếp tục kiểm tra không có tiếng của Guest,
+không giữ Visit/phiếu cũ và không hiển thị liên kết tài khoản. Dùng một barrier
+chung để không bỏ sót request khi có nhiều lần gọi. Không tăng timeout, bỏ test
+hoặc thay đổi cơ chế hủy request của ứng dụng.
+
+Kiểm chứng bản sửa ngày 15/11/2026: hai ca lỗi chạy riêng đạt 2/2; toàn bộ
+browser suite mặc định của bước CI đạt 78/78 trong 4,3 phút trên bản publish
+Release mới, SQL localhost và database riêng `HospitalAcceptance_1794728015221`
+(giữ lại fixture). `npm.cmd run typecheck`, `npm.cmd run lint`, `npm.cmd run build`
+và `git diff --check` đạt. Đã xác minh lại bước browser gây lỗi; không chạy lại
+toàn bộ các bước migration/API/provider phía sau của `ci-native.ps1` trong lượt sửa này.
