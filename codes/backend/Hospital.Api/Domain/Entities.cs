@@ -400,6 +400,14 @@ public class AssistanceRequest : Entity
     public Guid? HandledBy { get; set; }
     public bool Escalated { get; set; }
 }
+public class VisitEvent : Entity
+{
+    public long Sequence { get; set; }
+    public Guid VisitId { get; set; }
+    public string Key { get; set; } = "journeyUpdated";
+    public string StateHash { get; set; } = "";
+    public string PayloadJson { get; set; } = "{}";
+}
 public class Notification : Entity
 {
     public Guid PatientId { get; set; }

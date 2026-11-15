@@ -13,6 +13,7 @@ public static class SupportEndpoints
 {
     public static void MapSupport(this WebApplication app)
     {
+        app.MapVisitEvents();
         var g = app.MapGroup("/api").AddEndpointFilter<LocalizedResponseFilter>().WithTags("Navigation, notifications and assistance");
         g.MapGet("/visits/{id:guid}/navigation", async (Guid id, Guid? from, Guid? stepId, string? language, Access access, HospitalDb db) => {
             var v = await access.Visit(id); var step = stepId is {} sid ? v.Journey.Steps.SingleOrDefault(s => s.Id == sid) : v.Journey.Steps.Where(s => !Workflow.Resolved(s)).OrderBy(s => s.Status == "Ready" ? 0 : 1).ThenBy(s => s.Sequence).FirstOrDefault();

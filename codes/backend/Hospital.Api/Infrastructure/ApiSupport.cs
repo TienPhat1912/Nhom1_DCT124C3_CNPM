@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Hospital.Api.Domain;
+using Hospital.Api.Journeys;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hospital.Api.Infrastructure;
@@ -33,6 +34,7 @@ public static class Crypto
 }
 public class CommandBus(HospitalDb db, IHttpContextAccessor accessor)
 {
+    readonly List<(Guid VisitId, string Key)> pendingEvents = [];
     public static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web);
     public async Task<T> Run<T>(string scope, object request, Func<Task<T>> action, bool idempotent = true)
     {
@@ -55,6 +57,23 @@ public class CommandBus(HospitalDb db, IHttpContextAccessor accessor)
         }
         var result = await action();
         await db.SaveChangesAsync();
+        // Capture the final persisted versions, including commands that save inside action().
+        // The stream and receipt share the business transaction; failures publish nothing.
+        foreach (var pending in pendingEvents.GroupBy(e => e.VisitId))
+        {
+            var visit = await VisitEventState.Query(db).SingleAsync(v => v.Id == pending.Key);
+            var state = VisitEventState.Capture(visit);
+            var keys = state.Steps.Select(s => s.TemplateKey).Distinct().ToArray();
+            var templates = await db.Set<GuidanceTemplate>().AsNoTracking()
+                .Where(t => keys.Contains(t.Key) && t.Published && t.Language == "vi").OrderByDescending(t => t.Revision).ToListAsync();
+            var guidance = state.Steps.Select(s => (Step: s, Template: templates.FirstOrDefault(t => t.Key == s.TemplateKey)))
+                .Where(x => x.Template != null).Select(x => new EventGuidance(x.Step.Id, x.Template!.Id,
+                    x.Template.Key, x.Template.Revision, x.Template.Language, x.Template.Text)).ToArray();
+            db.Add(new VisitEvent { VisitId = visit.Id, Key = pending.Last().Key,
+                StateHash = VisitEventState.Hash(state), PayloadJson = JsonSerializer.Serialize(new VisitEventPayload(state, guidance), Json) });
+        }
+        if (pendingEvents.Count > 0) await db.SaveChangesAsync();
+        pendingEvents.Clear();
         if (idempotent)
         {
             db.Add(new CommandReceipt { Scope = scope, Key = key, RequestHash = hash, ResponseJson = JsonSerializer.Serialize(result, Json) });
@@ -70,6 +89,8 @@ public class CommandBus(HospitalDb db, IHttpContextAccessor accessor)
         db.Add(new AuditEvent { ActorId = actor, Type = type, VisitId = visitId, Detail = detail,
             Source = source, SourceEventId = string.IsNullOrEmpty(key) ? Guid.NewGuid().ToString("N") : $"{actor:N}:{type}:{key}" });
     }
-    public void Notify(Guid patientId, Guid? visitId, string key = "journeyUpdated") =>
+    public void Notify(Guid patientId, Guid? visitId, string key = "journeyUpdated") {
         db.Add(new Notification { PatientId = patientId, VisitId = visitId, Key = key });
+        if (visitId is {} id) pendingEvents.Add((id, key));
+    }
 }
