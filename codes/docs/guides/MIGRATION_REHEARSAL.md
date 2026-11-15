@@ -18,9 +18,9 @@ dotnet run --project tests/migration/Migration.Tests.csproj -c Release
 if ($LASTEXITCODE -ne 0) { throw 'Rehearsal failed' }
 ```
 
-Runner luôn bỏ tên database trong connection và tạo tên mới. `PB030_BACKUP_DIRECTORY` tùy chọn là đường dẫn **trên máy SQL Server**, mặc định lấy `InstanceDefaultBackupPath`; thư mục phải có sẵn. `PB030_REPORT` tùy chọn đổi nơi lưu báo cáo, mặc định `artifacts/pb030-rehearsal.json`. Script PowerShell dùng Windows authentication và phục hồi các biến môi trường đã thay khi kết thúc.
+Runner luôn bỏ tên database trong connection và tạo tên mới. `PB030_BACKUP_DIRECTORY` tùy chọn là đường dẫn **trên máy SQL Server**; thư mục phải có sẵn. Khi không đặt biến này, dùng `InstanceDefaultBackupPath`; nếu LocalDB trả null/rỗng, dùng thư mục file dữ liệu của chính database fixture mới tạo, lấy từ `sys.master_files`. Không tạo thư mục tùy ý hoặc thay cấu hình instance. `PB030_REPORT` tùy chọn đổi nơi lưu báo cáo, mặc định `artifacts/pb030-rehearsal.json`. Script PowerShell chạy sáu kiểm tra hồi quy đường dẫn trước rehearsal SQL, dùng Windows authentication và phục hồi các biến môi trường đã thay khi kết thúc.
 
-Exit code 0 cùng `passed: true` xác nhận rehearsal đã qua. Exit code khác 0 phải dừng quy trình; không dùng báo cáo của lần chạy trước. JSON ghi run ID, migration đã áp dụng, ID finding, số dòng và SHA-256 từng bảng; không ghi token, connection string, nội dung lâm sàng hay snapshot gốc. CI Windows gọi cùng script trong `scripts/test/ci-native.ps1` và thu báo cáo JSON vào artifact.
+Exit code 0 cùng `passed: true` xác nhận rehearsal đã qua. Exit code khác 0 phải dừng quy trình; không dùng báo cáo của lần chạy trước. JSON ghi run ID, migration đã áp dụng, ID finding, số dòng và SHA-256 từng bảng; khi lỗi có thêm operation, SQL number/parameter name và thông báo assertion do runner định nghĩa. Không ghi token, connection string, thông báo lỗi SQL thô, nội dung lâm sàng hay snapshot gốc. CI Windows gọi cùng script trong `scripts/test/ci-native.ps1` và thu báo cáo JSON vào artifact.
 
 ## Quy trình trên bản sao dữ liệu cần nâng cấp
 

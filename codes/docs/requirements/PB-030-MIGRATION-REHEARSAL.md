@@ -26,6 +26,20 @@ SQL: Windows authentication trên `.\SQLEXPRESS`. Database được giữ lại 
 
 Các stage đã qua: `fresh`, `backup-verified` (hai fixture), `legacy-upgraded`, `restore-verified` (hai fixture), `preflight-blocked`, `diagnostic-copy-blocked`, `migration-guard-verified`.
 
+## Sửa lỗi CI LocalDB
+
+Artifact `acceptance-and-builds` của [CI run 43743465746](https://github.com/TienPhat1912/Nhom1_DCT124C3_CNPM/actions/runs/43743465746)
+ghi `passed=false`, `checks=7`, `ArgumentNullException`. Bảy assertions thuộc schema mới đã qua;
+lỗi phát sinh sau đó khi chuẩn bị backup fixture legacy. Code cũ đưa trực tiếp
+`InstanceDefaultBackupPath` vào `Path.Combine`, không xử lý giá trị null của LocalDB.
+
+Đã thêm fallback tới thư mục data file của chính fixture từ `sys.master_files`, giữ ưu tiên
+`PB030_BACKUP_DIRECTORY` và đường dẫn mặc định có giá trị. Report lỗi ghi thêm operation,
+parameter name và assertion an toàn để phân biệt lỗi môi trường với lỗi dữ liệu.
+`run.ps1` chạy sáu regression checks không cần SQL trước rehearsal; cả sáu checks và
+49 assertions SQL Express đã PASS sau bản sửa (`artifacts/pb030-localdb-fix.json`).
+Kết quả này chưa thay thế việc chạy lại CI trên LocalDB.
+
 ## Giới hạn
 
 Chưa chạy toàn bộ CI từ đầu hoặc diễn tập trên bản sao dữ liệu demo/online thật. Không chạy migration/reset/restore lên database dùng chung. Rehearsal fixture không kiểm chứng vận hành Azure, PITR, backup mã hóa hoặc replay giao dịch sau cutover. Bật V2/phát hành cần xét dữ liệu thật và nghiệm thu PB-031. Không thay đổi migration, API, web/mobile hay cấu hình V2.

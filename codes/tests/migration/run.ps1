@@ -13,7 +13,9 @@ Push-Location -LiteralPath $root
 try {
     $env:PB030_SQL_CONNECTION = "Server=$SqlServer;Database=master;Integrated Security=true;TrustServerCertificate=true"
     $env:PB030_REPORT = $Report
-    dotnet run --project tests/migration/Migration.Tests.csproj --configuration Release
+    dotnet run --project tests/migration/Migration.Tests.csproj --configuration Release -- --test-backup-paths
+    if ($LASTEXITCODE -ne 0) { throw 'PB-030 backup-directory regression checks failed.' }
+    dotnet run --project tests/migration/Migration.Tests.csproj --configuration Release --no-build
     if ($LASTEXITCODE -ne 0) { throw 'PB-030 rehearsal failed. Do not enable cutover; inspect the report.' }
 } finally {
     $env:PB030_SQL_CONNECTION = $previousConnection

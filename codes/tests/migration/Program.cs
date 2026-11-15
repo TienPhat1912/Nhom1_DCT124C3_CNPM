@@ -10,7 +10,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-await Rehearsal.Run();
+if (args.Contains("--test-backup-paths")) BackupDirectoryChecks.Run();
+else await Rehearsal.Run();
 
 static class Rehearsal
 {
@@ -19,10 +20,11 @@ static class Rehearsal
     static readonly List<object> evidence = [];
     static int checks;
     static string output = "";
+    static string operation = "initialize";
     static readonly string runId = Guid.NewGuid().ToString("N");
     static void Check(bool ok, string message)
     {
-        if (!ok) throw new InvalidOperationException(message);
+        if (!ok) throw new RehearsalAssertionException(message);
         checks++;
     }
     static string Q(string name) => "[" + name.Replace("]", "]]") + "]";
@@ -53,8 +55,11 @@ static class Rehearsal
         }
         catch (Exception e) {
             // Do not emit SQL messages, connection strings, snapshots or patient data.
-            evidence.Add(new { stage = "failure", type = e.GetType().Name, sqlNumber = (e as SqlException)?.Number });
-            Console.Error.WriteLine("FAIL PB-030. Review the last completed stage in the report; no cutover is authorized.");
+            evidence.Add(new { stage = "failure", operation, type = e.GetType().Name,
+                sqlNumber = (e as SqlException)?.Number,
+                parameter = (e as ArgumentException)?.ParamName,
+                assertion = e is RehearsalAssertionException ? e.Message : null });
+            Console.Error.WriteLine($"FAIL PB-030 during {operation}. Inspect the report; no cutover is authorized.");
         }
         finally {
             await File.WriteAllTextAsync(output, JsonSerializer.Serialize(new {
@@ -68,6 +73,7 @@ static class Rehearsal
 
     static async Task Fresh()
     {
+        operation = "fresh-schema";
         Console.WriteLine("Rehearsing fresh database and empty-schema downgrade.");
         await using var db = Db(Name("fresh"));
         await db.Database.MigrateAsync();
@@ -86,6 +92,7 @@ static class Rehearsal
 
     static async Task LegacyCase(string label, bool conflict)
     {
+        operation = "legacy-" + label;
         Console.WriteLine("Rehearsing legacy fixture: " + label);
         var name = Name(label);
         await using var db = Db(name);
@@ -96,6 +103,7 @@ static class Rehearsal
         var originalMigrations = (await db.Database.GetAppliedMigrationsAsync()).ToArray();
         // A real COPY_ONLY backup precedes all audit/migration operations.
         var backup = await Backup(name);
+        operation = "legacy-" + label + "-audit-upgrade";
         var findings = await Review(db, "legacy-audit.sql");
         Equal(original, await Snapshot(db, projection));
         Check(findings.Any(f => f.Reason == "guest_link_history"), "Linked Guest history audited");
@@ -185,6 +193,7 @@ static class Rehearsal
 
     static async Task OrderGuard()
     {
+        operation = "order-migration-guard";
         Console.WriteLine("Verifying pending-order migration guard without deleting rows.");
         await using var db = Db(Name("order_guard"));
         await db.GetService<IMigrator>().MigrateAsync(Legacy);
@@ -283,17 +292,27 @@ static class Rehearsal
     }
     static async Task<string> Backup(string name)
     {
+        operation = "backup-directory";
         await using var db = Db("master");
-        var directory = Environment.GetEnvironmentVariable("PB030_BACKUP_DIRECTORY")
-            ?? await db.Database.SqlQueryRaw<string>("SELECT CAST(SERVERPROPERTY('InstanceDefaultBackupPath') AS nvarchar(4000)) AS Value").SingleAsync();
+        var configured = Environment.GetEnvironmentVariable("PB030_BACKUP_DIRECTORY");
+        string? instanceDefault = null;
+        string? dataFile = null;
+        if (string.IsNullOrWhiteSpace(configured))
+            instanceDefault = await db.Database.SqlQueryRaw<string?>("SELECT CAST(SERVERPROPERTY('InstanceDefaultBackupPath') AS nvarchar(4000)) AS Value").SingleAsync();
+        if (string.IsNullOrWhiteSpace(configured) && string.IsNullOrWhiteSpace(instanceDefault))
+            dataFile = await db.Database.SqlQueryRaw<string>("SELECT physical_name AS Value FROM sys.master_files WHERE database_id=DB_ID({0}) AND type=0 ORDER BY file_id OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY", name).SingleAsync();
+        var directory = BackupDirectory.Resolve(configured, instanceDefault, dataFile);
         var path = Path.Combine(directory, name + ".bak");
+        operation = "backup-create";
         await db.Database.ExecuteSqlRawAsync("BACKUP DATABASE {0} TO DISK = {1} WITH COPY_ONLY, CHECKSUM", name, path);
+        operation = "backup-verify";
         await db.Database.ExecuteSqlRawAsync("RESTORE VERIFYONLY FROM DISK = {0} WITH CHECKSUM", path);
         evidence.Add(new { stage = "backup-verified", database = name, file = Path.GetFileName(path) });
         return path;
     }
     static async Task Restore(string source, string target, string backup)
     {
+        operation = "restore-copy";
         await using var db = Db("master");
         await db.Database.OpenConnectionAsync();
         await using var command = db.Database.GetDbConnection().CreateCommand();
@@ -317,3 +336,5 @@ static class Rehearsal
         await command.ExecuteNonQueryAsync();
     }
 }
+
+sealed class RehearsalAssertionException(string message) : Exception(message);
