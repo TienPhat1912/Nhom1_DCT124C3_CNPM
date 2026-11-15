@@ -111,6 +111,7 @@ export type Order = Entity & {
   mappingVersion: number;
 };
 export type Visit = VisitSummary & {
+  examStatus?: ExamStatus | null;
   doctorName?: string;
   departmentName?: string;
   departmentNameVi?: string;

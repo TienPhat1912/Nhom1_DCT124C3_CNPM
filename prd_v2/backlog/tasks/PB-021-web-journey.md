@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | In progress |
+| Người nhận | Codex |
 | Reviewer | Chưa phân công |
 | Nhóm | Bệnh nhân |
 | Ưu tiên | P0 |
@@ -23,9 +23,9 @@ Hiển thị rõ bước hiện tại, trạng thái khám, nơi cần đến v�
 
 ## Tiêu chí chấp nhận
 
-- [ ] Đang thực hiện dịch vụ chỉ đúng điểm dịch vụ; complete tự chuyển hướng dẫn về phòng cũ và Chờ khám; giữ số phiếu.
-- [ ] ExamStatus, Visit và Journey không bị gộp thành một trạng thái; Closed/Completed hiển thị lịch sử đúng, không cần bệnh nhân bấm kết thúc.
-- [ ] Reload/mất mạng giữ dữ liệu đã xem có nhãn cũ; phản hồi đến muộn không ghi đè trạng thái mới. Nghe lại/chỉ đường/hỗ trợ trong tối đa hai thao tác.
+- [x] Đang thực hiện dịch vụ chỉ đúng điểm dịch vụ; complete tự chuyển hướng dẫn về phòng cũ và Chờ khám; giữ số phiếu.
+- [x] ExamStatus, Visit và Journey không bị gộp thành một trạng thái; Closed/Completed hiển thị lịch sử đúng, không cần bệnh nhân bấm kết thúc.
+- [x] Reload/mất mạng giữ dữ liệu đã xem có nhãn cũ; phản hồi đến muộn không ghi đè trạng thái mới. Nghe lại/chỉ đường/hỗ trợ trong tối đa hai thao tác.
 
 ## Kiểm chứng bắt buộc
 
@@ -42,6 +42,47 @@ TTS tự động thuộc PB-024, không thiết kế lại toàn bộ giao diệ
 PB-024 sửa tiếp Journey/components; hoàn tất task này trước.
 
 Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merge; chỉ coi Ready và merge khi đã có các dependency, không tham chiếu mã chưa tồn tại. Nếu cần đổi hợp đồng chung, cập nhật hợp đồng và trao đổi với người nhận task phụ thuộc trước khi viết phần còn lại.
+
+## Verification (15/11/2026)
+
+| Command (from `codes/`) | Result |
+|---|---|
+| `npm run typecheck` | PASS: web/mobile/shared/contracts |
+| `npm run lint` | PASS |
+| `npm run build` | PASS; existing chunk size warning above 500 kB |
+| `npm run test:languages:unit` | PASS 3/3, six locale dictionaries |
+| `npx playwright test --config playwright.journey.config.ts` | PASS 12/12, desktop and Pixel 7 viewport |
+| `tests/final-settlement/run.ps1 -SqlServer '.\SQLEXPRESS'` | PASS: API 6/6 and real SQL/browser 2/2 |
+| `git diff --check` | PASS |
+
+Real database fixture: `HospitalAcceptance_1794710868142`; runner stopped API and
+restored environment. Full native CI, Android and legacy browser suites were not
+run in this task. API-loss tests intercept API traffic; they do not assert that
+an uncached app can start without any network access. Screenshots are in ignored
+`codes/artifacts/*-pb021-*.png`; mobile completion and service views inspected.
+
+## Local implementation (15/11/2026)
+
+- Branch: `feat/pb-021-web-journey`, base `aa52873` (main after PB-020 PR #35).
+- Separate examination, Visit and Journey status; service destination, return to the
+  original clinic, unchanged ticket, completed timeline and automatic closure.
+- Reuse `/api/visits/{id}`: its localized guidance already includes V2 examination
+  status. Add the optional typed field without changing the V2 or legacy API.
+- Tab-local snapshots are scoped to session, Visit and language. API loss/reload
+  shows saved data as stale; reconnect/focus/poll refreshes it. Reject lower
+  aggregate versions and superseded requests, including after language changes.
+- Offline reload restores only an unexpired patient shell on transport failure.
+  Auth denial, logout and expiry clear snapshots. No bearer token is cached.
+  The browser must still have the page assets available; no offline install or
+  service worker is introduced. No database migration or mobile change.
+- Browser suite: `codes/tests/browser/web-journey.spec.ts`, standalone config
+  `codes/playwright.journey.config.ts`; included in native CI. Deterministic API
+  responses cover zero/two service rounds, closure, API loss/reload/reconnect,
+  stale versions, delayed responses, auth denial, language changes and default
+  Visit selection surviving reload.
+- Real API/SQL regression: existing final-settlement runner, with patient assertions
+  distinguishing Completed examination from Active Visit/Journey before settlement.
+- Review, PR and merge are still pending; this task is not Done.
 
 ## Bàn giao
 
