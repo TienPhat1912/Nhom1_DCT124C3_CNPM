@@ -30,6 +30,8 @@ import {
   type Narration,
   type Session,
   type VisitEventPoll,
+  createPresenceController,
+  type PresenceHeartbeatV2,
 } from "@hospital/shared";
 
 export const API_URL =
@@ -50,7 +52,41 @@ export const nativeApi = createApi(
   true,
   () => currentLocale,
 );
+let stopPresence = () => {};
+let syncPresence = () => {};
+let presencePaused = false;
+export function stopNativePresence() { stopPresence(); }
+export function pauseNativePresence() {
+  const sync = syncPresence;
+  presencePaused = true; sync();
+  return () => { if (syncPresence === sync) { presencePaused = false; sync(); } };
+}
+export function NativePresence({ session, onExpired }: { session: Session | null; onExpired: () => void }) {
+  const expired = useRef(onExpired); expired.current = onExpired;
+  useEffect(() => {
+    if (!session) return;
+    presencePaused = false;
+    // Capture this session's token; a delayed old flight cannot use a new token.
+    const presenceApi = createApi(API_URL, () => session.token ?? null, true, () => currentLocale);
+    const controller = createPresenceController({
+      send: signal => presenceApi<PresenceHeartbeatV2>("/api/v2/presence/heartbeat", "POST", undefined, undefined, signal),
+      unauthorized: error => error instanceof ApiError && error.problem.status === 401,
+      onExpired: () => expired.current(),
+    });
+    let state = AppState.currentState;
+    const sync = () => controller.setActive(!presencePaused && state === "active");
+    syncPresence = sync; stopPresence = controller.stop;
+    const listener = AppState.addEventListener("change", next => { state = next; sync(); });
+    sync();
+    return () => {
+      controller.stop(); listener.remove();
+      if (syncPresence === sync) { syncPresence = () => {}; stopPresence = () => {}; }
+    };
+  }, [session?.sessionId, session?.token]);
+  return null;
+}
 export async function saveSession(s: Session | null) {
+  if (currentSessionId !== (s?.sessionId ?? null)) stopNativePresence();
   currentToken = s?.token ?? null;
   if (currentSessionId && currentSessionId !== s?.sessionId)
     await receptionStore.clear(currentSessionId);

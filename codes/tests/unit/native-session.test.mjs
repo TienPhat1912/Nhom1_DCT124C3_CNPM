@@ -122,6 +122,7 @@ test('native session changes unmount private screens and stop audio before devic
   const h = harness('App.tsx', {
     'expo-speech': { stop: async () => { stops++; } },
     './runtime': {
+      NativePresence: "NativePresence", stopNativePresence() {}, pauseNativePresence: () => () => {},
       journeyStore: { saveConfig: async () => {} },
       NativeContext: context, setApiLocale() {}, localizedError: () => '',
       nativeApi: async () => ({ demo: false }), restoreSession: async () => guest,

@@ -1,5 +1,11 @@
 # Kiểm thử
 
+PB-029: `npm run test:presence:unit` kiểm tra timer và adapter AppState native;
+`node tests/presence/run-clients.mjs` chạy browser giả lập mạng/clock và số đếm
+qua API thật trên database acceptance mới đã migrate. CI tự tạo fixture riêng.
+Xem [bàn giao PB-029](../docs/requirements/PB-029-PRESENCE-CLIENTS.md) cho môi
+trường, kết quả, ảnh và gate thiết bị Android chưa kiểm chứng.
+
 PB-028: `dotnet run --project tests/presence/Presence.Tests.csproj -c Release`
 với `PB028_SQL_CONNECTION` local chạy kiểm tra SQL/handler dùng clock điều khiển
 và migration trên database fixture riêng. `node tests/presence/run.mjs` chạy HTTP

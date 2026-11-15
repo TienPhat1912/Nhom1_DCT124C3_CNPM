@@ -41,6 +41,9 @@ import {
   localizedError,
   receptionStore,
   journeyStore,
+  NativePresence,
+  stopNativePresence,
+  pauseNativePresence,
 } from "./runtime";
 import {
   Badge,
@@ -125,6 +128,7 @@ export default function App() {
   }, [session?.sessionId, config]);
   const updateSession = useCallback(async (s: Session | null) => {
     if (sessionId.current !== (s?.sessionId ?? null)) {
+      stopNativePresence();
       if (sessionId.current) setPending(null);
       sessionId.current = s?.sessionId ?? null;
       // Unmount private screens before waiting on device storage/audio.
@@ -216,9 +220,11 @@ export default function App() {
   }, [session, updateSession]);
   const api = useCallback<ApiClient>(
     async (...args) => {
+      const resume = args[0] === "/api/auth/logout" ? pauseNativePresence() : undefined;
       try {
         return await nativeApi(...args);
       } catch (e) {
+        if (!(e instanceof ApiError && e.problem.title === "sessionExpired")) resume?.();
         if (e instanceof ApiError && e.problem.title === "sessionExpired") {
           await updateSession(null);
           setError(e);
@@ -232,6 +238,10 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.screen}>
         <StatusBar style="dark" />
+        <NativePresence session={session} onExpired={() => {
+          void updateSession(null);
+          setError(new ApiError({ status: 401, title: "sessionExpired", detail: "" }));
+        }} />
         <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior={Platform.OS === "ios" ? "padding" : undefined}

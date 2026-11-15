@@ -6,6 +6,11 @@ import ru from "./translations/ru.json" with { type: "json" };
 
 export const messages = {
   vi: {
+    onlinePresence: "Đang trực tuyến",
+    onlineAccounts: "Tài khoản",
+    onlineGuests: "Phiên khách",
+    onlineStale: "Mất kết nối; đang hiển thị số liệu tại thời điểm cập nhật gần nhất.",
+    onlineUnavailable: "Chưa tải được số liệu trực tuyến.",
     autoNarration: "Tự phát hướng dẫn và gọi số",
     manualNarrationHint: "Bạn có thể đọc hướng dẫn trên màn hình hoặc nhấn Nghe để thử lại.",
     examStatus: "Trạng thái khám",
@@ -426,6 +431,11 @@ export const messages = {
     appOpen: "Mở ứng dụng trên điện thoại",
   },
   en: {
+    onlinePresence: "Online now",
+    onlineAccounts: "Accounts",
+    onlineGuests: "Guest sessions",
+    onlineStale: "Connection lost; showing the last successfully updated counts.",
+    onlineUnavailable: "Online counts are unavailable.",
     autoNarration: "Automatically read instructions and queue calls",
     manualNarrationHint: "Read the instructions on screen or press Listen to try again.",
     guestTicketLookup: "Find a ticket and recover Guest access",

@@ -34,6 +34,8 @@ import {
   useMutation,
   useResource,
   useRuntime,
+  WebPresence,
+  stopWebPresence,
 } from "./runtime";
 import Auth from "./Auth";
 import {
@@ -81,6 +83,7 @@ export default function App() {
   const sessionId = useRef<string | null>(null);
   const updateSession = useCallback((next: Session | null) => {
     if (sessionId.current !== (next?.sessionId ?? null)) {
+      stopWebPresence();
       window.speechSynthesis?.cancel();
       // A previous patient's selection must not continue into another session.
       if (sessionId.current)
@@ -199,6 +202,7 @@ export default function App() {
         t,
       }}
     >
+      <WebPresence session={session} />
       <Workspace key={session.sessionId} />
     </RuntimeContext.Provider>
   );

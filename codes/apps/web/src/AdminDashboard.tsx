@@ -20,6 +20,7 @@ import {
 import { Button, Empty, Field, ResourceState } from "./components";
 import { useResource, useRuntime } from "./runtime";
 import "./admin-dashboard.css";
+import { OnlinePresence } from "./OnlinePresence";
 
 export default function AdminDashboard({
   onConfigure,
@@ -94,6 +95,7 @@ export default function AdminDashboard({
         )}
       </div>
       <ResourceState resource={resource} />
+      <OnlinePresence />
       {data && (
         <>
           <div className="dashboard-metrics">

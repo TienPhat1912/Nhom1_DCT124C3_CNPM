@@ -51,6 +51,9 @@ export function loadNative(file, modules = {}, globals = {}) {
     require: (name) => {
       if (name === "./routeSpeechAdapter" && !(name in modules))
         return loadNative("routeSpeechAdapter.ts", modules, globals);
+      if (name === "./runtime" && name in modules) return {
+        NativePresence: "NativePresence", stopNativePresence() {}, pauseNativePresence: () => () => {}, ...modules[name],
+      };
       assert.ok(name in modules, `Missing stub: ${name}`);
       return modules[name];
     },
