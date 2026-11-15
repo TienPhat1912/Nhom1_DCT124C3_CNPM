@@ -359,7 +359,7 @@ export function DirectionsScreen({
       <Card>
         <LoadingState resource={visit} />
         {current ? (
-          <HospitalMap key={current.id} destination={current.destination} />
+          <HospitalMap key={visitId} destination={current.destination} contextKey={current.id} />
         ) : (
           visit.data && <Txt>{t("noCurrent")}</Txt>
         )}

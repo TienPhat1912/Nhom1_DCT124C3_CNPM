@@ -111,6 +111,7 @@ try {
   );
   await restart(`hguide://entry?visit=${visit.id}&language=en`);
   await tap("Directions");
+  await tap('Manual');
   for (const [area, floor, id, name] of [
     ["A", "1", "room-P01", "same-floor"],
     ["A", "0", "lobby-a", "cross-floor"],

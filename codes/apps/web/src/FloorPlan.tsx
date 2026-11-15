@@ -21,6 +21,7 @@ export function FloorPlan({
   zoom,
   onChoose,
   onBuilding,
+  position,
 }: {
   graph: MapGraph;
   spaceId: string;
@@ -31,6 +32,7 @@ export function FloorPlan({
   zoom: number;
   onChoose: (id: string) => void;
   onBuilding: (id: string) => void;
+  position?: { x: number; y: number; spaceId: string };
 }) {
   const scene = mapScene(graph, spaceId, route),
     c = mapUiCopy[locale];
@@ -276,6 +278,17 @@ export function FloorPlan({
             </g>
           );
         })}
+      {position?.spaceId === spaceId && (
+        <g
+          data-testid="simulation-marker"
+          data-space={spaceId}
+          transform={`translate(${position.x},${position.y})`}
+          aria-label="RTLS demo"
+        >
+          <circle r="13" fill="#fff" stroke="#7c3aed" strokeWidth="3" />
+          <circle r="6" fill="#7c3aed" />
+        </g>
+      )}
     </svg>
   );
 }

@@ -2,6 +2,14 @@
 
 Mở **Hành trình → Chỉ đường** trên web hoặc Android:
 
+Mặc định PB-034 mở **Mô phỏng RTLS** tại Cổng 1. Chọn điểm đầu, bấm
+**Bắt đầu / tiếp tục**, rồi xác nhận ở mỗi điểm hướng dẫn; có pause/reset,
+thử lệch tuyến và mất/stale tín hiệu. Mỗi chặng demo 5 giây, dừng ít nhất
+1 giây; không phải vị trí thiết bị hoặc thời gian đi bộ thực. Chưa nối TTS
+theo vị trí. Xem [hướng dẫn và hợp đồng PB-034](../requirements/PB-034-RTLS-SIMULATION.md).
+
+Chọn **Thủ công** để dùng quy trình chọn vị trí và đọc tuyến tĩnh bên dưới:
+
 1. Trong tòa: chọn tòa A–G → lầu → checkpoint/phòng/khoa gần nhất.
 2. Ngoài tòa: chọn **Ngoài tòa nhà** rồi chọn checkpoint trên map hoặc danh sách.
 3. Bấm **Tìm đường**. Mặc định đích lấy từ phòng trên bước hiện tại của phiếu.

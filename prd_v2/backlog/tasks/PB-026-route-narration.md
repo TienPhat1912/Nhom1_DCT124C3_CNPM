@@ -2,7 +2,7 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | In progress — chuẩn bị; PB-033 có mã local, còn thiếu PB-034 |
+| Trạng thái | In progress — chuẩn bị; PB-033/PB-034 có mã local, chờ tích hợp và các gate phụ thuộc |
 | Người nhận | Codex (chuẩn bị local) |
 | Reviewer | Chưa phân công |
 | Nhóm | Bản đồ |

@@ -366,7 +366,7 @@ export function PatientJourney({
       )}
       {modal === "directions" && id && step && (
         <Modal title={t("navigate")} onClose={() => setModal(null)}>
-          <DirectionsPanel step={step} onHelp={() => setModal("help")} />
+          <DirectionsPanel key={id} step={step} onHelp={() => setModal("help")} />
         </Modal>
       )}
       {modal === "help" && (
@@ -466,7 +466,7 @@ function DirectionsPanel({ step, onHelp }: { step: Step; onHelp: () => void }) {
   const { t } = useRuntime();
   return (
     <>
-      <HospitalMap key={step.id} destination={step.destination} />
+      <HospitalMap destination={step.destination} contextKey={step.id} />
       <Button variant="secondary" onClick={onHelp}>
         {t("help")}
       </Button>

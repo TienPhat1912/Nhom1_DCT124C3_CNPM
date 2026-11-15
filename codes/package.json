@@ -21,6 +21,7 @@
     "test:e2e": "playwright test",
     "test:map": "playwright test --config playwright.map.config.ts",
     "test:map:unit": "node --experimental-strip-types --test tests/unit/hospital-map.test.mjs tests/unit/map-layout.test.mjs tests/unit/native-map.test.mjs",
+    "test:position:unit": "node --experimental-strip-types --test tests/unit/position-source.test.mjs tests/unit/native-position.test.mjs",
     "test:demo": "node tests/api/demo-smoke.mjs",
     "mobile": "npm run start --workspace @hospital/mobile",
     "test:directory": "playwright test --config playwright.directory.config.ts",

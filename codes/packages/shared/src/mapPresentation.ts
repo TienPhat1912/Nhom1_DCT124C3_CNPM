@@ -1,6 +1,7 @@
 import type { Locale } from "./types";
 import type { MapGraph, MapNode, MapRoute, MapSpace } from "./mapModel.ts";
 import { floorLabel } from "./hospitalDepartments.ts";
+import { positionCopy } from "./positionCopy.ts";
 
 export const mapUiCopy = {
   vi: {
@@ -238,6 +239,7 @@ export function mapScene(
 }
 
 export function infrastructureLabel(n: MapNode, locale: Locale): string | null {
+  if (n.id.startsWith("position-origin:")) return positionCopy[locale].origin;
   const c = mapUiCopy[locale];
   const suffix = n.building
     ? ` · ${c.building} ${n.building} · ${floorLabel(n.floor, locale)}`

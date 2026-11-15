@@ -121,6 +121,7 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
   await page.goto("/#visit=map-visit");
   await page.getByRole("button", { name: "Chỉ đường", exact: true }).click();
   const dialog = page.getByRole("dialog");
+  await dialog.getByRole('button', { name: 'Thủ công', exact: true }).click();
   await expect(dialog.getByText("Bản đồ mẫu", { exact: true })).toBeVisible();
   await expect(
     dialog.getByRole("button", { name: "Tìm đường", exact: true }),
@@ -310,6 +311,7 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
   await dialog.getByLabel("Đóng", { exact: true }).click();
   await page.getByLabel("Ngôn ngữ", { exact: true }).selectOption("en");
   await page.getByRole("button", { name: "Directions", exact: true }).click();
+  await page.getByRole('dialog').getByRole('button', {name:'Manual', exact:true}).click();
   await expect(dialog.getByText("Sample map", { exact: true })).toBeVisible();
   await dialog
     .getByLabel("1. Your location", { exact: true })
