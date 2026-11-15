@@ -1,18 +1,20 @@
-# Bản đồ bệnh viện — bản mẫu
+# Bản đồ bệnh viện — mặt bằng demo PB-033
 
 Mở **Hành trình → Chỉ đường** trên web hoặc Android:
 
 1. Trong tòa: chọn tòa A–G → lầu → checkpoint/phòng/khoa gần nhất.
 2. Ngoài tòa: chọn **Ngoài tòa nhà** rồi chọn checkpoint trên map hoặc danh sách.
 3. Bấm **Tìm đường**. Mặc định đích lấy từ phòng trên bước hiện tại của phiếu.
-4. Để tra cứu khoa khác, mở **Tra cứu khoa/phòng (50)**, tìm tên khoa và chọn
+4. Để tra cứu khoa khác, mở **Tra cứu khoa/phòng**, tìm tên khoa và chọn
    khoa cần đến. Nếu khoa có nhiều tầng, chọn tầng đích. Việc tra cứu không
    thay đổi thông tin phiếu hoặc chỉ định khám.
-5. Chọn **Tầng đang xem** để xem đoạn đường trên tầng hầm, trệt hoặc tầng 1–7.
+5. Chọn **Tòa đang xem** rồi **Tầng đang xem** để xem khuôn viên hoặc mặt bằng
+   của tầng/tòa tương ứng. Duyệt mặt bằng giữ nguyên điểm xuất phát và tuyến.
+   Chọn một chặng để mở đúng mặt bằng của chặng đó.
 6. Bấm **Nghe chỉ đường** để nghe cùng nội dung với hướng dẫn từng chặng.
-7. Tới checkpoint mới, bấm **Tôi đang ở đây**, rồi tìm đường lại.
+7. Tới checkpoint mới, chọn điểm đó trên bản đồ hoặc danh sách rồi tìm đường lại.
 
-Mỗi phòng có một node. Mỗi điểm vào khoa ở một tầng có một node riêng. Khoa
+Mỗi phòng nối qua cửa riêng vào hành lang. Mỗi điểm vào khoa ở một tầng có một node riêng. Khoa
 nhiều tầng có nhiều điểm vào, không gộp các tầng thành một vị trí. Đổi nguồn,
 đích hoặc tầng đích xóa tuyến cũ và dừng thuyết minh. Chọn vị trí không làm
 hoàn thành bước khám. Không tự định vị bệnh nhân.
@@ -47,24 +49,32 @@ Không suy đoán khoa đích từ tên phòng trên phiếu.
 
 ## Giới hạn và cấu hình
 
-Ảnh nền `sd_bv_dkhoa_tduc.jpg` không thể hiện chi tiết từng phòng.
-**Tọa độ điểm vào khoa, phòng mẫu, thang máy và lối đi vẫn là minh họa**,
-cần đối chiếu thực tế. Tầng trên được chiếu lên sơ đồ khuôn viên, chưa phải
-mặt bằng riêng. Khu và tầng trong danh mục khoa giữ đúng thông tin trên ảnh.
+**Tọa độ điểm vào khoa, phòng mẫu, thang máy và lối đi là tự thiết kế để demo**,
+cần đối chiếu thực tế. Có khuôn viên và 25 mặt bằng tầng riêng; không dùng ảnh
+khuôn viên cũ để thể hiện các tầng. Khu và tầng trong danh mục khoa giữ thông
+tin nguồn; E/F chỉ có sảnh tầng trệt demo, chưa xác nhận tầng của khoa.
+Xem [kiểm kê từng tầng/phòng](../requirements/PB-033-MAP-INVENTORY.md) và
+[hợp đồng PB-033](../requirements/PB-033-MAP-LAYOUT.md).
 
 - Mã tầng: `-1` = hầm, `0` = trệt, `1`…`7` = tầng trên. Sân ngoài nhà ở
   mức trệt. Phòng demo vẫn giữ số tầng trong snapshot phiếu.
-- Chỉnh tọa độ/nối đường trong `packages/shared/src/hospitalMap.ts`.
-  `buildingLayout` chứa điểm vào thang máy, hành lang và các vị trí minh họa
-  cho khoa. `pairs` chỉ nối các checkpoint có lối đi; thêm node ở chỗ rẽ.
+- `packages/shared/data/hospital-layout.json` khai báo phạm vi tầng, khuôn viên
+  và metadata phòng Journey. `hospitalLayout.ts` tạo hình học và đồ thị dùng
+  chung web/mobile; `hospitalMap.ts` giữ entry point tương thích.
+- Mỗi tầng có `spaceId` riêng (`floor:A:1`…), khuôn viên có `spaceId=campus`.
+  Chỉ vẽ/nội suy trong cùng hệ tọa độ. Các mặt bằng gồm tường, khe cửa,
+  hành lang, phòng, sảnh, thang máy/cầu thang và cửa ra; tuyến đi đúng cửa.
 - `kind: "room"` có khu + tầng + mã phòng, khớp đủ ba thông tin trên phiếu.
   `kind: "department"` liên kết `departmentId` của danh mục, không tự tạo
   số phòng lâm sàng. ID point ổn định theo khoa + tầng.
 - Cạnh có trọng số dương, mặc định hai chiều; hỗ trợ `oneWay`, `closed`.
-  Chỉ thang máy nối hai tầng khác nhau. Trọng số là đơn vị mô hình,
+  Thang máy/cầu thang nối tầng; connector nối cửa tầng trệt với khuôn viên,
+  khai báo tầng và hệ tọa độ hai đầu. Trọng số là đơn vị mô hình,
   không phải mét/phút. Dijkstra không tạo đường thẳng khi thiếu kết nối.
-- Ảnh đóng gói tại `apps/web/public/maps/thu-duc-campus.jpg` và
-  `apps/mobile/assets/thu-duc-campus.jpg`, cần cập nhật đồng bộ.
+- Chặng thẳng gộp nhiều checkpoint; chỉ dẫn rẽ phát tại đầu chặng trước
+  khi rẽ. Đổi tầng/tòa là thao tác riêng; không suy góc từ hai mặt bằng khác nhau.
+- Danh mục/phòng mới từ API chưa có ánh xạ vẫn được liệt kê trong phần
+  kiểm kê với lý do, không tự tạo tầng/tọa độ từ số phòng.
 - Giọng đọc dùng Web Speech API / expo-speech. Khi thiếu giọng đọc hoặc lỗi
   âm thanh, hướng dẫn chữ vẫn hiển thị.
 
@@ -103,6 +113,7 @@ npm run typecheck
 npm run lint
 npm run build
 npm run test:map
+node tests/map/render-atlas.mjs
 ```
 
 `npm run test:map` dùng API giả lập, tự mở Vite riêng ở cổng 5189 và dừng
@@ -115,7 +126,14 @@ hai trình duyệt này, chạy `npx playwright install chromium` một lần.
 Có thể chỉ định `PLAYWRIGHT_CHANNEL=chrome`, `msedge` hoặc `chromium`.
 CI dùng Chromium của Playwright như trước.
 
-Kiểm thử bao gồm desktop/mobile viewport, tìm khoa, khoa nhiều tầng, đi tới
-tầng hầm/tầng 4, vị trí cần xác nhận, reset tuyến/giọng đọc và lỗi âm thanh.
-Unit test kiểm tra đủ mục danh mục, tính liên thông và so sánh mọi cặp node
-với Bellman-Ford. Android cần kiểm tra thêm trên thiết bị thật.
+Lệnh render atlas dùng `PLAYWRIGHT_CHANNEL=chrome` khi chỉ có Chrome cài sẵn;
+CI dùng Chromium của Playwright. Ảnh khuôn viên, toàn bộ 25 mặt bằng trên
+desktop/mobile viewport, tuyến mẫu và atlas nằm tại `artifacts/pb033/`.
+
+Kiểm thử bao gồm tìm khoa, khoa nhiều tầng, hầm/tầng 4, phòng chưa ánh xạ,
+đóng/một chiều/mất tuyến, gộp chặng, hướng mũi tên, đổi điểm đầu/đích và hủy
+callback giọng đọc cũ. Unit tests kiểm tra hình học từng cạnh, tính liên thông
+toàn đồ thị và so chi phí tối ưu với Bellman-Ford độc lập từ 10 nguồn tới mọi
+đích. Component tests kiểm tra luồng native; chúng không thay kiểm tra APK trên
+giả lập/thiết bị. Gate riêng: `node --experimental-strip-types tests/android/android-map-layout.mjs`,
+với APK mới đã xác minh và API V2/SQL fixture riêng theo hợp đồng PB-033.

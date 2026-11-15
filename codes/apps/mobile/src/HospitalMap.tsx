@@ -1,8 +1,7 @@
 import { localizeText } from "@hospital/shared";
-import { useState } from "react";
-import campusImage from "../assets/thu-duc-campus.jpg";
+import { useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import Svg, { Circle, G, Image, Line, Text as SvgText } from "react-native-svg";
+import { FloorPlan } from "./FloorPlan";
 import {
   configuredMapDepartments,
   departmentLabel,
@@ -16,7 +15,11 @@ import {
   configuredHospitalMap,
   mapBuildings,
   mapCopy,
-  mapFloors,
+  floorSpaceId,
+  mapInventory,
+  mapScene,
+  mapSpaceTitle,
+  mapUiCopy,
   mapLabel,
   routeInstructions,
   routeLanguage,
@@ -112,7 +115,7 @@ export function HospitalMap({ destination }: { destination: Destination }) {
   );
 }
 
-function MapPanel({
+export function MapPanel({
   destination,
   department,
   departmentFloor = "",
@@ -122,28 +125,30 @@ function MapPanel({
   departmentFloor?: string;
 }) {
   const { locale, config } = useNative();
-  const hospitalMap = configuredHospitalMap(
-    config.departments,
-    !!config.catalogVersion,
+  const graph = useMemo(
+    () => configuredHospitalMap(config.departments, !!config.catalogVersion),
+    [config.departments, config.catalogVersion],
   );
-  const c = mapCopy[locale];
+  const c = mapCopy[locale],
+    u = mapUiCopy[locale];
   const [area, setArea] = useState("");
   const [level, setLevel] = useState("");
   const [from, setFrom] = useState("");
   const [routeStart, setRouteStart] = useState("");
+  const [viewBuilding, setViewBuilding] = useState("campus");
   const [floor, setFloor] = useState("0");
+  const [zoom, setZoom] = useState(1);
   const [showChoices, setShowChoices] = useState(false);
+  const [showInventory, setShowInventory] = useState(false);
   const target = department
-    ? hospitalMap.nodes.find(
+    ? graph.nodes.find(
         (n) =>
           !n.closed &&
           n.id === departmentNodeId(department.id, departmentFloor),
       )
-    : destinationNode(destination, hospitalMap);
+    : destinationNode(destination, graph);
   const route =
-    target && routeStart
-      ? shortestPath(hospitalMap, routeStart, target.id)
-      : null;
+    target && routeStart ? shortestPath(graph, routeStart, target.id) : null;
   const contentLocale = routeLanguage(route, locale);
   const instructions = route
     ? routeInstructions(route, contentLocale, !department)
@@ -153,9 +158,21 @@ function MapPanel({
     contentLocale,
     c.audioError,
   );
-  const highlighted = new Set(route?.edges);
-  const choices = startNodes(area, level, hospitalMap);
-  const routeIds = new Set(route?.nodes.map((n) => n.id));
+  const spaceId =
+    viewBuilding === "campus" ? "campus" : floorSpaceId(viewBuilding, floor);
+  const scene = mapScene(graph, spaceId, route),
+    choices = startNodes(area, level, graph);
+  const inventory = mapInventory(graph, config.locations, config.departments);
+  const unknown = [...inventory.departments, ...inventory.locations].filter(
+    (i) => i.status !== "mapped",
+  );
+  const showSpace = (id: string) => {
+    const space = graph.spaces?.find((s) => s.id === id);
+    if (space) {
+      setViewBuilding(space.building ?? "campus");
+      setFloor(space.floor);
+    }
+  };
   const clearRoute = () => {
     speech.stop();
     setRouteStart("");
@@ -165,6 +182,7 @@ function MapPanel({
     setArea(value);
     setLevel("");
     setFrom("");
+    setViewBuilding(value === "outside" ? "campus" : value);
     setFloor("0");
     setShowChoices(value === "outside");
   };
@@ -172,25 +190,30 @@ function MapPanel({
     clearRoute();
     setLevel(value);
     setFrom("");
+    setViewBuilding(area);
     setFloor(value);
     setShowChoices(true);
   };
   const choose = (id: string) => {
     clearRoute();
-    const n = hospitalMap.nodes.find((n) => n.id === id);
+    const n = graph.nodes.find((n) => n.id === id && !n.closed);
     setFrom(n?.id ?? "");
     if (n) {
       setArea(n.building ?? "outside");
       setLevel(n.building ? n.floor : "");
-      setFloor(n.floor);
+      showSpace(n.spaceId!);
     }
     setShowChoices(false);
   };
   const status = !target
     ? department
-      ? department.floors.length
-        ? c.chooseTargetFloor
-        : c.unconfirmed
+      ? department.active === false
+        ? u.inactive
+        : !department.building || !department.floors.length
+          ? c.unconfirmed
+          : !departmentFloor
+            ? c.chooseTargetFloor
+            : u.unmapped
       : c.unmapped
     : !routeStart
       ? c.select
@@ -206,7 +229,7 @@ function MapPanel({
       <Txt tone="heading">
         {c.title} · {c.sample}
       </Txt>
-      <Txt style={s.warning}>{c.warning}</Txt>
+      <Txt style={s.warning}>{u.demo}</Txt>
       <Txt tone="muted">{c.hint}</Txt>
       <Txt tone="eyebrow">
         {department ? c.departmentDestination : c.destination}
@@ -236,11 +259,11 @@ function MapPanel({
           />
         ))}
       </View>
-      {area && area !== "outside" && (
+      {!!area && area !== "outside" && (
         <>
           <Txt tone="heading">{c.level}</Txt>
           <View style={s.row} accessibilityRole="radiogroup">
-            {buildingFloors(area, hospitalMap).map((f) => (
+            {buildingFloors(area, graph).map((f) => (
               <Choice
                 key={f}
                 label={floorLabel(f, locale)}
@@ -251,7 +274,7 @@ function MapPanel({
           </View>
         </>
       )}
-      {(area === "outside" || level) && (
+      {(area === "outside" || !!level) && (
         <>
           <Btn secondary onPress={() => setShowChoices(!showChoices)}>
             {c.start}
@@ -274,7 +297,7 @@ function MapPanel({
         <Txt>
           {c.current}:{" "}
           {mapLabel(
-            hospitalMap.nodes.find((n) => n.id === from)!,
+            graph.nodes.find((n) => n.id === from)!,
             locale,
           )}
         </Txt>
@@ -299,7 +322,7 @@ function MapPanel({
         </Btn>
       )}
       {contentLocale !== locale && <Txt>{translator(locale)("fallback")}</Txt>}
-      {speech.error && (
+      {!!speech.error && (
         <Txt accessibilityRole="alert" style={s.warning}>
           {speech.error}
         </Txt>
@@ -307,180 +330,149 @@ function MapPanel({
       <Txt accessibilityLiveRegion="polite" tone="heading">
         {status}
       </Txt>
-      <Txt tone="muted">{c.shown}</Txt>
+      <Txt tone="muted">{u.shownBuilding}</Txt>
       <View style={s.row}>
-        {mapFloors.map((f) => (
-          <Pressable
-            key={f}
-            accessibilityRole="button"
-            accessibilityState={{ selected: floor === f }}
-            accessibilityLabel={`${c.shown} ${f}`}
-            onPress={() => setFloor(f)}
-            style={[s.floor, floor === f && s.selected]}
-          >
-            <Txt style={floor === f ? s.selectedText : undefined}>
-              {floorLabel(f, locale)}
-              {route?.nodes.some((n) => n.floor === f) ? " •" : ""}
-            </Txt>
-          </Pressable>
+        <Choice
+          label={u.campus}
+          selected={viewBuilding === "campus"}
+          onPress={() => {
+            setViewBuilding("campus");
+            setFloor("0");
+          }}
+        />
+        {mapBuildings.map((b) => (
+          <Choice
+            key={b.id}
+            label={`${u.shownBuilding}: ${c.building} ${b.id}`}
+            selected={viewBuilding === b.id}
+            onPress={() => {
+              setViewBuilding(b.id);
+              setFloor("0");
+            }}
+          />
         ))}
       </View>
-      <View style={s.canvas}>
-        <Svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 604 666"
-          accessibilityLabel={`${c.title} · ${floorLabel(floor, locale)}`}
-        >
-          <Image href={campusImage} width={604} height={2048} opacity={0.6} />
-          {hospitalMap.edges
-            .filter((e) => !e.closed && e.kind === "walk")
-            .sort(
-              (a, b) => Number(highlighted.has(a)) - Number(highlighted.has(b)),
-            )
-            .map((edge) => {
-              const a = hospitalMap.nodes.find((n) => n.id === edge.from)!;
-              const b = hospitalMap.nodes.find((n) => n.id === edge.to)!;
-              if (
-                a.floor !== floor ||
-                b.floor !== floor ||
-                a.closed ||
-                b.closed
-              )
-                return null;
-              const active = highlighted.has(edge);
-              return (
-                <G key={`${edge.from}-${edge.to}`}>
-                  {active && (
-                    <Line
-                      x1={a.x}
-                      y1={a.y}
-                      x2={b.x}
-                      y2={b.y}
-                      stroke="white"
-                      strokeWidth={11}
-                      strokeLinecap="round"
-                    />
-                  )}
-                  <Line
-                    x1={a.x}
-                    y1={a.y}
-                    x2={b.x}
-                    y2={b.y}
-                    stroke={active ? "#1261df" : "#6a8395"}
-                    strokeWidth={active ? 6 : 3}
-                    strokeDasharray={active ? undefined : "4 5"}
-                    strokeLinecap="round"
-                  />
-                </G>
-              );
-            })}
-          {hospitalMap.nodes
-            .filter((n) => !n.closed && n.floor === floor)
-            .map((n) => {
-              const start = n.id === from,
-                end = n.id === target?.id;
-              const available =
-                choices.some((v) => v.id === n.id) ||
-                (!area && !n.building) ||
-                routeIds.has(n.id) ||
-                end;
-              return (
-                <G
-                  key={n.id}
-                  onPress={() => {
-                    if (available) choose(n.id);
-                  }}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${mapLabel(n, locale)} · ${floorLabel(n.floor, locale)}`}
-                  accessibilityState={{ selected: start, disabled: !available }}
-                  opacity={available ? 1 : 0.35}
-                >
-                  <Circle cx={n.x} cy={n.y} r={24} fill="transparent" />
-                  {(start || end) && (
-                    <Circle
-                      cx={n.x}
-                      cy={n.y}
-                      r={18}
-                      fill="white"
-                      opacity={0.8}
-                    />
-                  )}
-                  <Circle
-                    cx={n.x}
-                    cy={n.y}
-                    r={
-                      n.kind === "room" ||
-                      n.kind === "department" ||
-                      start ||
-                      end
-                        ? 12
-                        : 8
-                    }
-                    fill={start ? "#0a6357" : end ? "#c15b08" : "white"}
-                    stroke={start || end ? "white" : "#486878"}
-                    strokeWidth={3}
-                  />
-                  <SvgText
-                    x={n.x}
-                    y={n.y + 4}
-                    fontSize={12}
-                    fill={start || end ? "white" : "#486878"}
-                    textAnchor="middle"
-                  >
-                    {start
-                      ? "●"
-                      : end
-                        ? "★"
-                        : (n.marker ?? (n.kind === "elevator" ? "↕" : ""))}
-                  </SvgText>
-                  {(n.room || n.kind === "gate" || start) && (
-                    <SvgText
-                      x={n.x}
-                      y={n.y - 22}
-                      fontSize={14}
-                      fontWeight="bold"
-                      fill="#123e37"
-                      stroke="white"
-                      strokeWidth={0.4}
-                      textAnchor="middle"
-                    >
-                      {n.room ?? (start ? c.current : mapLabel(n, locale))}
-                    </SvgText>
-                  )}
-                </G>
-              );
-            })}
-        </Svg>
-      </View>
+      {viewBuilding !== "campus" && (
+        <>
+          <Txt tone="muted">{c.shown}</Txt>
+          <View style={s.row}>
+            {buildingFloors(viewBuilding, graph).map((f) => (
+              <Pressable
+                key={f}
+                accessibilityRole="button"
+                accessibilityState={{ selected: floor === f }}
+                accessibilityLabel={`${c.shown} ${f}`}
+                onPress={() => setFloor(f)}
+                style={[s.floor, floor === f && s.selected]}
+              >
+                <Txt style={floor === f ? s.selectedText : undefined}>
+                  {floorLabel(f, locale)}
+                  {route?.nodes.some(
+                    (n) => n.spaceId === floorSpaceId(viewBuilding, f),
+                  )
+                    ? " •"
+                    : ""}
+                </Txt>
+              </Pressable>
+            ))}
+          </View>
+        </>
+      )}
+      {scene.space && (
+        <Txt tone="heading">{mapSpaceTitle(scene.space, locale)}</Txt>
+      )}
+      {scene.space?.entranceOnly && (
+        <Txt style={s.warning}>{u.entranceOnly}</Txt>
+      )}
       <View style={s.row}>
-        <Txt style={{ color: "#0a6357" }}>● {c.current}</Txt>
-        <Txt style={{ color: "#c15b08" }}>★ {c.target}</Txt>
-        <Txt style={{ color: "#1261df" }}>━ {c.route}</Txt>
+        <Btn
+          secondary
+          disabled={zoom <= 1}
+          onPress={() => setZoom(Math.max(1, zoom - 0.5))}
+        >
+          {c.zoomOut}
+        </Btn>
+        <Btn secondary onPress={() => setZoom(1)}>
+          {c.fit}
+        </Btn>
+        <Btn
+          secondary
+          disabled={zoom >= 2.5}
+          onPress={() => setZoom(Math.min(2.5, zoom + 0.5))}
+        >
+          {c.zoomIn}
+        </Btn>
       </View>
-      {from && <Txt tone="muted">{c.selected}</Txt>}
+      <FloorPlan
+        graph={graph}
+        spaceId={spaceId}
+        route={route}
+        from={from}
+        target={target?.id}
+        locale={locale}
+        zoom={zoom}
+        onChoose={choose}
+        onBuilding={chooseArea}
+      />
+      <View style={s.row}>
+        <Txt>● {c.current}</Txt>
+        <Txt>★ {c.target}</Txt>
+        <Txt>━ {c.route}</Txt>
+        <Txt>
+          {u.room} · {u.corridor}
+        </Txt>
+      </View>
+      {route && !route.nodes.some((n) => n.spaceId === spaceId) && (
+        <Txt>{u.noSegment}</Txt>
+      )}
       {route && (
         <>
           <Txt tone="heading">{c.steps}</Txt>
-          {route.nodes.map((n, i) => (
-            <View key={n.id} style={s.step}>
+          {route.legs.map((leg, i) => (
+            <View key={leg.id} style={s.step}>
               <Txt>
                 {i + 1}. {instructions[i]}
               </Txt>
-              <Btn secondary onPress={() => choose(n.id)}>
-                {c.update + ": " + mapLabel(n, locale)}
+              <Btn
+                secondary
+                onPress={() =>
+                  showSpace(leg.transition ? leg.toSpace : leg.fromSpace)
+                }
+              >
+                {u.view}
+              </Btn>
+              <Btn secondary onPress={() => choose(leg.nodes[0].id)}>
+                {c.update + ": " + mapLabel(leg.nodes[0], locale)}
               </Btn>
             </View>
           ))}
-          {!route.nodes.some((n) => n.floor === floor) && (
-            <Txt>{c.noSegment}</Txt>
-          )}
         </>
       )}
       {from && (
         <Btn secondary onPress={() => choose("")}>
           {c.reset}
         </Btn>
+      )}
+      <Btn secondary onPress={() => setShowInventory(!showInventory)}>
+        {u.coverage + " · " + unknown.length}
+      </Btn>
+      {showInventory && (
+        <>
+          {mapBuildings.map((b) => (
+            <Txt key={b.id}>
+              {c.building} {b.id}:{" "}
+              {b.floors.map((f) => floorLabel(f, locale)).join(", ")}
+              {b.entranceOnly ? ` · ${u.entranceOnly}` : ""}
+            </Txt>
+          ))}
+          {unknown.map((item, i) => (
+            <Txt key={`${item.id}:${i}`}>
+              {localizeText(item.name, locale)} · {item.building} ·{" "}
+              {item.floors.join(", ") || "?"}
+              {item.room ? ` · ${item.room}` : ""} — {u[item.status]}
+            </Txt>
+          ))}
+        </>
       )}
     </View>
   );
@@ -502,13 +494,6 @@ const s = StyleSheet.create({
   },
   selected: { backgroundColor: "#0a6357" },
   selectedText: { color: "white" },
-  canvas: {
-    width: "100%",
-    aspectRatio: 604 / 666,
-    overflow: "hidden",
-    borderRadius: 10,
-    backgroundColor: "#f3f5f4",
-  },
   step: {
     padding: 12,
     borderLeftWidth: 3,

@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Ready |
-| Người nhận | Chưa nhận |
+| Trạng thái | Implemented local — chờ gate Android, review/merge |
+| Người nhận | Codex (triển khai local 15/11/2026) |
 | Reviewer | Chưa phân công |
 | Nhóm | Bản đồ |
 | Ưu tiên | P1 |
@@ -19,7 +19,7 @@ Mặt bằng demo tự thiết kế và mạng đường đi dùng chung cho web
 
 ## Thiết kế và hợp đồng bản đồ
 
-Mã hiện tại ở `codes/packages/shared/src/hospitalMap.ts` có các tòa A–G và đồ thị mẫu; tọa độ, lối vào và hành lang là dữ liệu mẫu. Mặt bằng demo tự thiết kế không khẳng định phản ánh mặt bằng bệnh viện thực tế.
+Trước PB-033, `codes/packages/shared/src/hospitalMap.ts` có các tòa A–G và đồ thị mẫu. Bản triển khai mới giữ entry point này, tách dữ liệu mặt bằng/hệ tọa độ/tuyến thành các module shared. Tọa độ, lối vào và hành lang vẫn là dữ liệu demo tự thiết kế, không khẳng định phản ánh mặt bằng bệnh viện thực tế.
 
 1. Kiểm kê danh mục tòa, tầng, phòng và các điểm đến Journey đang dùng. Lập bảng phủ toàn bộ các tòa A–G, các tầng được cấu hình và các phòng/điểm đến; công bố rõ tầng nào không tồn tại hoặc chưa có dữ liệu. Không tự suy diễn số tầng từ mã phòng.
 2. Tự thiết kế mặt bằng từng tầng: đường bao, phòng, cửa phòng, hành lang, giao lộ, sảnh, thang máy, cầu thang, lối ra và lối nối giữa các tòa. Có bản tổng quan khuôn viên và bản chi tiết từng tầng/tòa.
@@ -35,12 +35,12 @@ PB-033 chốt cấu trúc mặt bằng/đồ thị, ánh xạ ID phòng và kế
 
 ## Tiêu chí chấp nhận
 
-- [ ] Có bảng kiểm kê tòa/tầng/phòng/đích Journey, bản tổng quan và mặt bằng từng tầng; ghi rõ dữ liệu tự thiết kế và mục chưa ánh xạ. Không âm thầm bỏ tòa/tầng đã cấu hình.
-- [ ] Bố trí phòng, cửa, hành lang, giao lộ, sảnh, thang máy/cầu thang và lối nối; hình vẽ và đồ thị lấy cùng dữ liệu. Tuyến đi qua cửa/hành lang, không xuyên tường/phòng.
-- [ ] Tính và hiển thị tuyến cùng tầng, khác tầng, khác tòa bằng kết nối hợp lệ. Cạnh đóng/một chiều có hiệu lực; phòng không ánh xạ hoặc tuyến không tồn tại được báo rõ.
-- [ ] Định danh tòa/tầng rõ ràng; tách tọa độ khuôn viên và tọa độ tầng. Không coi trọng số demo là mét hay thời gian đi bộ thật.
-- [ ] Kết quả tuyến có chặng và thao tác rẽ/đổi tầng/đổi tòa/đến đích cho PB-034/026; không coi mọi nút thẳng hàng là điểm phải đọc.
-- [ ] Web/mobile chọn tòa/tầng, hiển thị điểm xuất phát/đích/tuyến và hướng đi rõ ràng; giữ tương thích chọn vị trí thủ công và các ID điểm đến hiện có.
+- [x] Có bảng kiểm kê tòa/tầng/phòng/đích Journey, bản tổng quan và mặt bằng từng tầng; ghi rõ dữ liệu tự thiết kế và mục chưa ánh xạ. Không âm thầm bỏ tòa/tầng đã cấu hình.
+- [x] Bố trí phòng, cửa, hành lang, giao lộ, sảnh, thang máy/cầu thang và lối nối; hình vẽ và đồ thị lấy cùng dữ liệu. Tuyến đi qua cửa/hành lang, không xuyên tường/phòng.
+- [x] Tính và hiển thị tuyến cùng tầng, khác tầng, khác tòa bằng kết nối hợp lệ. Cạnh đóng/một chiều có hiệu lực; phòng không ánh xạ hoặc tuyến không tồn tại được báo rõ.
+- [x] Định danh tòa/tầng rõ ràng; tách tọa độ khuôn viên và tọa độ tầng. Không coi trọng số demo là mét hay thời gian đi bộ thật.
+- [x] Kết quả tuyến có chặng và thao tác rẽ/đổi tầng/đổi tòa/đến đích cho PB-034/026; không coi mọi nút thẳng hàng là điểm phải đọc.
+- [x] Web/mobile chọn tòa/tầng, hiển thị điểm xuất phát/đích/tuyến và hướng đi rõ ràng; giữ tương thích chọn vị trí thủ công và các ID điểm đến hiện có. Đã kiểm chứng browser/component; gate APK/thiết bị còn thiếu theo mục bên dưới.
 
 ## Kiểm chứng bắt buộc
 
@@ -53,5 +53,21 @@ Không triển khai nguồn vị trí hoặc mô phỏng chuyển động (PB-03
 ## Bàn giao
 
 - [ ] Đạt tiêu chí và quy ước Done; tài liệu ghi danh mục phủ và quyết định mặt bằng.
-- [ ] PB-034/026 có hợp đồng dữ liệu chặng và ID ổn định để sử dụng.
+- [x] PB-034/026 có hợp đồng dữ liệu chặng và ID ổn định để sử dụng.
 - [ ] PR ghi PB-033, bằng chứng hình ảnh/kiểm thử; reviewer duyệt và merge mới chuyển Done.
+
+## Bằng chứng local 15/11/2026
+
+[Hợp đồng và kiểm chứng](../../../codes/docs/requirements/PB-033-MAP-LAYOUT.md),
+[kiểm kê đầy đủ](../../../codes/docs/requirements/PB-033-MAP-INVENTORY.md).
+
+Đã có khuôn viên và 25 mặt bằng tầng A–G, một dữ liệu dùng chung web/native,
+20/20 map unit/component tests, 6/6 map browser tests và ảnh toàn bộ tầng.
+71/71 native component/hook tests, typecheck/contracts, lint, web build và Metro
+Android export đạt. Application browser trên API/SQL fixture riêng đạt 82/82.
+
+Build APK dừng ở kiểm tra môi trường vì thiếu Android SDK platform 36. Runner
+`tests/android/android-map-layout.mjs` đã chuẩn bị nhưng chưa chạy trên thiết bị;
+không dùng ảnh mobile viewport thay bằng chứng native. Cần gate này và
+reviewer/merge trước khi chuyển Done. Không triển khai mô phỏng PB-034 hoặc
+điều phối theo vị trí PB-026 trong task này.

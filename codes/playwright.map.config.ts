@@ -8,7 +8,7 @@ if (!Number.isInteger(port) || port < 1 || port > 65535)
 const url = `http://127.0.0.1:${port}`;
 export default defineConfig({
   ...config,
-  testMatch: "hospital-map.spec.ts",
+  testMatch: ["hospital-map.spec.ts", "map-layout.spec.ts"],
   use: { ...config.use, baseURL: url },
   webServer: {
     command: `npm run dev --workspace @hospital/web -- --port ${port}`,

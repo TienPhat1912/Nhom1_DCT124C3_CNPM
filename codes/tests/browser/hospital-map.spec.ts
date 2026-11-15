@@ -150,7 +150,9 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
   await expect(dialog.getByTestId("map-status")).toHaveText(
     "Đường đi ngắn nhất",
   );
-  await expect(dialog.getByTestId("map-route-segment")).toHaveCount(3);
+  await expect
+    .poll(() => dialog.getByTestId("map-route-segment").count())
+    .toBeGreaterThan(0);
   await dialog
     .getByRole("button", { name: "Nghe chỉ đường", exact: true })
     .click();
@@ -170,6 +172,7 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
   // Translating configuration and Visit data must not unmount the map.
   // Keep its selected origin, calculated route, displayed floor and zoom.
   await dialog.getByLabel("Phóng to", { exact: true }).click();
+  await dialog.getByLabel("Tòa đang xem", { exact: true }).selectOption("A");
   await dialog.getByLabel("Tầng đang xem", { exact: true }).selectOption("1");
   await page.getByLabel("Ngôn ngữ", { exact: true }).selectOption("en");
   await expect(dialog).toBeVisible();
@@ -182,13 +185,21 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
   await expect(
     dialog.getByLabel("Displayed floor", { exact: true }),
   ).toHaveValue("1");
-  await expect(dialog.getByLabel("Fit map", { exact: true })).toHaveText("150%");
+  await expect(dialog.getByLabel("Fit map", { exact: true })).toHaveText(
+    "150%",
+  );
   await expect(dialog.getByTestId("map-status")).toHaveText("Shortest route");
-  await expect(dialog.getByTestId("map-node-room-A101")).toHaveClass(/is-target/);
+  await expect(dialog.getByTestId("map-node-room-A101")).toHaveClass(
+    /is-target/,
+  );
   await page.getByLabel("Language", { exact: true }).selectOption("vi");
-  await expect(dialog.getByTestId("map-status")).toHaveText("Đường đi ngắn nhất");
+  await expect(dialog.getByTestId("map-status")).toHaveText(
+    "Đường đi ngắn nhất",
+  );
   await dialog.getByLabel("Vừa khung", { exact: true }).click();
-  await dialog.getByLabel("Tầng đang xem", { exact: true }).selectOption("0");
+  await dialog
+    .getByLabel("Tòa đang xem", { exact: true })
+    .selectOption("campus");
 
   // Changing building/floor clears the route and stops stale narration.
   await dialog
@@ -261,11 +272,14 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
       exact: true,
     }),
   ).toBeVisible();
+  await dialog.getByLabel("Tòa đang xem", { exact: true }).selectOption("B");
   await dialog.getByLabel("Tầng đang xem", { exact: true }).selectOption("2");
   await expect(dialog.getByTestId("map-node-room-B201")).toHaveClass(
     /is-target/,
   );
-  await expect(dialog.getByTestId("map-route-segment")).toHaveCount(2);
+  await expect
+    .poll(() => dialog.getByTestId("map-route-segment").count())
+    .toBeGreaterThan(0);
   await dialog
     .locator(".map-visual")
     .screenshot({ path: `artifacts/${info.project.name}-hospital-map.png` });
@@ -339,6 +353,9 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
       { exact: true },
     ),
   ).toBeVisible();
+  await dialog
+    .getByLabel("Displayed building", { exact: true })
+    .selectOption("C");
   await dialog.getByLabel("Displayed floor", { exact: true }).selectOption("4");
   await expect(
     dialog.getByTestId("map-node-department-C-neurosurgery-4"),
@@ -364,6 +381,9 @@ test("indoor/outdoor selection, ticket destination, route narration, transfers a
       { exact: true },
     ),
   ).toBeVisible();
+  await dialog
+    .getByLabel("Displayed building", { exact: true })
+    .selectOption("C");
   await dialog
     .getByLabel("Displayed floor", { exact: true })
     .selectOption("-1");

@@ -25,6 +25,7 @@ jobs:
       - run: npm run typecheck && npm run lint
       - run: npm run test:narration:unit && npm run test:session:unit && npm run test:languages:unit
       - run: npm run test:journey:native
+      - run: npm run test:map:unit && npm run test:directory:unit
       - run: npm run test:reception:unit
       - run: dotnet restore --locked-mode && dotnet build -c Release --no-restore
       - run: npm run test:translation
@@ -35,6 +36,7 @@ jobs:
       - name: Native LocalDB, API, browser and provider acceptance
         shell: pwsh
         run: ./scripts/test/ci-native.ps1
+      - run: node tests/map/render-atlas.mjs
       - run: npm run export --workspace @hospital/mobile -- --output-dir ../../artifacts/mobile-android
       - uses: actions/upload-artifact@v4
         with:
@@ -52,6 +54,7 @@ jobs:
             codes/artifacts/playwright-report/
             codes/artifacts/browser-results/
             codes/artifacts/mobile-android/
+            codes/artifacts/pb033/
           retention-days: 7
   deploy:
     needs: application

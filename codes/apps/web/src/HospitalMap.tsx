@@ -1,5 +1,5 @@
 import { localizeText } from "@hospital/shared";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Flag,
   LocateFixed,
@@ -23,7 +23,11 @@ import {
   configuredHospitalMap,
   mapBuildings,
   mapCopy,
-  mapFloors,
+  floorSpaceId,
+  mapInventory,
+  mapScene,
+  mapSpaceTitle,
+  mapUiCopy,
   mapLabel,
   routeInstructions,
   routeLanguage,
@@ -31,11 +35,11 @@ import {
   shortestPath,
   startNodes,
   type Destination,
-  type MapNode,
 } from "@hospital/shared";
 import { Button, DestinationCard, Field, Notice } from "./components";
 import { useRuntime } from "./runtime";
 import { useRouteSpeech } from "./useRouteSpeech";
+import { FloorPlan } from "./FloorPlan";
 import "./hospital-map.css";
 
 export function HospitalMap({ destination }: { destination: Destination }) {
@@ -134,28 +138,28 @@ function MapPanel({
   departmentFloor?: string;
 }) {
   const { locale, config } = useRuntime();
-  const hospitalMap = configuredHospitalMap(
-    config.departments,
-    !!config.catalogVersion,
+  const graph = useMemo(
+    () => configuredHospitalMap(config.departments, !!config.catalogVersion),
+    [config.departments, config.catalogVersion],
   );
-  const c = mapCopy[locale];
+  const c = mapCopy[locale],
+    u = mapUiCopy[locale];
   const [area, setArea] = useState("");
   const [level, setLevel] = useState("");
   const [from, setFrom] = useState("");
   const [routeStart, setRouteStart] = useState("");
+  const [viewBuilding, setViewBuilding] = useState("campus");
   const [floor, setFloor] = useState("0");
   const [zoom, setZoom] = useState(1);
   const target = department
-    ? hospitalMap.nodes.find(
+    ? graph.nodes.find(
         (n) =>
           !n.closed &&
           n.id === departmentNodeId(department.id, departmentFloor),
       )
-    : destinationNode(destination, hospitalMap);
+    : destinationNode(destination, graph);
   const route =
-    target && routeStart
-      ? shortestPath(hospitalMap, routeStart, target.id)
-      : null;
+    target && routeStart ? shortestPath(graph, routeStart, target.id) : null;
   const contentLocale = routeLanguage(route, locale);
   const instructions = route
     ? routeInstructions(route, contentLocale, !department)
@@ -165,9 +169,21 @@ function MapPanel({
     contentLocale,
     c.audioError,
   );
-  const choices = startNodes(area, level, hospitalMap);
-  const routeIds = new Set(route?.nodes.map((n) => n.id));
-  const label = (n: MapNode) => mapLabel(n, locale);
+  const spaceId =
+    viewBuilding === "campus" ? "campus" : floorSpaceId(viewBuilding, floor);
+  const scene = mapScene(graph, spaceId, route);
+  const choices = startNodes(area, level, graph);
+  const inventory = mapInventory(graph, config.locations, config.departments);
+  const unknown = [...inventory.departments, ...inventory.locations].filter(
+    (i) => i.status !== "mapped",
+  );
+  const showSpace = (id: string) => {
+    const s = graph.spaces?.find((s) => s.id === id);
+    if (s) {
+      setViewBuilding(s.building ?? "campus");
+      setFloor(s.floor);
+    }
+  };
   const clearRoute = () => {
     speech.stop();
     setRouteStart("");
@@ -177,29 +193,37 @@ function MapPanel({
     setArea(value);
     setLevel("");
     setFrom("");
+    setViewBuilding(value && value !== "outside" ? value : "campus");
     setFloor("0");
   };
   const chooseLevel = (value: string) => {
     clearRoute();
     setLevel(value);
     setFrom("");
-    if (value) setFloor(value);
+    if (value) {
+      setViewBuilding(area);
+      setFloor(value);
+    }
   };
   const choose = (id: string) => {
     clearRoute();
-    const node = hospitalMap.nodes.find((n) => n.id === id);
-    setFrom(node?.id ?? "");
-    if (node) {
-      setArea(node.building ?? "outside");
-      setLevel(node.building ? node.floor : "");
-      setFloor(node.floor);
+    const n = graph.nodes.find((n) => n.id === id && !n.closed);
+    setFrom(n?.id ?? "");
+    if (n) {
+      setArea(n.building ?? "outside");
+      setLevel(n.building ? n.floor : "");
+      showSpace(n.spaceId!);
     }
   };
   const status = !target
     ? department
-      ? department.floors.length
-        ? c.chooseTargetFloor
-        : c.unconfirmed
+      ? department.active === false
+        ? u.inactive
+        : !department.building || !department.floors.length
+          ? c.unconfirmed
+          : !departmentFloor
+            ? c.chooseTargetFloor
+            : u.unmapped
       : c.unmapped
     : !routeStart
       ? c.select
@@ -210,9 +234,6 @@ function MapPanel({
             ? c.departmentArrived
             : c.arrived
           : c.route;
-  const visibleNodes = hospitalMap.nodes.filter(
-    (n) => !n.closed && n.floor === floor,
-  );
   return (
     <section className="hospital-map" aria-label={c.title}>
       <div className="hospital-map-heading">
@@ -222,7 +243,7 @@ function MapPanel({
         </div>
         <span className="map-sample">{c.sample}</span>
       </div>
-      <Notice>{c.warning}</Notice>
+      <Notice>{u.demo}</Notice>
       <p className="map-intro">{c.hint}</p>
       <div className="map-destination">
         <span className="eyebrow">
@@ -264,7 +285,7 @@ function MapPanel({
               onChange={(e) => chooseLevel(e.target.value)}
             >
               <option value="">{c.chooseFloor}</option>
-              {buildingFloors(area, hospitalMap).map((f) => (
+              {buildingFloors(area, graph).map((f) => (
                 <option key={f} value={f}>
                   {floorLabel(f, locale)}
                 </option>
@@ -281,7 +302,7 @@ function MapPanel({
             <option value="">{c.chooseStart}</option>
             {choices.map((n) => (
               <option key={n.id} value={n.id}>
-                {label(n)}
+                {mapLabel(n, locale)}
               </option>
             ))}
           </select>
@@ -332,16 +353,40 @@ function MapPanel({
       <div className="map-layout">
         <div className="map-visual">
           <div className="map-toolbar">
-            <div className="map-floor-select">
+            <div className="map-view-selects">
+              <Field label={u.shownBuilding}>
+                <select
+                  value={viewBuilding}
+                  onChange={(e) => {
+                    setViewBuilding(e.target.value);
+                    setFloor("0");
+                  }}
+                >
+                  <option value="campus">{u.campus}</option>
+                  {mapBuildings.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {c.building} {b.id}
+                    </option>
+                  ))}
+                </select>
+              </Field>
               <Field label={c.shown}>
                 <select
                   value={floor}
+                  disabled={viewBuilding === "campus"}
                   onChange={(e) => setFloor(e.target.value)}
                 >
-                  {mapFloors.map((f) => (
+                  {(viewBuilding === "campus"
+                    ? ["0"]
+                    : buildingFloors(viewBuilding, graph)
+                  ).map((f) => (
                     <option key={f} value={f}>
                       {floorLabel(f, locale)}
-                      {route?.nodes.some((n) => n.floor === f) ? " •" : ""}
+                      {route?.nodes.some(
+                        (n) => n.spaceId === floorSpaceId(viewBuilding, f),
+                      )
+                        ? " •"
+                        : ""}
                     </option>
                   ))}
                 </select>
@@ -373,175 +418,30 @@ function MapPanel({
               </button>
             </div>
           </div>
+          {scene.space && (
+            <h4 className="map-space-title" data-testid="map-space-title">
+              {mapSpaceTitle(scene.space, locale)}
+            </h4>
+          )}
+          {scene.space?.entranceOnly && <Notice>{u.entranceOnly}</Notice>}
           <div
             className="map-canvas-scroll"
             tabIndex={0}
-            aria-label={`${c.title} · ${floorLabel(floor, locale)}`}
+            aria-label={
+              scene.space ? mapSpaceTitle(scene.space, locale) : c.title
+            }
           >
-            <svg
-              className="map-canvas"
-              viewBox="0 0 604 666"
-              style={{ width: `${zoom * 100}%` }}
-              role="group"
-              aria-label={`${c.title} · ${floorLabel(floor, locale)}`}
-            >
-              <title>
-                {c.title} · {c.floor} {floor}
-              </title>
-              <image
-                href="/maps/thu-duc-campus.jpg"
-                width="604"
-                height="2048"
-                opacity="0.6"
-                aria-hidden="true"
-              />
-              {mapBuildings
-                .filter(() => floor === "0")
-                .map((b) => (
-                  <g
-                    key={b.id}
-                    transform={`translate(${b.x} ${b.y})`}
-                    className={`map-building ${area === b.id ? "selected" : ""}`}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`${c.building} ${b.id}`}
-                    aria-pressed={area === b.id}
-                    onClick={() => chooseArea(b.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        chooseArea(b.id);
-                      }
-                    }}
-                  >
-                    <rect x="-24" y="-20" width="48" height="40" rx="8" />
-                    <text textAnchor="middle" dy="6">
-                      {b.id}
-                    </text>
-                  </g>
-                ))}
-              {hospitalMap.edges
-                .filter((e) => e.kind === "walk" && !e.closed)
-                .map((edge) => {
-                  const a = hospitalMap.nodes.find((n) => n.id === edge.from)!;
-                  const b = hospitalMap.nodes.find((n) => n.id === edge.to)!;
-                  if (
-                    a.floor !== floor ||
-                    b.floor !== floor ||
-                    a.closed ||
-                    b.closed
-                  )
-                    return null;
-                  return (
-                    <line
-                      key={`${edge.from}-${edge.to}`}
-                      x1={a.x}
-                      y1={a.y}
-                      x2={b.x}
-                      y2={b.y}
-                      className="map-edge"
-                      aria-hidden="true"
-                    />
-                  );
-                })}
-              {route?.edges
-                .filter((e) => e.kind === "walk")
-                .map((edge, i) => {
-                  const a = hospitalMap.nodes.find((n) => n.id === edge.from)!;
-                  const b = hospitalMap.nodes.find((n) => n.id === edge.to)!;
-                  if (a.floor !== floor || b.floor !== floor) return null;
-                  return (
-                    <g key={i} aria-hidden="true">
-                      <line
-                        x1={a.x}
-                        y1={a.y}
-                        x2={b.x}
-                        y2={b.y}
-                        className="map-route-outline"
-                      />
-                      <line
-                        x1={a.x}
-                        y1={a.y}
-                        x2={b.x}
-                        y2={b.y}
-                        className="map-route-line"
-                        data-testid="map-route-segment"
-                      />
-                    </g>
-                  );
-                })}
-              {visibleNodes.map((n) => {
-                const start = n.id === from,
-                  end = n.id === target?.id;
-                const available =
-                  choices.some((choice) => choice.id === n.id) ||
-                  (!area && !n.building) ||
-                  routeIds.has(n.id) ||
-                  end;
-                return (
-                  <g
-                    key={n.id}
-                    transform={`translate(${n.x} ${n.y})`}
-                    role={available ? "button" : undefined}
-                    tabIndex={available ? 0 : undefined}
-                    aria-label={`${label(n)} · ${floorLabel(n.floor, locale)}${end ? " · " + c.target : ""}`}
-                    aria-pressed={available ? start : undefined}
-                    className={`map-node ${start ? "is-start" : ""} ${end ? "is-target" : ""} ${available ? "" : "unavailable"} ${routeIds.has(n.id) ? "on-route" : ""}`}
-                    data-testid={`map-node-${n.id}`}
-                    onClick={() => {
-                      if (available) choose(n.id);
-                    }}
-                    onKeyDown={(e) => {
-                      if (available && (e.key === "Enter" || e.key === " ")) {
-                        e.preventDefault();
-                        choose(n.id);
-                      }
-                    }}
-                  >
-                    <title>{label(n)}</title>
-                    <circle r="22" className="map-hit-area" />
-                    {(start || end) && (
-                      <circle r="18" className="map-node-halo" />
-                    )}
-                    <circle
-                      r={
-                        n.kind === "room" ||
-                        n.kind === "department" ||
-                        start ||
-                        end
-                          ? 11
-                          : 7
-                      }
-                      className="map-node-dot"
-                    />
-                    <text
-                      textAnchor="middle"
-                      dy="4"
-                      className="map-node-symbol"
-                    >
-                      {start
-                        ? "●"
-                        : end
-                          ? "★"
-                          : n.marker
-                            ? n.marker
-                            : n.kind === "elevator"
-                              ? "↕"
-                              : ""}
-                    </text>
-                    {(n.room || n.kind === "gate" || start) && (
-                      <text
-                        textAnchor="middle"
-                        y="-23"
-                        className="map-node-label"
-                      >
-                        {n.room ?? (start ? c.current : label(n))}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
-            </svg>
+            <FloorPlan
+              graph={graph}
+              spaceId={spaceId}
+              route={route}
+              from={from}
+              target={target?.id}
+              locale={locale}
+              zoom={zoom}
+              onChoose={choose}
+              onBuilding={chooseArea}
+            />
           </div>
           <div className="map-legend">
             <span>
@@ -553,26 +453,27 @@ function MapPanel({
               {c.target}
             </span>
             <span>
-              <i className="legend-checkpoint" />
-              {c.fixed}
-            </span>
-            <span>
               <i className="legend-route" />
               {c.route}
             </span>
+            <span>{u.room}</span>
+            <span>{u.corridor}</span>
           </div>
+          {route && !route.nodes.some((n) => n.spaceId === spaceId) && (
+            <p className="map-position-hint">{u.noSegment}</p>
+          )}
         </div>
         <aside className="map-itinerary">
           <details className="map-floor-directory">
             <summary>
               {c.floorDepartments} (
-              {visibleNodes.filter((n) => n.kind === "department").length})
+              {scene.nodes.filter((n) => n.kind === "department").length})
             </summary>
-            {visibleNodes
+            {scene.nodes
               .filter((n) => n.kind === "department")
               .map((n) => (
-                <button key={n.id} type="button" onClick={() => choose(n.id)}>
-                  {n.building}.{n.marker} · {label(n)}
+                <button type="button" key={n.id} onClick={() => choose(n.id)}>
+                  {n.building}.{n.marker} · {mapLabel(n, locale)}
                 </button>
               ))}
           </details>
@@ -580,20 +481,32 @@ function MapPanel({
           <p className="map-position-hint">{from ? c.selected : c.select}</p>
           {route && (
             <ol className="map-route-list">
-              {route.nodes.map((n, i) => (
-                <li key={n.id}>
+              {route.legs.map((leg, i) => (
+                <li key={leg.id} data-testid="map-leg" data-action={leg.action}>
                   <span className="map-step-index">{i + 1}</span>
                   <div>
                     <p>{instructions[i]}</p>
                     <small>
-                      {n.building
-                        ? `${c.building} ${n.building} · ${floorLabel(n.floor, locale)}`
-                        : c.outside}
+                      {leg.nodes
+                        .map((n) => n.spaceId)
+                        .filter((v, i, a) => a.indexOf(v) === i)
+                        .map((id) => {
+                          const s = graph.spaces?.find((s) => s.id === id);
+                          return s ? mapSpaceTitle(s, locale) : "";
+                        })
+                        .join(" → ")}
                     </small>
                     <button
                       type="button"
-                      onClick={() => choose(n.id)}
-                      aria-label={`${c.update}: ${label(n)}`}
+                      onClick={() =>
+                        showSpace(leg.transition ? leg.toSpace : leg.fromSpace)
+                      }
+                    >
+                      {u.view}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => choose(leg.nodes[0].id)}
                     >
                       {c.update}
                     </button>
@@ -602,11 +515,33 @@ function MapPanel({
               ))}
             </ol>
           )}
-          {route && !route.nodes.some((n) => n.floor === floor) && (
-            <p>{c.noSegment}</p>
-          )}
         </aside>
       </div>
+      <details className="map-coverage">
+        <summary>
+          {u.coverage} · {inventory.departments.length} /{" "}
+          {inventory.locations.length} · {u.unmapped}: {unknown.length}
+        </summary>
+        <p>{u.demo}</p>
+        <ul>
+          {mapBuildings.map((b) => (
+            <li key={b.id}>
+              {u.building} {b.id}:{" "}
+              {b.floors.map((f) => floorLabel(f, locale)).join(", ")}
+              {b.entranceOnly ? ` · ${u.entranceOnly}` : ""}
+            </li>
+          ))}
+        </ul>
+        <ul>
+          {unknown.map((item, i) => (
+            <li key={`${item.id}:${i}`}>
+              {localizeText(item.name, locale)} · {item.building} ·{" "}
+              {item.floors.join(", ") || "?"}
+              {item.room ? ` · ${item.room}` : ""} — {u[item.status]}
+            </li>
+          ))}
+        </ul>
+      </details>
     </section>
   );
 }

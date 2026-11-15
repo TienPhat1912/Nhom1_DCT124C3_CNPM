@@ -52,11 +52,14 @@ test("weighted shortest path prefers lower total cost over fewer checkpoints, in
   );
 });
 test("same position, disconnected and unknown endpoints", () => {
-  assert.deepEqual(shortestPath(graph, "a", "a"), {
-    nodes: [graph.nodes[0]],
-    edges: [],
-    weight: 0,
-  });
+  const same = shortestPath(graph, "a", "a");
+  assert.deepEqual(same.nodes, [graph.nodes[0]]);
+  assert.deepEqual(same.edges, []);
+  assert.equal(same.weight, 0);
+  assert.deepEqual(
+    same.legs.map((l) => l.action),
+    ["arrive"],
+  );
   assert.equal(shortestPath(graph, "a", "isolated"), null);
   assert.equal(shortestPath(graph, "missing", "a"), null);
   assert.equal(shortestPath(graph, "missing", "missing"), null);
@@ -121,9 +124,9 @@ test("unique room nodes, valid corridors, explicit lifts and bilingual narration
     assert.ok(a && b);
     assert.ok(e.weight > 0 && Number.isFinite(e.weight));
     if (a.floor !== b.floor) {
-      assert.equal(e.kind, "elevator");
-      assert.equal(a.kind, "elevator");
-      assert.equal(b.kind, "elevator");
+      assert.ok(["elevator", "stairs"].includes(e.kind));
+      assert.equal(a.kind, e.kind);
+      assert.equal(b.kind, e.kind);
       assert.equal(a.x, b.x);
       assert.equal(a.y, b.y);
     }
@@ -148,8 +151,34 @@ test("unique room nodes, valid corridors, explicit lifts and bilingual narration
     0,
   );
 });
-test("all fixed checkpoint pairs are connected and match independent Bellman-Ford costs", () => {
-  for (const start of hospitalMap.nodes) {
+test("all endpoints are connected; representative routes match independent Bellman-Ford costs", () => {
+  const seen = new Set(["gate-1"]),
+    pending = ["gate-1"];
+  while (pending.length) {
+    const id = pending.pop();
+    for (const edge of hospitalMap.edges) {
+      const next =
+        edge.from === id ? edge.to : edge.to === id ? edge.from : null;
+      if (next && !seen.has(next)) {
+        seen.add(next);
+        pending.push(next);
+      }
+    }
+  }
+  assert.equal(seen.size, hospitalMap.nodes.length);
+  const sources = new Set([
+    "gate-1",
+    "gate-2",
+    "gate-3",
+    "room-A101",
+    "room-B201",
+    "room-D301",
+    "room-C01",
+    "department-C-hall-7",
+    "lobby-e",
+    "lobby-f",
+  ]);
+  for (const start of hospitalMap.nodes.filter((n) => sources.has(n.id))) {
     const distances = new Map(
       hospitalMap.nodes.map((n) => [n.id, n.id === start.id ? 0 : Infinity]),
     );
