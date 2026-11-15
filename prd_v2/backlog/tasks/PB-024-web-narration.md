@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | In progress — đã triển khai và kiểm thử local, chờ review/merge |
+| Người nhận | Codex (triển khai local theo yêu cầu) |
 | Reviewer | Chưa phân công |
 | Nhóm | Thuyết minh |
 | Ưu tiên | P1 |
@@ -23,9 +23,9 @@ Tích hợp sự kiện hướng dẫn, bật/tắt tự phát, nghe lại và p
 
 ## Tiêu chí chấp nhận
 
-- [ ] Tự phát mặc định khi được phép; gọi đúng số/phòng/ngôn ngữ; không lặp theo mỗi lần polling hoặc Visit.Version.
-- [ ] Tắt tự phát vẫn nghe lại được; đổi Visit/bước/ngôn ngữ dừng tiếng cũ; logout và request/callback đến muộn không phát sai người.
-- [ ] Có văn bản/nút phát khi thiếu giọng/autoplay bị chặn; polling nhanh chỉ khi màn hình hoạt động và dọn timer đúng.
+- [x] Tự phát mặc định khi được phép; gọi đúng số/phòng/ngôn ngữ; không lặp theo mỗi lần polling hoặc Visit.Version.
+- [x] Tắt tự phát vẫn nghe lại được; đổi Visit/bước/ngôn ngữ dừng tiếng cũ; logout và request/callback đến muộn không phát sai người.
+- [x] Có văn bản/nút phát khi thiếu giọng/autoplay bị chặn; polling nhanh chỉ khi màn hình hoạt động và dọn timer đúng.
 
 ## Kiểm chứng bắt buộc
 
@@ -51,4 +51,17 @@ Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merg
 - [ ] PR được merge; cập nhật trạng thái Done, người nhận và link PR trong file này.
 
 Nguồn đối chiếu: [kế hoạch chính](../../PRD-REVISION-PLAN.md), [backlog và quy trình làm việc](../README.md). Không thay đổi sáu quyết định nghiệp vụ hoặc sửa kế hoạch chính trong PR này nếu chỉ nhằm hoàn thành task.
+
+## Triển khai local ngày 15/11/2026
+
+Chi tiết hành vi, kiểm chứng và nghiệm thu âm thanh thật:
+[PB-024-WEB-NARRATION](../../../codes/docs/requirements/PB-024-WEB-NARRATION.md).
+Đã kiểm thử 28 ca browser PB-024 trên desktop/mobile (26 ca toàn bộ và 2 ca
+gọi số dịch vụ bổ sung), 12 ca hồi quy PB-021 và 13 ca unit narration/ngôn ngữ.
+Đã chạy lại riêng 2 ca gọi khám sau chốt phân biệt hàng chờ cũ với bác sĩ tiếp nhận V2.
+Typecheck, lint và build đạt. Mẫu API mock commit → hiển thị: 1.359–1.360 ms;
+không phải phép đo SQL/SLA production. Chrome headless không có giọng cài sẵn;
+kiểm tra nghe qua loa thật còn là bước nghiệm thu riêng khi có giọng.
+Chưa có PR/reviewer/merge, chưa xác nhận dependency đã merge; giữ trạng thái
+In progress theo quy ước Done của backlog.
 

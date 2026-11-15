@@ -1,4 +1,6 @@
 {
+  "autoNarration": "案内と番号呼び出しを自動再生",
+  "manualNarrationHint": "画面の案内を読むか、聞くボタンで再試行してください。",
   "examStatus": "診察状態",
   "waitingForConsultation": "受診票に記載された診察室でお待ちください。",
   "guestTicketLookup": "受付票を検索してゲスト利用を復元",
