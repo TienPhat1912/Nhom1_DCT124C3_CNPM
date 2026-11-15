@@ -1,5 +1,11 @@
 # Kiểm thử
 
+PB-030: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/migration/run.ps1 -SqlServer '.\SQLEXPRESS'`
+diễn tập backup/audit/upgrade/restore trên database fixture local mới. Bao phủ schema rỗng,
+legacy sạch, xung đột và gate cutover; báo cáo `artifacts/pb030-rehearsal.json`.
+CI Windows gọi cùng runner. Xem [runbook nâng cấp/khôi phục](../docs/guides/MIGRATION_REHEARSAL.md)
+và [bằng chứng PB-030](../docs/requirements/PB-030-MIGRATION-REHEARSAL.md).
+
 PB-027: `npm run test:languages:unit` kiểm tra dictionary, bốn lựa chọn UI,
 fallback legacy và component native. Browser languages kiểm tra vi/en/zh/ja,
 Entry và ko/ru đã lưu. `node --test tests/api/languages-v2.test.mjs` với fixture

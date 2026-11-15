@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | In progress |
+| Người nhận | phuch (Codex hỗ trợ) |
 | Reviewer | Chưa phân công |
 | Nhóm | Nghiệm thu |
 | Ưu tiên | P0 |
@@ -23,9 +23,11 @@ Ghép các migration đã có thành quy trình nâng cấp thử trên database
 
 ## Tiêu chí chấp nhận
 
-- [ ] Giữ ID/lịch sử/grant/snapshot; không tự đóng ca, đổi bác sĩ, đổi Cancelled/Skipped thành Completed hoặc tách lịch sử Guest đã liên kết.
-- [ ] Các ca nhiều order/phòng nhiều ca hoặc thiếu dữ liệu bị chặn cutover có báo cáo; không dùng xóa dữ liệu để vượt constraint.
-- [ ] Có thứ tự backup → audit → migrate → kiểm tra → bật luồng mới; thử khôi phục trên database riêng và ghi giới hạn downgrade.
+- [x] Giữ ID/lịch sử/grant/snapshot; không tự đóng ca, đổi bác sĩ, đổi Cancelled/Skipped thành Completed hoặc tách lịch sử Guest đã liên kết.
+- [x] Các ca nhiều order/phòng nhiều ca hoặc thiếu dữ liệu bị chặn cutover có báo cáo; không dùng xóa dữ liệu để vượt constraint.
+- [x] Có thứ tự backup → audit → migrate → kiểm tra → bật luồng mới; thử khôi phục trên database riêng và ghi giới hạn downgrade.
+
+Triển khai local ngày 16/11/2026: [báo cáo PB-030](../../../codes/docs/requirements/PB-030-MIGRATION-REHEARSAL.md), [runbook](../../../codes/docs/guides/MIGRATION_REHEARSAL.md). Build PASS; rehearsal SQL Express PASS 49 assertions. Chưa mở PR/review/merge; chưa diễn tập trên dữ liệu demo/online thật hoặc chạy toàn bộ CI.
 
 ## Kiểm chứng bắt buộc
 
