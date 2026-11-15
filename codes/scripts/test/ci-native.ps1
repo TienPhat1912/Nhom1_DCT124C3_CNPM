@@ -93,6 +93,7 @@ try {
     Invoke-Checked 'node' @('--test', '--test-concurrency=1', 'tests/api/api.test.mjs')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/translation/Translation.Tests.csproj', '--', '--migration')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/core-schema/CoreSchema.Tests.csproj', '--configuration', 'Release')
+    Invoke-Checked 'powershell' @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', 'tests/migration/run.ps1', '-SqlServer', $SqlServer)
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/registration/Registration.Tests.csproj', '--configuration', 'Release')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/ticket-number/TicketNumber.Tests.csproj', '--configuration', 'Release')
     Invoke-Checked 'dotnet' @('run', '--project', 'tests/doctor-accept/DoctorAccept.Tests.csproj', '--configuration', 'Release')
