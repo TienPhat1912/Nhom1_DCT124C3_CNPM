@@ -95,3 +95,25 @@ heartbeat khoảng 8,3 ms. Đây là số đo của fixture cục bộ nêu trê
 Chưa chạy toàn bộ Windows LocalDB CI hoặc Azure SQL. Không có thay đổi giao diện;
 không cần ảnh/native gate cho task API này. Chờ PR, review và merge; giữ
 In Progress, chưa đánh Done.
+
+## Sửa hồi quy CI — 15/11/2026
+
+Log CI tại commit `270945e` dừng ở test API Dashboard do whitelist field cũ chưa
+có `online`. Đã cập nhật whitelist và kiểm tra riêng aggregate online chỉ có
+accounts/generatedAt/guests/total/ttlSeconds, timestamp cùng root, TTL hợp lệ và
+không tính session là online khi suite chưa gửi heartbeat. Không bỏ kiểm tra quyền
+Admin hoặc các số liệu vận hành.
+
+Rà các bước migration sau đó và tái hiện PB-006 lỗi `Invalid column name
+'LastSeenAt'`: fixture dùng model Session mới để insert vào schema trước PB-028.
+Thêm `tests/fixtures/LegacySessionFixture.cs` dùng SQL tham số chỉ ghi các cột
+session lịch sử sau khi Patient đã được lưu; liên kết vào fixture PB-006/007/010/
+011/013. Giữ nguyên schema cũ thật và toàn bộ assertion upgrade/downgrade, không
+sửa migration hoặc logic production. PB-004 đã có helper theo cột schema nên
+không cần đổi.
+
+Kết quả kiểm chứng SQL Server Docker/database riêng: API `api.test.mjs` đạt
+24/24; cả 8 bộ core-schema, registration, ticket-number, doctor-accept, single-order,
+clinical-catalog, presence và event-delivery đạt. Tổng 214 assertion được đếm trong
+7 bộ đầu; bộ event-delivery cũng qua preservation/model/upgrade/downgrade/reupgrade.
+ESLint file API và diff check đạt. Chưa chạy toàn bộ LocalDB CI; phần sửa hồi quy này chờ kiểm chứng trên CI sau push.

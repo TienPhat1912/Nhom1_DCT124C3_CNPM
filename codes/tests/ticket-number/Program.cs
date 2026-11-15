@@ -1,3 +1,4 @@
+using Hospital.Tests.Fixtures;
 using Hospital.Api.Domain;
 using Hospital.Api.Infrastructure;
 using Hospital.Api.Reception;
@@ -39,7 +40,7 @@ var doctorId = await db.Users.Where(x => x.Email == "doctor@demo.local").Select(
 var departmentId = await db.Set<Department>().Where(x => x.Code == "CONSULT").Select(x => x.Id).SingleAsync();
 var clinics = await db.Set<ClinicRoom>().Select(x => x.ClinicLocationId).OrderBy(x => x).ToArrayAsync();
 var session = new Session { PatientId = patientId, IsGuest = true, TokenHash = Crypto.Hash(Guid.NewGuid().ToString()), ExpiresAt = DateTime.UtcNow.AddHours(1) };
-db.Add(session); await db.SaveChangesAsync();
+await LegacySessionFixture.Insert(db, session);
 ExaminationTicket Ticket(HospitalDb context, string number = "")
 {
     var request = new RegistrationRequest { PatientId = patientId, SessionId = session.Id, DepartmentId = departmentId, Status = "Confirmed" };

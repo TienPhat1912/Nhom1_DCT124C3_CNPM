@@ -10,4 +10,5 @@
     <ProjectReference Include="../../backend/Hospital.Api/Hospital.Api.csproj" />
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+  <ItemGroup><Compile Include="../fixtures/LegacySessionFixture.cs" Link="LegacySessionFixture.cs" /></ItemGroup>
 </Project>

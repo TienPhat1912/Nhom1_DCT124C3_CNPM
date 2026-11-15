@@ -1,3 +1,4 @@
+using Hospital.Tests.Fixtures;
 using Hospital.Api.Domain;
 using Hospital.Api.Infrastructure;
 using Microsoft.Data.SqlClient;
@@ -24,16 +25,18 @@ await Seed.Run(db, new ConfigurationBuilder().AddInMemoryCollection(new Dictiona
 var doctor = await db.Users.SingleAsync(x => x.Email == "doctor@demo.local");
 var clinic = await db.Set<ClinicRoom>().SingleAsync(x => x.ActiveDoctorId == doctor.Id);
 var department = await db.Set<Location>().Where(x => x.Id == clinic.ClinicLocationId).Select(x => x.DepartmentId).SingleAsync();
-Visit Create() {
+async Task<Visit> Create() {
     var patient = new Patient(); var session = new Session { PatientId = patient.Id, TokenHash = Crypto.Hash(Guid.NewGuid().ToString()) };
     var request = new RegistrationRequest { PatientId = patient.Id, SessionId = session.Id, DepartmentId = department, Status = "Confirmed" };
     var record = new ReceptionRecord { PatientId = patient.Id, RegistrationRequestId = request.Id, ConfirmedBy = doctor.Id };
     var visit = new Visit { PatientId = patient.Id, ReceptionRecordId = record.Id, DepartmentId = department, DoctorId = doctor.Id,
         ClinicLocationId = clinic.ClinicLocationId, ExamStatus = "InConsultation", ConsultationCount = 1 };
     visit.Ticket = new ExaminationTicket { VisitId = visit.Id, Number = "H-" + visit.Id.ToString("N") };
-    db.AddRange(patient, session, request, record, visit); return visit;
+    db.Add(patient); await db.SaveChangesAsync();
+    await LegacySessionFixture.Insert(db, session);
+    db.AddRange(request, record, visit); return visit;
 }
-var first = Create(); var second = Create(); await db.SaveChangesAsync();
+var first = await Create(); var second = await Create(); await db.SaveChangesAsync();
 await Reject(() => migrator.MigrateAsync(), 51010);
 Check(!(await db.Database.GetAppliedMigrationsAsync()).Any(x => x.EndsWith("DoctorConsultation")));
 Check(await db.Visits.CountAsync() == 2);

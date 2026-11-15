@@ -1,3 +1,4 @@
+using Hospital.Tests.Fixtures;
 using Hospital.Api.Domain;
 using Hospital.Api.Infrastructure;
 using Microsoft.Data.SqlClient;
@@ -31,7 +32,9 @@ RegistrationRequest Request(string? source = null) => new() {
     Name = patient.Name, Contact = patient.Contact, Description = "  Legacy original\n  ", SourceLanguage = source
 };
 var oldA = Request(); var oldB = Request();
-db.AddRange(patient, session, oldA, oldB); await db.SaveChangesAsync();
+db.Add(patient); await db.SaveChangesAsync();
+await LegacySessionFixture.Insert(db, session);
+db.AddRange(oldA, oldB); await db.SaveChangesAsync();
 var originalIds = new[] { oldA.Id, oldB.Id };
 await migrator.MigrateAsync();
 Check(!db.Database.HasPendingModelChanges(), "EF snapshot must match the runtime model");

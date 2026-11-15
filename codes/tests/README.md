@@ -5,6 +5,9 @@ với `PB028_SQL_CONNECTION` local chạy kiểm tra SQL/handler dùng clock đi
 và migration trên database fixture riêng. `node tests/presence/run.mjs` chạy HTTP
 và tải 20 client trên bản published, với database acceptance mới và env kết nối.
 Hai bộ được nối vào ci-native. Xem [PB-028](../docs/requirements/PB-028-presence-api.md).
+Các fixture tạo session ở schema trước PB-028 dùng
+`fixtures/LegacySessionFixture.cs` để chỉ ghi các cột session lịch sử, rồi kiểm tra
+migration với model hiện hành sau khi upgrade.
 
 PB-025: `npm run test:narration:unit` chạy narration, polling/lifecycle và
 component Journey mobile. `node --test tests/unit/native-*.test.mjs` chạy hồi quy

@@ -1,3 +1,4 @@
+using Hospital.Tests.Fixtures;
 using Hospital.Api.Domain;
 using Hospital.Api.Infrastructure;
 using Microsoft.Data.SqlClient;
@@ -24,7 +25,9 @@ var patient = new Patient(); var session = new Session { PatientId = patient.Id,
 var request = new RegistrationRequest { PatientId = patient.Id, SessionId = session.Id, DepartmentId = service.DepartmentId, Status = "Confirmed" };
 var reception = new ReceptionRecord { PatientId = patient.Id, RegistrationRequestId = request.Id, ConfirmedBy = doctor.Id };
 var visit = new Visit { PatientId = patient.Id, ReceptionRecordId = reception.Id, DepartmentId = service.DepartmentId, DoctorId = doctor.Id };
-db.AddRange(patient, session, request, reception, visit); await db.SaveChangesAsync();
+db.Add(patient); await db.SaveChangesAsync();
+await LegacySessionFixture.Insert(db, session);
+db.AddRange(request, reception, visit); await db.SaveChangesAsync();
 var oldIds = new[] { Guid.NewGuid(), Guid.NewGuid() };
 foreach (var id in oldIds) await db.Database.ExecuteSqlInterpolatedAsync($"INSERT DoctorOrder (Id,Version,CreatedAt,VisitId,HospitalServiceId,OrderedBy,Status,Note,MappingVersion) VALUES ({id},1,{DateTime.UtcNow},{visit.Id},{service.Id},{doctor.Id},'NotCompleted','  legacy original  ',1)");
 await Reject(() => migrator.MigrateAsync(), 51013);
