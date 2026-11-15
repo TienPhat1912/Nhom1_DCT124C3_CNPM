@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
 test("PB034 default simulation, smooth marker, minimum dwell, pause, signal and reset without business writes", async ({
   page,
 }, info) => {
-  const f = await mapFixture(page, false),
+  const f = await mapFixture(page, false, false),
     d = f.dialog,
     p = d.getByTestId("simulation-position"),
     marker = d.getByTestId("simulation-marker");
@@ -72,7 +72,7 @@ test("PB034 same-floor, cross-floor and cross-building simulation follows every 
     width: page.viewportSize()!.width,
     height: 1800,
   });
-  const f = await mapFixture(page, false),
+  const f = await mapFixture(page, false, false),
     d = f.dialog;
   for (const origin of ["room-P01", "lobby-a", "room-B201"]) {
     await d
@@ -84,12 +84,6 @@ test("PB034 same-floor, cross-floor and cross-building simulation follows every 
         "data-space",
         leg.fromSpace,
       );
-      await d
-        .getByRole("button", {
-          name: "Continue leg (test controller)",
-          exact: true,
-        })
-        .click();
       await page.clock.runFor(999);
       await expect(d.getByTestId("simulation-status")).toHaveAttribute(
         "data-status",
@@ -130,7 +124,7 @@ test("PB034 retarget between edges, hidden/foreground and closing map invalidate
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  const f = await mapFixture(page, false),
+  const f = await mapFixture(page, false, false),
     d = f.dialog,
     p = d.getByTestId("simulation-position");
   await d.getByRole("button", { name: "Start / resume", exact: true }).click();

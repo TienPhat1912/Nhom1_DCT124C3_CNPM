@@ -6,36 +6,44 @@ import {
   routeInstructions,
   routeLanguage,
   positionCopy,
+  routeNarrationCopy,
   demoDeviationNode,
   type Locale,
   type MapGraph,
 } from "@hospital/shared";
 import { FloorPlan } from "./FloorPlan";
 import { usePositionDemo } from "./usePositionDemo";
+import { useRouteNarration } from "./useRouteNarration";
 
 export function SimulationMap({
   graph,
   targetId,
   contextKey,
+  autoplay = true,
+  labelsReady = true,
   locale,
 }: {
   graph: MapGraph;
   targetId: string | null;
   contextKey?: string;
+  autoplay?: boolean;
+  labelsReady?: boolean;
   locale: Locale;
 }) {
   const { controller, snapshot } = usePositionDemo(graph, targetId, contextKey);
+  const narration = useRouteNarration(
+    controller,
+    locale,
+    autoplay,
+    labelsReady,
+  );
   const c = positionCopy[locale];
   if (!controller || !snapshot) return null;
   const p = snapshot.position;
   const space = graph.spaces?.find((s) => s.id === p.spaceId);
   const target = graph.nodes.find((n) => n.id === targetId);
   const choices = graph.nodes.filter((n) => !n.closed && n.kind !== "door");
-  const proceed = () => {
-    controller.start();
-    const token = controller.getSnapshot().guidance;
-    if (token) controller.continue(token);
-  };
+  const proceed = () => narration.start();
   const reset = () => {
     controller.reset();
     controller.setTarget(targetId);
@@ -59,6 +67,17 @@ export function SimulationMap({
     >
       <h3>{c.title}</h3>
       <Notice>{c.note}</Notice>
+      <label>
+        <input
+          type="checkbox"
+          checked={!narration.muted}
+          onChange={(e) => narration.setMuted(!e.target.checked)}
+        />
+        {routeNarrationCopy[locale].auto}
+      </label>
+      {narration.error && (
+        <Notice kind="error">{mapCopy[locale].audioError}</Notice>
+      )}
       <p>
         {mapCopy[locale].target}:{" "}
         {target ? mapLabel(target, locale) : mapCopy[locale].unmapped}
@@ -88,13 +107,30 @@ export function SimulationMap({
       <p data-testid="simulation-instruction">{text}</p>
       <div className="actions">
         <Button
-          disabled={stopped || snapshot.status === "moving"}
+          disabled={
+            !labelsReady ||
+            !snapshot.route ||
+            stopped ||
+            snapshot.status === "moving"
+          }
           onClick={proceed}
         >
           {c.start}
         </Button>
-        {snapshot.guidance && <Button onClick={proceed}>{c.ack}</Button>}
-        <Button variant="secondary" onClick={() => controller.pause()}>
+        <Button
+          variant="secondary"
+          disabled={
+            !labelsReady ||
+            !snapshot.route ||
+            ["paused", "lost", "stale", "no-route", "disposed"].includes(
+              snapshot.status,
+            )
+          }
+          onClick={narration.replay}
+        >
+          {mapCopy[locale].listen}
+        </Button>
+        <Button variant="secondary" onClick={() => narration.pause()}>
           {c.pause}
         </Button>
         <Button variant="secondary" onClick={reset}>

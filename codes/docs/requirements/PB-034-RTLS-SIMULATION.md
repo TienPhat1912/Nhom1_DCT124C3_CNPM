@@ -1,5 +1,11 @@
 # PB-034 — Nguồn vị trí và bộ điều khiển mô phỏng
 
+> Cập nhật sau tích hợp: [PB-026](PB-026-ROUTE-NARRATION.md) đã nối TTS
+> web/native và quyền ưu tiên Journey với nguồn này. UI hiện tại tự tiếp tục
+> khi lời đọc và dwell kết thúc; không còn nút tiếp tục chặng thử nghiệm.
+> Các bước bộ điều khiển thử và kết quả PB-034 dưới đây ghi lại thời điểm
+> bàn giao độc lập. Dùng hướng dẫn PB-026 để chạy bản tích hợp hiện tại.
+
 Triển khai local ngày 15/11/2026, dựa trên [mặt bằng PB-033](PB-033-MAP-LAYOUT.md). Đây là vị trí và tốc độ trình diễn, không thu vị trí thiết bị, không phải RTLS thật. Phần điều phối Journey/TTS theo từng chặng thuộc PB-026; chưa công bố tính năng dẫn đường bằng giọng nói theo vị trí đã hoàn chỉnh.
 
 ## Chạy demo

@@ -72,6 +72,33 @@ export interface PositionSource {
   dispose(): void;
 }
 let sequence = 0;
+/** Labels/translations do not define a new physical position session. */
+export const positionGraphIdentity = (graph: MapGraph) =>
+  JSON.stringify([
+    graph.version,
+    graph.spaces,
+    graph.nodes.map((n) => [
+      n.id,
+      n.spaceId,
+      n.building,
+      n.floor,
+      n.x,
+      n.y,
+      n.kind,
+      !!n.closed,
+    ]),
+    graph.edges.map((e) => [
+      e.id,
+      e.from,
+      e.to,
+      e.kind,
+      e.zone,
+      e.weight,
+      !!e.closed,
+      !!e.oneWay,
+      e.transition,
+    ]),
+  ]);
 /** A deliberate, walkable off-route point; never a fabricated coordinate. */
 export function demoDeviationNode(
   graph: MapGraph,
@@ -121,7 +148,7 @@ export class DemoPositionSource implements PositionSource {
   private started = false;
   private completed = false;
   private routeGraph: MapGraph;
-  private readonly graph: MapGraph;
+  private graph: MapGraph;
   readonly source: "simulation" | "manual";
   constructor(
     graph: MapGraph,
@@ -337,6 +364,21 @@ export class DemoPositionSource implements PositionSource {
     this.schedule();
     return true;
   }
+  /** Withhold an early ack for manual replay, without creating another leg/timer. */
+  hold(token: GuidanceToken) {
+    const live = this.guidance;
+    if (
+      !live ||
+      this.status !== "guidance" ||
+      token.sessionId !== live.sessionId ||
+      token.routeId !== live.routeId ||
+      token.legId !== live.legId ||
+      token.revision !== live.revision
+    )
+      return false;
+    this.acknowledged = false;
+    return true;
+  }
   pause() {
     if (this.status === "disposed") return;
     if (this.status === "moving") this.sample();
@@ -478,6 +520,30 @@ export class DemoPositionSource implements PositionSource {
   }
   getGraph() {
     return this.routeGraph;
+  }
+  refreshLabels(graph: MapGraph) {
+    if (this.status === "disposed") return;
+    if (positionGraphIdentity(graph) !== positionGraphIdentity(this.graph))
+      throw new Error("Geometry changes require a new position source");
+    const nodes = new Map(graph.nodes.map((n) => [n.id, n]));
+    const replace = (n: MapNode) => nodes.get(n.id) ?? n;
+    this.graph = graph;
+    this.routeGraph = {
+      ...this.routeGraph,
+      ...graph,
+      nodes: this.routeGraph.nodes.map(replace),
+      edges: this.routeGraph.edges,
+    };
+    if (this.route)
+      this.route = {
+        ...this.route,
+        nodes: this.route.nodes.map(replace),
+        legs: this.route.legs.map((leg) => ({
+          ...leg,
+          nodes: leg.nodes.map(replace),
+        })),
+      };
+    this.notify("position");
   }
   setSignal(signal: PositionFix["availability"]) {
     if (this.status === "disposed") return;

@@ -86,7 +86,8 @@ export default function App() {
       if (sessionId.current)
         history.replaceState(null, "", location.pathname + location.search);
     }
-    if (sessionId.current !== (next?.sessionId ?? null)) clearOfflineSnapshots();
+    if (sessionId.current !== (next?.sessionId ?? null))
+      clearOfflineSnapshots();
     if (next) rememberSession(next);
     sessionId.current = next?.sessionId ?? null;
     setSession(next);
@@ -130,10 +131,9 @@ export default function App() {
   }, [updateSession]);
   useEffect(() => {
     if (!session) return;
-    const expiresAt =
-      new Date(
-        session.expiresAt + (session.expiresAt.endsWith("Z") ? "" : "Z"),
-      ).getTime();
+    const expiresAt = new Date(
+      session.expiresAt + (session.expiresAt.endsWith("Z") ? "" : "Z"),
+    ).getTime();
     let timer: ReturnType<typeof setTimeout>;
     const checkExpiry = () => {
       const remaining = expiresAt - Date.now();
@@ -163,7 +163,12 @@ export default function App() {
         setLocale={setLocale}
         onSession={(s, visitId) => {
           updateSession(s);
-          if (visitId) history.replaceState(null, "", `#visit=${encodeURIComponent(visitId)}`);
+          if (visitId)
+            history.replaceState(
+              null,
+              "",
+              `#visit=${encodeURIComponent(visitId)}`,
+            );
           setExpired(false);
         }}
         expired={expired}
@@ -184,7 +189,15 @@ export default function App() {
     );
   return (
     <RuntimeContext.Provider
-      value={{ session, setSession: updateSession, config: config.data, locale, setLocale, t }}
+      value={{
+        session,
+        setSession: updateSession,
+        config: config.data,
+        configLocale: config.dataLocale ?? locale,
+        locale,
+        setLocale,
+        t,
+      }}
     >
       <Workspace key={session.sessionId} />
     </RuntimeContext.Provider>
@@ -227,7 +240,11 @@ function Workspace() {
   useEffect(() => {
     if (patient && page === "journey" && visitId && !selected) {
       setSelected(visitId);
-      window.history.replaceState(null, "", `#visit=${encodeURIComponent(visitId)}`);
+      window.history.replaceState(
+        null,
+        "",
+        `#visit=${encodeURIComponent(visitId)}`,
+      );
     }
   }, [patient, page, visitId, selected]);
   const selectVisit = (id: string, target: Page = "journey") => {
@@ -448,7 +465,10 @@ function Workspace() {
                 </>
               )}
               {page === "reception" && (
-                <PatientReception onVisit={selectVisit} onProfile={() => setPage("profile")} />
+                <PatientReception
+                  onVisit={selectVisit}
+                  onProfile={() => setPage("profile")}
+                />
               )}
               {page === "journey" && (
                 <PatientJourney
@@ -514,7 +534,8 @@ function Workspace() {
             <Admin />
           ) : session.role === "Reception" ? (
             <StaffReception />
-          ) : ["Doctor", "Service", "Cashier"].includes(session.role) && config.prdV2Enabled ? (
+          ) : ["Doctor", "Service", "Cashier"].includes(session.role) &&
+            config.prdV2Enabled ? (
             <StaffClinical id={null} />
           ) : (
             <>

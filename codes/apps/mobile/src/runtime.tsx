@@ -1,3 +1,5 @@
+import { deviceAudio } from "./deviceAudio";
+import type { AudioLease } from "@hospital/shared";
 import { normalizeLocale, speechLocale, voiceMatches } from "@hospital/shared";
 import {
   createContext,
@@ -92,6 +94,7 @@ export async function restoreSession() {
 export type NativeRuntime = {
   session: Session;
   config: Configuration;
+  configLocale?: Locale;
   locale: Locale;
   setLocale: (l: Locale) => void;
   updateSession: (s: Session | null) => Promise<void>;
@@ -283,6 +286,21 @@ export function useNarration(context: string) {
     AppState.currentState === "active",
   );
   const seq = useRef(0);
+  const lease = useRef<AudioLease | null>(null);
+  const release = () => {
+    lease.current?.release();
+    lease.current = null;
+  };
+  const stopEngine = async () => {
+    const owned = lease.current;
+    try {
+      if (owned?.valid() || deviceAudio.priority() === null)
+        await Speech.stop();
+    } finally {
+      owned?.release();
+      if (lease.current === owned) lease.current = null;
+    }
+  };
   const request = useRef<AbortController | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const invalidate = () => {
@@ -296,14 +314,14 @@ export function useNarration(context: string) {
     setPlaying(false);
     setLoading(false);
     try {
-      await Speech.stop();
+      await stopEngine();
     } catch (e) {
       if (seq.current === generation) setError(localizedError(e, locale));
     }
   };
   useEffect(() => {
     invalidate();
-    void Speech.stop().catch(() => {});
+    void stopEngine().catch(() => {});
     setPlaying(false);
     setLoading(false);
     setError("");
@@ -315,7 +333,7 @@ export function useNarration(context: string) {
     return () => {
       listener.remove();
       invalidate();
-      void Speech.stop().catch(() => {});
+      void stopEngine().catch(() => {});
     };
   }, [context, locale, session.sessionId]);
   const play = async (
@@ -325,16 +343,27 @@ export function useNarration(context: string) {
   ) => {
     if (AppState.currentState !== "active") return;
     invalidate();
+    lease.current = deviceAudio.acquire(
+      "journey",
+      () => {
+        void stop();
+      },
+      15000,
+    );
     const controller = new AbortController();
     request.current = controller;
     // Capture this playback before the first await so cancellation cannot be lost.
     const generation = ++seq.current;
+    const valid = () =>
+      seq.current === generation &&
+      lease.current?.valid() === true &&
+      AppState.currentState === "active";
     setLoading(true);
     setPlaying(false);
     setError("");
     try {
       await Speech.stop();
-      if (seq.current !== generation) return;
+      if (!valid()) return;
       const n = await api<Narration>(
         path,
         "POST",
@@ -342,54 +371,59 @@ export function useNarration(context: string) {
         undefined,
         controller.signal,
       );
-      if (seq.current !== generation) return;
+      if (!valid()) return;
       const labels = translator(normalizeLocale(n.language));
       const spoken = announcement
         ? `${labels("ticket")}: ${announcement.ticket}. ${labels("room")}: ${announcement.room}. ${announcement.called ? labels("proceed") + " " : ""}${n.text}`
         : n.text;
       setText(spoken);
       const voices = await Speech.getAvailableVoicesAsync();
-      if (seq.current !== generation) return;
+      if (!valid()) return;
       const voice = voices.find((v) => voiceMatches(v.language, n.language));
       if (!voice) {
+        release();
         setError(t("audioError"));
         return;
       }
       setPlaying(true);
       timer.current = setTimeout(() => {
-        if (seq.current !== generation) return;
+        if (!valid()) return;
         void stop();
         setError(t("audioError"));
       }, 3000);
       Speech.speak(spoken, {
         onStart: () => {
-          if (seq.current === generation) clearTimeout(timer.current);
+          if (valid()) clearTimeout(timer.current);
         },
         language: speechLocale(n.language),
         voice: voice.identifier,
         onDone: () => {
-          if (seq.current === generation) {
+          if (valid()) {
             clearTimeout(timer.current);
             setPlaying(false);
+            release();
           }
         },
         onStopped: () => {
-          if (seq.current === generation) {
+          if (valid()) {
             clearTimeout(timer.current);
             setPlaying(false);
+            release();
           }
         },
         onError: () => {
-          if (seq.current !== generation) return;
+          if (!valid()) return;
           clearTimeout(timer.current);
           setError(t("audioError"));
           setPlaying(false);
+          release();
         },
       });
     } catch (e) {
-      if (seq.current === generation) {
+      if (valid()) {
         clearTimeout(timer.current);
         setPlaying(false);
+        release();
         setError(localizedError(e, locale));
       }
     } finally {

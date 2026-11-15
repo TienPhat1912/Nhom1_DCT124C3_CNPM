@@ -1,42 +1,21 @@
-# PB-026 — Kiểm tra dependency và phần chuẩn bị
+# PB-026 — Trạng thái tích hợp
 
-Ngày 15/11/2026, kiểm tra source thực tế trước khi triển khai:
+Cập nhật ngày 15/11/2026: đã tích hợp source PB-033/PB-034 với thuyết minh
+từng chặng trên web và native. Tài liệu chuẩn bị cũ được thay bằng
+[bàn giao PB-026](PB-026-ROUTE-NARRATION.md), ghi hợp đồng, cách chạy,
+bằng chứng kiểm thử và giới hạn môi trường.
 
-| Dependency | Hiện trạng trong source | Còn thiếu để PB-026 tích hợp |
-|---|---|---|
-| PB-033 | Đã có mã local: 25 mặt bằng tầng, khuôn viên riêng, MapRoute/MapLeg và chỉ dẫn trước rẽ/chuyển tầng/tòa; xem [hợp đồng PB-033](PB-033-MAP-LAYOUT.md) | Gate APK/thiết bị và reviewer/merge; PB-026 cần dùng hợp đồng chặng mới khi tích hợp |
-| PB-034 | Có mã local `positionSource.ts`, marker/điều khiển thử web/native và [hợp đồng PB-034](PB-034-RTLS-SIMULATION.md) | Gate APK/thiết bị và reviewer/merge; PB-026 nối token guidance với TTS/quyền âm thanh, bỏ bộ điều khiển thử khi tích hợp |
-| PB-024/025 | Có Journey narration và route speech riêng, có cleanup tại ranh giới phiên/ngôn ngữ | Bộ điều phối quyền âm thanh chung và handshake giữa speech với controller vị trí |
+| Dependency | Tích hợp local |
+|---|---|
+| PB-033 | Dùng đồ thị/mặt bằng, MapRoute/MapLeg và chỉ dẫn trước rẽ/chuyển tầng/tòa |
+| PB-034 | Nối guidance token, dwell, chuyển động, retarget giữa cạnh, tín hiệu và lifecycle với TTS; bỏ nút tiếp tục chặng thử nghiệm |
+| PB-024/025 | Web Speech/Expo Speech và Journey dùng chung audio coordinator; Journey/gọi số ngắt dẫn đường rồi trả quyền |
 
-Đã có mã PB-033/PB-034 local để import. PB-034 thực hiện thời gian chặng/dừng,
-vị trí, tín hiệu và giữ vị trí giữa cạnh; PB-026 cần nối `guidance`/`continue(token)`
-với speech và audio coordinator, xử lý timeout/tắt tiếng/preemption. Không coi
-bộ điều khiển thử bằng nút bấm của PB-034 là tích hợp PB-026 đã hoàn tất.
+Đã có tự phát/tắt tiếng/nghe lại, timeout/fallback, pause/resume, hủy callback
+cũ và giữ vị trí khi đổi ngôn ngữ. Kiểm chứng cuối nằm trong mục
+**Kiểm chứng local** của tài liệu bàn giao; không dùng kết quả phần chuẩn bị
+để thay cho kiểm thử bản tích hợp.
 
-Theo yêu cầu tiếp theo, PB-033 và PB-034 đã được triển khai riêng. PB-026 vẫn
-chỉ có phần chuẩn bị dưới đây, chờ tích hợp và các gate phụ thuộc; chưa coi Done.
-
-## Phần chuẩn bị độc lập
-
-`packages/shared/src/audioCoordinator.ts` cung cấp lease âm thanh, ưu tiên
-Journey/gọi số trước dẫn đường, từ chối route trong lúc Journey giữ quyền,
-watchdog cấu hình theo lần acquire và bỏ release/timeout của lease cũ.
-Thu hồi lease xóa timer trước khi gọi cancellation. Lỗi callback/subscriber
-không làm kẹt quyền âm thanh. Đây là module chuẩn bị, **chưa nối vào các hook
-web/mobile, chưa bật tính năng hoặc công bố PB-026 hoàn tất**.
-
-Kiểm thử độc lập:
-
-```text
-node --experimental-strip-types --test tests/unit/audio-coordinator.test.mjs
-npm.cmd run typecheck
-npm.cmd run lint
-```
-
-Các ca kiểm tra priority/preemption, timeout, stale callback, cancellation
-reentrant dạng release và exception của engine/subscriber. Chưa thay thế các
-gate bắt buộc của PB-026: controller với đồng hồ giả, browser mocked speech,
-demo marker/video, native cùng/khác tầng/tòa và nền/foreground.
-
-Không thay dependency card thành Done, không tạo tọa độ cho phòng chưa ánh
-xạ và không thêm cơ chế di chuyển tạm để giả định PB-034 đã tồn tại.
+Chưa đánh dấu Done: thiếu Android SDK platform 36 để build/chạy APK mới
+trên AVD/thiết bị; reviewer/PR/merge của task và dependency chưa được xác minh.
+Metro export và component tests không thay kiểm chứng âm thanh native thực tế.

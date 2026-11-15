@@ -5,7 +5,14 @@ import * as maps from "../../packages/shared/src/hospitalMap.ts";
 import * as departments from "../../packages/shared/src/hospitalDepartments.ts";
 import * as position from "../../packages/shared/src/positionSource.ts";
 import { positionCopy } from "../../packages/shared/src/positionCopy.ts";
-const shared = { ...maps, ...departments, ...position, positionCopy };
+const shared = {
+  ...maps,
+  ...departments,
+  ...position,
+  positionCopy,
+  routeNarrationCopy: { en: { auto: "auto" } },
+  translator: () => (key) => key,
+};
 test("native SVG marker follows the fix coordinates and never appears in another floor frame", () => {
   const svg = Object.fromEntries(
     ["Circle", "Defs", "G", "Line", "Marker", "Path", "Rect", "Text"].map(
