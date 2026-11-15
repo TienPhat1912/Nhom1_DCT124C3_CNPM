@@ -6,6 +6,8 @@ import ru from "./translations/ru.json" with { type: "json" };
 
 export const messages = {
   vi: {
+    autoNarration: "Tự phát hướng dẫn và gọi số",
+    manualNarrationHint: "Bạn có thể đọc hướng dẫn trên màn hình hoặc nhấn Nghe để thử lại.",
     examStatus: "Trạng thái khám",
     waitingForConsultation: "Chờ khám tại phòng khám trên phiếu.",
     guestTicketLookup: "Tra cứu phiếu và khôi phục Guest",
@@ -424,6 +426,8 @@ export const messages = {
     appOpen: "Mở ứng dụng trên điện thoại",
   },
   en: {
+    autoNarration: "Automatically read instructions and queue calls",
+    manualNarrationHint: "Read the instructions on screen or press Listen to try again.",
     guestTicketLookup: "Find a ticket and recover Guest access",
     ticketNumber: "Ticket number",
     ticketDate: "Ticket issue date",

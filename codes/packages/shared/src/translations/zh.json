@@ -1,4 +1,6 @@
 {
+  "autoNarration": "自动播放指引和叫号",
+  "manualNarrationHint": "可以阅读屏幕指引，或点击收听重试。",
   "examStatus": "检查状态",
   "waitingForConsultation": "请在就诊单上的诊室等候就诊。",
   "guestTicketLookup": "查找票据并恢复访客访问",

@@ -1,5 +1,5 @@
 import { localizeText } from "@hospital/shared";
-import { speechLocale, voiceMatches } from "@hospital/shared";
+import { useSpeech } from "./useSpeech";
 import {
   useEffect,
   useId,
@@ -31,9 +31,8 @@ import {
   qrToken,
   type Destination,
   type Locale,
-  type Narration,
 } from "@hospital/shared";
-import { api, errorText, useRuntime } from "./runtime";
+import { errorText, useRuntime } from "./runtime";
 export function Button({
   children,
   variant = "primary",
@@ -427,70 +426,7 @@ export function Scanner({
     </div>
   );
 }
-export function useSpeech(contextKey: string) {
-  const { t, locale } = useRuntime();
-  const [playing, setPlaying] = useState(false);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const generation = useRef(0);
-  const stop = () => {
-    generation.current++;
-    window.speechSynthesis?.cancel();
-    setPlaying(false);
-  };
-  useEffect(() => {
-    generation.current++;
-    window.speechSynthesis?.cancel();
-    setPlaying(false);
-    setError("");
-    return () => {
-      generation.current++;
-      window.speechSynthesis?.cancel();
-    };
-  }, [contextKey, locale]);
-  const play = async (path: string, body?: unknown) => {
-    stop();
-    setError("");
-    setLoading(true);
-    const seq = generation.current;
-    try {
-      const n = await api<Narration>(path, "POST", body ?? {});
-      if (seq !== generation.current) return;
-      if (!window.speechSynthesis) {
-        setError(t("audioError"));
-        return;
-      }
-      const voices = window.speechSynthesis.getVoices();
-      const voice = voices.find((v) => voiceMatches(v.lang, n.language));
-      if (voices.length && !voice) {
-        setError(t("audioError"));
-        return;
-      }
-      const utterance = new SpeechSynthesisUtterance(n.text);
-      utterance.lang = speechLocale(n.language);
-      if (voice) utterance.voice = voice;
-      utterance.onend = () => {
-        if (seq === generation.current) setPlaying(false);
-      };
-      utterance.onerror = (e) => {
-        if (seq !== generation.current) return;
-        setPlaying(false);
-        if (e.error !== "canceled" && e.error !== "interrupted")
-          setError(t("audioError"));
-      };
-      window.speechSynthesis.speak(utterance);
-      setPlaying(true);
-    } catch (e) {
-      if (seq === generation.current)
-        setError(
-          e instanceof ApiError ? errorText(e, locale) : t("audioError"),
-        );
-    } finally {
-      setLoading(false);
-    }
-  };
-  return { play, stop, playing, error, loading };
-}
+export { useSpeech } from "./useSpeech";
 export function SpeechControls({
   speech,
   onPlay,

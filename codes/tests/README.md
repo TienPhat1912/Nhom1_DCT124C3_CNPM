@@ -1,5 +1,10 @@
 # Kiểm thử
 
+PB-024: `npm run test:narration:web` chạy browser API/speech mock trên desktop và
+mobile viewport, bao phủ tự phát/nghe lại/chống lặp/hủy/lỗi và đo độ trễ cập nhật
+hiển thị. Không cần database. Xem [bàn giao PB-024](../docs/requirements/PB-024-WEB-NARRATION.md)
+cho giới hạn và quy trình kiểm tra âm thanh thật riêng.
+
 PB-023: `powershell -NoProfile -ExecutionPolicy Bypass -File tests/event-delivery/run.ps1 -SqlServer '.\SQLEXPRESS' -Regression`
 chạy API polling trên SQL fixture riêng, retry/quyền/stale/rollback/đọc trước commit và đo tải;
 `dotnet run --project tests/event-delivery/EventDelivery.Tests.csproj -c Release` với

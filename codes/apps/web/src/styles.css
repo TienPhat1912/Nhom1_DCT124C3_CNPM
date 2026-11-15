@@ -1074,6 +1074,17 @@ summary {
   color: var(--muted);
   margin: 5px 0 0;
 }
+.narration-preference {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+}
+.narration-preference input {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
 .final-guidance {
   border-top: 1px solid var(--line);
   margin-top: 24px;

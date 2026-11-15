@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   Check,
@@ -32,6 +32,7 @@ import {
 import { useMutation, useResource, useRuntime } from "./runtime";
 import { HelpPanel } from "./PatientRecords";
 import { HospitalMap } from "./HospitalMap";
+import { useVisitEvents } from "./useVisitEvents";
 export function PatientJourney({
   id,
   onSelected,
@@ -54,9 +55,80 @@ export function PatientJourney({
   >(null);
   const v = resource.data;
   const step = v?.steps.find((s) => s.id === v.currentStepId);
-  const speech = useSpeech(
-    `${id}:${v?.version}:${step?.id}:${step?.templateVersion}`,
+  useVisitEvents(id, resource.refresh);
+  const [autoplay, setAutoplay] = useState(true);
+  const ticket = v?.examStatus
+    ? v.ticketNumber
+    : step?.queueNumber || v?.ticketNumber;
+  const clinicalConsultation =
+    !!v?.examStatus &&
+    (step?.kind === "Consultation" || step?.kind === "ReturnConsultation");
+  const queueStatus = clinicalConsultation ? undefined : step?.queueStatus;
+  const called = clinicalConsultation
+    ? v?.examStatus === "InConsultation"
+    : queueStatus === "Called";
+  // Operational meaning and content identity, never the aggregate Visit.Version.
+  const narrationKey = JSON.stringify([
+    session.sessionId,
+    id,
+    step?.id,
+    locale,
+    step?.templateVersion,
+    step?.contentKey,
+    step?.contentLanguage,
+    step?.text,
+    step?.destination,
+    ticket,
+    called,
+    queueStatus,
+    v?.examStatus,
+    v?.journeyStatus,
+  ]);
+  const speech = useSpeech(narrationKey);
+  const eligible = !!(
+    v &&
+    step &&
+    !resource.stale &&
+    !resource.error &&
+    v.journeyStatus === "Active" &&
+    step.templateVersion &&
+    step.text
   );
+  const play = () => {
+    if (!eligible || !step || !ticket) return;
+    return speech.play(
+      `/api/visits/${id}/narration`,
+      {
+        kind: "Step",
+        section: "Instruction",
+        stepId: step.id,
+        sourceRevision: step.templateVersion,
+        contentKey: step.contentKey,
+        language: locale,
+      },
+      { ticket, room: step.destination.room, called },
+    );
+  };
+  const latestPlay = useRef({ key: narrationKey, play });
+  latestPlay.current = { key: narrationKey, play };
+  const consumed = useRef<string | null>(null);
+  useEffect(() => {
+    if (
+      !autoplay ||
+      !eligible ||
+      document.hidden ||
+      consumed.current === narrationKey
+    )
+      return;
+    // Defer dispatch so React's development effect replay cannot consume a call
+    // whose request was immediately canceled by its simulated unmount.
+    const timer = setTimeout(() => {
+      if (latestPlay.current.key !== narrationKey) return;
+      const started = latestPlay.current.play();
+      if (started) consumed.current = narrationKey;
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [autoplay, eligible, narrationKey]);
   const activate = async () => {
     if (!id) return;
     const ticket = await mutation.run<Ticket>(
@@ -141,9 +213,13 @@ export function PatientJourney({
                     <span>{t("nextAction")}</span>
                     <p>{step.text ?? t("help")}</p>
                     <small>
-                      {v.examStatus === "Waiting" ? t("waitingForConsultation") :
-                        v.examStatus === "InConsultation" ? t("InConsultation") :
-                        step.status === "Ready" ? t("proceed") : t("wait")}
+                      {v.examStatus === "Waiting"
+                        ? t("waitingForConsultation")
+                        : v.examStatus === "InConsultation"
+                          ? t("InConsultation")
+                          : step.status === "Ready"
+                            ? t("proceed")
+                            : t("wait")}
                     </small>
                   </div>
                   {step.fallback && (
@@ -152,20 +228,23 @@ export function PatientJourney({
                     </Notice>
                   )}
                   <DestinationCard destination={step.destination} />
+                  <label className="narration-preference">
+                    <input
+                      type="checkbox"
+                      checked={autoplay}
+                      onChange={(event) => {
+                        setAutoplay(event.target.checked);
+                        if (!event.target.checked) speech.stop();
+                      }}
+                    />{" "}
+                    {t("autoNarration")}
+                  </label>
                   <div className="journey-tools">
                     <Button
                       variant="secondary"
                       busy={speech.loading}
-                      onClick={() =>
-                        void speech.play(`/api/visits/${id}/narration`, {
-                          kind: "Step",
-                          section: "Instruction",
-                          stepId: step.id,
-                          sourceRevision: step.templateVersion,
-                          contentKey: step.contentKey,
-                          language: locale,
-                        })
-                      }
+                      disabled={!eligible}
+                      onClick={() => void play()}
                     >
                       <Volume2 size={20} />
                       {t("listen")}
@@ -190,7 +269,16 @@ export function PatientJourney({
                       {t("stop")}
                     </Button>
                   )}
-                  {speech.error && <Notice kind="error">{speech.error}</Notice>}
+                  {speech.text && (
+                    <p data-testid="narration-text" aria-live="polite">
+                      {speech.text}
+                    </p>
+                  )}
+                  {speech.error && (
+                    <Notice kind="error">
+                      {speech.error} {t("manualNarrationHint")}
+                    </Notice>
+                  )}
                   {!v.examStatus && step.canCompleteGuidance && (
                     <div className="final-guidance">
                       <p>{t("guidanceOnly")}</p>
@@ -218,9 +306,19 @@ export function PatientJourney({
               </div>
               <aside className="queue-card">
                 <span className="eyebrow">{t("queue")}</span>
-                <strong>{v.examStatus ? v.ticketNumber : step.queueNumber || v.ticketNumber}</strong>
+                <strong>
+                  {v.examStatus
+                    ? v.ticketNumber
+                    : step.queueNumber || v.ticketNumber}
+                </strong>
                 <Status value={step.queueStatus} />
-                <p>{t(v.examStatus === "Waiting" ? "waitingForConsultation" : v.examStatus ?? "wait")}</p>
+                <p>
+                  {t(
+                    v.examStatus === "Waiting"
+                      ? "waitingForConsultation"
+                      : (v.examStatus ?? "wait"),
+                  )}
+                </p>
                 <small>{dateText(step.queueUpdatedAt, locale)}</small>
               </aside>
             </div>
