@@ -147,6 +147,15 @@ Chạy `npm run test:map`: tự mở Vite riêng ở cổng 5189, dùng API gi�
 không cần backend/SQL. `npm run test:map:unit` kiểm tra thuật toán và danh mục.
 Windows tự dùng Chrome/Edge có sẵn; máy chưa có trình duyệt phù hợp chạy
 `npx playwright install chromium`. Xem [hướng dẫn bản đồ](../docs/guides/HOSPITAL_MAP.md).
+
+PB-033: 20 map unit/component tests và 6 browser tests trên hai viewport;
+browser chụp khuôn viên và đủ 25 mặt bằng vào `artifacts/pb033/`.
+Chạy `node tests/map/render-atlas.mjs` sau browser tests để tạo atlas và chỉ mục;
+đặt `PLAYWRIGHT_CHANNEL=chrome` nếu dùng Chrome cài sẵn. Gate thiết bị riêng:
+`node --experimental-strip-types tests/android/android-map-layout.mjs`, cần APK
+mới đã xác minh, AVD `cnpm_api36` và API V2/SQL fixture riêng.
+[Hợp đồng, nguồn dữ liệu và giới hạn kiểm chứng](../docs/requirements/PB-033-MAP-LAYOUT.md).
+
 ## Danh mục khoa và bác sĩ
 
 Chạy npm run test:directory:unit để kiểm tra dữ liệu Excel và liên kết bản đồ.

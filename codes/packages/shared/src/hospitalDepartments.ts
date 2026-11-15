@@ -22,7 +22,7 @@ export function configuredMapDepartments(
   departments: Department[],
   authoritative = false,
 ): MapDepartment[] {
-  return mapDepartments.map((d) => {
+  const mapped = mapDepartments.map((d) => {
     const current = departments.find((p) => p.code === d.code);
     return {
       ...d,
@@ -33,6 +33,25 @@ export function configuredMapDepartments(
       active: current ? current.active : !authoritative,
     };
   });
+  // New administrator departments remain visible as unconfirmed. A new name
+  // or clinic number is never evidence for allocating a physical position.
+  return [
+    ...mapped,
+    ...departments
+      .filter((d) => !mapDepartments.some((source) => source.code === d.code))
+      .map((d) => ({
+        id: d.id,
+        code: d.code,
+        name: d.name,
+        nameVi: d.nameVi,
+        nameEn: d.nameEn,
+        fallback: d.fallback,
+        active: d.active,
+        building: null,
+        floors: [],
+        marker: "?",
+      })),
+  ];
 }
 export const floorLabel = (floor: string, locale: Locale) =>
   floor === "-1"

@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Trạng thái | Backlog |
-| Người nhận | Chưa nhận |
+| Trạng thái | In progress — chuẩn bị; PB-033 có mã local, còn thiếu PB-034 |
+| Người nhận | Codex (chuẩn bị local) |
 | Reviewer | Chưa phân công |
 | Nhóm | Bản đồ |
 | Ưu tiên | P1 |
@@ -84,4 +84,12 @@ Có thể đọc, thiết kế hoặc mở draft PR trước khi dependency merg
 - [ ] PR được merge; cập nhật trạng thái Done, người nhận và link PR trong file này.
 
 Nguồn đối chiếu: [kế hoạch chính](../../PRD-REVISION-PLAN.md), [backlog và quy trình làm việc](../README.md). Không thay đổi sáu quyết định nghiệp vụ hoặc sửa kế hoạch chính trong PR này nếu chỉ nhằm hoàn thành task.
+
+## Kiểm tra sẵn sàng ngày 15/11/2026
+
+Source chưa có hợp đồng chặng PB-033 hoặc nguồn vị trí/controller PB-034.
+Đã chuẩn bị module lease/ưu tiên âm thanh cùng unit tests, chưa nối/bật UI.
+Chi tiết và phạm vi còn thiếu: [PB-026-READINESS](../../../codes/docs/requirements/PB-026-READINESS.md).
+Đang chờ chốt phạm vi thực hiện hai task phụ thuộc trước khi triển khai tích hợp;
+giữ nguyên checklist nghiệm thu chưa hoàn tất, không coi task Ready/Done.
 
