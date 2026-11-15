@@ -63,6 +63,15 @@ an uncached app can start without any network access. Screenshots are in ignored
 
 ## Local implementation (15/11/2026)
 
+CI startup fix: the recovery runner stops its own API before the Journey suite,
+while the parent keeps `WEB_URL` set to port 5280. That disables Playwright's
+automatic Vite server. Native CI now starts the published API with
+`Start-TestApi 'native-journey-browser'`, waits for its health/version check,
+and calls `Stop-TestApi` after the suite; the outer finally also stops it on failure.
+Verified locally using those actual CI lifecycle functions with a published API,
+`CI=true` and `WEB_URL=http://127.0.0.1:5280`: 12/12 browser tests passed.
+The complete native CI pipeline still needs its GitHub rerun.
+
 - Branch: `feat/pb-021-web-journey`, base `aa52873` (main after PB-020 PR #35).
 - Separate examination, Visit and Journey status; service destination, return to the
   original clinic, unchanged ticket, completed timeline and automatic closure.
